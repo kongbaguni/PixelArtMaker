@@ -1,5 +1,5 @@
 //
-//  PixelModel.swift
+//  LayerModel.swift
 //  PixelArtMaker (iOS)
 //
 //  Created by Changyeol Seo on 2022/02/17.
@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-struct PixelModel {
+struct LayerModel {
     var colors:[[Color]]
     
     init(size:CGSize) {

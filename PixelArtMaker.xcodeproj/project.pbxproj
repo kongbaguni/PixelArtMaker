@@ -17,10 +17,12 @@
 		1B28C3D827BE100F003F8312 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3AE27BE100E003F8312 /* ContentView.swift */; };
 		1B28C3D927BE100F003F8312 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B28C3AF27BE100F003F8312 /* Assets.xcassets */; };
 		1B28C3DA27BE100F003F8312 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B28C3AF27BE100F003F8312 /* Assets.xcassets */; };
-		1B28C3EB27BE108F003F8312 /* PixelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3EA27BE108F003F8312 /* PixelModel.swift */; };
+		1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3EA27BE108F003F8312 /* LayerModel.swift */; };
 		1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */; };
 		1B28C3EF27BE29F5003F8312 /* PixelDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */; };
-		1B28C3F027BE2A02003F8312 /* PixelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3EA27BE108F003F8312 /* PixelModel.swift */; };
+		1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3EA27BE108F003F8312 /* LayerModel.swift */; };
+		1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F127BF2F6A003F8312 /* StageManager.swift */; };
+		1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F327BF302B003F8312 /* StageModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,8 +55,10 @@
 		1B28C3CD27BE100F003F8312 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B28C3D127BE100F003F8312 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		1B28C3D327BE100F003F8312 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
-		1B28C3EA27BE108F003F8312 /* PixelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelModel.swift; sourceTree = "<group>"; };
+		1B28C3EA27BE108F003F8312 /* LayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerModel.swift; sourceTree = "<group>"; };
 		1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelDrawView.swift; sourceTree = "<group>"; };
+		1B28C3F127BF2F6A003F8312 /* StageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageManager.swift; sourceTree = "<group>"; };
+		1B28C3F327BF302B003F8312 /* StageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 		1B28C3AC27BE100E003F8312 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
 				1B28C3EC27BE11C2003F8312 /* View */,
 				1B28C3E927BE107D003F8312 /* Model */,
 				1B28C3AD27BE100E003F8312 /* PixelArtMakerApp.swift */,
@@ -151,7 +156,8 @@
 		1B28C3E927BE107D003F8312 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1B28C3EA27BE108F003F8312 /* PixelModel.swift */,
+				1B28C3EA27BE108F003F8312 /* LayerModel.swift */,
+				1B28C3F327BF302B003F8312 /* StageModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -323,7 +329,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B28C3EB27BE108F003F8312 /* PixelModel.swift in Sources */,
+				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
+				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
+				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
 				1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */,
 				1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
@@ -336,7 +344,7 @@
 			files = (
 				1B28C3EF27BE29F5003F8312 /* PixelDrawView.swift in Sources */,
 				1B28C3D827BE100F003F8312 /* ContentView.swift in Sources */,
-				1B28C3F027BE2A02003F8312 /* PixelModel.swift in Sources */,
+				1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */,
 				1B28C3D627BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
