@@ -31,5 +31,13 @@ struct LayerModel {
     var height:CGFloat {
         CGFloat(colors.count)
     }
+    
+    mutating func clear() {
+        for i in 0..<colors.count {
+            for y in 0..<colors[i].count {
+                colors[i][y] = .clear
+            }
+        }
+    }
 }
 
