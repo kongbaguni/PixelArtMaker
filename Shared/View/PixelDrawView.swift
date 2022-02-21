@@ -71,7 +71,12 @@ struct PixelDrawView: View {
             StageManager.shared.stage.change(layer: data)
         }
     }
-    @State var selectedColor:Color = .black
+    @State var isShowActionSheet = false
+    @State var isShowClearAlert = false
+    @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
+    @State var selectedColor:Color = .red
+    
+    
     @State var backgroundColor:Color = .white
     @State var pointer:CGPoint = .zero {
         didSet {
@@ -92,125 +97,240 @@ struct PixelDrawView: View {
     
     @State var touchPosition:Position? = nil
     
-    func draw(target:CGPoint) {
+    func paint(target:CGPoint, color:Color) {
         let idx:(Int,Int) = (Int(target.x), Int(target.y))
-        draw(idx: idx)
+        let cc = data.colors[idx.1][idx.0]
+        
+        var list:[(Int,Int)] {
+            var result:[(Int,Int)] = []
+            //* * *
+            //* 0 *
+            //* * *
+            if idx.1 - 1 >= 0 && idx.0 - 1 >= 0{
+                result.append((idx.0 - 1, idx.1 - 1))
+            }
+            if idx.0 - 1 >= 0 {
+                result.append((idx.0 - 1, idx.1))
+            }
+            if idx.0 - 1 >= 0 && idx.1 + 1 < Int(pixelSize.width) {
+                result.append((idx.0 - 1, idx.1 + 1))
+            }
+            if idx.1 - 1 >= 0 {
+                result.append((idx.0, idx.1 - 1))
+            }
+            if idx.1 + 1 < Int(pixelSize.width) {
+                result.append((idx.0, idx.1 + 1))
+            }
+            if idx.0 + 1 < Int(pixelSize.height) && idx.1 - 1 >= 0{
+                result.append((idx.0 + 1, idx.1 - 1))
+            }
+            if idx.0 + 1 < Int(pixelSize.height) {
+                result.append((idx.0 + 1, idx.1))
+            }
+            if idx.0 + 1 < Int(pixelSize.height) && idx.1 + 1 < Int(pixelSize.width) {
+                result.append((idx.0 + 1, idx.1 + 1))
+            }
+            return result
+        }
+        
+        for ni in list {
+            if data.colors[ni.1][ni.0] == cc {
+                draw(idx: ni, color: color)
+            }
+        }
+        draw(idx: idx, color: color)
+        
     }
-    
-    func draw(idx:(Int,Int)) {
+    func draw(target:CGPoint, color: Color) {
+        let idx:(Int,Int) = (Int(target.x), Int(target.y))
+        draw(idx: idx, color: color)
+    }
+        
+    func draw(idx:(Int,Int), color:Color) {
         if idx.0 < data.colors.count && idx.0 >= 0 {
             if idx.1 < data.colors[idx.0].count && idx.1 >= 0 {
-                data.colors[idx.1][idx.0] = selectedColor
+                data.colors[idx.1][idx.0] = color
             }
         }
     }
     
+    func erase(target:CGPoint) {
+        let idx:(Int,Int) = (Int(target.x), Int(target.y))
+        erase(idx: idx)
+    }
+    
+    func erase(idx:(Int,Int)) {
+        if idx.0 < data.colors.count && idx.0 >= 0 {
+            if idx.1 < data.colors[idx.0].count && idx.1 >= 0 {                        data.colors[idx.1][idx.0] = .clear
+            }
+        }
+    }
+
+    
     var body: some View {
         VStack {
+            //MARK: - 드로잉 켄버스
             Canvas { context, size in
+                
                 let w = size.width / CGFloat(data.colors.first?.count ?? 1)
                 for (y,list) in data.colors.enumerated() {
                     for (x,color) in list.enumerated() {
-                        context.fill(.init(roundedRect: .init(x: CGFloat(x) * w,
-                                                              y: CGFloat(y) * w,
-                                                              width: w,
-                                                              height: w),
+                        context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
+                                                              y: CGFloat(y) * w + 1,
+                                                              width: w - 2.0,
+                                                              height: w - 2.0),
+                                           cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
+
+                        context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
+                                                              y: CGFloat(y) * w + 0.5,
+                                                              width: w - 1.0,
+                                                              height: w - 1.0),
                                            cornerSize: .zero), with: .color(color))
                     }
                 }
                 context.stroke(Path(roundedRect: .init(
                     x: pointer.x * w,
                     y: pointer.y * w,
-                    width: pw, height: pw), cornerRadius: 0), with: .color(.yellow))
+                    width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer))
                 
             }.gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                 print(value.location)
                 let idx = getIndex(location: value.location)
-                draw(idx: idx)
                 pointer = .init(x: idx.0, y: idx.1)
             }))
                 .frame(width: screenWidth, height: screenWidth, alignment: .center)
-                .border(Color.white, width: 1.0)
-                .background(backgroundColor)
                 .onAppear {
+                    StageManager.shared.initStage(size: pixelSize)
                     data = StageManager.shared.stage.selectedLayer
                 }
-            
-            ColorPicker(selection: $backgroundColor) {
-                Text("Background Color")
-            }
-            ColorPicker(selection: $selectedColor) {
-                Text("Brush Color")
-            }
-            Button("clear") {
-                data.clear()
-            }
-            Canvas { context,size in
-                var point:CGPoint? {
-                    let w = padSize.width / 3
-                    let h = padSize.height / 3
-                    switch touchPosition {
-                    case .왼쪽상단:
-                        return .zero
-                    case .가운대상단:
-                        return .init(x: w, y: 0)
-                    case .오른쪽상단:
-                        return .init(x: w * 2, y: 0)
-                    case .왼쪽중앙:
-                        return .init(x: 0, y: h)
-                    case .오른쪽중앙:
-                        return .init(x: w * 2, y: h)
-                    case .왼쪽하단:
-                        return .init(x: 0, y: h * 2)
-                    case .중앙하단:
-                        return .init(x: w, y: h * 2)
-                    case .오른쪽하단:
-                        return .init(x: w * 2, y: h * 2)
-                    case .중앙:
-                        return .init(x: w, y: h)
-                    default:
-                        return nil
+            //미리보기
+            HStack {
+                Canvas { context,size in
+                    for (y,list) in data.colors.enumerated() {
+                        for (x,color) in list.enumerated() {
+                            context.fill(.init(roundedRect: .init(x: CGFloat(x),
+                                                                  y: CGFloat(y),
+                                                                  width: 1,
+                                                                  height: 1),
+                                               cornerSize: .zero), with: .color(color))
+                        }
                     }
-                }
-
-                if let p = point {
-                    context.fill(Path(roundedRect: .init(origin: p, size: .init(width: padSize.width / 3, height: padSize.height / 3)), cornerSize: .zero), with: .color(.yellow))
-                }
+                    
+                }.frame(width: pixelSize.width, height: pixelSize.height, alignment: .leading)
+                    .border(.white, width: 1.0).background(backgroundColor)
+                // MARK: - 빠렛트
+                HStack {
+                    ForEach(0..<paletteColors.count) { i in
+                        Button {
+                            selectedColor = paletteColors[i]
+                        } label: {
+                            Spacer().frame(width: 32, height: 32, alignment: .center)
+                                .background(paletteColors[i])
+                        }
+                        .border(.white, width: selectedColor == paletteColors[i] ? 5.0 : 1.0)
+                        .padding(2)
+                    }
+                }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
+                Spacer()
             }
-            .frame(width: padSize.width, height: padSize.height, alignment: .leading)
-            .background(Color.gray)
-            .border(.white, width: 1.0)
-            .gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
-                        .onChanged({ value in
-                let position = getPosition(location: value.location, targetSize: padSize)
-                switch position {
-                case .왼쪽상단:
-                    pointer = .init(x: pointer.x - 1, y: pointer.y - 1)
-                case .가운대상단:
-                    pointer = .init(x: pointer.x, y: pointer.y - 1)
-                case .오른쪽상단:
-                    pointer = .init(x: pointer.x + 1, y: pointer.y - 1)
-                case .왼쪽중앙:
-                    pointer = .init(x: pointer.x - 1, y: pointer.y)
-                case .오른쪽중앙:
-                    pointer = .init(x: pointer.x + 1, y: pointer.y)
-                case .왼쪽하단:
-                    pointer = .init(x: pointer.x - 1, y: pointer.y + 1)
-                case .중앙하단:
-                    pointer = .init(x: pointer.x , y: pointer.y + 1)
-                case .오른쪽하단:
-                    pointer = .init(x: pointer.x + 1 , y: pointer.y + 1)
-                case .중앙:
-                    draw(target: pointer)
-                default:
-                    break
-                }
+
+            HStack {
+                // MARK: - 옵션 메뉴
+                ScrollView {
+                    ColorPicker(selection: $backgroundColor) {
+                        Text.color_picker_bg_title
+                    }
+                    ForEach(0..<paletteColors.count) { count in
+                        ColorPicker(selection: $paletteColors[count]) {
+                            Text.color_picker_br_title
+                            Text(" \(count + 1)")
+                        }
+                    }
+                }.padding(SwiftUI.EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
                 
-                touchPosition = position
-            })
-            )
+                //MARK: - 포인터 브러시 컨트롤 뷰
+                VStack {
+                    HStack {
+                        Button {
+                            draw(target: pointer, color: selectedColor)
+                        } label : {
+                            Image("pencil")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .background(selectedColor)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                        
+                        Button {
+                            paint(target: pointer, color: selectedColor)
+                        } label : {
+                            Image("paint")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .background(selectedColor)
+                        }.frame(width: 50, height: 50, alignment: .center)
+
+                    }
+                    
+                    HStack {
+                        Button {
+                            pointer = .init(x: pointer.x, y: pointer.y - 1)
+                        } label: {
+                            Text("up")
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .background(Color.green)
+                    }
+                    HStack {
+                        Button {
+                            pointer = .init(x: pointer.x - 1, y: pointer.y)
+                        } label: {
+                            Text("left")
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .background(Color.green)
+                        
+                        Button {
+                            pointer = .init(x: pointer.x, y: pointer.y + 1)
+                        } label: {
+                            Text("down")
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .background(Color.green)
+                        
+                        Button {
+                            pointer = .init(x: pointer.x + 1, y: pointer.y)
+                        } label: {
+                            Text("right")
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .background(Color.green)
+                    }
+                    
+                }.padding(20)
+            }
+        }
+        .toolbar {
+            Button {
+                isShowActionSheet = true
+            } label : {
+                Text("menu")
+            }.actionSheet(isPresented: $isShowActionSheet) {
+                ActionSheet(title: Text("menu"), message: nil, buttons: [
+                    .default(.clear_all_button_title, action: {
+                        isShowClearAlert = true
+                    }),
+                    .cancel()
+                ])
+            }
+        }
+        .alert(isPresented: $isShowClearAlert) {
+            Alert(title: Text.clear_alert_title,
+                  message: Text.clear_alert_message,
+                  primaryButton: .destructive(
+                    Text.clear_alert_confirm, action: {
+                        data.clear()
+                        
+                    }), secondaryButton: .cancel())
         }
     }
+    
+    
 }
 
 struct PixelDrawView_Previews: PreviewProvider {

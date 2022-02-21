@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  PixelArtMaker
+
+  Created by Changyul Seo on 2022/02/21.
+  
+*/
+"app title" = "Pixel art maker";
+
+"color picker bg title" = "Background Color";
+"color picker br title" = "Brush Color";
+"auto erase toggle title" = "auto erase";
+
+"all clear button title" = "all clear";
+
+"clear alert title" = "delete";
+"clear alert message" = "Are you sure?";
+"clear alert confirm" = "delete it!";

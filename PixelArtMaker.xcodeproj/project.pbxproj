@@ -23,6 +23,11 @@
 		1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3EA27BE108F003F8312 /* LayerModel.swift */; };
 		1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F127BF2F6A003F8312 /* StageManager.swift */; };
 		1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F327BF302B003F8312 /* StageModel.swift */; };
+		C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
+		C320338A27C3895E0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
+		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
+		C365E18F27C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
+		C365E19027C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +64,11 @@
 		1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelDrawView.swift; sourceTree = "<group>"; };
 		1B28C3F127BF2F6A003F8312 /* StageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageManager.swift; sourceTree = "<group>"; };
 		1B28C3F327BF302B003F8312 /* StageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageModel.swift; sourceTree = "<group>"; };
+		C320338727C3729B0019B546 /* Text+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extensions.swift"; sourceTree = "<group>"; };
+		C320338927C3895E0019B546 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		C320338B27C389AA0019B546 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		C365E19127C36CC400154E56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C365E19327C36CEA00154E56 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,10 +118,13 @@
 			isa = PBXGroup;
 			children = (
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
+				C320338627C370A30019B546 /* Extensions */,
 				1B28C3EC27BE11C2003F8312 /* View */,
 				1B28C3E927BE107D003F8312 /* Model */,
 				1B28C3AD27BE100E003F8312 /* PixelArtMakerApp.swift */,
+				C365E19227C36CC400154E56 /* Localizable.strings */,
 				1B28C3AF27BE100F003F8312 /* Assets.xcassets */,
+				C320338927C3895E0019B546 /* Colors.xcassets */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -169,6 +182,15 @@
 				1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		C320338627C370A30019B546 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C320338727C3729B0019B546 /* Text+Extensions.swift */,
+				C320338B27C389AA0019B546 /* Color+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,6 +299,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 1B28C3A727BE100D003F8312;
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
@@ -296,7 +319,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C320338A27C3895E0019B546 /* Colors.xcassets in Resources */,
 				1B28C3D927BE100F003F8312 /* Assets.xcassets in Resources */,
+				C365E18F27C36CC400154E56 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B28C3DA27BE100F003F8312 /* Assets.xcassets in Resources */,
+				C365E19027C36CC400154E56 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +358,8 @@
 				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
+				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
+				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
 				1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */,
 				1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
@@ -382,11 +410,24 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		C365E19227C36CC400154E56 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C365E19127C36CC400154E56 /* en */,
+				C365E19327C36CEA00154E56 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		1B28C3DB27BE100F003F8312 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -446,6 +487,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

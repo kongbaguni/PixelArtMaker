@@ -9,7 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        PixelDrawView()
+        NavigationView {
+            PixelDrawView()
+                .navigationTitle(.app_title)
+                .background(Color.k_background)
+        }
     }
 }
 

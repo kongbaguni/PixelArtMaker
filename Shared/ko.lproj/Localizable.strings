@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  PixelArtMaker
+
+  Created by Changyul Seo on 2022/02/21.
+  
+*/
+"app title" = "픽셀 아트 메이커";
+"color picker bg title" = "배경색";
+"color picker br title" = "브러시 색";
+"auto erase toggle title" = "자동 지우게 모드";
+
+"all clear button title" = "전부 지우기";
+
+"clear alert title" = "그림 지운다";
+"clear alert message" = "정말?";
+"clear alert confirm" = "지워버려";
