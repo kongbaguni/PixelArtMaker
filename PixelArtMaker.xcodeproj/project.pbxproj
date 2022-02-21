@@ -26,6 +26,11 @@
 		C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
 		C320338A27C3895E0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
 		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
+		C320338F27C3D2CF0019B546 /* StageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F127BF2F6A003F8312 /* StageManager.swift */; };
+		C320339027C3D2D30019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
+		C320339127C3D2D60019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
+		C320339227C3D3750019B546 /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F327BF302B003F8312 /* StageModel.swift */; };
+		C320339327C3D49F0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
 		C365E18F27C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 		C365E19027C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 /* End PBXBuildFile section */
@@ -329,6 +334,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C320339327C3D49F0019B546 /* Colors.xcassets in Resources */,
 				1B28C3DA27BE100F003F8312 /* Assets.xcassets in Resources */,
 				C365E19027C36CC400154E56 /* Localizable.strings in Resources */,
 			);
@@ -370,8 +376,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C320339227C3D3750019B546 /* StageModel.swift in Sources */,
+				C320339027C3D2D30019B546 /* Text+Extensions.swift in Sources */,
 				1B28C3EF27BE29F5003F8312 /* PixelDrawView.swift in Sources */,
+				C320338F27C3D2CF0019B546 /* StageManager.swift in Sources */,
 				1B28C3D827BE100F003F8312 /* ContentView.swift in Sources */,
+				C320339127C3D2D60019B546 /* Color+Extensions.swift in Sources */,
 				1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */,
 				1B28C3D627BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
 			);
@@ -615,11 +625,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.1;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker;
 				PRODUCT_NAME = PixelArtMaker;
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG MAC";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -643,11 +654,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.1;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker;
 				PRODUCT_NAME = PixelArtMaker;
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = MAC;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};

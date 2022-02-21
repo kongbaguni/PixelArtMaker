@@ -42,6 +42,9 @@ fileprivate func getPosition(location:CGPoint, targetSize:CGSize)->Position? {
 }
 
 fileprivate var screenWidth:CGFloat {
+    #if MAC
+    return 300
+    #else
     guard let s = UIScreen.screens.first?.bounds.size else {
         return 300
     }
@@ -49,6 +52,7 @@ fileprivate var screenWidth:CGFloat {
         return s.height
     }
     return s.width
+    #endif
 }
 
 fileprivate var pw:CGFloat {
@@ -310,7 +314,9 @@ struct PixelDrawView: View {
                 isShowActionSheet = true
             } label : {
                 Text("menu")
-            }.actionSheet(isPresented: $isShowActionSheet) {
+            }
+            #if !MAC
+            .actionSheet(isPresented: $isShowActionSheet) {
                 ActionSheet(title: Text("menu"), message: nil, buttons: [
                     .default(.clear_all_button_title, action: {
                         isShowClearAlert = true
@@ -318,6 +324,8 @@ struct PixelDrawView: View {
                     .cancel()
                 ])
             }
+            #endif
+            
         }
         .alert(isPresented: $isShowClearAlert) {
             Alert(title: Text.clear_alert_title,

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
 class StageModel {
     private var layers:[LayerModel] = []
