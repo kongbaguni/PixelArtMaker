@@ -7,8 +7,13 @@
 
 import Foundation
 import SwiftUI
-struct LayerModel : Hashable {    
+struct LayerModel : Hashable {
+    
     var colors:[[Color]]
+    
+    var isOn:Bool = true
+    
+    var opacity:CGFloat = 1.0
     
     init(size:CGSize) {
         var colors:[[Color]] = []

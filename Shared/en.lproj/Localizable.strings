@@ -16,3 +16,5 @@
 "clear alert title" = "delete";
 "clear alert message" = "Are you sure?";
 "clear alert confirm" = "delete it!";
+
+"layer edit title" = "layers";

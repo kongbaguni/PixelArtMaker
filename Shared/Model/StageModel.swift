@@ -37,5 +37,5 @@ class StageModel {
     
     func addLayer() {
         layers.append(.init(size: canvasSize))
-    }
+    }        
 }

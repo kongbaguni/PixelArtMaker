@@ -239,7 +239,8 @@ struct PixelDrawView: View {
                     }.frame(width: pixelSize.width, height: pixelSize.height, alignment: .leading)
                         .border(.white, width: 1.0).background(backgroundColor)
                 })
-
+                
+                Spacer()
                 // MARK: - 빠렛트
                 HStack {
                     ForEach(0..<paletteColors.count) { i in
@@ -253,7 +254,6 @@ struct PixelDrawView: View {
                         .padding(2)
                     }
                 }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
-                Spacer()
             }.padding(10)
 
             HStack {
@@ -290,6 +290,16 @@ struct PixelDrawView: View {
                                 .frame(width: 50, height: 50, alignment: .center)
                                 .background(selectedColor)
                         }.frame(width: 50, height: 50, alignment: .center)
+                        
+                        Button {
+                            draw(target: pointer, color: .clear)
+                        } label : {
+                            Image("eraser")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .background(.clear)
+                        }.frame(width: 50, height: 50, alignment: .center)
+
 
                     }
                     

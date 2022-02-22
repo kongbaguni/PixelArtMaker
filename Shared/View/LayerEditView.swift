@@ -11,9 +11,17 @@ struct LayerEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @State var layers:[LayerModel] = []
+    @State var isOn:[Bool] = [] {
+        didSet {
+            for (idx,layer) in (StageManager.shared.stage?.layers ?? []).enumerated()  {
+                StageManager.shared.stage?.layers[idx].isOn = layers[idx].isOn
+            }
+        }
+    }
+    
     var body: some View {
         List {
-            ForEach(layers, id:\.self) { layer in            
+            ForEach(layers.reversed(), id:\.self) { layer in
                 if let id = layers.firstIndex(of: layer) {
                     HStack {
                         Text("\(id)")
@@ -37,13 +45,16 @@ struct LayerEditView: View {
                             StageManager.shared.stage?.selectLayer(index: id)
                             presentationMode.wrappedValue.dismiss()
                         } label: {
-                            Text("Select Layer")
+                            Text(" ")
                         }
+                        
+                        
+                        Toggle(isOn: $isOn[id]) { }
 
                     }
-
                 }
             }
+            
             Button {
                 StageManager.shared.stage?.addLayer()
                 reload()
@@ -52,13 +63,22 @@ struct LayerEditView: View {
                 Text("make new layer")
             }
 
-        }.onAppear {
+        }
+        .navigationTitle(.layer_edit_title)
+        .toolbar {
+            EditButton()
+        }
+        .onAppear {
             reload()
         }
     }
     
     fileprivate func reload() {
         layers = StageManager.shared.stage?.layers ?? []
+        isOn = StageManager.shared.stage?.layers.map({ model in
+            return model.isOn
+        }) ?? []
+                    
     }
 }
 

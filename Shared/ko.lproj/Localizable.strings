@@ -15,3 +15,5 @@
 "clear alert title" = "그림 지운다";
 "clear alert message" = "정말?";
 "clear alert confirm" = "지워버려";
+
+"layer edit title" = "레이어";
