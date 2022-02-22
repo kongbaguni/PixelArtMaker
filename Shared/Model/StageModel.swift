@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class StageModel {
-    private var layers:[LayerModel] = []
+    var layers:[LayerModel] 
 
     init(canvasSize:CGSize) {
         layers = [

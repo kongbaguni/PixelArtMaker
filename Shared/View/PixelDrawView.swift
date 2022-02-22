@@ -70,16 +70,17 @@ fileprivate let pixelSize = CGSize(width: 32, height: 32)
 fileprivate let padSize = CGSize(width: 200, height: 200)
 
 struct PixelDrawView: View {
+    @State var layers:[LayerModel] = []
     @State var data:LayerModel = LayerModel(size: pixelSize) {
         didSet {
             StageManager.shared.stage.change(layer: data)
+            layers = StageManager.shared.stage.layers
         }
     }
     @State var isShowActionSheet = false
     @State var isShowClearAlert = false
     @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
     @State var selectedColor:Color = .red
-    
     
     @State var backgroundColor:Color = .white
     @State var pointer:CGPoint = .zero {
@@ -212,19 +213,20 @@ struct PixelDrawView: View {
                     StageManager.shared.initStage(size: pixelSize)
                     data = StageManager.shared.stage.selectedLayer
                 }
-            //미리보기
             HStack {
+                //MARK: 미리보기
                 Canvas { context,size in
-                    for (y,list) in data.colors.enumerated() {
-                        for (x,color) in list.enumerated() {
-                            context.fill(.init(roundedRect: .init(x: CGFloat(x),
-                                                                  y: CGFloat(y),
-                                                                  width: 1,
-                                                                  height: 1),
-                                               cornerSize: .zero), with: .color(color))
+                    for layer in layers {
+                        for (y, list) in layer.colors.enumerated() {
+                            for (x,color) in list.enumerated() {
+                                context.fill(.init(roundedRect: .init(x: CGFloat(x),
+                                                                      y: CGFloat(y),
+                                                                      width: 1,
+                                                                      height: 1),
+                                                   cornerSize: .zero), with: .color(color))
+                            }
                         }
                     }
-                    
                 }.frame(width: pixelSize.width, height: pixelSize.height, alignment: .leading)
                     .border(.white, width: 1.0).background(backgroundColor)
                 // MARK: - 빠렛트
