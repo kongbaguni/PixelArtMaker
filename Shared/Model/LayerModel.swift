@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-struct LayerModel {
+struct LayerModel : Hashable {    
     var colors:[[Color]]
     
     init(size:CGSize) {

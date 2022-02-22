@@ -10,7 +10,7 @@ import SwiftUI
 
 class StageManager {
     static let shared = StageManager() 
-    var stage = StageModel(canvasSize: .init(width: 32, height: 32))
+    var stage:StageModel? = nil  
 
     func initStage(size:CGSize) {
         stage = StageModel(canvasSize: size)

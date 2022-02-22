@@ -9,12 +9,14 @@ import Foundation
 import SwiftUI
 
 class StageModel {
+    let canvasSize:CGSize
     var layers:[LayerModel] 
 
     init(canvasSize:CGSize) {
         layers = [
             LayerModel(size: canvasSize)
         ]
+        self.canvasSize = canvasSize
     }
     
     var selectedLayerIndex:Int = 0
@@ -31,5 +33,9 @@ class StageModel {
     
     func change(layer:LayerModel) {
         layers[selectedLayerIndex] = layer
+    }
+    
+    func addLayer() {
+        layers.append(.init(size: canvasSize))
     }
 }

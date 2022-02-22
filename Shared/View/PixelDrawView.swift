@@ -73,8 +73,8 @@ struct PixelDrawView: View {
     @State var layers:[LayerModel] = []
     @State var data:LayerModel = LayerModel(size: pixelSize) {
         didSet {
-            StageManager.shared.stage.change(layer: data)
-            layers = StageManager.shared.stage.layers
+            StageManager.shared.stage?.change(layer: data)
+            layers = StageManager.shared.stage?.layers ?? []
         }
     }
     @State var isShowActionSheet = false
@@ -210,25 +210,36 @@ struct PixelDrawView: View {
             }))
                 .frame(width: screenWidth, height: screenWidth, alignment: .center)
                 .onAppear {
-                    StageManager.shared.initStage(size: pixelSize)
-                    data = StageManager.shared.stage.selectedLayer
+                    if StageManager.shared.stage == nil {
+                        StageManager.shared.initStage(size: pixelSize)
+                    }
+                    if let stage = StageManager.shared.stage {
+                        layers = stage.layers
+                        data = stage.selectedLayer
+                    }
+
                 }
             HStack {
                 //MARK: 미리보기
-                Canvas { context,size in
-                    for layer in layers {
-                        for (y, list) in layer.colors.enumerated() {
-                            for (x,color) in list.enumerated() {
-                                context.fill(.init(roundedRect: .init(x: CGFloat(x),
-                                                                      y: CGFloat(y),
-                                                                      width: 1,
-                                                                      height: 1),
-                                                   cornerSize: .zero), with: .color(color))
+                NavigationLink(destination: {
+                  LayerEditView()
+                }, label: {
+                    Canvas { context,size in
+                        for layer in layers {
+                            for (y, list) in layer.colors.enumerated() {
+                                for (x,color) in list.enumerated() {
+                                    context.fill(.init(roundedRect: .init(x: CGFloat(x),
+                                                                          y: CGFloat(y),
+                                                                          width: 1,
+                                                                          height: 1),
+                                                       cornerSize: .zero), with: .color(color))
+                                }
                             }
                         }
-                    }
-                }.frame(width: pixelSize.width, height: pixelSize.height, alignment: .leading)
-                    .border(.white, width: 1.0).background(backgroundColor)
+                    }.frame(width: pixelSize.width, height: pixelSize.height, alignment: .leading)
+                        .border(.white, width: 1.0).background(backgroundColor)
+                })
+
                 // MARK: - 빠렛트
                 HStack {
                     ForEach(0..<paletteColors.count) { i in
