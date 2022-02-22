@@ -43,10 +43,10 @@ fileprivate func getPosition(location:CGPoint, targetSize:CGSize)->Position? {
 
 fileprivate var screenWidth:CGFloat {
     #if MAC
-    return 300
+    return 500
     #else
     guard let s = UIScreen.screens.first?.bounds.size else {
-        return 300
+        return 350
     }
     if s.width > s.height {
         return s.height
@@ -197,10 +197,15 @@ struct PixelDrawView: View {
                     y: pointer.y * w,
                     width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer))
                 
-            }.gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+            }
+            .padding(10)
+            .gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                 print(value.location)
                 let idx = getIndex(location: value.location)
                 pointer = .init(x: idx.0, y: idx.1)
+                #if MAC
+                draw(idx: idx, color: selectedColor)
+                #endif
             }))
                 .frame(width: screenWidth, height: screenWidth, alignment: .center)
                 .onAppear {
@@ -236,7 +241,7 @@ struct PixelDrawView: View {
                     }
                 }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
                 Spacer()
-            }
+            }.padding(10)
 
             HStack {
                 // MARK: - 옵션 메뉴
@@ -250,7 +255,7 @@ struct PixelDrawView: View {
                             Text(" \(count + 1)")
                         }
                     }
-                }.padding(SwiftUI.EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
+                }.padding(SwiftUI.EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20))
                 
                 //MARK: - 포인터 브러시 컨트롤 뷰
                 VStack {
@@ -336,6 +341,9 @@ struct PixelDrawView: View {
                         
                     }), secondaryButton: .cancel())
         }
+#if MAC
+        .background(KeyEventHandling())
+#endif
     }
     
     
