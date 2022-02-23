@@ -16,7 +16,7 @@ struct LayerModel : Hashable {
     
     let isOn:Bool
     
-    let opacity:CGFloat 
+    let opacity:CGFloat
     
     let uuid = UUID().uuidString
     init(size:CGSize) {

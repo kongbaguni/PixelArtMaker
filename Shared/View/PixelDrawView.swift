@@ -227,6 +227,9 @@ struct PixelDrawView: View {
                 }, label: {
                     Canvas { context,size in
                         for layer in layers {
+                            if layer.isOn == false {
+                                continue
+                            }
                             for (y, list) in layer.colors.enumerated() {
                                 for (x,color) in list.enumerated() {
                                     context.fill(.init(roundedRect: .init(x: CGFloat(x),

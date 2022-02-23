@@ -24,7 +24,26 @@ struct LayerEditView: View {
     
     var body: some View {
         List {
+            Canvas { context,size in
+                for layer in layers {
+                    if layer.isOn == false {
+                        continue
+                    }
+                    for (y, list) in layer.colors.enumerated() {
+                        for (x,color) in list.enumerated() {
+                            context.fill(.init(roundedRect: .init(x: CGFloat(x),
+                                                                  y: CGFloat(y),
+                                                                  width: 1,
+                                                                  height: 1),
+                                               cornerSize: .zero), with: .color(color))
+                        }
+                    }
+                }
+            }.frame(width: layers.first?.width ?? 32, height: layers.first?.height ?? 32, alignment: .leading)
+                .border(.white, width: 1.0).background(.clear)
+            
             ForEach(layers.reversed(), id:\.self) { layer in
+                
                 if let id = layers.firstIndex(of: layer) {
                     HStack {
                         Text("\(id)")
@@ -52,7 +71,17 @@ struct LayerEditView: View {
                         }
                         
                         
-                        Toggle(isOn: $isOn[id]) { }
+                        Toggle(isOn: $isOn[id]) {
+                            
+                        }.onChange(of: isOn[id]) { value in
+                            for (idx,value) in isOn.enumerated() {
+                                if let ol = StageManager.shared.stage?.layers[idx] {
+                                    StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity)
+                                }
+                            }
+                            layers = StageManager.shared.stage?.layers ?? []
+                        }
+                        
 
                     }
                 }
@@ -63,7 +92,7 @@ struct LayerEditView: View {
                 reload()
 
             } label: {
-                Text("make new layer")
+                Text.make_new_layer
             }
 
         }

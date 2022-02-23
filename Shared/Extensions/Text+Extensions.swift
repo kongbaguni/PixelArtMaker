@@ -22,5 +22,6 @@ extension Text {
     static let clear_all_button_title = Text("all clear button title")
     
     static let layer_edit_title  = Text("layer edit title")
+    static let make_new_layer = Text("make new layer")
 
 }
