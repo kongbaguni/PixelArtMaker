@@ -13,8 +13,11 @@ struct LayerEditView: View {
     @State var layers:[LayerModel] = []
     @State var isOn:[Bool] = [] {
         didSet {
-            for (idx,layer) in (StageManager.shared.stage?.layers ?? []).enumerated()  {
-                StageManager.shared.stage?.layers[idx].isOn = layers[idx].isOn
+            print("isOn : \(isOn)")
+            for (idx,value) in isOn.enumerated() {
+                if let ol = StageManager.shared.stage?.layers[idx] {
+                    StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity)
+                }
             }
         }
     }
@@ -78,6 +81,7 @@ struct LayerEditView: View {
         isOn = StageManager.shared.stage?.layers.map({ model in
             return model.isOn
         }) ?? []
+        print(isOn)
                     
     }
 }

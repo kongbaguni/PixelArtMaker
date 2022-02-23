@@ -31,8 +31,9 @@ class StageModel {
         }
     }
     
-    func change(layer:LayerModel) {
-        layers[selectedLayerIndex] = layer
+    func change(colors:[[Color]]) {
+        let ol = layers[selectedLayerIndex]
+        layers[selectedLayerIndex] = .init(colors: colors, isOn: ol.isOn, opacity: ol.opacity)
     }
     
     func addLayer() {

@@ -71,12 +71,13 @@ fileprivate let padSize = CGSize(width: 200, height: 200)
 
 struct PixelDrawView: View {
     @State var layers:[LayerModel] = []
-    @State var data:LayerModel = LayerModel(size: pixelSize) {
+    @State var colors:[[Color]] = [] {
         didSet {
-            StageManager.shared.stage?.change(layer: data)
+            StageManager.shared.stage?.change(colors: colors)
             layers = StageManager.shared.stage?.layers ?? []
         }
     }
+
     @State var isShowActionSheet = false
     @State var isShowClearAlert = false
     @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
@@ -104,7 +105,7 @@ struct PixelDrawView: View {
     
     func paint(target:CGPoint, color:Color) {
         let idx:(Int,Int) = (Int(target.x), Int(target.y))
-        let cc = data.colors[idx.1][idx.0]
+        let cc = colors[idx.1][idx.0]
         
         var list:[(Int,Int)] {
             var result:[(Int,Int)] = []
@@ -139,7 +140,7 @@ struct PixelDrawView: View {
         }
         
         for ni in list {
-            if data.colors[ni.1][ni.0] == cc {
+            if colors[ni.1][ni.0] == cc {
                 draw(idx: ni, color: color)
             }
         }
@@ -152,9 +153,9 @@ struct PixelDrawView: View {
     }
         
     func draw(idx:(Int,Int), color:Color) {
-        if idx.0 < data.colors.count && idx.0 >= 0 {
-            if idx.1 < data.colors[idx.0].count && idx.1 >= 0 {
-                data.colors[idx.1][idx.0] = color
+        if idx.0 < colors.count && idx.0 >= 0 {
+            if idx.1 < colors[idx.0].count && idx.1 >= 0 {
+                colors[idx.1][idx.0] = color
             }
         }
     }
@@ -165,8 +166,8 @@ struct PixelDrawView: View {
     }
     
     func erase(idx:(Int,Int)) {
-        if idx.0 < data.colors.count && idx.0 >= 0 {
-            if idx.1 < data.colors[idx.0].count && idx.1 >= 0 {                        data.colors[idx.1][idx.0] = .clear
+        if idx.0 < colors.count && idx.0 >= 0 {
+            if idx.1 < colors[idx.0].count && idx.1 >= 0 {                        colors[idx.1][idx.0] = .clear
             }
         }
     }
@@ -177,8 +178,8 @@ struct PixelDrawView: View {
             //MARK: - 드로잉 켄버스
             Canvas { context, size in
                 
-                let w = size.width / CGFloat(data.colors.first?.count ?? 1)
-                for (y,list) in data.colors.enumerated() {
+                let w = size.width / CGFloat(colors.first?.count ?? 1)
+                for (y,list) in colors.enumerated() {
                     for (x,color) in list.enumerated() {
                         context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
                                                               y: CGFloat(y) * w + 1,
@@ -215,7 +216,7 @@ struct PixelDrawView: View {
                     }
                     if let stage = StageManager.shared.stage {
                         layers = stage.layers
-                        data = stage.selectedLayer
+                        colors = stage.selectedLayer.colors
                     }
 
                 }
@@ -360,7 +361,7 @@ struct PixelDrawView: View {
                   message: Text.clear_alert_message,
                   primaryButton: .destructive(
                     Text.clear_alert_confirm, action: {
-                        data.clear()
+                        
                         
                     }), secondaryButton: .cancel())
         }
