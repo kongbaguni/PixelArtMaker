@@ -77,7 +77,9 @@ struct PixelDrawView: View {
             layers = StageManager.shared.stage?.layers ?? []
         }
     }
-
+    @State private var timer: Timer?
+    @State var isLongPressing = false
+    
     @State var isShowActionSheet = false
     @State var isShowClearAlert = false
     @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
@@ -186,11 +188,16 @@ struct PixelDrawView: View {
                 let w = size.width / CGFloat(colors.first?.count ?? 1)
                 for (y,list) in colors.enumerated() {
                     for (x,color) in list.enumerated() {
+                        let bgColor =
+                        x == colors.first!.count / 2 || y == colors.count / 2
+                        ? .gray
+                        : backgroundColor
+                        
                         context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
                                                               y: CGFloat(y) * w + 1,
                                                               width: w - 2.0,
                                                               height: w - 2.0),
-                                           cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
+                                           cornerSize: .init(width: 4, height: 4)), with: .color(bgColor))
 
                         context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
                                                               y: CGFloat(y) * w + 0.5,
@@ -275,65 +282,130 @@ struct PixelDrawView: View {
                 VStack {
                     HStack {
                         Button {
-                            draw(target: pointer, color: selectedColor)
+
                         } label : {
                             Image("pencil")
-                                .resizable(capInsets: EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5), resizingMode: SwiftUI.Image.ResizingMode.stretch)
+                                .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
                                 .background(selectedColor)
                                 
                         }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                draw(target: pointer, color: selectedColor)
+                            }))
                         
                         Button {
-                            paint(target: pointer, color: selectedColor)
                         } label : {
                             Image("paint")
                                 .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
                                 .background(selectedColor)
                         }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                paint(target: pointer, color: selectedColor)
+                            }))
                         
                         Button {
-                            draw(target: pointer, color: .clear)
                         } label : {
                             Image("eraser")
                                 .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
                                 .background(.clear)
                         }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                draw(target: pointer, color: .clear)
+                            }))
 
 
                     }
                     
+                    
                     HStack {
                         Button {
+                            if isLongPressing {
+                                isLongPressing = false
+                                timer?.invalidate()
+                            }
                             pointer = .init(x: pointer.x, y: pointer.y - 1)
                         } label: {
                             Text("up")
                         }.frame(width: 50, height: 50, alignment: .center)
                             .background(Color.green)
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                    print("long press")
+                                    self.isLongPressing = true
+                                    //or fastforward has started to start the timer
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                        pointer = .init(x: pointer.x, y: pointer.y - 1)
+                                    })
+                                }
+                            )
                     }
+                    
                     HStack {
                         Button {
+                            if isLongPressing {
+                                isLongPressing = false
+                                timer?.invalidate()
+                            }
                             pointer = .init(x: pointer.x - 1, y: pointer.y)
                         } label: {
                             Text("left")
                         }.frame(width: 50, height: 50, alignment: .center)
                             .background(Color.green)
-                        
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                    print("long press")
+                                    self.isLongPressing = true
+                                    //or fastforward has started to start the timer
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                        pointer = .init(x: pointer.x - 1, y: pointer.y)
+                                    })
+                                }
+                            )
+
                         Button {
+                            if isLongPressing {
+                                isLongPressing = false
+                                timer?.invalidate()
+                            }
                             pointer = .init(x: pointer.x, y: pointer.y + 1)
                         } label: {
                             Text("down")
                         }.frame(width: 50, height: 50, alignment: .center)
                             .background(Color.green)
-                        
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                    print("long press")
+                                    self.isLongPressing = true
+                                    //or fastforward has started to start the timer
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                        pointer = .init(x: pointer.x, y: pointer.y + 1)
+                                    })
+                                }
+                            )
+
                         Button {
+                            if isLongPressing {
+                                isLongPressing = false
+                                timer?.invalidate()
+                            }
                             pointer = .init(x: pointer.x + 1, y: pointer.y)
                         } label: {
                             Text("right")
                         }.frame(width: 50, height: 50, alignment: .center)
                             .background(Color.green)
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                    print("long press")
+                                    self.isLongPressing = true
+                                    //or fastforward has started to start the timer
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                        pointer = .init(x: pointer.x + 1, y: pointer.y)
+                                    })
+                                }
+                            )
                     }
                     
                 }.padding(20)
