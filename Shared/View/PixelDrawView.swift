@@ -362,22 +362,26 @@ struct PixelDrawView: View {
                   message: Text.clear_alert_message,
                   primaryButton: .destructive(
                     Text.clear_alert_confirm, action: {
-                        
-                        
+                        StageManager.shared.initStage(size: pixelSize)
+                        load()
                     }), secondaryButton: .cancel())
         }
 #if MAC
         .background(KeyEventHandling())
 #endif
         .onAppear {
-            if let stage = StageManager.shared.stage {
-                layers = stage.layers
-                colors = stage.selectedLayer.colors
-            }
+            load()
         }
 
     }
     
+    func load() {
+        if let stage = StageManager.shared.stage {
+            layers = stage.layers
+            colors = stage.selectedLayer.colors
+        }
+
+    }
     
 }
 
