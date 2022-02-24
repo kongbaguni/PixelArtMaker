@@ -70,8 +70,8 @@ fileprivate let pixelSize = CGSize(width: 32, height: 32)
 fileprivate let padSize = CGSize(width: 200, height: 200)
 
 struct PixelDrawView: View {
-    @State var layers:[LayerModel] = []
-    @State var colors:[[Color]] = [] {
+    @State var layers:[LayerModel]
+    @State var colors:[[Color]]  {
         didSet {
             StageManager.shared.stage?.change(colors: colors)
             layers = StageManager.shared.stage?.layers ?? []
@@ -84,6 +84,7 @@ struct PixelDrawView: View {
     @State var selectedColor:Color = .red
     
     @State var backgroundColor:Color = .white
+    
     @State var pointer:CGPoint = .zero {
         didSet {
             if pointer.x < 0 {
@@ -101,8 +102,13 @@ struct PixelDrawView: View {
         }
     }
     
-    @State var touchPosition:Position? = nil
-    
+    init() {
+        StageManager.shared.initStage(size: pixelSize)
+        let stage = StageManager.shared.stage!
+        layers = stage.layers
+        colors = stage.selectedLayer.colors
+    }
+        
     func paint(target:CGPoint, color:Color) {
         let idx:(Int,Int) = (Int(target.x), Int(target.y))
         let cc = colors[idx.1][idx.0]
@@ -177,7 +183,6 @@ struct PixelDrawView: View {
         VStack {
             //MARK: - 드로잉 켄버스
             Canvas { context, size in
-                
                 let w = size.width / CGFloat(colors.first?.count ?? 1)
                 for (y,list) in colors.enumerated() {
                     for (x,color) in list.enumerated() {
@@ -210,16 +215,6 @@ struct PixelDrawView: View {
                 #endif
             }))
                 .frame(width: screenWidth, height: screenWidth, alignment: .center)
-                .onAppear {
-                    if StageManager.shared.stage == nil {
-                        StageManager.shared.initStage(size: pixelSize)
-                    }
-                    if let stage = StageManager.shared.stage {
-                        layers = stage.layers
-                        colors = stage.selectedLayer.colors
-                    }
-
-                }
             HStack {
                 //MARK: 미리보기
                 NavigationLink(destination: {
@@ -265,6 +260,8 @@ struct PixelDrawView: View {
                 ScrollView {
                     ColorPicker(selection: $backgroundColor) {
                         Text.color_picker_bg_title
+                    }.onChange(of: backgroundColor) { value in
+                        StageManager.shared.stage?.backgroundColor = value
                     }
                     ForEach(0..<paletteColors.count) { count in
                         ColorPicker(selection: $paletteColors[count]) {
@@ -281,9 +278,10 @@ struct PixelDrawView: View {
                             draw(target: pointer, color: selectedColor)
                         } label : {
                             Image("pencil")
-                                .resizable()
+                                .resizable(capInsets: EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5), resizingMode: SwiftUI.Image.ResizingMode.stretch)
                                 .frame(width: 50, height: 50, alignment: .center)
                                 .background(selectedColor)
+                                
                         }.frame(width: 50, height: 50, alignment: .center)
                         
                         Button {
@@ -371,6 +369,13 @@ struct PixelDrawView: View {
 #if MAC
         .background(KeyEventHandling())
 #endif
+        .onAppear {
+            if let stage = StageManager.shared.stage {
+                layers = stage.layers
+                colors = stage.selectedLayer.colors
+            }
+        }
+
     }
     
     

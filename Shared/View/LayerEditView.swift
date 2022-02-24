@@ -41,6 +41,7 @@ struct LayerEditView: View {
                 }
             }.frame(width: layers.first?.width ?? 32, height: layers.first?.height ?? 32, alignment: .leading)
                 .border(.white, width: 1.0).background(.clear)
+                .background(StageManager.shared.stage?.backgroundColor ?? .clear)
             
             ForEach(layers.reversed(), id:\.self) { layer in
                 

@@ -10,6 +10,7 @@ import SwiftUI
 
 class StageModel {
     let canvasSize:CGSize
+    var backgroundColor:Color = .white
     var layers:[LayerModel] 
 
     init(canvasSize:CGSize) {
