@@ -6,14 +6,20 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ContentView: View {
+    init() {
+        FirebaseApp.configure()
+    }
+    
     var body: some View {
         NavigationView {
             PixelDrawView()
                 .navigationTitle(.app_title)
                 .background(Color.k_background)
         }
+        
         #if MAC
         .frame(width: 500, height: 800, alignment: .center)
         #endif

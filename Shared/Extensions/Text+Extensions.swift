@@ -24,4 +24,5 @@ extension Text {
     static let layer_edit_title  = Text("layer edit title")
     static let make_new_layer = Text("make new layer")
 
+    static let menu_signin_title = Text("menu signin title")
 }

@@ -37,6 +37,11 @@
 		C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320339827C4AFEA0019B546 /* LayerEditView.swift */; };
 		C365E18F27C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 		C365E19027C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
+		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
+		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
+		C3D087FB27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
+		C3D087FD27DB3509003F886E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D087FC27DB3509003F886E /* SigninView.swift */; };
+		C3D087FE27DB3509003F886E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D087FC27DB3509003F886E /* SigninView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +86,8 @@
 		C320339827C4AFEA0019B546 /* LayerEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerEditView.swift; sourceTree = "<group>"; };
 		C365E19127C36CC400154E56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C365E19327C36CEA00154E56 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C3D087F927DB31DA003F886E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C3D087FC27DB3509003F886E /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +143,7 @@
 				1B28C3E927BE107D003F8312 /* Model */,
 				1B28C3AD27BE100E003F8312 /* PixelArtMakerApp.swift */,
 				C320339427C4793D0019B546 /* KeyEventHandling.swift */,
+				C3D087F927DB31DA003F886E /* GoogleService-Info.plist */,
 				C365E19227C36CC400154E56 /* Localizable.strings */,
 				1B28C3AF27BE100F003F8312 /* Assets.xcassets */,
 				C320338927C3895E0019B546 /* Colors.xcassets */,
@@ -192,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				1B28C3AE27BE100E003F8312 /* ContentView.swift */,
+				C3D087FC27DB3509003F886E /* SigninView.swift */,
 				1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */,
 				C320339827C4AFEA0019B546 /* LayerEditView.swift */,
 			);
@@ -224,6 +234,9 @@
 			dependencies = (
 			);
 			name = "PixelArtMaker (iOS)";
+			packageProductDependencies = (
+				C3D087F727DB3053003F886E /* FirebaseAnalytics */,
+			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
 			productType = "com.apple.product-type.application";
@@ -317,6 +330,9 @@
 				ko,
 			);
 			mainGroup = 1B28C3A727BE100D003F8312;
+			packageReferences = (
+				C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -335,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C320338A27C3895E0019B546 /* Colors.xcassets in Resources */,
+				C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */,
 				1B28C3D927BE100F003F8312 /* Assets.xcassets in Resources */,
 				C365E18F27C36CC400154E56 /* Localizable.strings in Resources */,
 			);
@@ -345,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C320339327C3D49F0019B546 /* Colors.xcassets in Resources */,
+				C3D087FB27DB31DA003F886E /* GoogleService-Info.plist in Resources */,
 				1B28C3DA27BE100F003F8312 /* Assets.xcassets in Resources */,
 				C365E19027C36CC400154E56 /* Localizable.strings in Resources */,
 			);
@@ -373,6 +391,7 @@
 			files = (
 				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
+				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
 				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
@@ -389,6 +408,7 @@
 			files = (
 				C320339527C4793D0019B546 /* KeyEventHandling.swift in Sources */,
 				C320339227C3D3750019B546 /* StageModel.swift in Sources */,
+				C3D087FE27DB3509003F886E /* SigninView.swift in Sources */,
 				C320339027C3D2D30019B546 /* Text+Extensions.swift in Sources */,
 				C320339727C47B800019B546 /* Character+Extensions.swift in Sources */,
 				1B28C3EF27BE29F5003F8312 /* PixelDrawView.swift in Sources */,
@@ -807,6 +827,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C3D087F727DB3053003F886E /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1B28C3A827BE100D003F8312 /* Project object */;
 }

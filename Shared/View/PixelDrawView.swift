@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+
+
 enum Position:String {
     case 왼쪽상단 = "lt"
     case 가운대상단 = "ct"
@@ -79,6 +81,9 @@ struct PixelDrawView: View {
     }
     @State private var timer: Timer?
     @State var isLongPressing = false
+    
+
+    @State var isShowSigninView = false
     
     @State var isShowActionSheet = false
     @State var isShowClearAlert = false
@@ -183,28 +188,41 @@ struct PixelDrawView: View {
     
     var body: some View {
         VStack {
+            NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
+                
+            }
+            
             //MARK: - 드로잉 켄버스
             Canvas { context, size in
                 let w = size.width / CGFloat(colors.first?.count ?? 1)
                 for (y,list) in colors.enumerated() {
                     for (x,color) in list.enumerated() {
-                        let bgColor =
-                        x == colors.first!.count / 2 || y == colors.count / 2
-                        ? .gray
-                        : backgroundColor
                         
                         context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
                                                               y: CGFloat(y) * w + 1,
                                                               width: w - 2.0,
                                                               height: w - 2.0),
-                                           cornerSize: .init(width: 4, height: 4)), with: .color(bgColor))
+                                           cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
 
-                        context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
-                                                              y: CGFloat(y) * w + 0.5,
-                                                              width: w - 1.0,
-                                                              height: w - 1.0),
-                                           cornerSize: .zero), with: .color(color))
+                        if color != .clear {
+                            context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
+                                                                  y: CGFloat(y) * w + 0.5,
+                                                                  width: w - 1.0,
+                                                                  height: w - 1.0),
+                                               cornerSize: .zero), with: .color(color))
+                        }
+                        
                     }
+                }
+                for rect in [
+                    CGRect(x: size.width*0.25 - 0.25, y: 0, width: 0.5, height: size.height),
+                    CGRect(x: size.width*0.5 - 0.25, y: 0, width: 0.5, height: size.height),
+                    CGRect(x: size.width*0.75 - 0.25, y: 0, width: 0.5, height: size.height),
+                    CGRect(x: 0, y: size.height * 0.25 - 0.25, width: size.width, height: 0.5),
+                    CGRect(x: 0, y: size.height * 0.5 - 0.25, width: size.width, height: 0.5),
+                    CGRect(x: 0, y: size.height * 0.75 - 0.25, width: size.width, height: 0.5)
+                ]{
+                    context.stroke(.init(roundedRect: rect, cornerSize: .zero), with: .color(.green))
                 }
                 context.stroke(Path(roundedRect: .init(
                     x: pointer.x * w,
@@ -411,6 +429,7 @@ struct PixelDrawView: View {
                 }.padding(20)
             }
         }
+        
         .toolbar {
             Button {
                 isShowActionSheet = true
@@ -420,6 +439,9 @@ struct PixelDrawView: View {
             #if !MAC
             .actionSheet(isPresented: $isShowActionSheet) {
                 ActionSheet(title: Text("menu"), message: nil, buttons: [
+                    .default(.menu_signin_title, action: {
+                        isShowSigninView = true
+                    }),
                     .default(.clear_all_button_title, action: {
                         isShowClearAlert = true
                     }),
