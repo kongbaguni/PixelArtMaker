@@ -10,7 +10,10 @@ import SwiftUI
 struct LayerEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    @State var layers:[LayerModel] = []
+    var layers:[LayerModel] {
+        return StageManager.shared.stage?.layers ?? []
+    }
+    
     @State var isOn:[Bool] = [] {
         didSet {
             print("isOn : \(isOn)")
@@ -25,8 +28,8 @@ struct LayerEditView: View {
     var body: some View {
         List {
             Canvas { context,size in
-                for layer in layers {
-                    if layer.isOn == false {
+                for (idx,layer) in layers.enumerated() {
+                    if isOn[idx] == false {
                         continue
                     }
                     for (y, list) in layer.colors.enumerated() {
@@ -71,16 +74,20 @@ struct LayerEditView: View {
                             Text(" ")
                         }
                         
-                        
-                        Toggle(isOn: $isOn[id]) {
-                            
-                        }.onChange(of: isOn[id]) { value in
-                            for (idx,value) in isOn.enumerated() {
-                                if let ol = StageManager.shared.stage?.layers[idx] {
-                                    StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity, id: "layer\(idx)")
+                        if isOn.count > 0 {
+                            Toggle(isOn: $isOn[id]) {
+                                
+                            }.onChange(of: isOn[id]) { value in
+                                for (idx,value) in isOn.enumerated() {
+                                    if let ol = StageManager.shared.stage?.layers[idx] {
+                                        StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity, id: "layer\(idx)")
+                                    }
                                 }
+                                isOn = StageManager.shared.stage!.layers.map({ model in
+                                    return model.isOn
+                                })
+                                print(isOn)
                             }
-                            layers = StageManager.shared.stage?.layers ?? []
                         }
                         
 
@@ -108,9 +115,8 @@ struct LayerEditView: View {
             reload()
         }
     }
-    
+        
     fileprivate func reload() {
-        layers = StageManager.shared.stage?.layers ?? []
         isOn = StageManager.shared.stage?.layers.map({ model in
             return model.isOn
         }) ?? []
