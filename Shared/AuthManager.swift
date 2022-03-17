@@ -8,6 +8,7 @@
 import Foundation
 import CryptoKit
 import AuthenticationServices
+#if !MAC
 import FirebaseAuth
 
 class AuthManager : NSObject {
@@ -141,3 +142,5 @@ extension AuthManager: ASAuthorizationControllerDelegate {
     }
     
 }
+
+#endif

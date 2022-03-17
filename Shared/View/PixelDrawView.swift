@@ -190,9 +190,11 @@ struct PixelDrawView: View {
     
     var body: some View {
         VStack {
+            #if !MAC
             NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
                 
             }
+            #endif
             
             //MARK: - 드로잉 켄버스
             Canvas { context, size in

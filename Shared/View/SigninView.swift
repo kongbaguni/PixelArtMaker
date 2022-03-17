@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+#if !MAC
 import FirebaseAuth
 
 struct SigninView: View {
@@ -50,3 +51,4 @@ struct SigninView_Previews: PreviewProvider {
         SigninView()
     }
 }
+#endif

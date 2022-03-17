@@ -10,6 +10,7 @@ import SwiftUI
 extension Notification.Name {
     static let layerDataRefresh = Notification.Name("layerDataRefresh_observer")
 }
+
 class StageModel {
     struct History {
         let layers:[LayerModel]
@@ -81,4 +82,6 @@ class StageModel {
         print("e history: \(history.count) redo: \(redoHistory.count)")
         print("---")
     }
+    
+    
 }
