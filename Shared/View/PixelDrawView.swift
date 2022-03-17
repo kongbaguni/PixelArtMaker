@@ -72,7 +72,10 @@ fileprivate let pixelSize = CGSize(width: 32, height: 32)
 fileprivate let padSize = CGSize(width: 200, height: 200)
 
 struct PixelDrawView: View {
-    @State var layers:[LayerModel]
+    var layers:[LayerModel] {
+        StageManager.shared.stage?.layers ?? []
+    }
+    
     @State var colors:[[Color]]
     @State var undoCount = 0
     @State var redoCount = 0
@@ -110,7 +113,6 @@ struct PixelDrawView: View {
     init() {
         StageManager.shared.initStage(size: pixelSize)
         let stage = StageManager.shared.stage!
-        layers = stage.layers
         colors = stage.selectedLayer.colors
     }
         
@@ -170,9 +172,10 @@ struct PixelDrawView: View {
             }
         }
         StageManager.shared.stage?.change(colors: colors)
-        layers = StageManager.shared.stage?.layers ?? []
-        undoCount = StageManager.shared.stage?.history.count ?? 0
-        redoCount = StageManager.shared.stage?.redoHistory.count ?? 0
+        if let stage = StageManager.shared.stage {
+            undoCount = stage.history.count
+            redoCount = stage.redoHistory.count
+        }
     }
     
     func erase(target:CGPoint) {
@@ -181,10 +184,7 @@ struct PixelDrawView: View {
     }
     
     func erase(idx:(Int,Int)) {
-        if idx.0 < colors.count && idx.0 >= 0 {
-            if idx.1 < colors[idx.0].count && idx.1 >= 0 {                        colors[idx.1][idx.0] = .clear
-            }
-        }
+        draw(idx: idx, color: .clear)
     }
 
     
@@ -243,15 +243,12 @@ struct PixelDrawView: View {
             }))
                 .frame(width: screenWidth, height: screenWidth, alignment: .center)
             HStack {
-                //MARK: 미리보기
+                //MARK: - 미리보기
                 NavigationLink(destination: {
                   LayerEditView()
                 }, label: {
                     Canvas { context,size in
                         for layer in layers {
-                            if layer.isOn == false {
-                                continue
-                            }
                             for (y, list) in layer.colors.enumerated() {
                                 for (x,color) in list.enumerated() {
                                     context.fill(.init(roundedRect: .init(x: CGFloat(x),
@@ -267,9 +264,9 @@ struct PixelDrawView: View {
                 })
                 
                 Spacer()
-                // MARK: - 빠렛트
+                // MARK:  빠렛트
                 HStack {
-                    ForEach(0..<paletteColors.count) { i in
+                    ForEach(0..<7) { i in
                         Button {
                             selectedColor = paletteColors[i]
                         } label: {
@@ -290,7 +287,7 @@ struct PixelDrawView: View {
                     }.onChange(of: backgroundColor) { value in
                         StageManager.shared.stage?.backgroundColor = value
                     }
-                    ForEach(0..<paletteColors.count) { count in
+                    ForEach(0..<7) { count in
                         ColorPicker(selection: $paletteColors[count]) {
                             Text.color_picker_br_title
                             Text(" \(count + 1)")
@@ -507,7 +504,6 @@ struct PixelDrawView: View {
 
     func load() {
         if let stage = StageManager.shared.stage {
-            layers = stage.layers
             colors = stage.selectedLayer.colors
             undoCount = stage.history.count
             redoCount = stage.redoHistory.count

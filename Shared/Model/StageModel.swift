@@ -50,8 +50,7 @@ class StageModel {
     
     func change(colors:[[Color]]) {
         history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex))
-        let ol = layers[selectedLayerIndex]
-        layers[selectedLayerIndex] = .init(colors: colors, isOn: ol.isOn, opacity: ol.opacity, id:"layer\(selectedLayerIndex)")
+        layers[selectedLayerIndex] = .init(colors: colors, id:"layer\(selectedLayerIndex)")
         redoHistory.removeAll()
     }
     

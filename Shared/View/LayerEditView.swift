@@ -10,28 +10,13 @@ import SwiftUI
 struct LayerEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    var layers:[LayerModel] {
-        return StageManager.shared.stage?.layers ?? []
-    }
-    
-    @State var isOn:[Bool] = [] {
-        didSet {
-            print("isOn : \(isOn)")
-            for (idx,value) in isOn.enumerated() {
-                if let ol = StageManager.shared.stage?.layers[idx] {
-                    StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity, id: "layer\(idx)")
-                }
-            }
-        }
-    }
-    
+    @State var layers:[LayerModel] = []
+            
+        
     var body: some View {
         List {
             Canvas { context,size in
-                for (idx,layer) in layers.enumerated() {
-                    if isOn[idx] == false {
-                        continue
-                    }
+                for layer in layers {
                     for (y, list) in layer.colors.enumerated() {
                         for (x,color) in list.enumerated() {
                             context.fill(.init(roundedRect: .init(x: CGFloat(x),
@@ -47,7 +32,6 @@ struct LayerEditView: View {
                 .background(StageManager.shared.stage?.backgroundColor ?? .clear)
             
             ForEach(layers.reversed(), id:\.self) { layer in
-                
                 if let id = layers.firstIndex(of: layer) {
                     HStack {
                         Text("\(id)")
@@ -73,24 +57,6 @@ struct LayerEditView: View {
                         } label: {
                             Text(" ")
                         }
-                        
-                        if isOn.count > 0 {
-                            Toggle(isOn: $isOn[id]) {
-                                
-                            }.onChange(of: isOn[id]) { value in
-                                for (idx,value) in isOn.enumerated() {
-                                    if let ol = StageManager.shared.stage?.layers[idx] {
-                                        StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity, id: "layer\(idx)")
-                                    }
-                                }
-                                isOn = StageManager.shared.stage!.layers.map({ model in
-                                    return model.isOn
-                                })
-                                print(isOn)
-                            }
-                        }
-                        
-
                     }
                 }
             }
@@ -105,23 +71,13 @@ struct LayerEditView: View {
 
         }
         .navigationTitle(.layer_edit_title)
-        .toolbar {
-            #if MAC
-            #else
-            EditButton()
-            #endif
-        }
         .onAppear {
             reload()
         }
     }
         
     fileprivate func reload() {
-        isOn = StageManager.shared.stage?.layers.map({ model in
-            return model.isOn
-        }) ?? []
-        print(isOn)
-                    
+        layers = StageManager.shared.stage?.layers ?? []
     }
 }
 

@@ -13,11 +13,7 @@ struct LayerModel : Hashable {
     }
 
     let colors:[[Color]]
-    
-    let isOn:Bool
-    
-    let opacity:CGFloat
-    
+        
     var id = UUID().uuidString
     init(size:CGSize) {
         var colors:[[Color]] = []
@@ -31,15 +27,11 @@ struct LayerModel : Hashable {
             colors.append(list)
         }
         self.colors = colors
-        self.isOn = true
-        self.opacity = 1.0
     }
     
-    init(colors:[[Color]], isOn:Bool, opacity:CGFloat, id:String) {
+    init(colors:[[Color]], id:String) {
         self.id = id
         self.colors = colors
-        self.isOn = isOn
-        self.opacity = opacity
     }
     
     var width:CGFloat {
