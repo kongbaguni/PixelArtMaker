@@ -84,6 +84,8 @@ struct PixelDrawView: View {
     @State var isLongPressing = false
     
 
+    @State var isShowSaveView = false
+    @State var isShowLoadView = false
     @State var isShowSigninView = false
     
     @State var isShowActionSheet = false
@@ -192,6 +194,12 @@ struct PixelDrawView: View {
         VStack {
             #if !MAC
             NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
+                
+            }
+            NavigationLink(destination: SaveView(), isActive: $isShowSaveView) {
+                
+            }
+            NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
                 
             }
             #endif
@@ -465,10 +473,10 @@ struct PixelDrawView: View {
                         AuthManager.shared.signout()
                     }))
                     buttons.append(.default(.menu_save_title, action: {
-                        
+                        isShowSaveView = true
                     }))
                     buttons.append(.default(.menu_load_title, action: {
-                        
+                        isShowLoadView = true
                     }))
                 }
                 buttons.append(
