@@ -26,4 +26,7 @@ extension Text {
 
     static let menu_signin_title = Text("menu signin title")
     static let menu_signout_title = Text("menu signout title")
+    
+    static let menu_save_title = Text("menu save title")
+    static let menu_load_title = Text("menu load title")
 }

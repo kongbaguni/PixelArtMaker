@@ -22,3 +22,5 @@
 
 "menu signin title" = "signin";
 "menu signout title" = "signout";
+"menu save title" = "save";
+"menu load title" = "load";

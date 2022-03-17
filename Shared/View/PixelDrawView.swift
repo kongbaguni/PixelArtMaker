@@ -437,6 +437,7 @@ struct PixelDrawView: View {
                 Text("menu")
             }
             #if !MAC
+            // MARK: - 네비게이션바 액션시트 메뉴
             .actionSheet(isPresented: $isShowActionSheet) {
                 var buttons:[ActionSheet.Button] = []
                 if AuthManager.shared.isSignined == false {
@@ -449,9 +450,15 @@ struct PixelDrawView: View {
                     buttons.append(.default(.menu_signout_title, action: {
                         AuthManager.shared.signout()
                     }))
+                    buttons.append(.default(.menu_save_title, action: {
+                        
+                    }))
+                    buttons.append(.default(.menu_load_title, action: {
+                        
+                    }))
                 }
                 buttons.append(
-                    .default(.clear_all_button_title, action: {
+                    .destructive(.clear_all_button_title, action: {
                         isShowClearAlert = true
                     })
                 )
