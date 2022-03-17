@@ -11,12 +11,17 @@ extension Notification.Name {
     static let layerDataRefresh = Notification.Name("layerDataRefresh_observer")
 }
 class StageModel {
+    struct History {
+        let layers:[LayerModel]
+        let selectedLayerIndex:Int
+    }
+    
     let canvasSize:CGSize
     var backgroundColor:Color = .white
     var layers:[LayerModel] 
 
-    var history = Stack<[LayerModel]>()
-    var redoHistory = Stack<[LayerModel]>()
+    var history = Stack<History>()
+    var redoHistory = Stack<History>()
     
     init(canvasSize:CGSize) {
         layers = [
@@ -44,7 +49,7 @@ class StageModel {
     }
     
     func change(colors:[[Color]]) {
-        history.push(layers)
+        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex))
         let ol = layers[selectedLayerIndex]
         layers[selectedLayerIndex] = .init(colors: colors, isOn: ol.isOn, opacity: ol.opacity, id:"layer\(selectedLayerIndex)")
         redoHistory.removeAll()
@@ -57,8 +62,9 @@ class StageModel {
     func undo() {
         print("s history: \(history.count) redo: \(redoHistory.count)")
         if let data = history.pop() {
-            redoHistory.push(layers)
-            layers = data
+            redoHistory.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex))
+            layers = data.layers
+            selectedLayerIndex = data.selectedLayerIndex
             NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         }
         print("e history: \(history.count) redo: \(redoHistory.count)")
@@ -68,8 +74,9 @@ class StageModel {
     func redo() {
         print("s history: \(history.count) redo: \(redoHistory.count)")
         if let data = redoHistory.pop() {
-            history.push(layers)
-            layers = data
+            history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex))
+            layers = data.layers
+            selectedLayerIndex = data.selectedLayerIndex
             NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         }
         print("e history: \(history.count) redo: \(redoHistory.count)")
