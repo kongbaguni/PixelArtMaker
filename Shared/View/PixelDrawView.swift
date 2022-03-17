@@ -438,15 +438,26 @@ struct PixelDrawView: View {
             }
             #if !MAC
             .actionSheet(isPresented: $isShowActionSheet) {
-                ActionSheet(title: Text("menu"), message: nil, buttons: [
-                    .default(.menu_signin_title, action: {
-                        isShowSigninView = true
-                    }),
+                var buttons:[ActionSheet.Button] = []
+                if AuthManager.shared.isSignined == false {
+                    buttons.append(
+                        .default(.menu_signin_title, action: {
+                            isShowSigninView = true
+                        })
+                    )
+                } else {
+                    buttons.append(.default(.menu_signout_title, action: {
+                        AuthManager.shared.signout()
+                    }))
+                }
+                buttons.append(
                     .default(.clear_all_button_title, action: {
                         isShowClearAlert = true
-                    }),
-                    .cancel()
-                ])
+                    })
+                )
+                buttons.append(.cancel())
+
+                return ActionSheet(title: Text("menu"), message: nil, buttons: buttons)
             }
             #endif
             

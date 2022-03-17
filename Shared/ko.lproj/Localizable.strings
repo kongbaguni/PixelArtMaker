@@ -20,3 +20,4 @@
 "make new layer" = "신규 레이어 생성";
 
 "menu signin title" = "로그인";
+"menu signout title" = "로그아웃";

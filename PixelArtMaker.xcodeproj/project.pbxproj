@@ -23,6 +23,15 @@
 		1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3EA27BE108F003F8312 /* LayerModel.swift */; };
 		1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F127BF2F6A003F8312 /* StageManager.swift */; };
 		1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F327BF302B003F8312 /* StageModel.swift */; };
+		1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B24727E2C7AB007A73CB /* AuthManager.swift */; };
+		1BF1B24927E2C7AB007A73CB /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B24727E2C7AB007A73CB /* AuthManager.swift */; };
+		1BF1B24C27E2CC28007A73CB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B24B27E2CC28007A73CB /* FirebaseAuth */; };
+		1BF1B24E27E2CC28007A73CB /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B24D27E2CC28007A73CB /* FirebaseAuthCombine-Community */; };
+		1BF1B25027E2CC28007A73CB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B24F27E2CC28007A73CB /* FirebaseCrashlytics */; };
+		1BF1B25227E2CC28007A73CB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25127E2CC28007A73CB /* FirebaseFirestore */; };
+		1BF1B25427E2CC28007A73CB /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25327E2CC28007A73CB /* FirebaseFirestoreCombine-Community */; };
+		1BF1B25627E2CC28007A73CB /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25527E2CC28007A73CB /* FirebaseFirestoreSwift-Beta */; };
+		1BF1B25827E2CC28007A73CB /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25727E2CC28007A73CB /* FirebasePerformance */; };
 		C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
 		C320338A27C3895E0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
 		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
@@ -78,6 +87,8 @@
 		1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelDrawView.swift; sourceTree = "<group>"; };
 		1B28C3F127BF2F6A003F8312 /* StageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageManager.swift; sourceTree = "<group>"; };
 		1B28C3F327BF302B003F8312 /* StageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageModel.swift; sourceTree = "<group>"; };
+		1BF1B24727E2C7AB007A73CB /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		1BF1B25927E2CF09007A73CB /* PixelArtMaker (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "PixelArtMaker (iOS).entitlements"; sourceTree = "<group>"; };
 		C320338727C3729B0019B546 /* Text+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extensions.swift"; sourceTree = "<group>"; };
 		C320338927C3895E0019B546 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		C320338B27C389AA0019B546 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
@@ -96,6 +107,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */,
+				1BF1B25027E2CC28007A73CB /* FirebaseCrashlytics in Frameworks */,
+				1BF1B25627E2CC28007A73CB /* FirebaseFirestoreSwift-Beta in Frameworks */,
+				1BF1B24E27E2CC28007A73CB /* FirebaseAuthCombine-Community in Frameworks */,
+				1BF1B25427E2CC28007A73CB /* FirebaseFirestoreCombine-Community in Frameworks */,
+				1BF1B25227E2CC28007A73CB /* FirebaseFirestore in Frameworks */,
+				1BF1B25827E2CC28007A73CB /* FirebasePerformance in Frameworks */,
+				1BF1B24C27E2CC28007A73CB /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +144,7 @@
 		1B28C3A727BE100D003F8312 = {
 			isa = PBXGroup;
 			children = (
+				1BF1B25927E2CF09007A73CB /* PixelArtMaker (iOS).entitlements */,
 				1B28C3AC27BE100E003F8312 /* Shared */,
 				1B28C3BB27BE100F003F8312 /* macOS */,
 				1B28C3C427BE100F003F8312 /* Tests iOS */,
@@ -138,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
+				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
 				C320338627C370A30019B546 /* Extensions */,
 				1B28C3EC27BE11C2003F8312 /* View */,
 				1B28C3E927BE107D003F8312 /* Model */,
@@ -236,6 +256,13 @@
 			name = "PixelArtMaker (iOS)";
 			packageProductDependencies = (
 				C3D087F727DB3053003F886E /* FirebaseAnalytics */,
+				1BF1B24B27E2CC28007A73CB /* FirebaseAuth */,
+				1BF1B24D27E2CC28007A73CB /* FirebaseAuthCombine-Community */,
+				1BF1B24F27E2CC28007A73CB /* FirebaseCrashlytics */,
+				1BF1B25127E2CC28007A73CB /* FirebaseFirestore */,
+				1BF1B25327E2CC28007A73CB /* FirebaseFirestoreCombine-Community */,
+				1BF1B25527E2CC28007A73CB /* FirebaseFirestoreSwift-Beta */,
+				1BF1B25727E2CC28007A73CB /* FirebasePerformance */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -332,6 +359,7 @@
 			mainGroup = 1B28C3A727BE100D003F8312;
 			packageReferences = (
 				C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				1BF1B24A27E2CC28007A73CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -397,6 +425,7 @@
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
 				1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */,
+				1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */,
 				1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
 				C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */,
 			);
@@ -409,6 +438,7 @@
 				C320339527C4793D0019B546 /* KeyEventHandling.swift in Sources */,
 				C320339227C3D3750019B546 /* StageModel.swift in Sources */,
 				C3D087FE27DB3509003F886E /* SigninView.swift in Sources */,
+				1BF1B24927E2C7AB007A73CB /* AuthManager.swift in Sources */,
 				C320339027C3D2D30019B546 /* Text+Extensions.swift in Sources */,
 				C320339727C47B800019B546 /* Character+Extensions.swift in Sources */,
 				1B28C3EF27BE29F5003F8312 /* PixelDrawView.swift in Sources */,
@@ -585,6 +615,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "PixelArtMaker (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QU9EPTU238;
@@ -615,6 +646,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "PixelArtMaker (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QU9EPTU238;
@@ -829,6 +861,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1BF1B24A27E2CC28007A73CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -840,6 +880,41 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1BF1B24B27E2CC28007A73CB /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		1BF1B24D27E2CC28007A73CB /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		1BF1B24F27E2CC28007A73CB /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		1BF1B25127E2CC28007A73CB /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		1BF1B25327E2CC28007A73CB /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		1BF1B25527E2CC28007A73CB /* FirebaseFirestoreSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreSwift-Beta";
+		};
+		1BF1B25727E2CC28007A73CB /* FirebasePerformance */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebasePerformance;
+		};
 		C3D087F727DB3053003F886E /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

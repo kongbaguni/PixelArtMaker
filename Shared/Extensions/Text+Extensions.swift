@@ -25,4 +25,5 @@ extension Text {
     static let make_new_layer = Text("make new layer")
 
     static let menu_signin_title = Text("menu signin title")
+    static let menu_signout_title = Text("menu signout title")
 }

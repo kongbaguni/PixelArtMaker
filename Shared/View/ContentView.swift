@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+#if !MAC
 import Firebase
+#endif
 
 struct ContentView: View {
     init() {
+        #if !MAC
         FirebaseApp.configure()
+        #endif
     }
     
     var body: some View {
@@ -19,10 +23,6 @@ struct ContentView: View {
                 .navigationTitle(.app_title)
                 .background(Color.k_background)
         }
-        
-        #if MAC
-        .frame(width: 500, height: 800, alignment: .center)
-        #endif
     }
 }
 

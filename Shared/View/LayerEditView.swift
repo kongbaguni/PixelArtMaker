@@ -99,7 +99,10 @@ struct LayerEditView: View {
         }
         .navigationTitle(.layer_edit_title)
         .toolbar {
+            #if MAC
+            #else
             EditButton()
+            #endif
         }
         .onAppear {
             reload()
