@@ -28,7 +28,13 @@ class StageModel {
     var selectedLayerIndex:Int = 0
     
     var selectedLayer:LayerModel {
-        return layers[selectedLayerIndex]
+        if layers.count > selectedLayerIndex {
+            return layers[selectedLayerIndex]
+        }
+        else {
+            selectedLayerIndex = layers.count - 1
+            return layers.last!
+        }
     }
     
     func selectLayer(index:Int) {
