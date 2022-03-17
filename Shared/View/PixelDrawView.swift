@@ -348,10 +348,17 @@ struct PixelDrawView: View {
                     
                     
                     HStack {
+                        
                         Button {
                             StageManager.shared.stage?.undo()
                         } label: {
-                            Text("undo : \(undoCount)")
+                            VStack {
+                                Text("undo")
+                                if redoCount + undoCount > 0 {
+                                    ProgressView(value: CGFloat(undoCount) / CGFloat(redoCount + undoCount) )
+                                        .frame(width: 50, height: 5, alignment: .center)
+                                }
+                            }
                         }.frame(width: 50, height: 50, alignment: .center)
                         
                         Button {
@@ -378,7 +385,13 @@ struct PixelDrawView: View {
                         Button {
                             StageManager.shared.stage?.redo()
                         } label: {
-                            Text("redo : \(redoCount)")
+                            VStack {
+                                Text("redo")
+                                if redoCount + undoCount > 0 {
+                                    ProgressView(value: CGFloat(redoCount) / CGFloat(redoCount + undoCount) )
+                                        .frame(width: 50, height: 5, alignment: .center)
+                                }
+                            }
                         }.frame(width: 50, height: 50, alignment: .center)
 
                     }
