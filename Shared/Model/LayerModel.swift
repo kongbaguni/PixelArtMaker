@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 struct LayerModel : Hashable {
     public static func == (lhs: LayerModel, rhs: LayerModel) -> Bool {
-        return lhs.uuid == rhs.uuid
+        return lhs.id == rhs.id && lhs.colors == rhs.colors
     }
 
     let colors:[[Color]]
@@ -18,7 +18,7 @@ struct LayerModel : Hashable {
     
     let opacity:CGFloat
     
-    let uuid = UUID().uuidString
+    var id = UUID().uuidString
     init(size:CGSize) {
         var colors:[[Color]] = []
         let w = Int(size.width)
@@ -35,7 +35,8 @@ struct LayerModel : Hashable {
         self.opacity = 1.0
     }
     
-    init(colors:[[Color]], isOn:Bool, opacity:CGFloat) {
+    init(colors:[[Color]], isOn:Bool, opacity:CGFloat, id:String) {
+        self.id = id
         self.colors = colors
         self.isOn = isOn
         self.opacity = opacity

@@ -73,12 +73,10 @@ fileprivate let padSize = CGSize(width: 200, height: 200)
 
 struct PixelDrawView: View {
     @State var layers:[LayerModel]
-    @State var colors:[[Color]]  {
-        didSet {
-            StageManager.shared.stage?.change(colors: colors)
-            layers = StageManager.shared.stage?.layers ?? []
-        }
-    }
+    @State var colors:[[Color]]
+    @State var undoCount = 0
+    @State var redoCount = 0
+
     @State private var timer: Timer?
     @State var isLongPressing = false
     
@@ -171,6 +169,10 @@ struct PixelDrawView: View {
                 colors[idx.1][idx.0] = color
             }
         }
+        StageManager.shared.stage?.change(colors: colors)
+        layers = StageManager.shared.stage?.layers ?? []
+        undoCount = StageManager.shared.stage?.history.count ?? 0
+        redoCount = StageManager.shared.stage?.redoHistory.count ?? 0
     }
     
     func erase(target:CGPoint) {
@@ -299,8 +301,8 @@ struct PixelDrawView: View {
                 //MARK: - 포인터 브러시 컨트롤 뷰
                 VStack {
                     HStack {
+                        // 연필
                         Button {
-
                         } label : {
                             Image("pencil")
                                 .resizable()
@@ -311,7 +313,7 @@ struct PixelDrawView: View {
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 draw(target: pointer, color: selectedColor)
                             }))
-                        
+                        //페인트
                         Button {
                         } label : {
                             Image("paint")
@@ -322,7 +324,7 @@ struct PixelDrawView: View {
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 paint(target: pointer, color: selectedColor)
                             }))
-                        
+                        //지우개
                         Button {
                         } label : {
                             Image("eraser")
@@ -339,6 +341,12 @@ struct PixelDrawView: View {
                     
                     
                     HStack {
+                        Button {
+                            StageManager.shared.stage?.undo()
+                        } label: {
+                            Text("undo : \(undoCount)")
+                        }.frame(width: 50, height: 50, alignment: .center)
+                        
                         Button {
                             if isLongPressing {
                                 isLongPressing = false
@@ -359,6 +367,13 @@ struct PixelDrawView: View {
                                     })
                                 }
                             )
+                        
+                        Button {
+                            StageManager.shared.stage?.redo()
+                        } label: {
+                            Text("redo : \(redoCount)")
+                        }.frame(width: 50, height: 50, alignment: .center)
+
                     }
                     
                     HStack {
@@ -483,14 +498,19 @@ struct PixelDrawView: View {
 #endif
         .onAppear {
             load()
+            NotificationCenter.default.addObserver(forName: .layerDataRefresh, object: nil, queue: nil) { noti in
+                load()
+            }
         }
 
     }
-    
+
     func load() {
         if let stage = StageManager.shared.stage {
             layers = stage.layers
             colors = stage.selectedLayer.colors
+            undoCount = stage.history.count
+            redoCount = stage.redoHistory.count
         }
 
     }

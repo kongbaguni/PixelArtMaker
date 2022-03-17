@@ -16,7 +16,7 @@ struct LayerEditView: View {
             print("isOn : \(isOn)")
             for (idx,value) in isOn.enumerated() {
                 if let ol = StageManager.shared.stage?.layers[idx] {
-                    StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity)
+                    StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity, id: "layer\(idx)")
                 }
             }
         }
@@ -77,7 +77,7 @@ struct LayerEditView: View {
                         }.onChange(of: isOn[id]) { value in
                             for (idx,value) in isOn.enumerated() {
                                 if let ol = StageManager.shared.stage?.layers[idx] {
-                                    StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity)
+                                    StageManager.shared.stage?.layers[idx] = .init(colors: ol.colors, isOn: value, opacity: ol.opacity, id: "layer\(idx)")
                                 }
                             }
                             layers = StageManager.shared.stage?.layers ?? []

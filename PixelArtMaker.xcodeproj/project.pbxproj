@@ -32,6 +32,8 @@
 		1BF1B25427E2CC28007A73CB /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25327E2CC28007A73CB /* FirebaseFirestoreCombine-Community */; };
 		1BF1B25627E2CC28007A73CB /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25527E2CC28007A73CB /* FirebaseFirestoreSwift-Beta */; };
 		1BF1B25827E2CC28007A73CB /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25727E2CC28007A73CB /* FirebasePerformance */; };
+		1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25A27E2F032007A73CB /* Stack.swift */; };
+		1BF1B25C27E2F032007A73CB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25A27E2F032007A73CB /* Stack.swift */; };
 		C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
 		C320338A27C3895E0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
 		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
@@ -89,6 +91,7 @@
 		1B28C3F327BF302B003F8312 /* StageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageModel.swift; sourceTree = "<group>"; };
 		1BF1B24727E2C7AB007A73CB /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		1BF1B25927E2CF09007A73CB /* PixelArtMaker (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "PixelArtMaker (iOS).entitlements"; sourceTree = "<group>"; };
+		1BF1B25A27E2F032007A73CB /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		C320338727C3729B0019B546 /* Text+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extensions.swift"; sourceTree = "<group>"; };
 		C320338927C3895E0019B546 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		C320338B27C389AA0019B546 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
@@ -163,6 +166,7 @@
 				1B28C3E927BE107D003F8312 /* Model */,
 				1B28C3AD27BE100E003F8312 /* PixelArtMakerApp.swift */,
 				C320339427C4793D0019B546 /* KeyEventHandling.swift */,
+				1BF1B25A27E2F032007A73CB /* Stack.swift */,
 				C3D087F927DB31DA003F886E /* GoogleService-Info.plist */,
 				C365E19227C36CC400154E56 /* Localizable.strings */,
 				1B28C3AF27BE100F003F8312 /* Assets.xcassets */,
@@ -421,6 +425,7 @@
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
+				1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */,
 				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
@@ -437,6 +442,7 @@
 			files = (
 				C320339527C4793D0019B546 /* KeyEventHandling.swift in Sources */,
 				C320339227C3D3750019B546 /* StageModel.swift in Sources */,
+				1BF1B25C27E2F032007A73CB /* Stack.swift in Sources */,
 				C3D087FE27DB3509003F886E /* SigninView.swift in Sources */,
 				1BF1B24927E2C7AB007A73CB /* AuthManager.swift in Sources */,
 				C320339027C3D2D30019B546 /* Text+Extensions.swift in Sources */,
