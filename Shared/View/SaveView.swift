@@ -67,7 +67,6 @@ struct SaveView: View {
                 Text("save")
             }
         }
-        .background(.green)
         .navigationTitle("save")
         .onAppear {
             if let stage = StageManager.shared.stage {

@@ -265,6 +265,8 @@ struct PixelDrawView: View {
                 Text.title_select_Layer_only
             }.padding(20)
 
+            Spacer()
+
             HStack {
                 //MARK: - 미리보기
                 NavigationLink(destination: {
@@ -285,7 +287,7 @@ struct PixelDrawView: View {
                     }.frame(width: pixelSize.width, height: pixelSize.height, alignment: .leading)
                         .border(.white, width: 1.0).background(backgroundColor)
                 })
-                
+
                 Spacer()
                 // MARK:  빠렛트
                 HStack {
@@ -317,7 +319,7 @@ struct PixelDrawView: View {
                         }
                     }
                 }.padding(SwiftUI.EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20))
-                
+
                 //MARK: - 포인터 브러시 컨트롤 뷰
                 VStack {
                     HStack {
@@ -328,7 +330,7 @@ struct PixelDrawView: View {
                                 .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
                                 .background(selectedColor)
-                                
+
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 draw(target: pointer, color: selectedColor)
@@ -358,10 +360,10 @@ struct PixelDrawView: View {
 
 
                     }
-                    
-                    
+
+
                     HStack {
-                        
+
                         Button {
                             StageManager.shared.stage?.undo()
                         } label: {
@@ -373,7 +375,7 @@ struct PixelDrawView: View {
                                 }
                             }
                         }.frame(width: 50, height: 50, alignment: .center)
-                        
+
                         Button {
                             if isLongPressing {
                                 isLongPressing = false
@@ -394,7 +396,7 @@ struct PixelDrawView: View {
                                     })
                                 }
                             )
-                        
+
                         Button {
                             StageManager.shared.stage?.redo()
                         } label: {
@@ -408,7 +410,7 @@ struct PixelDrawView: View {
                         }.frame(width: 50, height: 50, alignment: .center)
 
                     }
-                    
+
                     HStack {
                         Button {
                             if isLongPressing {
@@ -473,9 +475,10 @@ struct PixelDrawView: View {
                                 }
                             )
                     }
-                    
+
                 }.padding(20)
             }
+            
         }
         
         .toolbar {
