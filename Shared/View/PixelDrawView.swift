@@ -88,6 +88,7 @@ struct PixelDrawView: View {
     @State var isLongPressing = false
     
 
+    @State var isShowColorPresetView = false
     @State var isShowSaveView = false
     @State var isShowLoadView = false
     @State var isShowSigninView = false
@@ -207,6 +208,9 @@ struct PixelDrawView: View {
                 
             }
             #endif
+            NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
+                
+            }
             
             //MARK: - 드로잉 켄버스
             Canvas { context, size in
@@ -511,6 +515,9 @@ struct PixelDrawView: View {
                     buttons.append(.default(.menu_load_title, action: {
                         isShowLoadView = true
                     }))
+                    buttons.append(.default(.menu_color_select_title, action: {
+                        isShowColorPresetView = true
+                    }))
                 }
                 buttons.append(
                     .destructive(.clear_all_button_title, action: {
@@ -550,6 +557,7 @@ struct PixelDrawView: View {
             colors = stage.selectedLayer.colors
             undoCount = stage.history.count
             redoCount = stage.redoHistory.count
+            paletteColors = stage.parentColors
         }
 
     }

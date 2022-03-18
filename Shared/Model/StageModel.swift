@@ -17,6 +17,7 @@ class StageModel {
         let layers:[LayerModel]
         let selectedLayerIndex:Int
     }
+    var parentColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.black]
     
     let canvasSize:CGSize
     var backgroundColor:Color = .white
