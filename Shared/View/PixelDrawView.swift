@@ -268,14 +268,11 @@ struct PixelDrawView: View {
                 #endif
             }))
                 .frame(width: screenWidth, height: screenWidth, alignment: .center)
-            
-            Toggle(isOn: $isShowSelectLayerOnly) {
-                Text.title_select_Layer_only
-            }.padding(20)
-
-            Spacer()
-
             HStack {
+                //MARK: - 레이어 토글
+                Toggle(isOn: $isShowSelectLayerOnly) {
+                    Text.title_select_Layer_only
+                }.padding(20)
                 //MARK: - 미리보기
                 NavigationLink(destination: {
                   LayerEditView()
@@ -294,7 +291,18 @@ struct PixelDrawView: View {
                         }
                     }.frame(width: pixelSize.width, height: pixelSize.height, alignment: .leading)
                         .border(.white, width: 1.0).background(backgroundColor)
-                })
+                }).padding(20)
+            }
+
+            Spacer()
+
+            HStack {
+                Button {
+                    isShowColorPresetView = true
+                } label: {
+                    Text("").frame(width: 30, height: 30, alignment: .center)
+                        .background(selectedColor)
+                }
 
                 Spacer()
                 // MARK:  빠렛트
@@ -337,7 +345,6 @@ struct PixelDrawView: View {
                             Image("pencil")
                                 .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
-                                .background(selectedColor)
 
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
@@ -349,7 +356,6 @@ struct PixelDrawView: View {
                             Image("paint")
                                 .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
-                                .background(selectedColor)
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 paint(target: pointer, color: selectedColor)
@@ -391,9 +397,10 @@ struct PixelDrawView: View {
                             }
                             pointer = .init(x: pointer.x, y: pointer.y - 1)
                         } label: {
-                            Text("up")
+                            Image("arrow_up")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
                         }.frame(width: 50, height: 50, alignment: .center)
-                            .background(Color.green)
                             .simultaneousGesture(
                                 LongPressGesture(minimumDuration: 0.2).onEnded { _ in
                                     print("long press")
@@ -427,9 +434,10 @@ struct PixelDrawView: View {
                             }
                             pointer = .init(x: pointer.x - 1, y: pointer.y)
                         } label: {
-                            Text("left")
+                            Image("arrow_left")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
                         }.frame(width: 50, height: 50, alignment: .center)
-                            .background(Color.green)
                             .simultaneousGesture(
                                 LongPressGesture(minimumDuration: 0.2).onEnded { _ in
                                     print("long press")
@@ -448,9 +456,10 @@ struct PixelDrawView: View {
                             }
                             pointer = .init(x: pointer.x, y: pointer.y + 1)
                         } label: {
-                            Text("down")
+                            Image("arrow_down")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
                         }.frame(width: 50, height: 50, alignment: .center)
-                            .background(Color.green)
                             .simultaneousGesture(
                                 LongPressGesture(minimumDuration: 0.2).onEnded { _ in
                                     print("long press")
@@ -469,9 +478,10 @@ struct PixelDrawView: View {
                             }
                             pointer = .init(x: pointer.x + 1, y: pointer.y)
                         } label: {
-                            Text("right")
+                            Image("arrow_right")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
                         }.frame(width: 50, height: 50, alignment: .center)
-                            .background(Color.green)
                             .simultaneousGesture(
                                 LongPressGesture(minimumDuration: 0.2).onEnded { _ in
                                     print("long press")
@@ -514,9 +524,6 @@ struct PixelDrawView: View {
                     }))
                     buttons.append(.default(.menu_load_title, action: {
                         isShowLoadView = true
-                    }))
-                    buttons.append(.default(.menu_color_select_title, action: {
-                        isShowColorPresetView = true
                     }))
                 }
                 buttons.append(
