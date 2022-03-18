@@ -8,7 +8,7 @@
 "app title" = "Pixel art maker";
 
 "color picker bg title" = "Background Color";
-"color picker br title" = "Brush Color";
+"color picker br title" = "Palette color";
 "auto erase toggle title" = "auto erase";
 
 "all clear button title" = "all clear";
