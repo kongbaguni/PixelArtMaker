@@ -24,3 +24,4 @@
 "menu signout title" = "signout";
 "menu save title" = "save";
 "menu load title" = "load";
+"title_select_Layer_only" = "Show only selected layers";

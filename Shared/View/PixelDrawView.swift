@@ -75,7 +75,7 @@ struct PixelDrawView: View {
     var layers:[LayerModel] {
         StageManager.shared.stage?.layers ?? []
     }
-    
+    @State var isShowSelectLayerOnly = false
     @State var colors:[[Color]]
     @State var undoCount = 0
     @State var redoCount = 0
@@ -207,24 +207,32 @@ struct PixelDrawView: View {
             //MARK: - 드로잉 켄버스
             Canvas { context, size in
                 let w = size.width / CGFloat(colors.first?.count ?? 1)
-                for (y,list) in colors.enumerated() {
-                    for (x,color) in list.enumerated() {
-                        
-                        context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
-                                                              y: CGFloat(y) * w + 1,
-                                                              width: w - 2.0,
-                                                              height: w - 2.0),
-                                           cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
+                for (i,layer) in (StageManager.shared.stage?.layers ?? []).enumerated() {
+                    for (y,list) in layer.colors.enumerated() {
+                        for (x,color) in list.enumerated() {
+                            if (i == 0) {
+                                context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
+                                                                      y: CGFloat(y) * w + 1,
+                                                                      width: w - 2.0,
+                                                                      height: w - 2.0),
+                                                   cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
+                            }
 
-                        if color != .clear {
-                            context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
-                                                                  y: CGFloat(y) * w + 0.5,
-                                                                  width: w - 1.0,
-                                                                  height: w - 1.0),
-                                               cornerSize: .zero), with: .color(color))
+                            if color != .clear {
+                                context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
+                                                                      y: CGFloat(y) * w + 0.5,
+                                                                      width: w - 1.0,
+                                                                      height: w - 1.0),
+                                                   cornerSize: .zero), with: .color(
+                                                    isShowSelectLayerOnly
+                                                    ? (i == StageManager.shared.stage?.selectedLayerIndex ? color : .clear)
+                                                    : color
+                                                   ))
+                            }
+                            
                         }
-                        
                     }
+
                 }
                 for rect in [
                     CGRect(x: size.width*0.25 - 0.25, y: 0, width: 0.5, height: size.height),
@@ -252,6 +260,11 @@ struct PixelDrawView: View {
                 #endif
             }))
                 .frame(width: screenWidth, height: screenWidth, alignment: .center)
+            
+            Toggle(isOn: $isShowSelectLayerOnly) {
+                Text.title_select_Layer_only
+            }.padding(20)
+
             HStack {
                 //MARK: - 미리보기
                 NavigationLink(destination: {

@@ -23,3 +23,4 @@
 "menu signout title" = "로그아웃";
 "menu save title" = "저장하기";
 "menu load title" = "불러오기";
+"title_select_Layer_only" = "선택한 레이어만 보기";

@@ -29,4 +29,6 @@ extension Text {
     
     static let menu_save_title = Text("menu save title")
     static let menu_load_title = Text("menu load title")
+    
+    static let title_select_Layer_only = Text("title_select_Layer_only")
 }
