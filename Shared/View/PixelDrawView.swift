@@ -53,6 +53,10 @@ fileprivate var screenWidth:CGFloat {
     if s.width > s.height {
         return s.height
     }
+    print("scren : \(s.width / s.height)")
+    if s.width / s.height > 0.5 {
+        return 250
+    }
     return s.width
     #endif
 }
