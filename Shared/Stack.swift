@@ -28,4 +28,10 @@ struct Stack<T> {
     public mutating func removeAll() {
         stack.removeAll()
     }
+    
+    public var arrayValue:[T] {
+        get {
+            return stack
+        }
+    }
 }

@@ -18,7 +18,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationView {            
             PixelDrawView()
                 .navigationTitle(.app_title)
                 .background(Color.k_background)
