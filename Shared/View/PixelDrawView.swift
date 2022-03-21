@@ -79,6 +79,12 @@ struct PixelDrawView: View {
     var layers:[LayerModel] {
         StageManager.shared.stage?.layers ?? []
     }
+    enum ColorSelectMode {
+        case foreground
+        case background
+    }
+    @State var colorSelectMode:ColorSelectMode = .foreground
+    
     @State var isShowSelectLayerOnly = false
     @State var colors:[[Color]]
     @State var undoCount = 0
@@ -115,6 +121,24 @@ struct PixelDrawView: View {
                 pointer.y = pixelSize.height - 1
             }
         }
+    }
+    
+    var selectedParentIndex:Int? {
+        switch colorSelectMode {
+        case .foreground:
+            for (idx,color) in paletteColors.enumerated() {
+                if selectedColor == color {
+                    return idx
+                }
+            }
+        case .background:
+            for (idx,color) in paletteColors.enumerated() {
+                if backgroundColor == color {
+                    return idx
+                }
+            }
+        }
+        return nil
     }
     
     init() {
@@ -273,7 +297,7 @@ struct PixelDrawView: View {
                 Toggle(isOn: $isShowSelectLayerOnly) {
                     Text.title_select_Layer_only
                 }.padding(20)
-                //MARK: - 미리보기
+                //MARK:  미리보기
                 NavigationLink(destination: {
                   LayerEditView()
                 }, label: {
@@ -297,45 +321,64 @@ struct PixelDrawView: View {
             Spacer()
 
             HStack {
-                Button {
-                    isShowColorPresetView = true
-                } label: {
-                    Text("").frame(width: 30, height: 30, alignment: .center)
-                        .background(selectedColor)
+                // MARK: -  빠렛트
+                VStack {
+                    Button {
+                        colorSelectMode = .foreground
+                    } label: {
+                        Text("").frame(width: 28, height: 15, alignment: .center)
+                            .background(selectedColor)
+                    }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
+
+                    Button {
+                        colorSelectMode = .background
+                    } label: {
+                        Text("").frame(width: 28, height: 15, alignment: .center)
+                            .background(backgroundColor)
+                    }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
                 }
+                switch colorSelectMode {
+                case .foreground:
+                    ColorPicker(selection: $selectedColor) {}
+                case .background:
+                    ColorPicker(selection: $backgroundColor) {}
+                }
+                    
 
                 Spacer()
-                // MARK:  빠렛트
                 HStack {
                     ForEach(0..<7) { i in
                         Button {
-                            selectedColor = paletteColors[i]
+                            switch colorSelectMode {
+                            case .foreground:
+                                selectedColor = paletteColors[i]
+                            case .background:
+                                backgroundColor = paletteColors[i]
+                            }
                         } label: {
-                            Spacer().frame(width: 32, height: 32, alignment: .center)
+                            Spacer().frame(width: 26, height: 32, alignment: .center)
                                 .background(paletteColors[i])
                         }
-                        .border(.white, width: selectedColor == paletteColors[i] ? 5.0 : 1.0)
-                        .padding(2)
+                        .border(.white, width: colorSelectMode == .foreground
+                                ? selectedColor == paletteColors[i] ? 5.0 : 0.5
+                                : backgroundColor == paletteColors[i] ? 5.0 : 0.5
+                        )
+                        .padding(1)
                     }
+                    
+                    Button {
+                        isShowColorPresetView = true
+                    } label : {
+                        Image("more")
+                            .resizable()
+                            .frame(width: 20, height: 20, alignment: .center)
+                            
+                    }
+                    
                 }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
             }.padding(10)
 
             HStack {
-                // MARK: - 옵션 메뉴
-                ScrollView {
-                    ColorPicker(selection: $backgroundColor) {
-                        Text.color_picker_bg_title
-                    }.onChange(of: backgroundColor) { value in
-                        StageManager.shared.stage?.backgroundColor = value
-                    }
-                    ForEach(0..<7) { count in
-                        ColorPicker(selection: $paletteColors[count]) {
-                            Text.color_picker_br_title
-                            Text(" \(count + 1)")
-                        }
-                    }
-                }.padding(SwiftUI.EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20))
-
                 //MARK: - 포인터 브러시 컨트롤 뷰
                 VStack {
                     HStack {
@@ -370,6 +413,19 @@ struct PixelDrawView: View {
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 draw(target: pointer, color: .clear)
+                            }))
+                        //지우개
+                        Button {
+                        } label : {
+                            Image("spoid")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .background(.clear)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
+                                    selectedColor = color
+                                }
                             }))
 
 
