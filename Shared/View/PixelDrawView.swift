@@ -19,6 +19,21 @@ enum Position:String {
     case 중앙하단 = "cb"
     case 오른쪽하단 = "tb"
 }
+fileprivate struct Point : Hashable {
+    public static func == (lhs: Point, rhs: Point) -> Bool {
+        return lhs.x == rhs.x && lhs.y == rhs.y
+    }
+    init(point:CGPoint) {
+        self.x = Int(point.x)
+        self.y = Int(point.y)
+    }
+    init(x:Int, y:Int) {
+        self.x = x
+        self.y = y
+    }
+    let x:Int
+    let y:Int
+}
 
 fileprivate func getPosition(location:CGPoint, targetSize:CGSize)->Position? {
     var txt = ""
@@ -148,49 +163,51 @@ struct PixelDrawView: View {
     }
         
     func paint(target:CGPoint, color:Color) {
-        let idx:(Int,Int) = (Int(target.x), Int(target.y))
-        let cc = colors[idx.1][idx.0]
-        
-        var list:[(Int,Int)] {
-            var result:[(Int,Int)] = []
-            //* * *
-            //* 0 *
-            //* * *
-            if idx.1 - 1 >= 0 && idx.0 - 1 >= 0{
-                result.append((idx.0 - 1, idx.1 - 1))
+        let idx:Point = .init(point: target)
+        /** 최초 선택 컬러*/
+        let cc = colors[idx.y][idx.x]
+      
+        func getNextIdxs(idx:Point)->Set<Point> {
+            var nextIdxs:[Point] {
+                return [
+                    .init(x: idx.x, y: idx.y+1),
+                    .init(x: idx.x, y: idx.y-1),
+                    .init(x: idx.x+1, y: idx.y),
+                    .init(x: idx.x-1, y: idx.y),
+                ]
             }
-            if idx.0 - 1 >= 0 {
-                result.append((idx.0 - 1, idx.1))
-            }
-            if idx.0 - 1 >= 0 && idx.1 + 1 < Int(pixelSize.width) {
-                result.append((idx.0 - 1, idx.1 + 1))
-            }
-            if idx.1 - 1 >= 0 {
-                result.append((idx.0, idx.1 - 1))
-            }
-            if idx.1 + 1 < Int(pixelSize.width) {
-                result.append((idx.0, idx.1 + 1))
-            }
-            if idx.0 + 1 < Int(pixelSize.height) && idx.1 - 1 >= 0{
-                result.append((idx.0 + 1, idx.1 - 1))
-            }
-            if idx.0 + 1 < Int(pixelSize.height) {
-                result.append((idx.0 + 1, idx.1))
-            }
-            if idx.0 + 1 < Int(pixelSize.height) && idx.1 + 1 < Int(pixelSize.width) {
-                result.append((idx.0 + 1, idx.1 + 1))
+            var result = Set<Point>()
+            for next in nextIdxs {
+                if next.x < 0 || next.y < 0 || next.y >= colors.count || next.x >= colors[0].count {
+                    continue
+                }
+                if colors[next.y][next.x] == cc {
+                    result.insert(next)
+                }
             }
             return result
         }
-        
-        for ni in list {
-            if colors[ni.1][ni.0] == cc {
-                draw(idx: ni, color: color)
+
+        var list = getNextIdxs(idx: idx)
+        var test = true
+        while test {
+            let count = list.count
+            for idx in list {
+                for new in getNextIdxs(idx: idx) {
+                    list.insert(new)
+                }
+            }
+            if count == list.count {
+                test = false
             }
         }
-        draw(idx: idx, color: color)
-        
+        colors[idx.y][idx.x] = color
+        for i in list {
+            colors[i.y][i.x] = color
+        }
+        refreshStage()
     }
+    
     func draw(target:CGPoint, color: Color) {
         let idx:(Int,Int) = (Int(target.x), Int(target.y))
         draw(idx: idx, color: color)
@@ -202,6 +219,10 @@ struct PixelDrawView: View {
                 colors[idx.1][idx.0] = color
             }
         }
+        refreshStage()
+    }
+    
+    private func refreshStage() {
         StageManager.shared.stage?.change(colors: colors)
         if let stage = StageManager.shared.stage {
             undoCount = stage.history.count
