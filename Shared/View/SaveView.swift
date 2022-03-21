@@ -73,6 +73,7 @@ struct SaveView: View {
                 self.colors = stage.layers.map({ model in
                     return model.colors
                 })
+                backgroundColor = stage.backgroundColor
                 title = stage.title ?? ""
             }
         }

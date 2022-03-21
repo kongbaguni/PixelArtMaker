@@ -119,7 +119,11 @@ struct PixelDrawView: View {
     @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
     @State var selectedColor:Color = .red
     
-    @State var backgroundColor:Color = .white
+    @State var backgroundColor:Color = .white {
+        didSet {
+            StageManager.shared.stage?.backgroundColor = backgroundColor
+        }
+    }
     
     @State var pointer:CGPoint = .zero {
         didSet {
