@@ -29,10 +29,10 @@ struct SaveView: View {
                     for (y,list) in data.enumerated() {
                         for (x,color) in list.enumerated() {
                             if color != .clear {
-                                context.fill(.init(roundedRect: .init(x: CGFloat(x) * w ,
-                                                                      y: CGFloat(y) * w ,
-                                                                      width: w ,
-                                                                      height: w ),
+                                context.fill(.init(roundedRect: .init(x: CGFloat(x) * w - 0.25,
+                                                                      y: CGFloat(y) * w - 0.25,
+                                                                      width: w + 0.5,
+                                                                      height: w + 0.5),
                                                    cornerSize: .zero), with: .color(color))
                             }
                         }
