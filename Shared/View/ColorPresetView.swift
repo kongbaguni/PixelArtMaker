@@ -7,8 +7,19 @@
 
 import SwiftUI
 
-fileprivate func getW(idx:Int)->CGFloat {
-    return (UIScreen.main.bounds.width - 120) / CGFloat(Color.presetColors[idx].count)
+fileprivate func getW(name:String,idx:Int)->CGFloat {
+    if let list = Color.presetColors[name] {
+        let count = list[idx].count
+        return (UIScreen.main.bounds.width - 120) / CGFloat(count)
+    }
+    return 0.0
+}
+
+fileprivate var colorNames:[String] {
+    let keys = Color.presetColors.map { result in
+        return result.key
+    }
+    return keys.sorted()
 }
 
 
@@ -18,26 +29,32 @@ struct ColorPresetView: View {
     var body: some View {
         List {
             ForEach(0..<Color.presetColors.count, id:\.self) { idx in
-                Button {
-                    print("idx : \(idx)")
-                    StageManager.shared.stage?.parentColors = Color.presetColors[idx]
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    HStack {
-                        ForEach(0..<Color.presetColors[idx].count, id:\.self) { idx2 in
-                            Text(" ")
-                                .frame(width: getW(idx: idx),
-                                       height: 50,
-                                       alignment: .center)
-                                .background(Color.presetColors[idx][idx2])
-                            
+                let key = colorNames[idx]
+                if let arr = Color.presetColors[key] {
+                    Section(header:Text(key)) {
+                        ForEach(0..<arr.count, id:\.self) { i in
+                            Button {
+                                StageManager.shared.stage?.parentColors = arr[i]
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                HStack {
+                                    ForEach(0..<arr[i].count, id:\.self) { i2 in
+                                        Text(" ")
+                                            .frame(width: getW(name:key,idx:i),
+                                                   height: 50,
+                                                   alignment: .center)
+                                            .background(arr[i][i2])
+                                        
+                                    }
+                                }
+                            }
                         }
+                        
                     }
-                    
                 }
 
             }
-        }
+        }.navigationTitle(Text.menu_color_select_title)
     }
 }
 

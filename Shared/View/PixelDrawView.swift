@@ -305,6 +305,11 @@ struct PixelDrawView: View {
                     x: pointer.x * w,
                     y: pointer.y * w,
                     width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer))
+                context.stroke(Path(roundedRect: .init(
+                    x: pointer.x * w + 1,
+                    y: pointer.y * w + 1,
+                    width: pw - 2, height: pw - 2), cornerRadius: 0), with: .color(.k_pointer))
+
                 
             }
             .padding(10)
