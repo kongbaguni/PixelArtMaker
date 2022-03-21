@@ -30,8 +30,8 @@
             filePath = "Shared/View/PixelDrawView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "getNextIdxs(idx:)"
             landmarkType = "9">
          </BreakpointContent>

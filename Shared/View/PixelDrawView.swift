@@ -165,6 +165,25 @@ struct PixelDrawView: View {
         let stage = StageManager.shared.stage!
         colors = stage.selectedLayer.colors
     }
+    
+    func changeColor(target:CGPoint, color:Color) {
+        let idx:Point = .init(point: target)
+        /** 최초 선택 컬러*/
+        var result = Set<Point>()
+        let cc = colors[idx.y][idx.x]
+        for (i,list) in colors.enumerated() {
+            for (r,color) in list.enumerated() {
+                if cc == color {
+                    result.insert(.init(x: r, y: i))
+                }
+            }
+        }
+        
+        for point in result {
+            colors[point.y][point.x] = color
+        }
+        refreshStage()
+    }
         
     func paint(target:CGPoint, color:Color) {
         let idx:Point = .init(point: target)
@@ -308,7 +327,7 @@ struct PixelDrawView: View {
                 context.stroke(Path(roundedRect: .init(
                     x: pointer.x * w + 1,
                     y: pointer.y * w + 1,
-                    width: pw - 2, height: pw - 2), cornerRadius: 0), with: .color(.k_pointer))
+                    width: pw - 2, height: pw - 2), cornerRadius: 0), with: .color(.k_pointer2))
 
                 
             }
@@ -433,6 +452,17 @@ struct PixelDrawView: View {
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 paint(target: pointer, color: selectedColor)
                             }))
+                        
+                        Button {
+                        } label : {
+                            Image("paint")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                changeColor(target: pointer, color: selectedColor)
+                            }))
+
                         //지우개
                         Button {
                         } label : {
@@ -472,6 +502,9 @@ struct PixelDrawView: View {
                                 if redoCount + undoCount > 0 {
                                     ProgressView(value: CGFloat(undoCount) / CGFloat(redoCount + undoCount) )
                                         .frame(width: 50, height: 5, alignment: .center)
+                                } else {
+                                    ProgressView(value: 0)
+                                        .frame(width: 50, height: 5, alignment: .center)
                                 }
                             }
                         }.frame(width: 50, height: 50, alignment: .center)
@@ -506,6 +539,10 @@ struct PixelDrawView: View {
                                 if redoCount + undoCount > 0 {
                                     ProgressView(value: CGFloat(redoCount) / CGFloat(redoCount + undoCount) )
                                         .frame(width: 50, height: 5, alignment: .center)
+                                } else {                                   
+                                    ProgressView(value: 0)
+                                        .frame(width: 50, height: 5, alignment: .center)
+                                    
                                 }
                             }
                         }.frame(width: 50, height: 50, alignment: .center)
