@@ -23,7 +23,13 @@ extension Color {
         let a = UserDefaults.standard.lastColorPresetSelectionIndex
         let b = UserDefaults.standard.lastColorPresetRowSelectionIndex            
         let key = colorPresetNames[a]
-        return presetColors[key]?[b]
+        if let list = presetColors[key] {
+            if list.count < b {
+                return nil
+            }
+            return list[b]
+        }
+        return nil
     }
     
     static var colorPresetNames:[String] {
@@ -95,21 +101,79 @@ extension Color {
             ],
         "gray scale":
             [
-                [.init(white: 1.0 / 14 ),
-                 .init(white: 1.0 / 14 * 2),
-                 .init(white: 1.0 / 14 * 3),
-                 .init(white: 1.0 / 14 * 4),
-                 .init(white: 1.0 / 14 * 5),
-                 .init(white: 1.0 / 14 * 6),
-                 .init(white: 1.0 / 14 * 7)]
+                [.init(white: 0 ),
+                 .init(white: 1.0 / 13 ),
+                 .init(white: 1.0 / 13 * 2),
+                 .init(white: 1.0 / 13 * 3),
+                 .init(white: 1.0 / 13 * 4),
+                 .init(white: 1.0 / 13 * 5),
+                 .init(white: 1.0 / 13 * 6)]
                 ,
-                [.init(white: 1.0 / 14 * 8 ),
-                 .init(white: 1.0 / 14 * 9),
-                 .init(white: 1.0 / 14 * 10),
-                 .init(white: 1.0 / 14 * 11),
-                 .init(white: 1.0 / 14 * 12),
-                 .init(white: 1.0 / 14 * 13),
-                 .init(white: 1.0)]
+                [.init(white: 1.0 / 13 * 7 ),
+                 .init(white: 1.0 / 13 * 8),
+                 .init(white: 1.0 / 13 * 9),
+                 .init(white: 1.0 / 13 * 10),
+                 .init(white: 1.0 / 13 * 11),
+                 .init(white: 1.0 / 13 * 12),
+                 .init(white: 1.0)
+                ],
+                [
+                    .init(rgb:(0,0,255/13/2)),
+                    .init(rgb:(255/15,255/15,255/13)),
+                    .init(rgb:(255/15*2,255/15*2,255/13*2)),
+                    .init(rgb:(255/15*3,255/15*3,255/13*3)),
+                    .init(rgb:(255/15*4,255/15*4,255/13*4)),
+                    .init(rgb:(255/15*5,255/15*5,255/13*5)),
+                    .init(rgb:(255/15*6,255/15*6,255/13*6)),
+                ],
+                [
+                    .init(rgb:(255/15*7,255/15*7,255/13*7)),
+                    .init(rgb:(255/15*8,255/15*8,255/13*8)),
+                    .init(rgb:(255/15*9,255/15*9,255/13*9)),
+                    .init(rgb:(255/15*10,255/15*10,255/13*10)),
+                    .init(rgb:(255/15*11,255/15*11,255/13*11)),
+                    .init(rgb:(255/15*12,255/15*12,255/13*12)),
+                    .init(rgb:(255/15*13,255/15*13,255)),
+                ],
+                
+                [
+                    .init(rgb:(0,255/13/2,0)),
+                    .init(rgb:(255/15,255/13,255/15)),
+                    .init(rgb:(255/15*2,255/13*2,255/15*2)),
+                    .init(rgb:(255/15*3,255/13*3,255/15*3)),
+                    .init(rgb:(255/15*4,255/13*4,255/15*4)),
+                    .init(rgb:(255/15*5,255/13*5,255/15*5)),
+                    .init(rgb:(255/15*6,255/13*6,255/15*6)),
+                ],
+                [
+                    .init(rgb:(255/15*7,255/13*7,255/15*7)),
+                    .init(rgb:(255/15*8,255/13*8,255/15*8)),
+                    .init(rgb:(255/15*9,255/13*9,255/15*9)),
+                    .init(rgb:(255/15*10,255/13*10,255/15*10)),
+                    .init(rgb:(255/15*11,255/13*11,255/15*11)),
+                    .init(rgb:(255/15*12,255/13*12,255/15*12)),
+                    .init(rgb:(255/15*13,255,255/15*13)),
+                ],
+                
+                [
+                    .init(rgb:(255/13/2,0,0)),
+                    .init(rgb:(255/13,255/15,255/15)),
+                    .init(rgb:(255/13*2,255/15*2,255/15*2)),
+                    .init(rgb:(255/13*3,255/15*3,255/15*3)),
+                    .init(rgb:(255/13*4,255/15*4,255/15*4)),
+                    .init(rgb:(255/13*5,255/15*5,255/15*5)),
+                    .init(rgb:(255/13*6,255/15*6,255/15*6)),
+                ],
+                [
+                    .init(rgb:(255/13*7,255/15*7,255/15*7)),
+                    .init(rgb:(255/13*8,255/15*8,255/15*8)),
+                    .init(rgb:(255/13*9,255/15*9,255/15*9)),
+                    .init(rgb:(255/13*10,255/15*10,255/15*10)),
+                    .init(rgb:(255/13*11,255/15*11,255/15*11)),
+                    .init(rgb:(255/13*12,255/15*12,255/15*12)),
+                    .init(rgb:(255,255/15*13,255/15*13)),
+                ],
+
 
             ],
         "pantone":
