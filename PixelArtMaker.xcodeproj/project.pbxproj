@@ -27,6 +27,8 @@
 		1BE77B4827E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */; };
 		1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */; };
 		1BE77B4B27E9838300A36F8E /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */; };
+		1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */; };
+		1BE77B4F27E9A5A800A36F8E /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */; };
 		1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B24727E2C7AB007A73CB /* AuthManager.swift */; };
 		1BF1B24927E2C7AB007A73CB /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B24727E2C7AB007A73CB /* AuthManager.swift */; };
 		1BF1B24C27E2CC28007A73CB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B24B27E2CC28007A73CB /* FirebaseAuth */; };
@@ -101,6 +103,7 @@
 		1B28C3F327BF302B003F8312 /* StageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageModel.swift; sourceTree = "<group>"; };
 		1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extensions.swift"; sourceTree = "<group>"; };
 		1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extensions.swift"; sourceTree = "<group>"; };
+		1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extensions.swift"; sourceTree = "<group>"; };
 		1BF1B24727E2C7AB007A73CB /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		1BF1B25927E2CF09007A73CB /* PixelArtMaker (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "PixelArtMaker (iOS).entitlements"; sourceTree = "<group>"; };
 		1BF1B25A27E2F032007A73CB /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
@@ -258,6 +261,7 @@
 				C320338B27C389AA0019B546 /* Color+Extensions.swift */,
 				1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */,
 				1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */,
+				1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -442,6 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
+				1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
@@ -482,6 +487,7 @@
 				C320339127C3D2D60019B546 /* Color+Extensions.swift in Sources */,
 				1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */,
 				1BE77B4B27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
+				1BE77B4F27E9A5A800A36F8E /* UIScreen+Extensions.swift in Sources */,
 				C320339927C4AFEA0019B546 /* LayerEditView.swift in Sources */,
 				1B28C3D627BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
 			);
@@ -671,6 +677,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker;
 				PRODUCT_NAME = PixelArtMaker;
 				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -702,6 +709,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker;
 				PRODUCT_NAME = PixelArtMaker;
 				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

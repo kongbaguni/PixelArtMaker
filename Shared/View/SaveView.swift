@@ -19,7 +19,7 @@ struct SaveView: View {
             
             ScrollView {
                 TextField("title", text: $title)
-                    .frame(width: UIScreen.main.bounds.width - 20, height: 50, alignment: .center)
+                    .frame(width: screenBounds.width - 20, height: 50, alignment: .center)
                     .textFieldStyle(.roundedBorder)
                 
                 Canvas { context, size in
@@ -39,7 +39,7 @@ struct SaveView: View {
                     }
                 }
                 .background(backgroundColor)
-                .frame(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20, alignment: .center)
+                .frame(width: screenBounds.width - 20, height: screenBounds.width - 20, alignment: .center)
                 .padding(20)
                 
                 

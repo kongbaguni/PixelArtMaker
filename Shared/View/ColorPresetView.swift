@@ -10,7 +10,7 @@ import SwiftUI
 fileprivate func getW(name:String,idx:Int)->CGFloat {
     if let list = Color.presetColors[name] {
         let count = list[idx].count
-        return (UIScreen.main.bounds.width - 120) / CGFloat(count)
+        return (screenBounds.width - 120) / CGFloat(count)
     }
     return 0.0
 }

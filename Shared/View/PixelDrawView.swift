@@ -62,14 +62,14 @@ fileprivate var screenWidth:CGFloat {
     #if MAC
     return 500
     #else
-    guard let s = UIScreen.screens.first?.bounds.size else {
-        return 350
-    }
+
+    let s = screenBounds
+    
     if s.width > s.height {
         return s.height
     }
     print("scren : \(s.width / s.height)")
-    if s.width / s.height > 0.5 {
+    if s.width / s.height > 0.5 && s.width < 500 {
         return 250
     }
     return s.width
@@ -410,12 +410,12 @@ struct PixelDrawView: View {
                     ColorPicker(selection: $forgroundColor) {}.onChange(of: forgroundColor) { newValue in
                         print("change forground : \(newValue.string)")
 //                        refreshStage()
-                    }
+                    }.frame(width: 40, height: 40, alignment: .center)
                 case .background:
                     ColorPicker(selection: $backgroundColor) {}.onChange(of: backgroundColor) { newValue in
                         print("change backgroundColor : \(newValue.string)")
 //                        refreshStage()
-                    }
+                    }.frame(width: 40, height: 40, alignment: .center)
                 }
                     
 
@@ -703,6 +703,7 @@ struct PixelDrawView: View {
                         load()
                     }), secondaryButton: .cancel())
         }
+        .frame(width: screenBounds.width, height: screenBounds.height, alignment: .center)
 #if MAC
         .background(KeyEventHandling())
 #endif
