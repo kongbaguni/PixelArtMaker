@@ -53,7 +53,7 @@ class StageManager {
         }
     }
     
-    func loadTemp(comptete:@escaping()->Void) {
+    func loadTemp(comptete:@escaping(_ isLoadSucess:Bool)->Void) {
         let collection = fireStore.collection("temp")
         let email = AuthManager.shared.auth.currentUser?.email ?? "guest"
 
@@ -62,11 +62,12 @@ class StageManager {
                   let string = data["data"] as? String,
                   let stage = StageModel.makeModel(base64EncodedString: string)
             else {
+                comptete(false)
                 return
             }
             
             self.stage = stage
-            comptete()
+            comptete(true)
         }
     }
 }

@@ -712,11 +712,14 @@ struct PixelDrawView: View {
                 DispatchQueue.main.async {
                     if isLoadedColorPreset == false {
                         paletteColors = color
+                        forgroundColor = color.first!
                         StageManager.shared.stage?.paletteColors = color
+                        StageManager.shared.stage?.forgroundColor = forgroundColor
+                        StageManager.shared.stage?.backgroundColor = backgroundColor
                         isLoadedColorPreset = true
                         forgroundColor = color.first!
 
-                        StageManager.shared.loadTemp {
+                        StageManager.shared.loadTemp { _ in
                             isLoadingDataFin = true
                             load()
                         }

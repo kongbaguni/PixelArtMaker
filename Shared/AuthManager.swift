@@ -132,7 +132,7 @@ extension AuthManager: ASAuthorizationControllerDelegate {
                 print("login sucess")
                 didComplete(true)
                 print(authResult?.user.email ?? "없다")
-                StageManager.shared.loadTemp {
+                StageManager.shared.loadTemp { _ in 
                     NotificationCenter.default.post(name: .authDidSucessed, object: nil)
                 }
                 // User is signed in to Firebase with Apple.
