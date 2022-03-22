@@ -116,7 +116,8 @@ class StageModel {
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
-            return jsonData.base64EncodedString()
+            let compresedData = try (jsonData as NSData).compressed(using: .lzfse)
+            return compresedData.base64EncodedString()
         } catch {
             print(error.localizedDescription)
         }
@@ -142,7 +143,8 @@ class StageModel {
         
         do {
             if let data = Data(base64Encoded: base64EncodedString) {
-                guard let json = try JSONSerialization.jsonObject(with: data) as? [String:Any],
+                let newData = try (data as NSData).decompressed(using: .lzfse) as Data
+                guard let json = try JSONSerialization.jsonObject(with: newData) as? [String:Any],
                       let w = json["canvas_width"] as? CGFloat,
                       let h = json["canvas_height"] as? CGFloat else {
                     return nil
