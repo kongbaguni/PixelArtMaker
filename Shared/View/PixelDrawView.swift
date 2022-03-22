@@ -118,7 +118,7 @@ struct PixelDrawView: View {
     @State var isShowActionSheet = false
     @State var isShowClearAlert = false
     @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
-    @State var selectedColor:Color = .red
+    @State var forgroundColor:Color = .red
     
     @State var backgroundColor:Color = .white {
         didSet {
@@ -147,7 +147,7 @@ struct PixelDrawView: View {
         switch colorSelectMode {
         case .foreground:
             for (idx,color) in paletteColors.enumerated() {
-                if selectedColor == color {
+                if forgroundColor == color {
                     return idx
                 }
             }
@@ -248,9 +248,14 @@ struct PixelDrawView: View {
     
     private func refreshStage() {
         StageManager.shared.stage?.change(colors: colors)
+        StageManager.shared.stage?.backgroundColor = backgroundColor
+        StageManager.shared.stage?.forgroundColor = forgroundColor
         if let stage = StageManager.shared.stage {
             undoCount = stage.history.count
             redoCount = stage.redoHistory.count
+        }
+        StageManager.shared.saveTemp {
+            
         }
     }
     
@@ -338,7 +343,7 @@ struct PixelDrawView: View {
                 let idx = getIndex(location: value.location)
                 pointer = .init(x: idx.0, y: idx.1)
                 #if MAC
-                draw(idx: idx, color: selectedColor)
+                draw(idx: idx, color: forgroundColor)
                 #endif
                 if isLongPressing {
                     isLongPressing = false
@@ -381,7 +386,7 @@ struct PixelDrawView: View {
                         colorSelectMode = .foreground
                     } label: {
                         Text("").frame(width: 28, height: 15, alignment: .center)
-                            .background(selectedColor)
+                            .background(forgroundColor)
                     }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
 
                     Button {
@@ -393,9 +398,15 @@ struct PixelDrawView: View {
                 }
                 switch colorSelectMode {
                 case .foreground:
-                    ColorPicker(selection: $selectedColor) {}
+                    ColorPicker(selection: $forgroundColor) {}.onChange(of: forgroundColor) { newValue in
+                        print("change forground : \(newValue.string)")
+//                        refreshStage()
+                    }
                 case .background:
-                    ColorPicker(selection: $backgroundColor) {}
+                    ColorPicker(selection: $backgroundColor) {}.onChange(of: backgroundColor) { newValue in
+                        print("change backgroundColor : \(newValue.string)")
+//                        refreshStage()
+                    }
                 }
                     
 
@@ -405,16 +416,17 @@ struct PixelDrawView: View {
                         Button {
                             switch colorSelectMode {
                             case .foreground:
-                                selectedColor = paletteColors[i]
+                                forgroundColor = paletteColors[i]
                             case .background:
                                 backgroundColor = paletteColors[i]
                             }
+                            
                         } label: {
                             Spacer().frame(width: 26, height: 32, alignment: .center)
                                 .background(paletteColors[i])
                         }
                         .border(.white, width: colorSelectMode == .foreground
-                                ? selectedColor == paletteColors[i] ? 5.0 : 0.5
+                                ? forgroundColor == paletteColors[i] ? 5.0 : 0.5
                                 : backgroundColor == paletteColors[i] ? 5.0 : 0.5
                         )
                         .padding(1)
@@ -445,7 +457,7 @@ struct PixelDrawView: View {
 
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                                draw(target: pointer, color: selectedColor)
+                                draw(target: pointer, color: forgroundColor)
                             }))
                         //페인트
                         Button {
@@ -455,7 +467,7 @@ struct PixelDrawView: View {
                                 .frame(width: 50, height: 50, alignment: .center)
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                                paint(target: pointer, color: selectedColor)
+                                paint(target: pointer, color: forgroundColor)
                             }))
                         
                         Button {
@@ -465,7 +477,7 @@ struct PixelDrawView: View {
                                 .frame(width: 50, height: 50, alignment: .center)
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                                changeColor(target: pointer, color: selectedColor)
+                                changeColor(target: pointer, color: forgroundColor)
                             }))
 
                         //지우개
@@ -489,7 +501,7 @@ struct PixelDrawView: View {
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
-                                    selectedColor = color
+                                    forgroundColor = color
                                 }
                             }))
 
@@ -502,6 +514,9 @@ struct PixelDrawView: View {
 
                         Button {
                             StageManager.shared.stage?.undo()
+                            StageManager.shared.saveTemp {
+                                
+                            }
                         } label: {
                             VStack {
                                 Text("undo")
@@ -539,6 +554,9 @@ struct PixelDrawView: View {
 
                         Button {
                             StageManager.shared.stage?.redo()
+                            StageManager.shared.saveTemp {
+                                
+                            }
                         } label: {
                             VStack {
                                 Text("redo")
@@ -685,8 +703,14 @@ struct PixelDrawView: View {
                 DispatchQueue.main.async {
                     if isLoadedColorPreset == false {
                         paletteColors = color
+                        StageManager.shared.stage?.paletteColors = color
                         isLoadedColorPreset = true
-                        selectedColor = color.first!
+                        forgroundColor = color.first!
+
+                        StageManager.shared.loadTemp {
+                            load()
+                        }
+
                     }
                 }
             }
@@ -700,10 +724,12 @@ struct PixelDrawView: View {
 
     func load() {
         if let stage = StageManager.shared.stage {
+            forgroundColor = stage.forgroundColor
+            backgroundColor = stage.backgroundColor
             colors = stage.selectedLayer.colors
             undoCount = stage.history.count
             redoCount = stage.redoHistory.count
-            paletteColors = stage.parentColors
+            paletteColors = stage.paletteColors
         }
 
     }

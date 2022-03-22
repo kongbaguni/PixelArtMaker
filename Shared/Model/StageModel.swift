@@ -17,9 +17,10 @@ class StageModel {
         let layers:[LayerModel]
         let selectedLayerIndex:Int
     }
-    var parentColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.black]
+    var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.black]
     
     let canvasSize:CGSize
+    var forgroundColor:Color = .red
     var backgroundColor:Color = .white
     var layers:[LayerModel] 
 
@@ -103,15 +104,44 @@ class StageModel {
             }
             return colorStrings
         }
+        
+        func getHistoryStrings(history:[History])->(selection:[Int], colors:[[[[String]]]]){
+            let layerSelection = history.map { history in
+                return history.selectedLayerIndex
+            }
+            let layers = history.map { history in
+                return history.layers.map { layer in
+                    return layer.colors
+                }
+            }
+            let colors = layers.map { arr in
+                return getColorStrings(colorArray: arr)
+            }
+
+            return (selection:layerSelection, colors:colors)
+        }
+        
+        let undo = getHistoryStrings(history: history.arrayValue)
+        let redo = getHistoryStrings(history: redoHistory.arrayValue)
+        
                 
         let dic:[String:AnyHashable] = [
             "title":title,
             "colors":getColorStrings(colorArray: layers.map({ model in
                 return  model.colors
             })),
+            "pallete_colors":paletteColors.map({ color in
+                return color.string
+            }),
             "canvas_width":canvasSize.width,
             "canvas_height":canvasSize.height,
-            "background_color":backgroundColor.string
+            "background_color":backgroundColor.string,
+            "forground_color":forgroundColor.string,
+            
+            "undo_layer_selection":undo.selection,
+            "undo_layer_colors":undo.colors,
+            "redo_layer_selection":redo.selection,
+            "redo_layer_colors":redo.colors
         ]
         
         do {
@@ -152,7 +182,12 @@ class StageModel {
                 let model = StageModel(canvasSize: .init(width: w, height: h))
                 model.backgroundColor = Color(string: (json["background_color"] as? String) ?? "1 1 1 1")
                 model.title = json["title"] as? String ?? ""
-                
+                model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
+                if let p = json["pallete_colors"] as? [String] {
+                    model.paletteColors = p.map({ str in
+                        return Color(string: str)
+                    })
+                }
                 var layers:[LayerModel] = []
                 if let colors = json["colors"] as? [[[String]]] {
                     let arr = getColor(arr: colors)
@@ -161,6 +196,33 @@ class StageModel {
                     }
                 }
                 model.layers = layers
+                
+                func make(indexs:[Int],list:[[[[String]]]])->[History] {
+                    var result:[History] = []
+                    for (idx,strs) in list.enumerated() {
+                        let colors = getColor(arr: strs)
+                        var layers:[LayerModel] = []
+                        for (i,color) in colors.enumerated() {
+                            layers.append(.init(colors: color, id: "layer\(i)"))
+                        }
+                        result.append(.init(layers: layers, selectedLayerIndex: indexs[idx]))
+                    }
+                    return result
+                }
+                model.history.removeAll()
+                if let ls = json["undo_layer_selection"] as? [Int], let cs = json["undo_layer_colors"] as? [[[[String]]]] {
+                    for h in make(indexs: ls, list: cs) {
+                        model.history.push(h)
+                    }
+                }
+
+                model.redoHistory.removeAll()
+                if let ls = json["redo_layer_selection"] as? [Int], let cs = json["redo_layer_colors"] as? [[[[String]]]] {
+                    for h in make(indexs: ls, list: cs) {
+                        model.redoHistory.push(h)
+                    }
+                }
+
                 return model
             }
         } catch {

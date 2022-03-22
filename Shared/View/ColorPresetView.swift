@@ -42,7 +42,7 @@ struct ColorPresetView: View {
                     ForEach(0..<arr.count, id:\.self) { i in
                         Button {
                             UserDefaults.standard.lastColorPresetRowSelectionIndex = i
-                            StageManager.shared.stage?.parentColors = arr[i]
+                            StageManager.shared.stage?.paletteColors = arr[i]
                             presentationMode.wrappedValue.dismiss()
                         } label: {
                             HStack {
@@ -75,7 +75,7 @@ struct ColorPresetView: View {
 //                    Section(header:Text(key)) {
 //                        ForEach(0..<arr.count, id:\.self) { i in
 //                            Button {
-//                                StageManager.shared.stage?.parentColors = arr[i]
+//                                StageManager.shared.stage?.paletteColors = arr[i]
 //                                presentationMode.wrappedValue.dismiss()
 //                            } label: {
 //                                HStack {

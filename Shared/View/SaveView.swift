@@ -10,7 +10,6 @@ import FirebaseFirestore
 import FirebaseAuth
 
 struct SaveView: View {
-    let collection = Firestore.firestore().collection("pixelart")
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @State var colors:[[[Color]]] = []
@@ -45,23 +44,8 @@ struct SaveView: View {
 
             
             Button {
-                if let stage = StageManager.shared.stage {
-                    let str = stage.base64EncodedString
-
-                    let email = AuthManager.shared.auth.currentUser?.email ?? "guest"
-                    let data = [
-                        "title":title,
-                        "email":AuthManager.shared.auth.currentUser?.email ?? "guest",
-                        "data":str
-                    ]
-                    
-                    collection.document(email).setData(data, merge: true) { error in
-                        print(error?.localizedDescription ?? "성공")
-                        if error == nil {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }
-                    
+                StageManager.shared.saveTemp {
+                    presentationMode.wrappedValue.dismiss()
                 }
             } label: {
                 Text("save")
