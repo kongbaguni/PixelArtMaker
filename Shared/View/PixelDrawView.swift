@@ -526,6 +526,10 @@ struct PixelDrawView: View {
                             StageManager.shared.saveTemp {
                                 
                             }
+                            if isLongPressing {
+                                isLongPressing = false
+                                timer?.invalidate()
+                            }
                         } label: {
                             VStack {
                                 Text("undo")
@@ -538,6 +542,17 @@ struct PixelDrawView: View {
                                 }
                             }
                         }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                    print("long press")
+                                    self.isLongPressing = true
+                                    //or fastforward has started to start the timer
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                        StageManager.shared.stage?.undo()
+                                    })
+                                }
+                            )
+                        
 
                         Button {
                             if isLongPressing {
@@ -566,6 +581,10 @@ struct PixelDrawView: View {
                             StageManager.shared.saveTemp {
                                 
                             }
+                            if isLongPressing {
+                                isLongPressing = false
+                                timer?.invalidate()
+                            }
                         } label: {
                             VStack {
                                 Text("redo")
@@ -579,7 +598,16 @@ struct PixelDrawView: View {
                                 }
                             }
                         }.frame(width: 50, height: 50, alignment: .center)
-
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                    print("long press")
+                                    self.isLongPressing = true
+                                    //or fastforward has started to start the timer
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                        StageManager.shared.stage?.redo()
+                                    })
+                                }
+                            )
                     }
 
                     HStack {
@@ -703,7 +731,11 @@ struct PixelDrawView: View {
                         load()
                     }), secondaryButton: .cancel())
         }
-        .frame(width: screenBounds.width, height: screenBounds.height, alignment: .center)
+        
+        .frame(width: screenBounds.width,
+               height: screenBounds.width > 500 ? screenBounds.height : CGFloat.leastNormalMagnitude,
+               alignment: .center)
+        
 #if MAC
         .background(KeyEventHandling())
 #endif
