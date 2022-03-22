@@ -29,6 +29,10 @@
 		1BE77B4B27E9838300A36F8E /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */; };
 		1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */; };
 		1BE77B4F27E9A5A800A36F8E /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */; };
+		1BE77B5227E9BC7800A36F8E /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B5127E9BC7800A36F8E /* Image+Extensions.swift */; };
+		1BE77B5327E9BC7800A36F8E /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B5127E9BC7800A36F8E /* Image+Extensions.swift */; };
+		1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B5427E9C0DC00A36F8E /* UIImage+Extensions.swift */; };
+		1BE77B5627E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B5427E9C0DC00A36F8E /* UIImage+Extensions.swift */; };
 		1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B24727E2C7AB007A73CB /* AuthManager.swift */; };
 		1BF1B24927E2C7AB007A73CB /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B24727E2C7AB007A73CB /* AuthManager.swift */; };
 		1BF1B24C27E2CC28007A73CB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B24B27E2CC28007A73CB /* FirebaseAuth */; };
@@ -104,6 +108,8 @@
 		1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extensions.swift"; sourceTree = "<group>"; };
 		1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extensions.swift"; sourceTree = "<group>"; };
 		1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extensions.swift"; sourceTree = "<group>"; };
+		1BE77B5127E9BC7800A36F8E /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
+		1BE77B5427E9C0DC00A36F8E /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		1BF1B24727E2C7AB007A73CB /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		1BF1B25927E2CF09007A73CB /* PixelArtMaker (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "PixelArtMaker (iOS).entitlements"; sourceTree = "<group>"; };
 		1BF1B25A27E2F032007A73CB /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
@@ -262,6 +268,8 @@
 				1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */,
 				1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */,
 				1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */,
+				1BE77B5127E9BC7800A36F8E /* Image+Extensions.swift */,
+				1BE77B5427E9C0DC00A36F8E /* UIImage+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -449,8 +457,10 @@
 				1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
+				1BE77B5227E9BC7800A36F8E /* Image+Extensions.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
 				1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */,
+				1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
 				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
 				1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
@@ -473,6 +483,7 @@
 				1BE77B4827E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,
 				C320339527C4793D0019B546 /* KeyEventHandling.swift in Sources */,
 				C320339227C3D3750019B546 /* StageModel.swift in Sources */,
+				1BE77B5327E9BC7800A36F8E /* Image+Extensions.swift in Sources */,
 				1BF1B25F27E3288E007A73CB /* SaveView.swift in Sources */,
 				1BF1B25C27E2F032007A73CB /* Stack.swift in Sources */,
 				1BF1B26227E32BF0007A73CB /* LoadView.swift in Sources */,
@@ -484,6 +495,7 @@
 				1B28C3EF27BE29F5003F8312 /* PixelDrawView.swift in Sources */,
 				C320338F27C3D2CF0019B546 /* StageManager.swift in Sources */,
 				1B28C3D827BE100F003F8312 /* ContentView.swift in Sources */,
+				1BE77B5627E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
 				C320339127C3D2D60019B546 /* Color+Extensions.swift in Sources */,
 				1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */,
 				1BE77B4B27E9838300A36F8E /* Binding+Extensions.swift in Sources */,

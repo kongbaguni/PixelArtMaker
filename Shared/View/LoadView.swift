@@ -13,28 +13,10 @@ struct LoadView: View {
         List {
             ForEach(0..<stages.count, id:\.self) { idx in
                 let stage = stages[idx]
-                VStack {
-                    Canvas { context, size in
-                        for data in stage.totalColors {
-                            let w = size.width / CGFloat(data.first?.count ?? 1)
-                            for (y,list) in data.enumerated() {
-                                for (x,color) in list.enumerated() {
-                                    if color != .clear {
-                                        context.fill(.init(roundedRect: .init(x: CGFloat(x) * w - 0.01,
-                                                                              y: CGFloat(y) * w - 0.01,
-                                                                              width: w + 0.02,
-                                                                              height: w + 0.02),
-                                                           cornerSize: .zero), with: .color(color))
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .background(stage.backgroundColor)
-                    .border(Color.white)
-                    .frame(width: 200, height: 200, alignment: .center)
+                if let image = stage.previewImage {
+                    Image(uiImage: image).resizable().frame(width: 100, height: 100, alignment: .center)
+                        .background(stage.backgroundColor)
                 }
-                Text(stages[idx].title ?? "").foregroundColor(.white)
             }
         }.onAppear {
             StageManager.shared.load { result in

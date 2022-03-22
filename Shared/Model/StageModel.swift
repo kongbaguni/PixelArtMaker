@@ -17,6 +17,8 @@ class StageModel {
         let layers:[LayerModel]
         let selectedLayerIndex:Int
     }
+    var previewImage:UIImage? = nil
+    
     var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.black]
     
     let canvasSize:CGSize
@@ -130,7 +132,11 @@ class StageModel {
         let undo = getHistoryStrings(history: history.arrayValue)
         let redo = getHistoryStrings(history: redoHistory.arrayValue)
         
-                
+        let image = makeImageDataValue(size:.init(width: 200, height: 200))?.base64EncodedString() ?? ""
+        
+             
+        
+        
         let dic:[String:AnyHashable] = [
             "title":title,
             "colors":getColorStrings(colorArray: layers.map({ model in
@@ -147,7 +153,8 @@ class StageModel {
             "undo_layer_selection":undo.selection,
             "undo_layer_colors":undo.colors,
             "redo_layer_selection":redo.selection,
-            "redo_layer_colors":redo.colors
+            "redo_layer_colors":redo.colors,
+            "preview_data":image
         ]
         
         do {
@@ -189,6 +196,13 @@ class StageModel {
                 model.backgroundColor = Color(string: (json["background_color"] as? String) ?? "1 1 1 1")
                 model.title = json["title"] as? String ?? ""
                 model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
+                
+                if let str = json["preview_data"] as? String,
+                   let data = Data(base64Encoded: str),
+                   let image = UIImage(data: data) {
+                    model.previewImage = image
+                }
+
                 if let p = json["pallete_colors"] as? [String] {
                     model.paletteColors = p.map({ str in
                         return Color(string: str)
@@ -236,5 +250,9 @@ class StageModel {
         }
         return nil
     }
-    
+
+    func makeImageDataValue(size:CGSize)->Data? {
+        let image = UIImage(totalColors: totalColors, size: size)
+        return image?.pngData()
+    }
 }
