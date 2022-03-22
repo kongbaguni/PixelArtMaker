@@ -25,7 +25,10 @@ extension Color {
         let key = colorPresetNames[a]
         if let list = presetColors[key] {
             if list.count < b {
-                return nil
+                if let el = list.randomElement() {
+                    UserDefaults.standard.lastColorPresetRowSelectionIndex = list.firstIndex(of: el) ?? 0
+                    return el
+                }
             }
             return list[b]
         }
