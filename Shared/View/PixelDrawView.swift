@@ -340,6 +340,10 @@ struct PixelDrawView: View {
                 #if MAC
                 draw(idx: idx, color: selectedColor)
                 #endif
+                if isLongPressing {
+                    isLongPressing = false
+                    timer?.invalidate()
+                }
             }))
                 .frame(width: screenWidth, height: screenWidth, alignment: .center)
             HStack {
@@ -493,6 +497,7 @@ struct PixelDrawView: View {
                     }
 
 
+                    //MARK: - 화살표 컨트롤러
                     HStack {
 
                         Button {
