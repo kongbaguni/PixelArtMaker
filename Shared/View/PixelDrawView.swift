@@ -681,6 +681,7 @@ struct PixelDrawView: View {
                     if isLoadedColorPreset == false {
                         paletteColors = color
                         isLoadedColorPreset = true
+                        selectedColor = color.first!
                     }
                 }
             }
