@@ -15,46 +15,91 @@ fileprivate func getW(name:String,idx:Int)->CGFloat {
     return 0.0
 }
 
-fileprivate var colorNames:[String] {
-    let keys = Color.presetColors.map { result in
-        return result.key
-    }
-    return keys.sorted()
-}
+
 
 
 struct ColorPresetView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    private var colorPresetNames:[String] {
+        Color.colorPresetNames
+    }
+    
+    @State var colorPresetNameIdx:Int = 0
 
     var body: some View {
-        List {
-            ForEach(0..<Color.presetColors.count, id:\.self) { idx in
-                let key = colorNames[idx]
+
+        VStack {
+            Picker(selection:$colorPresetNameIdx, label:Text("preset")) {
+                ForEach(0..<colorPresetNames.count, id:\.self) { idx in
+                    Text(colorPresetNames[idx])
+                }
+            }
+        }
+        ScrollViewReader { proxy in
+            List {
+                let key = colorPresetNames[colorPresetNameIdx]
                 if let arr = Color.presetColors[key] {
-                    Section(header:Text(key)) {
-                        ForEach(0..<arr.count, id:\.self) { i in
-                            Button {
-                                StageManager.shared.stage?.parentColors = arr[i]
-                                presentationMode.wrappedValue.dismiss()
-                            } label: {
-                                HStack {
-                                    ForEach(0..<arr[i].count, id:\.self) { i2 in
-                                        Text(" ")
-                                            .frame(width: getW(name:key,idx:i),
-                                                   height: 50,
-                                                   alignment: .center)
-                                            .background(arr[i][i2])
-                                        
-                                    }
+                    ForEach(0..<arr.count, id:\.self) { i in
+                        Button {
+                            UserDefaults.standard.lastColorPresetRowSelectionIndex = i
+                            StageManager.shared.stage?.parentColors = arr[i]
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            HStack {
+                                ForEach(0..<arr[i].count, id:\.self) { i2 in
+                                    Text(" ")
+                                        .frame(width: getW(name:key,idx:i),
+                                               height: 50,
+                                               alignment: .center)
+                                        .background(arr[i][i2])
+                                    
                                 }
                             }
                         }
-                        
                     }
                 }
-
+            }.onAppear {
+                colorPresetNameIdx = UserDefaults.standard.lastColorPresetSelectionIndex
+                DispatchQueue.main.async {
+                    proxy.scrollTo(UserDefaults.standard.lastColorPresetRowSelectionIndex, anchor: .top)
+                }
+            }.onDisappear {
+                UserDefaults.standard.lastColorPresetSelectionIndex = colorPresetNameIdx
             }
-        }.navigationTitle(Text.menu_color_select_title)
+        }
+        
+//        List {
+//            ForEach(0..<Color.presetColors.count, id:\.self) { idx in
+//                let key = colorPresetNames[idx]
+//                if let arr = Color.presetColors[key] {
+//                    Section(header:Text(key)) {
+//                        ForEach(0..<arr.count, id:\.self) { i in
+//                            Button {
+//                                StageManager.shared.stage?.parentColors = arr[i]
+//                                presentationMode.wrappedValue.dismiss()
+//                            } label: {
+//                                HStack {
+//                                    ForEach(0..<arr[i].count, id:\.self) { i2 in
+//                                        Text(" ")
+//                                            .frame(width: getW(name:key,idx:i),
+//                                                   height: 50,
+//                                                   alignment: .center)
+//                                            .background(arr[i][i2])
+//
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//                    }
+//                }
+//
+//            }
+//        }
+//        .navigationTitle(Text.menu_color_select_title)
+//        .onAppear {
+//
+//        }
     }
 }
 

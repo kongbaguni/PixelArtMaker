@@ -98,6 +98,7 @@ struct PixelDrawView: View {
         case foreground
         case background
     }
+    @State var isLoadedColorPreset = false
     @State var colorSelectMode:ColorSelectMode = .foreground
     
     @State var isShowSelectLayerOnly = false
@@ -674,6 +675,15 @@ struct PixelDrawView: View {
         .background(KeyEventHandling())
 #endif
         .onAppear {
+            //MARK: - onAppear
+            if let color = Color.lastSelectColors {
+                DispatchQueue.main.async {
+                    if isLoadedColorPreset == false {
+                        paletteColors = color
+                        isLoadedColorPreset = true
+                    }
+                }
+            }
             load()
             NotificationCenter.default.addObserver(forName: .layerDataRefresh, object: nil, queue: nil) { noti in
                 load()
