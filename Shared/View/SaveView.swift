@@ -44,7 +44,7 @@ struct SaveView: View {
                 
                 
                 Button {
-                    StageManager.shared.saveTemp {
+                    StageManager.shared.save {
                         presentationMode.wrappedValue.dismiss()
                     }
                 } label: {

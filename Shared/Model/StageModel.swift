@@ -36,6 +36,12 @@ class StageModel {
         self.canvasSize = canvasSize
     }
     
+    var totalColors:[[[Color]]] {
+        return layers.map { layer in
+            return layer.colors
+        }
+    }
+    
     var selectedLayerIndex:Int = 0
     
     var selectedLayer:LayerModel {
