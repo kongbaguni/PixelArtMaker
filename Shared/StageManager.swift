@@ -42,8 +42,6 @@ class StageManager {
         
         let email = AuthManager.shared.auth.currentUser?.email ?? "guest"
         let data:[String:String] = [
-            "title":stage.title ?? "",
-            "email":AuthManager.shared.auth.currentUser?.email ?? "guest",
             "data":str
         ]
         
