@@ -11,6 +11,9 @@ import AuthenticationServices
 #if !MAC
 import FirebaseAuth
 
+extension Notification.Name {
+    static let authDidSucessed = Notification.Name("authDidSucessed_observer")
+}
 class AuthManager : NSObject {
     static let shared = AuthManager()
     let auth = Auth.auth()
@@ -129,6 +132,9 @@ extension AuthManager: ASAuthorizationControllerDelegate {
                 print("login sucess")
                 didComplete(true)
                 print(authResult?.user.email ?? "없다")
+                StageManager.shared.loadTemp {
+                    NotificationCenter.default.post(name: .authDidSucessed, object: nil)
+                }
                 // User is signed in to Firebase with Apple.
                 // ...
             }

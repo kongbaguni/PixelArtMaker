@@ -98,6 +98,7 @@ struct PixelDrawView: View {
         case foreground
         case background
     }
+    @State var isLoadingDataFin = false
     @State var isLoadedColorPreset = false
     @State var colorSelectMode:ColorSelectMode = .foreground
     
@@ -288,53 +289,61 @@ struct PixelDrawView: View {
             
             //MARK: - 드로잉 켄버스
             Canvas { context, size in
-                let w = size.width / CGFloat(colors.first?.count ?? 1)
-                for (i,layer) in (StageManager.shared.stage?.layers ?? []).enumerated() {
-                    for (y,list) in layer.colors.enumerated() {
-                        for (x,color) in list.enumerated() {
-                            if (i == 0) {
-                                context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
-                                                                      y: CGFloat(y) * w + 1,
-                                                                      width: w - 2.0,
-                                                                      height: w - 2.0),
-                                                   cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
-                            }
+                func draw() {
+                    let w = size.width / CGFloat(colors.first?.count ?? 1)
+                    for (i,layer) in (StageManager.shared.stage?.layers ?? []).enumerated() {
+                        for (y,list) in layer.colors.enumerated() {
+                            for (x,color) in list.enumerated() {
+                                if (i == 0) {
+                                    context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
+                                                                          y: CGFloat(y) * w + 1,
+                                                                          width: w - 2.0,
+                                                                          height: w - 2.0),
+                                                       cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
+                                }
 
-                            if color != .clear {
-                                context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
-                                                                      y: CGFloat(y) * w + 0.5,
-                                                                      width: w - 1.0,
-                                                                      height: w - 1.0),
-                                                   cornerSize: .zero), with: .color(
-                                                    isShowSelectLayerOnly
-                                                    ? (i == StageManager.shared.stage?.selectedLayerIndex ? color : .clear)
-                                                    : color
-                                                   ))
+                                if color != .clear {
+                                    context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
+                                                                          y: CGFloat(y) * w + 0.5,
+                                                                          width: w - 1.0,
+                                                                          height: w - 1.0),
+                                                       cornerSize: .zero), with: .color(
+                                                        isShowSelectLayerOnly
+                                                        ? (i == StageManager.shared.stage?.selectedLayerIndex ? color : .clear)
+                                                        : color
+                                                       ))
+                                }
+                                
                             }
-                            
                         }
+
                     }
-
+                    for rect in [
+                        CGRect(x: size.width*0.25 - 0.25, y: 0, width: 0.5, height: size.height),
+                        CGRect(x: size.width*0.5 - 0.25, y: 0, width: 0.5, height: size.height),
+                        CGRect(x: size.width*0.75 - 0.25, y: 0, width: 0.5, height: size.height),
+                        CGRect(x: 0, y: size.height * 0.25 - 0.25, width: size.width, height: 0.5),
+                        CGRect(x: 0, y: size.height * 0.5 - 0.25, width: size.width, height: 0.5),
+                        CGRect(x: 0, y: size.height * 0.75 - 0.25, width: size.width, height: 0.5)
+                    ]{
+                        context.stroke(.init(roundedRect: rect, cornerSize: .zero), with: .color(.green))
+                    }
+                    context.stroke(Path(roundedRect: .init(
+                        x: pointer.x * w,
+                        y: pointer.y * w,
+                        width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer))
+                    context.stroke(Path(roundedRect: .init(
+                        x: pointer.x * w + 1,
+                        y: pointer.y * w + 1,
+                        width: pw - 2, height: pw - 2), cornerRadius: 0), with: .color(.k_pointer2))
                 }
-                for rect in [
-                    CGRect(x: size.width*0.25 - 0.25, y: 0, width: 0.5, height: size.height),
-                    CGRect(x: size.width*0.5 - 0.25, y: 0, width: 0.5, height: size.height),
-                    CGRect(x: size.width*0.75 - 0.25, y: 0, width: 0.5, height: size.height),
-                    CGRect(x: 0, y: size.height * 0.25 - 0.25, width: size.width, height: 0.5),
-                    CGRect(x: 0, y: size.height * 0.5 - 0.25, width: size.width, height: 0.5),
-                    CGRect(x: 0, y: size.height * 0.75 - 0.25, width: size.width, height: 0.5)
-                ]{
-                    context.stroke(.init(roundedRect: rect, cornerSize: .zero), with: .color(.green))
+                if AuthManager.shared.isSignined {
+                    if isLoadingDataFin {
+                        draw()
+                    }
+                } else {
+                    draw()
                 }
-                context.stroke(Path(roundedRect: .init(
-                    x: pointer.x * w,
-                    y: pointer.y * w,
-                    width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer))
-                context.stroke(Path(roundedRect: .init(
-                    x: pointer.x * w + 1,
-                    y: pointer.y * w + 1,
-                    width: pw - 2, height: pw - 2), cornerRadius: 0), with: .color(.k_pointer2))
-
                 
             }
             .padding(10)
@@ -708,6 +717,7 @@ struct PixelDrawView: View {
                         forgroundColor = color.first!
 
                         StageManager.shared.loadTemp {
+                            isLoadingDataFin = true
                             load()
                         }
 
@@ -715,6 +725,10 @@ struct PixelDrawView: View {
                 }
             }
             load()
+            NotificationCenter.default.addObserver(forName: .authDidSucessed, object: nil, queue: nil) { noti in
+                isLoadingDataFin = true
+                load()
+            }
             NotificationCenter.default.addObserver(forName: .layerDataRefresh, object: nil, queue: nil) { noti in
                 load()
             }
