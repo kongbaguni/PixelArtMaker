@@ -62,9 +62,10 @@ class StageManager {
             let email = AuthManager.shared.auth.currentUser?.email ?? "guest"
             
             collection.document(email).getDocument { snapShopt, error in
+                
                 guard let data = snapShopt?.data(),
                       let string = data["data"] as? String,
-                      let stage = StageModel.makeModel(base64EncodedString: string)
+                      let stage = StageModel.makeModel(base64EncodedString: string, documentId: snapShopt?.documentID)
                 else {
                     comptete(false)
                     return
@@ -89,9 +90,17 @@ class StageManager {
                 "data":stage.base64EncodedString
             ]
             
-            collection.document(email).collection("data").addDocument(data: data) { error in
-                print(error?.localizedDescription ?? "업로드 성공")
-                complete()
+            if let documentPath = self.stage?.documentId {
+                let d = collection.document(email).collection("data").document(documentPath)
+                d.setData(data) { error in
+                    print(error?.localizedDescription ?? "업로드 성공")
+                    complete()
+                }
+            } else {
+                collection.document(email).collection("data").addDocument(data: data) { error in
+                    print(error?.localizedDescription ?? "업로드 성공")
+                    complete()
+                }
             }
         }
     }
@@ -108,7 +117,7 @@ class StageManager {
                 }
                 guard let datas = snapShot.map({ snap in
                     return snap.documents.map { dsnap in
-                        return dsnap.data()
+                        return (dsnap.data(), dsnap.documentID)
                     }
                 })
                 else {
@@ -118,8 +127,8 @@ class StageManager {
                 
                 var result:[StageModel] = []
                 for data in datas {
-                    if let string = data["data"] as? String,
-                       let model = StageModel.makeModel(base64EncodedString: string) {
+                    if let string = data.0["data"] as? String,
+                       let model = StageModel.makeModel(base64EncodedString: string, documentId: data.1) {
                         result.append(model)
                     }
                 }

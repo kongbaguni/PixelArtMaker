@@ -49,6 +49,7 @@ struct SaveView: View {
                 }
                 
                 Button {
+                    StageManager.shared.stage?.title = title
                     StageManager.shared.save {
                         presentationMode.wrappedValue.dismiss()
                     }

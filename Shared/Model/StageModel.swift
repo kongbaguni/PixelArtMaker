@@ -18,6 +18,7 @@ class StageModel {
         let layers:[LayerModel]
         let selectedLayerIndex:Int
     }
+    var documentId:String? = nil
     var previewImage:UIImage? = nil
     
     var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.black]
@@ -194,7 +195,7 @@ class StageModel {
         return ""
     }
     
-    static func makeModel(base64EncodedString:String)->StageModel? {
+    static func makeModel(base64EncodedString:String, documentId:String?)->StageModel? {
         func getColor(arr:[[[String]]])->[[[Color]]] {
             var result:[[[Color]]] = []
             for arr1 in arr {
@@ -223,6 +224,7 @@ class StageModel {
                 model.backgroundColor = Color(string: (json["background_color"] as? String) ?? "1 1 1 1")
                 model.title = json["title"] as? String ?? ""
                 model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
+                model.documentId = documentId
                 
                 if let str = json["preview_data"] as? String,
                    let data = Data(base64Encoded: str),
