@@ -13,6 +13,7 @@ struct SaveView: View {
     @State var colors:[[[Color]]] = []
     @State var backgroundColor:Color = .white
     @State var title:String = "" 
+    @State var previewImage:Image? = nil
     
     var body: some View {
         VStack {
@@ -22,26 +23,30 @@ struct SaveView: View {
                     .frame(width: screenBounds.width - 20, height: 50, alignment: .center)
                     .textFieldStyle(.roundedBorder)
                 
-                Canvas { context, size in
-                    for data in colors {
-                        let w = size.width / CGFloat(data.first?.count ?? 1)
-                        for (y,list) in data.enumerated() {
-                            for (x,color) in list.enumerated() {
-                                if color != .clear {
-                                    context.fill(.init(roundedRect: .init(x: CGFloat(x) * w - 0.01,
-                                                                          y: CGFloat(y) * w - 0.01,
-                                                                          width: w + 0.02,
-                                                                          height: w + 0.02),
-                                                       cornerSize: .zero), with: .color(color))
+                if let img = previewImage {
+                    img.resizable().frame(width: 200, height: 200, alignment: .center)                        
+                }
+                else {
+                    Canvas { context, size in
+                        for data in colors {
+                            let w = size.width / CGFloat(data.first?.count ?? 1)
+                            for (y,list) in data.enumerated() {
+                                for (x,color) in list.enumerated() {
+                                    if color != .clear {
+                                        context.fill(.init(roundedRect: .init(x: CGFloat(x) * w - 0.01,
+                                                                              y: CGFloat(y) * w - 0.01,
+                                                                              width: w + 0.02,
+                                                                              height: w + 0.02),
+                                                           cornerSize: .zero), with: .color(color))
+                                    }
                                 }
                             }
                         }
                     }
+                    .background(backgroundColor)
+                    .frame(width: screenBounds.width - 20, height: screenBounds.width - 20, alignment: .center)
+                    .padding(20)
                 }
-                .background(backgroundColor)
-                .frame(width: screenBounds.width - 20, height: screenBounds.width - 20, alignment: .center)
-                .padding(20)
-                
                 
                 Button {
                     StageManager.shared.save {
@@ -60,6 +65,9 @@ struct SaveView: View {
                 })
                 backgroundColor = stage.backgroundColor
                 title = stage.title ?? ""
+                stage.getImage(size: .init(width: 200, height: 200)) { image in
+                    previewImage = image
+                }
             }
         }
         .onDisappear {

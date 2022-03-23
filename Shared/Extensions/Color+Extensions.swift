@@ -18,6 +18,9 @@ extension Color {
     static let k_pointer = Color(uiColor: UIColor(named: "pointer")!)
     static let k_pointer2 = Color(uiColor: UIColor(named: "pointer2")!)
 #endif
+    var uiColor:UIColor {
+        UIColor(red: ciColor.red, green: ciColor.green, blue: ciColor.blue, alpha: ciColor.alpha)
+    }
     
     static var lastSelectColors:[Color]? {
         let a = UserDefaults.standard.lastColorPresetSelectionIndex

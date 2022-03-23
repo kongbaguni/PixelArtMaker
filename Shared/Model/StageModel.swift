@@ -252,7 +252,13 @@ class StageModel {
     }
 
     func makeImageDataValue(size:CGSize)->Data? {
-        let image = UIImage(totalColors: totalColors, size: size)
+        let image = UIImage(totalColors: totalColors, backgroundColor: backgroundColor, size: size)
         return image?.pngData()
+    }
+    
+    func getImage(size:CGSize, complete:@escaping(_ image:Image?)->Void) {
+        DispatchQueue.global().async {[self] in
+            complete(Image(totalColors: totalColors, backgroundColor: backgroundColor,  size: size))
+        }
     }
 }

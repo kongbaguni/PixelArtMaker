@@ -10,8 +10,8 @@ import SwiftUI
 import UIKit
 
 extension Image {
-    public init?(totalColors:[[[Color]]], size:CGSize) {
-        let image = UIImage(totalColors: totalColors, size: size)!
+    public init?(totalColors:[[[Color]]], backgroundColor: Color, size:CGSize) {
+        let image = UIImage(totalColors: totalColors, backgroundColor: backgroundColor, size: size)!
         self.init(uiImage: image)
-    }
+    }    
 }
