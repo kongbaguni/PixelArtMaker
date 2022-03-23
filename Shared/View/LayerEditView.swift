@@ -13,7 +13,7 @@ struct LayerEditView: View {
     @State var layers:[LayerModel] = []
             
     @State var blandModes:[Int] = []
-    
+    @State var isRequestMakePreview = false
     let blandModeStrs:[String] = [
         "normal",
         "multiply",
@@ -51,6 +51,7 @@ struct LayerEditView: View {
         VStack {
             if let img = previewImage {
                 img.resizable().frame(width: 200, height: 200, alignment: .center)
+                    .opacity(isRequestMakePreview ? 0.1 : 1.0)
             }
             List {
                 ForEach(layers.reversed(), id:\.self) { layer in
@@ -60,6 +61,7 @@ struct LayerEditView: View {
                                 .foregroundColor(
                                     StageManager.shared.stage?.selectedLayerIndex == id ? .red : .white
                                 )
+                            Spacer()
                             if blandModes.count > id {
                                 Picker(selection: $blandModes[id], label: Text("")) {
                                     ForEach(0..<blandModeStrs.count, id:\.self) { i in
@@ -67,12 +69,15 @@ struct LayerEditView: View {
                                     }
                                 }
                                 .pickerStyle(MenuPickerStyle())
+                                .frame(width: 100, height: 20, alignment: .center)
                                 .onChange(of: blandModes[id]) { value in
                                     print(value)
+                                    isRequestMakePreview = true
                                     if let new = CGBlendMode(rawValue: Int32(value)) { 
                                         StageManager.shared.stage?.change(blandMode: new , layerIndex: id)
                                         StageManager.shared.stage?.getImage(size: .init(width: 200, height: 200), complete: { image in
                                             previewImage = image
+                                            isRequestMakePreview = false
                                         })
                                     }
                                 }

@@ -59,10 +59,6 @@ fileprivate func getPosition(location:CGPoint, targetSize:CGSize)->Position? {
 }
 
 fileprivate var screenWidth:CGFloat {
-    #if MAC
-    return 500
-    #else
-
     let s = screenBounds
     
     if s.width > s.height {
@@ -72,8 +68,10 @@ fileprivate var screenWidth:CGFloat {
     if s.width / s.height > 0.5 && s.width < 500 {
         return 250
     }
+    if s.width / s.height > 0.6 && s.width > 800 {
+        return 500
+    }
     return s.width
-    #endif
 }
 
 fileprivate var pw:CGFloat {
@@ -356,9 +354,6 @@ struct PixelDrawView: View {
                 print(value.location)
                 let idx = getIndex(location: value.location)
                 pointer = .init(x: idx.0, y: idx.1)
-                #if MAC
-                draw(idx: idx, color: forgroundColor)
-                #endif
                 if isLongPressing {
                     isLongPressing = false
                     timer?.invalidate()
@@ -380,7 +375,7 @@ struct PixelDrawView: View {
                 }).padding(20)
             }
 
-            Spacer()
+//            Spacer()
 
             HStack {
                 // MARK: -  빠렛트

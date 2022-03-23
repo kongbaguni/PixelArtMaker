@@ -9,32 +9,19 @@
 /* Begin PBXBuildFile section */
 		1B28C3C627BE100F003F8312 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3C527BE100F003F8312 /* Tests_iOS.swift */; };
 		1B28C3C827BE100F003F8312 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3C727BE100F003F8312 /* Tests_iOSLaunchTests.swift */; };
-		1B28C3D227BE100F003F8312 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3D127BE100F003F8312 /* Tests_macOS.swift */; };
-		1B28C3D427BE100F003F8312 /* Tests_macOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3D327BE100F003F8312 /* Tests_macOSLaunchTests.swift */; };
 		1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3AD27BE100E003F8312 /* PixelArtMakerApp.swift */; };
-		1B28C3D627BE100F003F8312 /* PixelArtMakerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3AD27BE100E003F8312 /* PixelArtMakerApp.swift */; };
 		1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3AE27BE100E003F8312 /* ContentView.swift */; };
-		1B28C3D827BE100F003F8312 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3AE27BE100E003F8312 /* ContentView.swift */; };
 		1B28C3D927BE100F003F8312 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B28C3AF27BE100F003F8312 /* Assets.xcassets */; };
-		1B28C3DA27BE100F003F8312 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B28C3AF27BE100F003F8312 /* Assets.xcassets */; };
 		1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3EA27BE108F003F8312 /* LayerModel.swift */; };
 		1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */; };
-		1B28C3EF27BE29F5003F8312 /* PixelDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */; };
-		1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3EA27BE108F003F8312 /* LayerModel.swift */; };
 		1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F127BF2F6A003F8312 /* StageManager.swift */; };
 		1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F327BF302B003F8312 /* StageModel.swift */; };
 		1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */; };
-		1BE77B4827E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */; };
 		1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */; };
-		1BE77B4B27E9838300A36F8E /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */; };
 		1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */; };
-		1BE77B4F27E9A5A800A36F8E /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */; };
 		1BE77B5227E9BC7800A36F8E /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B5127E9BC7800A36F8E /* Image+Extensions.swift */; };
-		1BE77B5327E9BC7800A36F8E /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B5127E9BC7800A36F8E /* Image+Extensions.swift */; };
 		1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B5427E9C0DC00A36F8E /* UIImage+Extensions.swift */; };
-		1BE77B5627E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B5427E9C0DC00A36F8E /* UIImage+Extensions.swift */; };
 		1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B24727E2C7AB007A73CB /* AuthManager.swift */; };
-		1BF1B24927E2C7AB007A73CB /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B24727E2C7AB007A73CB /* AuthManager.swift */; };
 		1BF1B24C27E2CC28007A73CB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B24B27E2CC28007A73CB /* FirebaseAuth */; };
 		1BF1B24E27E2CC28007A73CB /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B24D27E2CC28007A73CB /* FirebaseAuthCombine-Community */; };
 		1BF1B25027E2CC28007A73CB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B24F27E2CC28007A73CB /* FirebaseCrashlytics */; };
@@ -43,32 +30,17 @@
 		1BF1B25627E2CC28007A73CB /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25527E2CC28007A73CB /* FirebaseFirestoreSwift-Beta */; };
 		1BF1B25827E2CC28007A73CB /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF1B25727E2CC28007A73CB /* FirebasePerformance */; };
 		1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25A27E2F032007A73CB /* Stack.swift */; };
-		1BF1B25C27E2F032007A73CB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25A27E2F032007A73CB /* Stack.swift */; };
 		1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25D27E3288E007A73CB /* SaveView.swift */; };
-		1BF1B25F27E3288E007A73CB /* SaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25D27E3288E007A73CB /* SaveView.swift */; };
 		1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
-		1BF1B26227E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
-		1BF1B26827E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
 		C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
 		C320338A27C3895E0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
 		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
-		C320338F27C3D2CF0019B546 /* StageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F127BF2F6A003F8312 /* StageManager.swift */; };
-		C320339027C3D2D30019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
-		C320339127C3D2D60019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
-		C320339227C3D3750019B546 /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F327BF302B003F8312 /* StageModel.swift */; };
-		C320339327C3D49F0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
-		C320339527C4793D0019B546 /* KeyEventHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320339427C4793D0019B546 /* KeyEventHandling.swift */; };
-		C320339727C47B800019B546 /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320339627C47B800019B546 /* Character+Extensions.swift */; };
-		C320339927C4AFEA0019B546 /* LayerEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320339827C4AFEA0019B546 /* LayerEditView.swift */; };
 		C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320339827C4AFEA0019B546 /* LayerEditView.swift */; };
 		C365E18F27C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
-		C365E19027C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
 		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
-		C3D087FB27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
 		C3D087FD27DB3509003F886E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D087FC27DB3509003F886E /* SigninView.swift */; };
-		C3D087FE27DB3509003F886E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D087FC27DB3509003F886E /* SigninView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,13 +51,6 @@
 			remoteGlobalIDString = 1B28C3B327BE100F003F8312;
 			remoteInfo = "PixelArtMaker (iOS)";
 		};
-		1B28C3CE27BE100F003F8312 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1B28C3A827BE100D003F8312 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1B28C3B927BE100F003F8312;
-			remoteInfo = "PixelArtMaker (macOS)";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -93,12 +58,9 @@
 		1B28C3AE27BE100E003F8312 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1B28C3AF27BE100F003F8312 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B28C3B427BE100F003F8312 /* PixelArtMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelArtMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1B28C3BA27BE100F003F8312 /* PixelArtMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelArtMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1B28C3BC27BE100F003F8312 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		1B28C3C127BE100F003F8312 /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B28C3C527BE100F003F8312 /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
 		1B28C3C727BE100F003F8312 /* Tests_iOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOSLaunchTests.swift; sourceTree = "<group>"; };
-		1B28C3CD27BE100F003F8312 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B28C3D127BE100F003F8312 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		1B28C3D327BE100F003F8312 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
 		1B28C3EA27BE108F003F8312 /* LayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerModel.swift; sourceTree = "<group>"; };
@@ -144,21 +106,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1B28C3B727BE100F003F8312 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1B28C3BE27BE100F003F8312 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1B28C3CA27BE100F003F8312 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -173,7 +121,6 @@
 			children = (
 				1BF1B25927E2CF09007A73CB /* PixelArtMaker (iOS).entitlements */,
 				1B28C3AC27BE100E003F8312 /* Shared */,
-				1B28C3BB27BE100F003F8312 /* macOS */,
 				1B28C3C427BE100F003F8312 /* Tests iOS */,
 				1B28C3D027BE100F003F8312 /* Tests macOS */,
 				1B28C3B527BE100F003F8312 /* Products */,
@@ -203,19 +150,9 @@
 			isa = PBXGroup;
 			children = (
 				1B28C3B427BE100F003F8312 /* PixelArtMaker.app */,
-				1B28C3BA27BE100F003F8312 /* PixelArtMaker.app */,
 				1B28C3C127BE100F003F8312 /* Tests iOS.xctest */,
-				1B28C3CD27BE100F003F8312 /* Tests macOS.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		1B28C3BB27BE100F003F8312 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				1B28C3BC27BE100F003F8312 /* macOS.entitlements */,
-			);
-			path = macOS;
 			sourceTree = "<group>";
 		};
 		1B28C3C427BE100F003F8312 /* Tests iOS */ = {
@@ -304,23 +241,6 @@
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1B28C3B927BE100F003F8312 /* PixelArtMaker (macOS) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1B28C3E027BE100F003F8312 /* Build configuration list for PBXNativeTarget "PixelArtMaker (macOS)" */;
-			buildPhases = (
-				1B28C3B627BE100F003F8312 /* Sources */,
-				1B28C3B727BE100F003F8312 /* Frameworks */,
-				1B28C3B827BE100F003F8312 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "PixelArtMaker (macOS)";
-			productName = "PixelArtMaker (macOS)";
-			productReference = 1B28C3BA27BE100F003F8312 /* PixelArtMaker.app */;
-			productType = "com.apple.product-type.application";
-		};
 		1B28C3C027BE100F003F8312 /* Tests iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1B28C3E327BE100F003F8312 /* Build configuration list for PBXNativeTarget "Tests iOS" */;
@@ -339,24 +259,6 @@
 			productReference = 1B28C3C127BE100F003F8312 /* Tests iOS.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		1B28C3CC27BE100F003F8312 /* Tests macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1B28C3E627BE100F003F8312 /* Build configuration list for PBXNativeTarget "Tests macOS" */;
-			buildPhases = (
-				1B28C3C927BE100F003F8312 /* Sources */,
-				1B28C3CA27BE100F003F8312 /* Frameworks */,
-				1B28C3CB27BE100F003F8312 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1B28C3CF27BE100F003F8312 /* PBXTargetDependency */,
-			);
-			name = "Tests macOS";
-			productName = "Tests macOS";
-			productReference = 1B28C3CD27BE100F003F8312 /* Tests macOS.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -370,16 +272,9 @@
 					1B28C3B327BE100F003F8312 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
-					1B28C3B927BE100F003F8312 = {
-						CreatedOnToolsVersion = 13.2.1;
-					};
 					1B28C3C027BE100F003F8312 = {
 						CreatedOnToolsVersion = 13.2.1;
 						TestTargetID = 1B28C3B327BE100F003F8312;
-					};
-					1B28C3CC27BE100F003F8312 = {
-						CreatedOnToolsVersion = 13.2.1;
-						TestTargetID = 1B28C3B927BE100F003F8312;
 					};
 				};
 			};
@@ -402,9 +297,7 @@
 			projectRoot = "";
 			targets = (
 				1B28C3B327BE100F003F8312 /* PixelArtMaker (iOS) */,
-				1B28C3B927BE100F003F8312 /* PixelArtMaker (macOS) */,
 				1B28C3C027BE100F003F8312 /* Tests iOS */,
-				1B28C3CC27BE100F003F8312 /* Tests macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -421,25 +314,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1B28C3B827BE100F003F8312 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C320339327C3D49F0019B546 /* Colors.xcassets in Resources */,
-				C3D087FB27DB31DA003F886E /* GoogleService-Info.plist in Resources */,
-				1B28C3DA27BE100F003F8312 /* Assets.xcassets in Resources */,
-				C365E19027C36CC400154E56 /* Localizable.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1B28C3BF27BE100F003F8312 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1B28C3CB27BE100F003F8312 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -476,50 +351,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1B28C3B627BE100F003F8312 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1BE77B4827E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,
-				C320339527C4793D0019B546 /* KeyEventHandling.swift in Sources */,
-				C320339227C3D3750019B546 /* StageModel.swift in Sources */,
-				1BE77B5327E9BC7800A36F8E /* Image+Extensions.swift in Sources */,
-				1BF1B25F27E3288E007A73CB /* SaveView.swift in Sources */,
-				1BF1B25C27E2F032007A73CB /* Stack.swift in Sources */,
-				1BF1B26227E32BF0007A73CB /* LoadView.swift in Sources */,
-				C3D087FE27DB3509003F886E /* SigninView.swift in Sources */,
-				1BF1B24927E2C7AB007A73CB /* AuthManager.swift in Sources */,
-				C320339027C3D2D30019B546 /* Text+Extensions.swift in Sources */,
-				1BF1B26827E46C1C007A73CB /* ColorPresetView.swift in Sources */,
-				C320339727C47B800019B546 /* Character+Extensions.swift in Sources */,
-				1B28C3EF27BE29F5003F8312 /* PixelDrawView.swift in Sources */,
-				C320338F27C3D2CF0019B546 /* StageManager.swift in Sources */,
-				1B28C3D827BE100F003F8312 /* ContentView.swift in Sources */,
-				1BE77B5627E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
-				C320339127C3D2D60019B546 /* Color+Extensions.swift in Sources */,
-				1B28C3F027BE2A02003F8312 /* LayerModel.swift in Sources */,
-				1BE77B4B27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
-				1BE77B4F27E9A5A800A36F8E /* UIScreen+Extensions.swift in Sources */,
-				C320339927C4AFEA0019B546 /* LayerEditView.swift in Sources */,
-				1B28C3D627BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1B28C3BD27BE100F003F8312 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1B28C3C827BE100F003F8312 /* Tests_iOSLaunchTests.swift in Sources */,
 				1B28C3C627BE100F003F8312 /* Tests_iOS.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1B28C3C927BE100F003F8312 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1B28C3D427BE100F003F8312 /* Tests_macOSLaunchTests.swift in Sources */,
-				1B28C3D227BE100F003F8312 /* Tests_macOS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,11 +367,6 @@
 			isa = PBXTargetDependency;
 			target = 1B28C3B327BE100F003F8312 /* PixelArtMaker (iOS) */;
 			targetProxy = 1B28C3C227BE100F003F8312 /* PBXContainerItemProxy */;
-		};
-		1B28C3CF27BE100F003F8312 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1B28C3B927BE100F003F8312 /* PixelArtMaker (macOS) */;
-			targetProxy = 1B28C3CE27BE100F003F8312 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -678,6 +510,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -710,6 +543,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -726,64 +560,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		1B28C3E127BE100F003F8312 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QU9EPTU238;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker;
-				PRODUCT_NAME = PixelArtMaker;
-				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG MAC";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		1B28C3E227BE100F003F8312 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QU9EPTU238;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker;
-				PRODUCT_NAME = PixelArtMaker;
-				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = MAC;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -828,44 +604,6 @@
 			};
 			name = Release;
 		};
-		1B28C3E727BE100F003F8312 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QU9EPTU238;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.1;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.kongbaguni.Tests-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "PixelArtMaker (macOS)";
-			};
-			name = Debug;
-		};
-		1B28C3E827BE100F003F8312 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QU9EPTU238;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.1;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.kongbaguni.Tests-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "PixelArtMaker (macOS)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -887,29 +625,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1B28C3E027BE100F003F8312 /* Build configuration list for PBXNativeTarget "PixelArtMaker (macOS)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1B28C3E127BE100F003F8312 /* Debug */,
-				1B28C3E227BE100F003F8312 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		1B28C3E327BE100F003F8312 /* Build configuration list for PBXNativeTarget "Tests iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B28C3E427BE100F003F8312 /* Debug */,
 				1B28C3E527BE100F003F8312 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1B28C3E627BE100F003F8312 /* Build configuration list for PBXNativeTarget "Tests macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1B28C3E727BE100F003F8312 /* Debug */,
-				1B28C3E827BE100F003F8312 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

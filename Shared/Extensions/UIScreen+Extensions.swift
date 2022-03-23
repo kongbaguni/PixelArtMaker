@@ -12,7 +12,7 @@ var screenBounds:CGRect {
     let bounds = UIScreen.main.bounds
     print(bounds)
     if bounds.width > 1000 {
-        return .init(x: 0, y: 0, width: 650, height: 1000)
+        return .init(x: 0, y: 0, width: 600, height: 1000)
     }
     return bounds
 }

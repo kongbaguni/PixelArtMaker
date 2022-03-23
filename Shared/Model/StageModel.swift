@@ -254,7 +254,15 @@ class StageModel {
                         let colors = getColor(arr: strs)
                         var layers:[LayerModel] = []
                         for (i,color) in colors.enumerated() {
-                            layers.append(.init(colors: color, id: "layer\(i)", blandMode: .init(rawValue: blandModes[idx][i]) ?? .normal))
+                            
+                            var blandMode:CGBlendMode = .normal
+                            if blandModes.count > idx {
+                                if blandModes[idx].count > i {
+                                    blandMode = .init(rawValue: blandModes[idx][i]) ?? .normal
+                                }
+                            }
+                            
+                            layers.append(.init(colors: color, id: "layer\(i)", blandMode: blandMode ))
                         }
                         result.append(.init(layers: layers, selectedLayerIndex: indexs[idx]))
                     }
