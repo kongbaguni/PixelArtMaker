@@ -12,7 +12,7 @@ import SwiftUI
 extension UIImage {
     public convenience init?(totalColors:[[[Color]]],blandModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        let p:CGFloat = 0.01
+        let p:CGFloat = 0.25 
         let p2 = p * 2
         
         if backgroundColor.ciColor.alpha > 0 {
