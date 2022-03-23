@@ -10,6 +10,7 @@ import SwiftUI
 
 extension Notification.Name {
     static let layerDataRefresh = Notification.Name("layerDataRefresh_observer")
+    static let layerBlandmodeDidChange = Notification.Name("layerBlandmodeDidChange_observer")
 }
 
 class StageModel {
@@ -73,6 +74,7 @@ class StageModel {
         let layer = layers[layerIndex]
         if layer.blandMode != blandMode {
             layers[layerIndex] = .init(colors: layer.colors, id: layer.id, blandMode: blandMode)
+            NotificationCenter.default.post(name: .layerBlandmodeDidChange, object: nil)
         }
     }
     

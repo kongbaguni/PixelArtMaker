@@ -98,6 +98,7 @@ struct PixelDrawView: View {
         case foreground
         case background
     }
+    @State var previewImage:Image? = nil
     @State var isLoadingDataFin = false
     @State var isLoadedColorPreset = false
     @State var colorSelectMode:ColorSelectMode = .foreground
@@ -256,7 +257,9 @@ struct PixelDrawView: View {
             redoCount = stage.redoHistory.count
         }
         StageManager.shared.saveTemp {
-            
+            StageManager.shared.stage?.getImage(size: .init(width: 100, height: 100), complete: { image in
+                previewImage = image
+            })
         }
     }
     
@@ -371,20 +374,9 @@ struct PixelDrawView: View {
                 NavigationLink(destination: {
                   LayerEditView()
                 }, label: {
-                    Canvas { context,size in
-                        for layer in layers {
-                            for (y, list) in layer.colors.enumerated() {
-                                for (x,color) in list.enumerated() {
-                                    context.fill(.init(roundedRect: .init(x: CGFloat(x),
-                                                                          y: CGFloat(y),
-                                                                          width: 1,
-                                                                          height: 1),
-                                                       cornerSize: .zero), with: .color(color))
-                                }
-                            }
-                        }
-                    }.frame(width: pixelSize.width, height: pixelSize.height, alignment: .leading)
-                        .border(.white, width: 1.0).background(backgroundColor)
+                    if let img = previewImage {
+                        img.resizable().frame(width: 40, height: 40, alignment: .center)
+                    }
                 }).padding(20)
             }
 
@@ -770,6 +762,9 @@ struct PixelDrawView: View {
             NotificationCenter.default.addObserver(forName: .layerDataRefresh, object: nil, queue: nil) { noti in
                 load()
             }
+            NotificationCenter.default.addObserver(forName: .layerBlandmodeDidChange, object: nil, queue: nil) { noti in
+                refreshStage()
+            }
         }
 
     }
@@ -782,6 +777,9 @@ struct PixelDrawView: View {
             undoCount = stage.history.count
             redoCount = stage.redoHistory.count
             paletteColors = stage.paletteColors
+            stage.getImage(size: .init(width: 100, height: 100)) { image in
+                previewImage = image
+            }
         }
 
     }
