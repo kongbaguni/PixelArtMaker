@@ -32,7 +32,15 @@ class StageManager {
         }
     }
     
+    var lastSaveTime:Date? = nil
     func saveTemp(comnplete:@escaping()->Void) {
+        if let time = lastSaveTime {
+            if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
+                return
+            }
+        }
+        lastSaveTime = Date()
+
         DispatchQueue.global().async {[self] in
             let collection = fireStore.collection("temp")
             guard let stage = stage else {
@@ -65,19 +73,20 @@ class StageManager {
                 
                 guard let data = snapShopt?.data(),
                       let string = data["data"] as? String,
-                      let stage = StageModel.makeModel(base64EncodedString: string, documentId: snapShopt?.documentID)
+                      let stage = StageModel.makeModel(base64EncodedString: string, documentId: nil)
                 else {
                     comptete(false)
                     return
                 }
-                
+                let oldId = self.stage?.documentId
                 self.stage = stage
+                self.stage?.documentId = oldId
                 comptete(true)
             }
         }
     }
-    
     func save(complete:@escaping()->Void) {
+        
         DispatchQueue.global().async {[self] in
             guard let email = AuthManager.shared.auth.currentUser?.email,
                   let stage = stage else {
