@@ -27,6 +27,7 @@ extension UIImage {
                         let h = size.height / CGFloat(colors.count)
                         let rect = CGRect(x: CGFloat(x) * w - p , y: CGFloat(y) * h - p , width: w  + p * 2, height: h + p * 2 )
                         UIRectFillUsingBlendMode(rect, .normal)
+                        
                     }
                 }
             }

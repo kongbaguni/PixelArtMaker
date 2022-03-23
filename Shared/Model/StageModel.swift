@@ -33,7 +33,7 @@ class StageModel {
     
     init(canvasSize:CGSize) {
         layers = [
-            LayerModel(size: canvasSize)
+            LayerModel(size: canvasSize, blandMode: .normal)
         ]
         self.canvasSize = canvasSize
     }
@@ -64,12 +64,13 @@ class StageModel {
     
     func change(colors:[[Color]]) {
         history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex))
-        layers[selectedLayerIndex] = .init(colors: colors, id:"layer\(selectedLayerIndex)")
+        let blandMode = layers[selectedLayerIndex].blandMode
+        layers[selectedLayerIndex] = .init(colors: colors, id:"layer\(selectedLayerIndex)", blandMode:blandMode)
         redoHistory.removeAll()
     }
     
     func addLayer() {
-        layers.append(.init(size: canvasSize))
+        layers.append(.init(size: canvasSize, blandMode: .normal))
     }
     
     func undo() {
@@ -135,7 +136,20 @@ class StageModel {
         let image = makeImageDataValue(size:.init(width: 200, height: 200))?.base64EncodedString() ?? ""
         
              
+        let blandModes = layers.map { model in
+            return model.blandMode.rawValue
+        }
         
+        let undoBlandModes = history.arrayValue.map { history in
+            return history.layers.map { layer in
+                return layer.blandMode.rawValue
+            }
+        }
+        let redoBlandModes = history.arrayValue.map { history in
+            return history.layers.map { layer in
+                return layer.blandMode.rawValue
+            }
+        }
         
         let dic:[String:AnyHashable] = [
             "title":title,
@@ -154,8 +168,12 @@ class StageModel {
             "undo_layer_colors":undo.colors,
             "redo_layer_selection":redo.selection,
             "redo_layer_colors":redo.colors,
-            "preview_data":image
+            "preview_data":image,
+            "bland_modes":blandModes,
+            "undo_bland_modes":undoBlandModes,
+            "redo_bland_modes":redoBlandModes
         ]
+        
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
@@ -209,36 +227,45 @@ class StageModel {
                     })
                 }
                 var layers:[LayerModel] = []
+                let blandModes = json["bland_modes"] as? [Int32]
+                let undoBlandModes = json["undo_bland_modes"] as? [[Int32]]
+                let redoBlandModes = json["redo_bland_modes"] as? [[Int32]]
+                
                 if let colors = json["colors"] as? [[[String]]] {
                     let arr = getColor(arr: colors)
                     for (idx,data) in arr.enumerated() {
-                        layers.append(LayerModel(colors: data, id: "layer\(idx)"))
+                        layers.append(LayerModel(colors: data, id: "layer\(idx)", blandMode: .init(rawValue: blandModes?[idx] ?? 0) ?? .normal))
                     }
                 }
                 model.layers = layers
                 
-                func make(indexs:[Int],list:[[[[String]]]])->[History] {
+                func make(indexs:[Int],list:[[[[String]]]], blandModes:[[Int32]])->[History] {
                     var result:[History] = []
                     for (idx,strs) in list.enumerated() {
                         let colors = getColor(arr: strs)
                         var layers:[LayerModel] = []
                         for (i,color) in colors.enumerated() {
-                            layers.append(.init(colors: color, id: "layer\(i)"))
+                            layers.append(.init(colors: color, id: "layer\(i)", blandMode: .init(rawValue: blandModes[idx][i]) ?? .normal))
                         }
                         result.append(.init(layers: layers, selectedLayerIndex: indexs[idx]))
                     }
                     return result
                 }
                 model.history.removeAll()
-                if let ls = json["undo_layer_selection"] as? [Int], let cs = json["undo_layer_colors"] as? [[[[String]]]] {
-                    for h in make(indexs: ls, list: cs) {
+                if let ls = json["undo_layer_selection"] as? [Int],
+                   let cs = json["undo_layer_colors"] as? [[[[String]]]],
+                   let bl = undoBlandModes {
+                    for h in make(indexs: ls, list: cs, blandModes: bl) {
                         model.history.push(h)
                     }
                 }
 
                 model.redoHistory.removeAll()
-                if let ls = json["redo_layer_selection"] as? [Int], let cs = json["redo_layer_colors"] as? [[[[String]]]] {
-                    for h in make(indexs: ls, list: cs) {
+                if let ls = json["redo_layer_selection"] as? [Int],
+                   let cs = json["redo_layer_colors"] as? [[[[String]]]],
+                   let bl = redoBlandModes
+                {
+                    for h in make(indexs: ls, list: cs, blandModes: bl) {
                         model.redoHistory.push(h)
                     }
                 }

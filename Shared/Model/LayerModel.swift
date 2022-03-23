@@ -11,11 +11,13 @@ struct LayerModel : Hashable {
     public static func == (lhs: LayerModel, rhs: LayerModel) -> Bool {
         return lhs.id == rhs.id && lhs.colors == rhs.colors
     }
-
+    
     let colors:[[Color]]
-        
+    let blandMode:CGBlendMode
+    
     var id = UUID().uuidString
-    init(size:CGSize) {
+    init(size:CGSize, blandMode:CGBlendMode) {
+        self.blandMode = blandMode
         var colors:[[Color]] = []
         let w = Int(size.width)
         let h = Int(size.height)
@@ -29,9 +31,10 @@ struct LayerModel : Hashable {
         self.colors = colors
     }
     
-    init(colors:[[Color]], id:String) {
+    init(colors:[[Color]], id:String, blandMode:CGBlendMode) {
         self.id = id
         self.colors = colors
+        self.blandMode = blandMode
     }
     
     var width:CGFloat {
