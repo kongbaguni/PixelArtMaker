@@ -10,14 +10,14 @@ import UIKit
 import SwiftUI
 
 extension UIImage {
-    public convenience init?(totalColors:[[[Color]]],backgroundColor:Color,size:CGSize) {
+    public convenience init?(totalColors:[[[Color]]],blandModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         let p:CGFloat = 1.0 / 20
         if backgroundColor.ciColor.alpha > 0 {
             backgroundColor.uiColor.setFill()
             UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
         }
-        for colors in totalColors {
+        for (i,colors) in totalColors.enumerated() {
             for (y,list) in colors.enumerated() {
                 for (x,color) in list.enumerated() {
                     let ci = color.ciColor
@@ -26,7 +26,7 @@ extension UIImage {
                         let w = size.width / CGFloat(list.count)
                         let h = size.height / CGFloat(colors.count)
                         let rect = CGRect(x: CGFloat(x) * w - p , y: CGFloat(y) * h - p , width: w  + p * 2, height: h + p * 2 )
-                        UIRectFillUsingBlendMode(rect, .normal)
+                        UIRectFillUsingBlendMode(rect, blandModes[i])
                         
                     }
                 }

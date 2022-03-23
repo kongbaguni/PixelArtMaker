@@ -69,6 +69,13 @@ class StageModel {
         redoHistory.removeAll()
     }
     
+    func change(blandMode:CGBlendMode, layerIndex:Int) {
+        let layer = layers[layerIndex]
+        if layer.blandMode != blandMode {
+            layers[layerIndex] = .init(colors: layer.colors, id: layer.id, blandMode: blandMode)
+        }
+    }
+    
     func addLayer() {
         layers.append(.init(size: canvasSize, blandMode: .normal))
     }
@@ -278,14 +285,23 @@ class StageModel {
         return nil
     }
 
+    var blandModes:[CGBlendMode] {
+        return layers.map { layer in
+            return layer.blandMode
+        }
+    }
     func makeImageDataValue(size:CGSize)->Data? {
-        let image = UIImage(totalColors: totalColors, backgroundColor: backgroundColor, size: size)
+        let image = UIImage(totalColors: totalColors, blandModes: blandModes, backgroundColor: backgroundColor, size: size)
         return image?.pngData()
     }
     
     func getImage(size:CGSize, complete:@escaping(_ image:Image?)->Void) {
+        let blandModes = layers.map { layer in
+            return layer.blandMode
+        }
+
         DispatchQueue.global().async {[self] in
-            complete(Image(totalColors: totalColors, backgroundColor: backgroundColor,  size: size))
+            complete(Image(totalColors: totalColors, blandModes: blandModes, backgroundColor: backgroundColor,  size: size))
         }
     }
 }

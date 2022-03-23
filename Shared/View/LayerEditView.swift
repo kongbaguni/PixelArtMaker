@@ -12,26 +12,46 @@ struct LayerEditView: View {
 
     @State var layers:[LayerModel] = []
             
-        
+    @State var blandModes:[Int] = []
+    
+    let blandModeStrs:[String] = [
+        "normal",
+        "multiply",
+        "screen",
+        "overlay",
+        "darken",
+        "lighten",
+        "colorDodge",
+        "colorBurn",
+        "softLight",
+        "hardLight",
+        "difference",
+        "exclusion",
+        "hue",
+        "saturation",
+        "color",
+        "luminosity",
+        "clear",
+        "copy",
+        "sourceIn",
+        "sourceOut",
+        "sourceOut",
+        "destinationOver",
+        "destinationIn",
+        "destinationOut",
+        "destinationAtop",
+        "xor",
+        "plusDarker",
+        "plusLighter"
+    ]
+    
+    @State var previewImage:Image? = nil
+    
     var body: some View {
         VStack {
-            Canvas { context,size in
-                for layer in layers {
-                    for (y, list) in layer.colors.enumerated() {
-                        for (x,color) in list.enumerated() {
-                            context.fill(.init(roundedRect: .init(x: CGFloat(x)*4,
-                                                                  y: CGFloat(y)*4,
-                                                                  width: 4,
-                                                                  height: 4),
-                                               cornerSize: .zero), with: .color(color))
-                        }
-                    }
-                }
-            }.frame(width: (layers.first?.width ?? 32) * 4, height: (layers.first?.height ?? 32) * 4, alignment: .leading)
-                .border(.white, width: 1.0).background(.clear)
-                .background(StageManager.shared.stage?.backgroundColor ?? .clear)
-                .padding(20)
-            
+            if let img = previewImage {
+                img.resizable().frame(width: 200, height: 200, alignment: .center)
+            }
             List {
                 ForEach(layers.reversed(), id:\.self) { layer in
                     if let id = layers.firstIndex(of: layer) {
@@ -40,7 +60,23 @@ struct LayerEditView: View {
                                 .foregroundColor(
                                     StageManager.shared.stage?.selectedLayerIndex == id ? .red : .white
                                 )
-                            
+                            if blandModes.count > id {
+                                Picker(selection: $blandModes[id], label: Text("")) {
+                                    ForEach(0..<blandModeStrs.count, id:\.self) { i in
+                                        Text(blandModeStrs[i]).tag(i)
+                                    }
+                                }
+                                .pickerStyle(MenuPickerStyle())
+                                .onChange(of: blandModes[id]) { value in
+                                    print(value)
+                                    if let new = CGBlendMode(rawValue: Int32(value)) { 
+                                        StageManager.shared.stage?.change(blandMode: new , layerIndex: id)
+                                        StageManager.shared.stage?.getImage(size: .init(width: 200, height: 200), complete: { image in
+                                            previewImage = image
+                                        })
+                                    }
+                                }
+                            }
                             Canvas { context,size in
                                 for (y, list) in layer.colors.enumerated() {
                                     for (x,color) in list.enumerated() {
@@ -82,6 +118,12 @@ struct LayerEditView: View {
         
     fileprivate func reload() {
         layers = StageManager.shared.stage?.layers ?? []
+        blandModes = StageManager.shared.stage?.layers.map({ model in
+            return Int(model.blandMode.rawValue)
+        }) ?? []
+        StageManager.shared.stage?.getImage(size: .init(width: 200, height: 200), complete: { image in
+            previewImage = image
+        })
     }
 }
 
