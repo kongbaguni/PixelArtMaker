@@ -293,11 +293,10 @@ struct PixelDrawView: View {
                 func draw() {
                     let w = size.width / CGFloat(colors.first?.count ?? 1)
                     for (i,layer) in (StageManager.shared.stage?.layers ?? []).enumerated() {
-                        
+                        context.blendMode = .init(rawValue: layer.blandMode.rawValue)
                         for (y,list) in layer.colors.enumerated() {
                             for (x,color) in list.enumerated() {
                                 if (i == 0) {
-                                    
                                     context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
                                                                           y: CGFloat(y) * w + 1,
                                                                           width: w - 2.0,
@@ -306,6 +305,7 @@ struct PixelDrawView: View {
                                 }
 
                                 if color != .clear {
+                                    
                                     context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
                                                                           y: CGFloat(y) * w + 0.5,
                                                                           width: w - 1.0,
