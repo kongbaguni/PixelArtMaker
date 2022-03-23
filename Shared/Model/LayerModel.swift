@@ -13,11 +13,11 @@ struct LayerModel : Hashable {
     }
     
     let colors:[[Color]]
-    let blandMode:CGBlendMode
+    let blendMode:CGBlendMode
     
     var id = UUID().uuidString
-    init(size:CGSize, blandMode:CGBlendMode) {
-        self.blandMode = blandMode
+    init(size:CGSize, blendMode:CGBlendMode) {
+        self.blendMode = blendMode
         var colors:[[Color]] = []
         let w = Int(size.width)
         let h = Int(size.height)
@@ -31,10 +31,10 @@ struct LayerModel : Hashable {
         self.colors = colors
     }
     
-    init(colors:[[Color]], id:String, blandMode:CGBlendMode) {
+    init(colors:[[Color]], id:String, blendMode:CGBlendMode) {
         self.id = id
         self.colors = colors
-        self.blandMode = blandMode
+        self.blendMode = blendMode
     }
     
     var width:CGFloat {

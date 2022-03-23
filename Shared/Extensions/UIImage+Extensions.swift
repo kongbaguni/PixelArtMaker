@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 
 extension UIImage {
-    public convenience init?(totalColors:[[[Color]]],blandModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
+    public convenience init?(totalColors:[[[Color]]],blendModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         let p:CGFloat = 0.25 
         let p2 = p * 2
@@ -29,7 +29,7 @@ extension UIImage {
                         let w = size.width / CGFloat(list.count)
                         let h = size.height / CGFloat(colors.count)
                         let rect = CGRect(x: CGFloat(x) * w - p , y: CGFloat(y) * h - p , width: w  + p2, height: h + p2 )
-                        UIRectFillUsingBlendMode(rect, blandModes[i])
+                        UIRectFillUsingBlendMode(rect, blendModes[i])
                     }
                 }
             }

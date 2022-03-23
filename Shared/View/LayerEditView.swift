@@ -12,9 +12,9 @@ struct LayerEditView: View {
 
     @State var layers:[LayerModel] = []
             
-    @State var blandModes:[Int] = []
+    @State var blendModes:[Int] = []
     @State var isRequestMakePreview = false
-    let blandModeStrs:[String] = [
+    let blendModeStrs:[String] = [
         "normal",
         "multiply",
         "screen",
@@ -62,19 +62,19 @@ struct LayerEditView: View {
                                     StageManager.shared.stage?.selectedLayerIndex == id ? .red : .white
                                 )
                             Spacer()
-                            if blandModes.count > id {
-                                Picker(selection: $blandModes[id], label: Text("")) {
-                                    ForEach(0..<blandModeStrs.count, id:\.self) { i in
-                                        Text(blandModeStrs[i]).tag(i)
+                            if blendModes.count > id {
+                                Picker(selection: $blendModes[id], label: Text("")) {
+                                    ForEach(0..<blendModeStrs.count, id:\.self) { i in
+                                        Text(blendModeStrs[i]).tag(i)
                                     }
                                 }
                                 .pickerStyle(MenuPickerStyle())
                                 .frame(width: 100, height: 20, alignment: .center)
-                                .onChange(of: blandModes[id]) { value in
+                                .onChange(of: blendModes[id]) { value in
                                     print(value)
                                     isRequestMakePreview = true
                                     if let new = CGBlendMode(rawValue: Int32(value)) { 
-                                        StageManager.shared.stage?.change(blandMode: new , layerIndex: id)
+                                        StageManager.shared.stage?.change(blendMode: new , layerIndex: id)
                                         StageManager.shared.stage?.getImage(size: .init(width: 200, height: 200), complete: { image in
                                             previewImage = image
                                             isRequestMakePreview = false
@@ -123,8 +123,8 @@ struct LayerEditView: View {
         
     fileprivate func reload() {
         layers = StageManager.shared.stage?.layers ?? []
-        blandModes = StageManager.shared.stage?.layers.map({ model in
-            return Int(model.blandMode.rawValue)
+        blendModes = StageManager.shared.stage?.layers.map({ model in
+            return Int(model.blendMode.rawValue)
         }) ?? []
         StageManager.shared.stage?.getImage(size: .init(width: 200, height: 200), complete: { image in
             previewImage = image

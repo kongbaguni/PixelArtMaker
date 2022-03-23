@@ -293,7 +293,7 @@ struct PixelDrawView: View {
                 func draw() {
                     let w = size.width / CGFloat(colors.first?.count ?? 1)
                     for (i,layer) in (StageManager.shared.stage?.layers ?? []).enumerated() {
-                        context.blendMode = .init(rawValue: layer.blandMode.rawValue)
+                        context.blendMode = .init(rawValue: layer.blendMode.rawValue)
                         for (y,list) in layer.colors.enumerated() {
                             for (x,color) in list.enumerated() {
                                 if (i == 0) {
@@ -757,7 +757,7 @@ struct PixelDrawView: View {
             NotificationCenter.default.addObserver(forName: .layerDataRefresh, object: nil, queue: nil) { noti in
                 load()
             }
-            NotificationCenter.default.addObserver(forName: .layerBlandmodeDidChange, object: nil, queue: nil) { noti in
+            NotificationCenter.default.addObserver(forName: .layerblendModeDidChange, object: nil, queue: nil) { noti in
                 refreshStage()
             }
         }
