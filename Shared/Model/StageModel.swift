@@ -313,7 +313,10 @@ class StageModel {
         }
 
         DispatchQueue.global().async {[self] in
-            complete(Image(totalColors: totalColors, blandModes: blandModes, backgroundColor: backgroundColor,  size: size))
+            let image = Image(totalColors: totalColors, blandModes: blandModes, backgroundColor: backgroundColor,  size: size)
+            DispatchQueue.main.async {
+                complete(image)
+            }
         }
     }
 }

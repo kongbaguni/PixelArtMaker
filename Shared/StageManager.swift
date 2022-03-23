@@ -36,6 +36,7 @@ class StageManager {
     func saveTemp(comnplete:@escaping()->Void) {
         if let time = lastSaveTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
+                comnplete()
                 return
             }
         }
@@ -57,7 +58,9 @@ class StageManager {
             collection.document(email).setData(data, merge: true) { error in
                 print(error?.localizedDescription ?? "성공")
                 if error == nil {
-                    comnplete()
+                    DispatchQueue.main.async {
+                        comnplete()
+                    }
                 }
             }
 
@@ -81,7 +84,9 @@ class StageManager {
                 let oldId = self.stage?.documentId
                 self.stage = stage
                 self.stage?.documentId = oldId
-                comptete(true)
+                DispatchQueue.main.async {
+                    comptete(true)
+                }
             }
         }
     }
@@ -103,12 +108,16 @@ class StageManager {
                 let d = collection.document(email).collection("data").document(documentPath)
                 d.setData(data) { error in
                     print(error?.localizedDescription ?? "업로드 성공")
-                    complete()
+                    DispatchQueue.main.async {
+                        complete()
+                    }
                 }
             } else {
                 collection.document(email).collection("data").addDocument(data: data) { error in
                     print(error?.localizedDescription ?? "업로드 성공")
-                    complete()
+                    DispatchQueue.main.async {
+                        complete()
+                    }
                 }
             }
         }
