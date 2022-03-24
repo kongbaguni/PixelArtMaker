@@ -67,6 +67,8 @@ struct LoadView: View {
     }
     func load() {
         stages = StageManager.shared.stagePreviews
+        gridItems = stages.count > 1 ? [.init(.fixed(width1)),.init(.fixed(width1))] : [.init(.fixed(width2))]
+        
     }
 }
 
