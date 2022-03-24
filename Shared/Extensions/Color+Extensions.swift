@@ -22,6 +22,10 @@ extension Color {
         UIColor(red: ciColor.red, green: ciColor.green, blue: ciColor.blue, alpha: ciColor.alpha)
     }
     
+    static var randomColor:Color {
+        return .init(rgb: (Int.random(in: 0...255), Int.random(in: 0...255), Int.random(in: 0...255)))
+    }
+    
     static var lastSelectColors:[Color]? {
         let a = UserDefaults.standard.lastColorPresetSelectionIndex
         let b = UserDefaults.standard.lastColorPresetRowSelectionIndex            

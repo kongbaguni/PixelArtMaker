@@ -10,11 +10,11 @@
 "color picker br title" = "파렛트";
 "auto erase toggle title" = "자동 지우게 모드";
 
-"all clear button title" = "전부 지우기";
+"all clear button title" = "새로 그리기";
 
-"clear alert title" = "그림 지운다";
-"clear alert message" = "정말?";
-"clear alert confirm" = "지워버려";
+"clear alert title" = "그림을 다시 그립니다.";
+"clear alert message" = "변경된 내용은 저장되지 않습니다.";
+"clear alert confirm" = "확인";
 
 "layer edit title" = "레이어";
 "make new layer" = "신규 레이어 생성";
@@ -29,3 +29,5 @@
 
 "save as new file" = "새 파일로 저장";
 "save to existing file" = "기존 파일에 저장";
+"empty gallery title" = "겔러리에 저장된 그림이 없습니다.";
+"open start" = "그림을 읽어오는 중입니다.";

@@ -57,7 +57,9 @@ struct SaveView: View {
                 if StageManager.shared.stage?.documentId != nil {
                     Button {
                         StageManager.shared.save(asNewForce: false, complete: {
-                            presentationMode.wrappedValue.dismiss()
+                            StageManager.shared.loadList { result in
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         })
                         
                     } label: {
@@ -68,7 +70,9 @@ struct SaveView: View {
                 
                 Button {
                     StageManager.shared.save(asNewForce: true, complete: {
-                        presentationMode.wrappedValue.dismiss()
+                        StageManager.shared.loadList { result in
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     })
                     
                 } label: {

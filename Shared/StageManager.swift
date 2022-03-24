@@ -16,6 +16,8 @@ class StageManager {
     static let shared = StageManager() 
     var stage:StageModel? = nil  
 
+    var stagePreviews:[StagePreviewModel] = []
+    
     func initStage(size:CGSize) {
         let fc:Color? = stage?.forgroundColor
         let bc:Color? = stage?.backgroundColor
@@ -130,8 +132,37 @@ class StageManager {
             
         }
     }
-    
-    func load(complete:@escaping(_ result:[StageModel])->Void) {
+        
+    func openStage(id:String, complete:@escaping(_ result:StageModel?)->Void) {
+        guard let email = AuthManager.shared.auth.currentUser?.email else {
+            complete(nil)
+            return
+        }
+
+        DispatchQueue.global().async {[self] in
+            let document = fireStore.collection("pixelarts").document(email).collection("data").document(id)
+            document.getDocument { snapShot, error in
+                if let err = error {
+                    print(err.localizedDescription)
+                }
+                guard let data = snapShot?.data(),
+                      let str = data["data"] as? String
+                else {
+                    DispatchQueue.main.async {
+                        complete(nil)
+                    }
+                    return
+                }
+                
+                let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
+                DispatchQueue.main.async {
+                    complete(model)
+                }
+            }
+        
+        }
+    }
+    func loadList(complete:@escaping(_ result:[StagePreviewModel])->Void) {
         DispatchQueue.global().async {[self] in
             guard let email = AuthManager.shared.auth.currentUser?.email else {
                 return
@@ -151,14 +182,18 @@ class StageManager {
                 }
                 
                 
-                var result:[StageModel] = []
+                var result:[StagePreviewModel] = []
                 for data in datas {
                     if let string = data.0["data"] as? String,
-                       let model = StageModel.makeModel(base64EncodedString: string, documentId: data.1) {
+                       let image = StageModel.getPreview(base64EncodedString: string) {
+                        let model = StagePreviewModel.init(documentId: data.1, image: image)
                         result.append(model)
                     }
                 }
-                complete(result)
+                DispatchQueue.main.async {
+                    self.stagePreviews = result
+                    complete(result)
+                }
             }
         }
     }

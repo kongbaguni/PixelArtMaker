@@ -195,6 +195,29 @@ class StageModel {
         return ""
     }
     
+    static func getPreview(base64EncodedString:String)->UIImage? {
+        do {
+            guard let data = Data(base64Encoded: base64EncodedString) else {
+                return nil
+            }
+            let newData = try (data as NSData).decompressed(using: .lzfse) as Data
+            guard let json = try JSONSerialization.jsonObject(with: newData) as? [String:Any]
+            else {
+                return nil
+            }
+            
+            if let str = json["preview_data"] as? String,
+               let data = Data(base64Encoded: str),
+               let image = UIImage(data: data) {
+                return image
+            }
+            
+        } catch {
+            
+        }
+        return nil
+    }
+    
     static func makeModel(base64EncodedString:String, documentId:String?)->StageModel? {
         func getColor(arr:[[[String]]])->[[[Color]]] {
             var result:[[[Color]]] = []

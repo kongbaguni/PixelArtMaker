@@ -11,11 +11,11 @@
 "color picker br title" = "Palette color";
 "auto erase toggle title" = "auto erase";
 
-"all clear button title" = "all clear";
+"all clear button title" = "Draw new";
 
-"clear alert title" = "delete";
-"clear alert message" = "Are you sure?";
-"clear alert confirm" = "delete it!";
+"clear alert title" = "Draw the picture again.";
+"clear alert message" = "Changes are not saved.";
+"clear alert confirm" = "confirm";
 
 "layer edit title" = "layers";
 "make new layer" = "make new layer";
@@ -31,3 +31,5 @@
 
 "save as new file" = "save as new file";
 "save to existing file" = "save to existing file";
+"empty gallery title" = "There are no pictures saved in the gallery.";
+"open start" = "The picture is being read.";

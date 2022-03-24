@@ -7,33 +7,66 @@
 
 import SwiftUI
 
+fileprivate let width1 = screenBounds.width / 2 - 10
+fileprivate let width2 = screenBounds.width - 10
+
+fileprivate let height1 = width1 + 50
+fileprivate let height2 = width2 + 50
+
 struct LoadView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    @State var stages:[StageModel] = []
+    @State var stages:[StagePreviewModel] = []
+    @State var gridItems:[GridItem] = [
+        .init(.fixed(width1)),
+        .init(.fixed(width1))
+    ]
+    @State var loadingStart = false
     var body: some View {
-        List {
-            ForEach(0..<stages.count, id:\.self) { idx in
-                let stage = stages[idx]
-                Button {
-                    StageManager.shared.stage = stage
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    if let image = stage.previewImage {
-                        Image(uiImage: image).resizable().frame(width: 200, height: 200, alignment: .center)
-                            .background(stage.backgroundColor)
+            
+        ScrollView {
+            if loadingStart {
+                Text("open start").padding(20)
+            }
+            LazyVGrid(columns: gridItems, spacing:20) {
+                ForEach(stages, id: \.self) {stage in
+                    Button {
+                        if loadingStart == false {
+                            loadingStart = true
+                            stages = [stage]
+                            gridItems = [.init(.fixed(width2))]
+                            StageManager.shared.openStage(id: stage.documentId) { result in
+                                StageManager.shared.stage = result
+                                presentationMode.wrappedValue.dismiss()
+                                
+                            }
+                        }
+                    } label : {
+                        VStack {
+                            Image(uiImage: stage.image).resizable().frame(width: loadingStart ? width2 : width1,
+                                                                          height: loadingStart ? width2 : width1,
+                                                                          alignment: .center)
+                            Text(stage.documentId)
+                        }.frame(width: loadingStart ? width2 + 10 : width1,
+                                height: loadingStart ? height2 + 10 : height1,
+                                alignment: .center)
                     }
-                    else {
-                        Image(uiImage:#imageLiteral(resourceName: "paint"))
-                    }
-                }
 
+                }
             }
-        }.onAppear {
-            StageManager.shared.load { result in
-                stages = result
+            .padding(.horizontal)
+        }
+        .onAppear {
+            load()
+            if stages.count == 0 {
+                StageManager.shared.loadList { result in
+                    load()
+                }
             }
-        }.listStyle(InsetListStyle())
+        }
+    }
+    func load() {
+        stages = StageManager.shared.stagePreviews
     }
 }
 
