@@ -26,3 +26,6 @@
 "menu color select title" = "컬러 프리셋";
 
 "title_select_Layer_only" = "선택한 레이어만 보기";
+
+"save as new file" = "새 파일로 저장";
+"save to existing file" = "기존 파일에 저장";

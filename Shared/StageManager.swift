@@ -51,9 +51,12 @@ class StageManager {
             let str = stage.base64EncodedString
             
             let email = AuthManager.shared.auth.currentUser?.email ?? "guest"
-            let data:[String:String] = [
+            var data:[String:String] = [
                 "data":str
             ]
+            if let id = StageManager.shared.stage?.documentId {
+                data["documentId"] = id
+            }
             
             collection.document(email).setData(data, merge: true) { error in
                 print(error?.localizedDescription ?? "성공")
@@ -81,16 +84,18 @@ class StageManager {
                     comptete(false)
                     return
                 }
-                let oldId = self.stage?.documentId
                 self.stage = stage
-                self.stage?.documentId = oldId
+                if let id = data["documentId"] as? String {
+                    self.stage?.documentId = id
+                }
+                            
                 DispatchQueue.main.async {
                     comptete(true)
                 }
             }
         }
     }
-    func save(complete:@escaping()->Void) {
+    func save(asNewForce:Bool,complete:@escaping()->Void) {
         
         DispatchQueue.global().async {[self] in
             guard let email = AuthManager.shared.auth.currentUser?.email,
@@ -105,21 +110,24 @@ class StageManager {
             ]
             
             if let documentPath = self.stage?.documentId {
-                let d = collection.document(email).collection("data").document(documentPath)
-                d.setData(data) { error in
-                    print(error?.localizedDescription ?? "업로드 성공")
-                    DispatchQueue.main.async {
-                        complete()
+                if asNewForce == false {
+                    let d = collection.document(email).collection("data").document(documentPath)
+                    d.setData(data) { error in
+                        print(error?.localizedDescription ?? "업로드 성공")
+                        DispatchQueue.main.async {
+                            complete()
+                        }
                     }
-                }
-            } else {
-                collection.document(email).collection("data").addDocument(data: data) { error in
-                    print(error?.localizedDescription ?? "업로드 성공")
-                    DispatchQueue.main.async {
-                        complete()
-                    }
+                    return
                 }
             }
+            collection.document(email).collection("data").addDocument(data: data) { error in
+                print(error?.localizedDescription ?? "업로드 성공")
+                DispatchQueue.main.async {
+                    complete()
+                }
+            }
+            
         }
     }
     

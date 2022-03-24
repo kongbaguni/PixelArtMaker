@@ -20,7 +20,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             PixelDrawView()
-                .navigationTitle(.app_title)
+                .navigationTitle(
+                    .app_title
+                )
                 .background(Color.k_background)
                 .navigationBarTitleDisplayMode(.inline)
         }.navigationViewStyle(StackNavigationViewStyle())

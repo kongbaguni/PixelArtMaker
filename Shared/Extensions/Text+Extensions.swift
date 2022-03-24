@@ -32,4 +32,7 @@ extension Text {
     static let menu_color_select_title = Text("menu color select title")
     
     static let title_select_Layer_only = Text("title_select_Layer_only")
+    
+    static let save_as_new_file = Text("save as new file")
+    static let save_to_existing_file = Text("save to existing file")
 }

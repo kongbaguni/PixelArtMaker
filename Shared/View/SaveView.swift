@@ -19,9 +19,15 @@ struct SaveView: View {
         VStack {
             
             ScrollView {
-                TextField("title", text: $title)
-                    .frame(width: screenBounds.width - 20, height: 50, alignment: .center)
-                    .textFieldStyle(.roundedBorder)
+                if let id = StageManager.shared.stage?.documentId {
+                    Text("id : \(id)").padding(20)
+                }
+                else {
+                    Text("new file").padding(20)
+                }
+//                TextField("title", text: $title)
+//                    .frame(width: screenBounds.width - 20, height: 50, alignment: .center)
+//                    .textFieldStyle(.roundedBorder)
                 
                 if let img = previewImage {
                     img.resizable().frame(width: 200, height: 200, alignment: .center)                        
@@ -48,14 +54,28 @@ struct SaveView: View {
                     .padding(20)
                 }
                 
-                Button {
-                    StageManager.shared.stage?.title = title
-                    StageManager.shared.save {
-                        presentationMode.wrappedValue.dismiss()
+                if StageManager.shared.stage?.documentId != nil {
+                    Button {
+                        StageManager.shared.save(asNewForce: false, complete: {
+                            presentationMode.wrappedValue.dismiss()
+                        })
+                        
+                    } label: {
+                        Text.save_to_existing_file
                     }
-                } label: {
-                    Text("save")
+                    .padding(20)
                 }
+                
+                Button {
+                    StageManager.shared.save(asNewForce: true, complete: {
+                        presentationMode.wrappedValue.dismiss()
+                    })
+                    
+                } label: {
+                    Text.save_as_new_file
+                }
+                .padding(20)
+
             }
         }
         .navigationTitle("save")
