@@ -9,13 +9,10 @@ import Foundation
 import UIKit
 import SwiftUI
 
-extension UIImage {
-    public convenience init?(totalColors:[[[Color]]],blendModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        let p:CGFloat = 0.25 
-        let p2 = p * 2
-        
-        if backgroundColor.ciColor.alpha > 0 {
+    extension UIImage {
+        public convenience init?(totalColors:[[[Color]]],blendModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
+            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+            if backgroundColor.ciColor.alpha > 0 {
             backgroundColor.uiColor.setFill()
             UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
         }
@@ -26,9 +23,9 @@ extension UIImage {
                     if ci.alpha > 0 {
                         let color = UIColor(red: ci.red, green: ci.green, blue: ci.blue, alpha: ci.alpha)
                         color.setFill()
-                        let w = size.width / CGFloat(list.count)
-                        let h = size.height / CGFloat(colors.count)
-                        let rect = CGRect(x: CGFloat(x) * w - p , y: CGFloat(y) * h - p , width: w  + p2, height: h + p2 )
+                        let w = size.width / CGFloat(colors.count)
+                        let h = size.height / CGFloat(list.count)
+                        let rect = CGRect(x: CGFloat(x) * w , y: CGFloat(y) * h  , width: w, height: h)
                         UIRectFillUsingBlendMode(rect, blendModes[i])
                     }
                 }

@@ -255,7 +255,7 @@ struct PixelDrawView: View {
             redoCount = stage.redoHistory.count
         }
         StageManager.shared.saveTemp {
-            StageManager.shared.stage?.getImage(size: .init(width: 100, height: 100), complete: { image in
+            StageManager.shared.stage?.getImage(size: .init(width: 320, height: 320), complete: { image in
                 previewImage = image
             })
         }
@@ -470,7 +470,7 @@ struct PixelDrawView: View {
                         
                         Button {
                         } label : {
-                            Image("paint")
+                            Image("paint2")
                                 .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
                         }.frame(width: 50, height: 50, alignment: .center)
@@ -772,7 +772,7 @@ struct PixelDrawView: View {
             undoCount = stage.history.count
             redoCount = stage.redoHistory.count
             paletteColors = stage.paletteColors
-            stage.getImage(size: .init(width: 100, height: 100)) { image in
+            stage.getImage(size: .init(width: 320, height: 320)) { image in
                 previewImage = image
             }
         }

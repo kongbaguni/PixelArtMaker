@@ -143,7 +143,7 @@ class StageModel {
         let undo = getHistoryStrings(history: history.arrayValue)
         let redo = getHistoryStrings(history: redoHistory.arrayValue)
         
-        let image = makeImageDataValue(size:.init(width: 200, height: 200))?.base64EncodedString() ?? ""
+        let image = makeImageDataValue(size:.init(width: 320, height: 320))?.base64EncodedString() ?? ""
         
              
         let blendModes = layers.map { model in

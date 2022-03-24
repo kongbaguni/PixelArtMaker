@@ -66,7 +66,7 @@ struct SaveView: View {
                 })
                 backgroundColor = stage.backgroundColor
                 title = stage.title ?? ""
-                stage.getImage(size: .init(width: 200, height: 200)) { image in
+                stage.getImage(size: .init(width: 320, height: 320)) { image in
                     previewImage = image
                 }
             }
