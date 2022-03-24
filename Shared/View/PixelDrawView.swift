@@ -96,6 +96,11 @@ struct PixelDrawView: View {
         case foreground
         case background
     }
+    enum AlertType {
+        case clear
+        case delete
+    }
+    
     @State var previewImage:Image? = nil
     @State var isLoadingDataFin = false
     @State var isLoadedColorPreset = false
@@ -116,8 +121,9 @@ struct PixelDrawView: View {
     @State var isShowSigninView = false
     
     @State var isShowActionSheet = false
-    @State var isShowClearAlert = false
-    @State var isShowDeleteImageAlert = false
+    @State var isShowAlert = false
+    @State var alertType:AlertType = .clear
+    
     @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
     @State var forgroundColor:Color = .red
     
@@ -690,7 +696,7 @@ struct PixelDrawView: View {
             } label : {
                 Text("menu")
             }
-            #if !MAC
+
             // MARK: - 네비게이션바 액션시트 메뉴
             .actionSheet(isPresented: $isShowActionSheet) {
                 var buttons:[ActionSheet.Button] = []
@@ -710,53 +716,60 @@ struct PixelDrawView: View {
                     buttons.append(.default(.menu_load_title, action: {
                         isShowLoadView = true
                     }))
-                    buttons.append(.destructive(.menu_delete_title, action: {
-                       isShowDeleteImageAlert = true
-                    }))
+                    if StageManager.shared.stage?.documentId != nil {
+                        buttons.append(.destructive(Text.menu_delete_title, action: {
+                            alertType = .delete
+                            isShowAlert = true
+                            
+                        }))
+                    }
                 }
-                buttons.append(
-                    .destructive(.clear_all_button_title, action: {
-                        isShowClearAlert = true
-                    })
-                )
+                
+                buttons.append(.destructive(Text.clear_all_button_title, action: {
+                    alertType = .clear
+                    isShowAlert = true
+                }))
                 buttons.append(.cancel())
-
                 return ActionSheet(title: Text("menu"), message: nil, buttons: buttons)
             }
-            #endif
+            
             
         }
-        .alert(isPresented: $isShowClearAlert) {
-            Alert(title: Text.clear_alert_title,
-                  message: Text.clear_alert_message,
-                  primaryButton: .destructive(
-                    Text.clear_alert_confirm, action: {
-                        StageManager.shared.initStage(size: pixelSize)
-                        load()
-                    }), secondaryButton: .cancel())
-        }
-        .alert(isPresented: $isShowDeleteImageAlert, content: {
-            Alert(title: Text.menu_delete_alert_title,
-                  message: Text.menu_delete_alert_message,
-                  primaryButton: .destructive(
-                    Text.menu_delete_alert_confirm, action: {
-                        isLoadingDataFin = false
-                        StageManager.shared.delete { isSucess in
-                            if isSucess {
-                                StageManager.shared.loadList { list in
-                                    isLoadingDataFin = true
-                                    StageManager.shared.initStage(size: pixelSize)
-                                    load()
-                                }
-                            } else {
-                                isLoadingDataFin = false
+        
+        .alert(isPresented: $isShowAlert)  {
+            switch alertType {
+            case .clear:
+                return Alert(title: Text.clear_alert_title,
+                      message: Text.clear_alert_message,
+                      primaryButton: .destructive(
+                        Text.clear_alert_confirm, action: {
+                            isLoadingDataFin = false
+                            StageManager.shared.deleteTemp { isSucess in
+                                StageManager.shared.initStage(size: pixelSize)
+                                load()
+                                isLoadingDataFin = true
                             }
-                        }
-                    }), secondaryButton: .cancel())
-
-        
-        })
-        
+                        }), secondaryButton: .cancel())
+            case .delete:
+                return Alert(title: Text.menu_delete_alert_title,
+                      message: Text.menu_delete_alert_message,
+                      primaryButton: .destructive(
+                        Text.menu_delete_alert_confirm, action: {
+                            isLoadingDataFin = false
+                            StageManager.shared.delete { isSucess in
+                                if isSucess {
+                                    StageManager.shared.loadList { list in
+                                        isLoadingDataFin = true
+                                        StageManager.shared.initStage(size: pixelSize)
+                                        load()
+                                    }
+                                } else {
+                                    isLoadingDataFin = false
+                                }
+                            }
+                        }), secondaryButton: .cancel())
+            }
+        }
         .frame(width: screenBounds.width,
                height: screenBounds.width > 500 ? screenBounds.height : CGFloat.leastNormalMagnitude,
                alignment: .center)

@@ -209,12 +209,33 @@ class StageManager {
         
         DispatchQueue.global().async {[self] in
             let document = fireStore.collection("pixelarts").document(email).collection("data").document(id)
-            document.delete { error in
+            document.delete { [self] error in
+                if error == nil {
+                    deleteTemp { isSucess in
+                        DispatchQueue.main.async {
+                            complete(isSucess)
+                        }
+                    }
+                    return
+                }
                 DispatchQueue.main.async {
-                    complete(error == nil)
+                    complete(false)
                 }
             }
         }        
     }
     
+    func deleteTemp(complete:@escaping(_ isSucess:Bool)->Void) {
+        guard let email = AuthManager.shared.auth.currentUser?.email else {
+            return
+        }
+        let collection = fireStore.collection("temp")
+        DispatchQueue.global().async {
+            collection.document(email).delete { error in
+                DispatchQueue.main.async {
+                    complete(error == nil)
+                }
+            }
+        }
+    }
 }

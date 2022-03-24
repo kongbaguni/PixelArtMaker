@@ -25,6 +25,9 @@ struct LoadView: View {
     var body: some View {
             
         ScrollView {
+            if stages.count == 0 {
+                Text("empty gallery title").padding(20)
+            }
             if loadingStart {
                 Text("open start").padding(20)
             }
