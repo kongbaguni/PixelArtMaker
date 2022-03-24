@@ -117,6 +117,7 @@ struct PixelDrawView: View {
     
     @State var isShowActionSheet = false
     @State var isShowClearAlert = false
+    @State var isShowDeleteImageAlert = false
     @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
     @State var forgroundColor:Color = .red
     
@@ -709,6 +710,9 @@ struct PixelDrawView: View {
                     buttons.append(.default(.menu_load_title, action: {
                         isShowLoadView = true
                     }))
+                    buttons.append(.destructive(.menu_delete_title, action: {
+                       isShowDeleteImageAlert = true
+                    }))
                 }
                 buttons.append(
                     .destructive(.clear_all_button_title, action: {
@@ -731,6 +735,27 @@ struct PixelDrawView: View {
                         load()
                     }), secondaryButton: .cancel())
         }
+        .alert(isPresented: $isShowDeleteImageAlert, content: {
+            Alert(title: Text.menu_delete_alert_title,
+                  message: Text.menu_delete_alert_message,
+                  primaryButton: .destructive(
+                    Text.menu_delete_alert_confirm, action: {
+                        isLoadingDataFin = false
+                        StageManager.shared.delete { isSucess in
+                            if isSucess {
+                                StageManager.shared.loadList { list in
+                                    isLoadingDataFin = true
+                                    StageManager.shared.initStage(size: pixelSize)
+                                    load()
+                                }
+                            } else {
+                                isLoadingDataFin = false
+                            }
+                        }
+                    }), secondaryButton: .cancel())
+
+        
+        })
         
         .frame(width: screenBounds.width,
                height: screenBounds.width > 500 ? screenBounds.height : CGFloat.leastNormalMagnitude,

@@ -24,6 +24,10 @@
 "menu save title" = "저장하기";
 "menu load title" = "불러오기";
 "menu color select title" = "컬러 프리셋";
+"menu delete title" = "삭제하기";
+"menu delete alert title" = "이미지 삭제";
+"menu delete alert message" = "이 그림을 삭제합니다.";
+"menu delete alert confirm" = "확인";
 
 "title_select_Layer_only" = "선택한 레이어만 보기";
 
@@ -31,3 +35,4 @@
 "save to existing file" = "기존 파일에 저장";
 "empty gallery title" = "겔러리에 저장된 그림이 없습니다.";
 "open start" = "그림을 읽어오는 중입니다.";
+

@@ -25,6 +25,12 @@
 "menu save title" = "save";
 "menu load title" = "load";
 
+"menu delete title" = "delete";
+"menu delete alert title" = "Delete image";
+"menu delete alert message" = "Delete this picture.";
+"menu delete alert confirm" = "confirm";
+
+
 "menu color select title" = "color preset";
 "title_select_Layer_only" = "Show only selected layers";
 

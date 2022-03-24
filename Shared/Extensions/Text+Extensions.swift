@@ -35,4 +35,10 @@ extension Text {
     
     static let save_as_new_file = Text("save as new file")
     static let save_to_existing_file = Text("save to existing file")
+
+    static let menu_delete_title = Text("menu delete title")
+    static let menu_delete_alert_title = Text("menu delete alert title")
+    static let menu_delete_alert_message = Text("menu delete alert message")
+    static let menu_delete_alert_confirm = Text("menu delete alert confirm")
+
 }

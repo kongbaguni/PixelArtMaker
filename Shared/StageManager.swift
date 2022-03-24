@@ -197,4 +197,24 @@ class StageManager {
             }
         }
     }
+    
+    func delete(documentId:String? = nil ,complete:@escaping(_ isSucess:Bool)->Void) {
+        guard let id = documentId ?? stage?.documentId else {
+            return
+        }
+        guard let email = AuthManager.shared.auth.currentUser?.email else {
+            complete(false)
+            return
+        }
+        
+        DispatchQueue.global().async {[self] in
+            let document = fireStore.collection("pixelarts").document(email).collection("data").document(id)
+            document.delete { error in
+                DispatchQueue.main.async {
+                    complete(error == nil)
+                }
+            }
+        }        
+    }
+    
 }
