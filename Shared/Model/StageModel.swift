@@ -178,7 +178,6 @@ class StageModel {
             "undo_layer_colors":undo.colors,
             "redo_layer_selection":redo.selection,
             "redo_layer_colors":redo.colors,
-            "preview_data":image,
             "bland_modes":blendModes,
             "undo_bland_modes":undoblendModes,
             "redo_bland_modes":redoblendModes
@@ -195,28 +194,7 @@ class StageModel {
         return ""
     }
     
-    static func getPreview(base64EncodedString:String)->UIImage? {
-        do {
-            guard let data = Data(base64Encoded: base64EncodedString) else {
-                return nil
-            }
-            let newData = try (data as NSData).decompressed(using: .lzfse) as Data
-            guard let json = try JSONSerialization.jsonObject(with: newData) as? [String:Any]
-            else {
-                return nil
-            }
-            
-            if let str = json["preview_data"] as? String,
-               let data = Data(base64Encoded: str),
-               let image = UIImage(data: data) {
-                return image
-            }
-            
-        } catch {
-            
-        }
-        return nil
-    }
+   
     
     static func makeModel(base64EncodedString:String, documentId:String?)->StageModel? {
         func getColor(arr:[[[String]]])->[[[Color]]] {
@@ -249,11 +227,6 @@ class StageModel {
                 model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
                 model.documentId = documentId
                 
-                if let str = json["preview_data"] as? String,
-                   let data = Data(base64Encoded: str),
-                   let image = UIImage(data: data) {
-                    model.previewImage = image
-                }
 
                 if let p = json["pallete_colors"] as? [String] {
                     model.paletteColors = p.map({ str in

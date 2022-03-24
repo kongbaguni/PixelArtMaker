@@ -110,11 +110,11 @@ struct PixelDrawView: View {
     @State var colors:[[Color]]
     @State var undoCount = 0
     @State var redoCount = 0
-
+    
     @State private var timer: Timer?
     @State var isLongPressing = false
     
-
+    
     @State var isShowColorPresetView = false
     @State var isShowSaveView = false
     @State var isShowLoadView = false
@@ -192,12 +192,12 @@ struct PixelDrawView: View {
         }
         refreshStage()
     }
-        
+    
     func paint(target:CGPoint, color:Color) {
         let idx:Point = .init(point: target)
         /** 최초 선택 컬러*/
         let cc = colors[idx.y][idx.x]
-      
+        
         func getNextIdxs(idx:Point)->Set<Point> {
             var nextIdxs:[Point] {
                 return [
@@ -218,7 +218,7 @@ struct PixelDrawView: View {
             }
             return result
         }
-
+        
         var list = getNextIdxs(idx: idx)
         var test = true
         while test {
@@ -243,7 +243,7 @@ struct PixelDrawView: View {
         let idx:(Int,Int) = (Int(target.x), Int(target.y))
         draw(idx: idx, color: color)
     }
-        
+    
     func draw(idx:(Int,Int), color:Color) {
         if idx.0 < colors.count && idx.0 >= 0 {
             if idx.1 < colors[idx.0].count && idx.1 >= 0 {
@@ -276,11 +276,11 @@ struct PixelDrawView: View {
     func erase(idx:(Int,Int)) {
         draw(idx: idx, color: .clear)
     }
-
+    
     
     var body: some View {
         VStack {
-            #if !MAC
+#if !MAC
             NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
                 
             }
@@ -290,7 +290,7 @@ struct PixelDrawView: View {
             NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
                 
             }
-            #endif
+#endif
             NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
                 
             }
@@ -310,7 +310,7 @@ struct PixelDrawView: View {
                                                                           height: w - 2.0),
                                                        cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
                                 }
-
+                                
                                 if color != .clear {
                                     
                                     context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
@@ -326,7 +326,7 @@ struct PixelDrawView: View {
                                 
                             }
                         }
-
+                        
                     }
                     for rect in [
                         CGRect(x: size.width*0.25 - 0.25, y: 0, width: 0.5, height: size.height),
@@ -377,7 +377,7 @@ struct PixelDrawView: View {
                     timer?.invalidate()
                 }
             }))
-                .frame(width: screenWidth, height: screenWidth, alignment: .center)
+            .frame(width: screenWidth, height: screenWidth, alignment: .center)
             HStack {
                 //MARK: - 레이어 토글
                 Toggle(isOn: $isShowSelectLayerOnly) {
@@ -385,16 +385,16 @@ struct PixelDrawView: View {
                 }.padding(20)
                 //MARK:  미리보기
                 NavigationLink(destination: {
-                  LayerEditView()
+                    LayerEditView()
                 }, label: {
                     if let img = previewImage {
                         img.resizable().frame(width: 40, height: 40, alignment: .center)
                     }
                 }).padding(20)
             }
-
-//            Spacer()
-
+            
+            //            Spacer()
+            
             HStack {
                 // MARK: -  빠렛트
                 VStack {
@@ -404,7 +404,7 @@ struct PixelDrawView: View {
                         Text("").frame(width: 28, height: 15, alignment: .center)
                             .background(forgroundColor)
                     }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
-
+                    
                     Button {
                         colorSelectMode = .background
                     } label: {
@@ -416,16 +416,16 @@ struct PixelDrawView: View {
                 case .foreground:
                     ColorPicker(selection: $forgroundColor) {}.onChange(of: forgroundColor) { newValue in
                         print("change forground : \(newValue.string)")
-//                        refreshStage()
+                        //                        refreshStage()
                     }.frame(width: 40, height: 40, alignment: .center)
                 case .background:
                     ColorPicker(selection: $backgroundColor) {}.onChange(of: backgroundColor) { newValue in
                         print("change backgroundColor : \(newValue.string)")
-//                        refreshStage()
+                        //                        refreshStage()
                     }.frame(width: 40, height: 40, alignment: .center)
                 }
-                    
-
+                
+                
                 Spacer()
                 HStack {
                     ForEach(0..<7) { i in
@@ -454,12 +454,12 @@ struct PixelDrawView: View {
                         Image("more")
                             .resizable()
                             .frame(width: 20, height: 20, alignment: .center)
-                            
+                        
                     }
                     
                 }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
             }.padding(10)
-
+            
             HStack {
                 //MARK: - 포인터 브러시 컨트롤 뷰
                 VStack {
@@ -470,7 +470,7 @@ struct PixelDrawView: View {
                             Image("pencil")
                                 .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
-
+                            
                         }.frame(width: 50, height: 50, alignment: .center)
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 draw(target: pointer, color: forgroundColor)
@@ -495,7 +495,7 @@ struct PixelDrawView: View {
                             .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                                 changeColor(target: pointer, color: forgroundColor)
                             }))
-
+                        
                         //지우개
                         Button {
                         } label : {
@@ -520,14 +520,13 @@ struct PixelDrawView: View {
                                     forgroundColor = color
                                 }
                             }))
-
-
+                        
+                        
                     }
-
-
-                    //MARK: - 화살표 컨트롤러
+                    
+                    
                     HStack {
-
+                        //MARK: - undo
                         Button {
                             StageManager.shared.stage?.undo()
                             StageManager.shared.saveTemp {
@@ -548,41 +547,115 @@ struct PixelDrawView: View {
                                         .frame(width: 50, height: 5, alignment: .center)
                                 }
                             }
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                    print("long press")
-                                    self.isLongPressing = true
-                                    //or fastforward has started to start the timer
-                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                        StageManager.shared.stage?.undo()
-                                    })
-                                }
-                            )
-                        
-
-                        Button {
-                            if isLongPressing {
-                                isLongPressing = false
-                                timer?.invalidate()
+                        }
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .simultaneousGesture(
+                            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                print("long press")
+                                self.isLongPressing = true
+                                //or fastforward has started to start the timer
+                                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                    StageManager.shared.stage?.undo()
+                                })
                             }
-                            pointer = .init(x: pointer.x, y: pointer.y - 1)
-                        } label: {
-                            Image("arrow_up")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                    print("long press")
-                                    self.isLongPressing = true
-                                    //or fastforward has started to start the timer
-                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                        pointer = .init(x: pointer.x, y: pointer.y - 1)
-                                    })
+                        )
+                        .padding(20)
+                        
+                        //MARK: - 화살표 컨트롤러
+                        VStack {
+                            Button {
+                                if isLongPressing {
+                                    isLongPressing = false
+                                    timer?.invalidate()
                                 }
-                            )
-
+                                pointer = .init(x: pointer.x, y: pointer.y - 1)
+                            } label: {
+                                Image("arrow_up")
+                                    .resizable()
+                                    .frame(width: 50, height: 50, alignment: .center)
+                            }.frame(width: 50, height: 50, alignment: .center)
+                                .simultaneousGesture(
+                                    LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                        print("long press")
+                                        self.isLongPressing = true
+                                        //or fastforward has started to start the timer
+                                        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                            pointer = .init(x: pointer.x, y: pointer.y - 1)
+                                        })
+                                    }
+                                )
+                            HStack {
+                                Button {
+                                    if isLongPressing {
+                                        isLongPressing = false
+                                        timer?.invalidate()
+                                    }
+                                    pointer = .init(x: pointer.x - 1, y: pointer.y)
+                                } label: {
+                                    Image("arrow_left")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                            print("long press")
+                                            self.isLongPressing = true
+                                            //or fastforward has started to start the timer
+                                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                                pointer = .init(x: pointer.x - 1, y: pointer.y)
+                                            })
+                                        }
+                                    )
+                                
+                                Button {
+                                    if isLongPressing {
+                                        isLongPressing = false
+                                        timer?.invalidate()
+                                    }
+                                    pointer = .init(x: pointer.x, y: pointer.y + 1)
+                                } label: {
+                                    Image("arrow_down")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                            print("long press")
+                                            self.isLongPressing = true
+                                            //or fastforward has started to start the timer
+                                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                                pointer = .init(x: pointer.x, y: pointer.y + 1)
+                                            })
+                                        }
+                                    )
+                                
+                                Button {
+                                    if isLongPressing {
+                                        isLongPressing = false
+                                        timer?.invalidate()
+                                    }
+                                    pointer = .init(x: pointer.x + 1, y: pointer.y)
+                                } label: {
+                                    Image("arrow_right")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                            print("long press")
+                                            self.isLongPressing = true
+                                            //or fastforward has started to start the timer
+                                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                                pointer = .init(x: pointer.x + 1, y: pointer.y)
+                                            })
+                                        }
+                                    )
+                            }
+                        }
+                        
+                        
+                        
+                        //MARK: - redo
                         Button {
                             StageManager.shared.stage?.redo()
                             StageManager.shared.saveTemp {
@@ -598,93 +671,27 @@ struct PixelDrawView: View {
                                 if redoCount + undoCount > 0 {
                                     ProgressView(value: CGFloat(redoCount) / CGFloat(redoCount + undoCount) )
                                         .frame(width: 50, height: 5, alignment: .center)
-                                } else {                                   
+                                } else {
                                     ProgressView(value: 0)
                                         .frame(width: 50, height: 5, alignment: .center)
                                     
                                 }
                             }
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                    print("long press")
-                                    self.isLongPressing = true
-                                    //or fastforward has started to start the timer
-                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                        StageManager.shared.stage?.redo()
-                                    })
-                                }
-                            )
+                        }
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .simultaneousGesture(
+                            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                print("long press")
+                                self.isLongPressing = true
+                                //or fastforward has started to start the timer
+                                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                    StageManager.shared.stage?.redo()
+                                })
+                            }
+                        )
+                        .padding(20)
                     }
-
-                    HStack {
-                        Button {
-                            if isLongPressing {
-                                isLongPressing = false
-                                timer?.invalidate()
-                            }
-                            pointer = .init(x: pointer.x - 1, y: pointer.y)
-                        } label: {
-                            Image("arrow_left")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                    print("long press")
-                                    self.isLongPressing = true
-                                    //or fastforward has started to start the timer
-                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                        pointer = .init(x: pointer.x - 1, y: pointer.y)
-                                    })
-                                }
-                            )
-
-                        Button {
-                            if isLongPressing {
-                                isLongPressing = false
-                                timer?.invalidate()
-                            }
-                            pointer = .init(x: pointer.x, y: pointer.y + 1)
-                        } label: {
-                            Image("arrow_down")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                    print("long press")
-                                    self.isLongPressing = true
-                                    //or fastforward has started to start the timer
-                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                        pointer = .init(x: pointer.x, y: pointer.y + 1)
-                                    })
-                                }
-                            )
-
-                        Button {
-                            if isLongPressing {
-                                isLongPressing = false
-                                timer?.invalidate()
-                            }
-                            pointer = .init(x: pointer.x + 1, y: pointer.y)
-                        } label: {
-                            Image("arrow_right")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                    print("long press")
-                                    self.isLongPressing = true
-                                    //or fastforward has started to start the timer
-                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                        pointer = .init(x: pointer.x + 1, y: pointer.y)
-                                    })
-                                }
-                            )
-                    }
-
+                    
                 }.padding(20)
             }
             
@@ -696,7 +703,7 @@ struct PixelDrawView: View {
             } label : {
                 Text("menu")
             }
-
+            
             // MARK: - 네비게이션바 액션시트 메뉴
             .actionSheet(isPresented: $isShowActionSheet) {
                 var buttons:[ActionSheet.Button] = []
@@ -740,34 +747,34 @@ struct PixelDrawView: View {
             switch alertType {
             case .clear:
                 return Alert(title: Text.clear_alert_title,
-                      message: Text.clear_alert_message,
-                      primaryButton: .destructive(
-                        Text.clear_alert_confirm, action: {
-                            isLoadingDataFin = false
-                            StageManager.shared.deleteTemp { isSucess in
-                                StageManager.shared.initStage(size: pixelSize)
-                                load()
-                                isLoadingDataFin = true
-                            }
-                        }), secondaryButton: .cancel())
-            case .delete:
-                return Alert(title: Text.menu_delete_alert_title,
-                      message: Text.menu_delete_alert_message,
-                      primaryButton: .destructive(
-                        Text.menu_delete_alert_confirm, action: {
-                            isLoadingDataFin = false
-                            StageManager.shared.delete { isSucess in
-                                if isSucess {
-                                    StageManager.shared.loadList { list in
-                                        isLoadingDataFin = true
+                             message: Text.clear_alert_message,
+                             primaryButton: .destructive(
+                                Text.clear_alert_confirm, action: {
+                                    isLoadingDataFin = false
+                                    StageManager.shared.deleteTemp { isSucess in
                                         StageManager.shared.initStage(size: pixelSize)
                                         load()
+                                        isLoadingDataFin = true
                                     }
-                                } else {
+                                }), secondaryButton: .cancel())
+            case .delete:
+                return Alert(title: Text.menu_delete_alert_title,
+                             message: Text.menu_delete_alert_message,
+                             primaryButton: .destructive(
+                                Text.menu_delete_alert_confirm, action: {
                                     isLoadingDataFin = false
-                                }
-                            }
-                        }), secondaryButton: .cancel())
+                                    StageManager.shared.delete { isSucess in
+                                        if isSucess {
+                                            StageManager.shared.loadList { list in
+                                                isLoadingDataFin = true
+                                                StageManager.shared.initStage(size: pixelSize)
+                                                load()
+                                            }
+                                        } else {
+                                            isLoadingDataFin = false
+                                        }
+                                    }
+                                }), secondaryButton: .cancel())
             }
         }
         .frame(width: screenBounds.width,
@@ -789,12 +796,12 @@ struct PixelDrawView: View {
                         StageManager.shared.stage?.backgroundColor = backgroundColor
                         isLoadedColorPreset = true
                         forgroundColor = color.first!
-
+                        
                         StageManager.shared.loadTemp { _ in
                             isLoadingDataFin = true
                             load()
                         }
-
+                        
                     }
                 }
             }
@@ -815,9 +822,9 @@ struct PixelDrawView: View {
                 refreshStage()
             }
         }
-
+        
     }
-
+    
     func load() {
         if let stage = StageManager.shared.stage {
             forgroundColor = stage.forgroundColor
@@ -830,7 +837,7 @@ struct PixelDrawView: View {
                 previewImage = image
             }
         }
-
+        
     }
     
 }

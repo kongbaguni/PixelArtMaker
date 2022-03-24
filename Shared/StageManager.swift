@@ -97,8 +97,8 @@ class StageManager {
             }
         }
     }
+    
     func save(asNewForce:Bool,complete:@escaping()->Void) {
-        
         DispatchQueue.global().async {[self] in
             guard let email = AuthManager.shared.auth.currentUser?.email,
                   let stage = stage else {
@@ -106,10 +106,14 @@ class StageManager {
             }
             
             let collection = fireStore.collection("pixelarts")
-            
-            let data = [
+            var data = [
                 "data":stage.base64EncodedString
             ]
+            if let preview = stage.makeImageDataValue(size: .init(width: 320, height: 320)) as? NSData,
+                let cdata = try? preview.compressed(using: .zlib) {
+                data["preview"] = cdata.base64EncodedString()
+            }
+
             
             if let documentPath = self.stage?.documentId {
                 if asNewForce == false {
@@ -182,10 +186,11 @@ class StageManager {
                 }
                 
                 
+                
                 var result:[StagePreviewModel] = []
-                for data in datas {
-                    if let string = data.0["data"] as? String,
-                       let image = StageModel.getPreview(base64EncodedString: string) {
+                for data in datas {                    
+                    if let string = data.0["preview"] as? String,
+                       let image = UIImage(base64encodedString: string) {
                         let model = StagePreviewModel.init(documentId: data.1, image: image)
                         result.append(model)
                     }

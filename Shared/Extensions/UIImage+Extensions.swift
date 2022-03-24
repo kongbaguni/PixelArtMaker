@@ -9,10 +9,10 @@ import Foundation
 import UIKit
 import SwiftUI
 
-    extension UIImage {
-        public convenience init?(totalColors:[[[Color]]],blendModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
-            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-            if backgroundColor.ciColor.alpha > 0 {
+extension UIImage {
+    public convenience init?(totalColors:[[[Color]]],blendModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        if backgroundColor.ciColor.alpha > 0 {
             backgroundColor.uiColor.setFill()
             UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
         }
@@ -32,11 +32,20 @@ import SwiftUI
             }
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
-
+        
         UIGraphicsEndImageContext()
         guard let cgImage = image?.cgImage else {
             return nil
         }
         self.init(cgImage:cgImage)
+    }
+    
+    public convenience init?(base64encodedString str:String) {
+        if let data = NSData(base64Encoded: str),
+           let ddata = try? data.decompressed(using: .zlib) as Data {
+            self.init(data: ddata)
+            return
+        }
+        self.init()
     }
 }
