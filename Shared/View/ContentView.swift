@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
-#if !MAC
 import Firebase
-#endif
+import GoogleMobileAds
 
 struct ContentView: View {
     init() {
-        #if !MAC
         FirebaseApp.configure()
-        #endif
+        GADMobileAds.sharedInstance().start { status in
+            print("-------------------------------")
+            print("google ad status : \(status.adapterStatusesByClassName)")
+            GoogleAd.shared.loadAd()
+        }
+        
     }
     
     var body: some View {

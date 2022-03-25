@@ -58,9 +58,6 @@ struct LayerEditView: View {
                     if let id = layers.firstIndex(of: layer) {
                         HStack {
                             Text("\(id)")
-                                .foregroundColor(
-                                    StageManager.shared.stage?.selectedLayerIndex == id ? .red : .white
-                                )
                             Spacer()
                             if blendModes.count > id {
                                 Picker(selection: $blendModes[id], label: Text("")) {
@@ -101,20 +98,29 @@ struct LayerEditView: View {
                                 Text(" ")
                             }
                         }
+                        .padding(20)
+                        .background(
+                            StageManager.shared.stage?.selectedLayerIndex == id ? .blue : .clear
+                        )
                     }
                 }
-                
-                Button {
-                    StageManager.shared.stage?.addLayer()
-                    reload()
-                    
-                } label: {
-                    Text.make_new_layer
+                if layers.count < 5 {
+                    Button {
+                        GoogleAd.shared.showAd { isSucess in
+                            StageManager.shared.stage?.addLayer()
+                            reload()
+                            StageManager.shared.saveTemp {
+                                
+                            }
+                        }
+                    } label: {
+                        Text.make_new_layer
+                    }
                 }
                 
             }
         }
-        .listStyle(PlainListStyle())
+        .listStyle(GroupedListStyle())
         .navigationTitle(.layer_edit_title)
         .onAppear {
             reload()

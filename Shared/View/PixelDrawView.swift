@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 enum Position:String {
     case 왼쪽상단 = "lt"
     case 가운대상단 = "ct"

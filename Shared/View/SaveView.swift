@@ -56,11 +56,13 @@ struct SaveView: View {
                 
                 if StageManager.shared.stage?.documentId != nil {
                     Button {
-                        StageManager.shared.save(asNewForce: false, complete: {
-                            StageManager.shared.loadList { result in
-                                presentationMode.wrappedValue.dismiss()
-                            }
-                        })
+                        GoogleAd.shared.showAd { isSucess in
+                            StageManager.shared.save(asNewForce: false, complete: {
+                                StageManager.shared.loadList { result in
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            })
+                        }
                         
                     } label: {
                         Text.save_to_existing_file

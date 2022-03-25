@@ -39,9 +39,9 @@ struct LoadView: View {
                             stages = [stage]
                             gridItems = [.init(.fixed(width2))]
                             StageManager.shared.openStage(id: stage.documentId) { result in
-                                StageManager.shared.stage = result
-                                presentationMode.wrappedValue.dismiss()
-                                
+                                StageManager.shared.saveTemp {
+                                    presentationMode.wrappedValue.dismiss()
+                                }                                
                             }
                         }
                     } label : {

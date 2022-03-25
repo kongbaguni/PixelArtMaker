@@ -80,7 +80,7 @@ class StageModel {
     }
     
     func addLayer() {
-        layers.append(.init(size: canvasSize, blendMode: .normal))
+        layers.append(.init(size: canvasSize, blendMode: .normal))        
     }
     
     func undo() {

@@ -143,9 +143,9 @@ class StageManager {
             return
         }
 
-        DispatchQueue.global().async {[self] in
+        DispatchQueue.global().async { [self] in
             let document = fireStore.collection("pixelarts").document(email).collection("data").document(id)
-            document.getDocument { snapShot, error in
+            document.getDocument { [self] snapShot, error in
                 if let err = error {
                     print(err.localizedDescription)
                 }
@@ -159,6 +159,7 @@ class StageManager {
                 }
                 
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
+                stage = model
                 DispatchQueue.main.async {
                     complete(model)
                 }
@@ -166,6 +167,7 @@ class StageManager {
         
         }
     }
+    
     func loadList(complete:@escaping(_ result:[StagePreviewModel])->Void) {
         DispatchQueue.global().async {[self] in
             guard let email = AuthManager.shared.auth.currentUser?.email else {
@@ -184,9 +186,7 @@ class StageManager {
                 else {
                     return
                 }
-                
-                
-                
+
                 var result:[StagePreviewModel] = []
                 for data in datas {                    
                     if let string = data.0["preview"] as? String,
