@@ -100,8 +100,9 @@ struct LayerEditView: View {
                         }
                         .padding(20)
                         .background(
-                            StageManager.shared.stage?.selectedLayerIndex == id ? .blue : .clear
+                            StageManager.shared.stage?.selectedLayerIndex == id ? .yellow : .clear
                         )
+                        .cornerRadius(20)
                     }
                 }
                 if layers.count < 5 {

@@ -142,9 +142,6 @@ class StageModel {
         
         let undo = getHistoryStrings(history: history.arrayValue)
         let redo = getHistoryStrings(history: redoHistory.arrayValue)
-        
-        let image = makeImageDataValue(size:.init(width: 320, height: 320))?.base64EncodedString() ?? ""
-        
              
         let blendModes = layers.map { model in
             return model.blendMode.rawValue
@@ -180,7 +177,8 @@ class StageModel {
             "redo_layer_colors":redo.colors,
             "bland_modes":blendModes,
             "undo_bland_modes":undoblendModes,
-            "redo_bland_modes":redoblendModes
+            "redo_bland_modes":redoblendModes,
+            "selected_layer_index":selectedLayerIndex,
         ]
         
         
@@ -226,7 +224,9 @@ class StageModel {
                 model.title = json["title"] as? String ?? ""
                 model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
                 model.documentId = documentId
-                
+                if let idx = json["selected_layer_index"] as? Int {
+                    model.selectedLayerIndex = idx
+                }
 
                 if let p = json["pallete_colors"] as? [String] {
                     model.paletteColors = p.map({ str in
