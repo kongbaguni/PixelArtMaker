@@ -115,7 +115,8 @@ class StageManager {
             
             let collection = fireStore.collection("pixelarts")
             var data = [
-                "data":stage.base64EncodedString
+                "data":stage.base64EncodedString,
+                "updateDt":Date().ISO8601Format()
             ]
             if let preview = stage.makeImageDataValue(size: .init(width: 320, height: 320)) as? NSData,
                 let cdata = try? preview.compressed(using: .zlib) {
@@ -126,7 +127,7 @@ class StageManager {
             if let documentPath = self.stage?.documentId {
                 if asNewForce == false {
                     let d = collection.document(email).collection("data").document(documentPath)
-                    d.setData(data) { error in
+                    d.updateData(data) { error in
                         print(error?.localizedDescription ?? "업로드 성공")
                         DispatchQueue.main.async {
                             complete()
@@ -135,8 +136,10 @@ class StageManager {
                     return
                 }
             }
+            data["regDt"] = Date().ISO8601Format()
             collection.document(email).collection("data").addDocument(data: data) { error in
                 print(error?.localizedDescription ?? "업로드 성공")
+                
                 DispatchQueue.main.async {
                     complete()
                 }

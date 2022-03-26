@@ -37,6 +37,7 @@ class StageModel {
         layers = [
             LayerModel(size: canvasSize, blendMode: .normal)
         ]
+        history.setLimit(20)
         self.canvasSize = canvasSize
     }
     

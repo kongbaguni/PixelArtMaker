@@ -15,7 +15,6 @@ fileprivate let height2 = width2 + 50
 
 struct LoadView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
     @State var stages:[StagePreviewModel] = []
     @State var gridItems:[GridItem] = [
         .init(.fixed(width1)),
@@ -46,9 +45,15 @@ struct LoadView: View {
                         }
                     } label : {
                         VStack {
-                            Image(uiImage: stage.image).resizable().frame(width: loadingStart ? width2 : width1,
-                                                                          height: loadingStart ? width2 : width1,
-                                                                          alignment: .center)
+                            ZStack {
+                                Image(uiImage: stage.image).resizable().frame(width: loadingStart ? width2 : width1,
+                                                                              height: loadingStart ? width2 : width1,
+                                                                              alignment: .center)
+                                .opacity(loadingStart ? 0.2 : 1.0)
+                                ActivityIndicator(isAnimating: $loadingStart, style: .large)
+                                    .frame(width: loadingStart ? width2 : width1,
+                                           height: loadingStart ? width2 : width1, alignment: .center)
+                            }
                             Text(stage.documentId)
                                 .font(SwiftUI.Font.system(size: loadingStart ? 16 : 8))
                                 .padding(5)

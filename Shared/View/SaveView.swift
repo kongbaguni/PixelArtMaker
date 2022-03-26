@@ -10,7 +10,7 @@ import SwiftUI
 struct SaveView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    @State var isLoadingAnimated = false
+    @State var isLoading = false
     @State var colors:[[[Color]]] = []
     @State var backgroundColor:Color = .white
     @State var title:String = "" 
@@ -38,21 +38,19 @@ struct SaveView: View {
                 ZStack {
                     if let img = previewImage {
                         img.resizable().frame(width: 200, height: 200, alignment: .center)
-                            .opacity(isLoadingAnimated ? 0.5 : 1.0)
+                            .opacity(isLoading ? 0.5 : 1.0)
                     }
-                    if isLoadingAnimated {
-                        ActivityIndicator(isAnimating: $isLoadingAnimated, style: .large)
-                            .frame(width: 200, height: 200, alignment: .center)
-                    }
+                    ActivityIndicator(isAnimating: $isLoading, style: .large)
+                        .frame(width: 200, height: 200, alignment: .center)
                 }
                 HStack {
                     if StageManager.shared.stage?.documentId != nil {
                         Button {
-                            isLoadingAnimated = true
+                            isLoading = true
                             GoogleAd.shared.showAd { isSucess in
                                 StageManager.shared.save(asNewForce: false, complete: {
                                     StageManager.shared.loadList { result in
-                                        isLoadingAnimated = false
+                                        isLoading = false
                                         presentationMode.wrappedValue.dismiss()
                                     }
                                 })
@@ -69,11 +67,11 @@ struct SaveView: View {
                     }
                     
                     Button {
-                        isLoadingAnimated = true
+                        isLoading = true
                         GoogleAd.shared.showAd { isSucess in
                             StageManager.shared.save(asNewForce: true, complete: {
                                 StageManager.shared.loadList { result in
-                                    isLoadingAnimated = false
+                                    isLoading = false
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             })

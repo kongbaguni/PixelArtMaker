@@ -7,6 +7,8 @@
 
 import Foundation
 struct Stack<T> {
+    private var limit:Int? = nil
+    
     private var stack: [T] = []
     
     public var count: Int {
@@ -19,6 +21,11 @@ struct Stack<T> {
     
     public mutating func push(_ element: T) {
         stack.append(element)
+        if let l = limit {
+            while stack.count > l {
+                stack.removeFirst()
+            }
+        }
     }
     
     public mutating func pop() -> T? {
@@ -34,4 +41,9 @@ struct Stack<T> {
             return stack
         }
     }
+    
+    public mutating func setLimit(_ limit:Int) {
+        self.limit = limit
+    }
+    
 }
