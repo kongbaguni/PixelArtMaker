@@ -103,13 +103,14 @@ struct LayerEditView: View {
                             }
                         }
                         .swipeActions {
-                            Button {
-                                deleteLayer(idx: id)
-                            } label: {
-                                Text("delete layer")
+                            if layers.count > 1 {
+                                Button {
+                                    deleteLayer(idx: id)
+                                } label: {
+                                    Text("delete layer")
+                                }
+                                .tint(.red)
                             }
-                            .tint(.red)
-
                         }
                         .padding(20)
                         .background(

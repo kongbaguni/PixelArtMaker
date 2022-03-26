@@ -24,7 +24,7 @@
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
         "branch" : "master",
-        "revision" : "6efe4f5b875da40d49c846c22f56ebb9ea870c37"
+        "revision" : "b4dd98da69fca029123788e69e14d612ef44e0d1"
       }
     },
     {
@@ -97,6 +97,24 @@
       "state" : {
         "revision" : "611337c330350c9c1823ad6d671e7f936af5ee13",
         "version" : "2.0.0"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core",
+      "state" : {
+        "revision" : "dcd3788f75bafb0cc397d145e1651aab3ad4bf0e",
+        "version" : "11.12.0"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift.git",
+      "state" : {
+        "revision" : "628cf20632d65d3a3e90ae8aaf52bce596d7ad8f",
+        "version" : "10.24.2"
       }
     },
     {
