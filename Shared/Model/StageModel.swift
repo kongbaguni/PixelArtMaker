@@ -72,16 +72,27 @@ class StageModel {
         redoHistory.removeAll()
     }
     
+    
     func change(blendMode:CGBlendMode, layerIndex:Int) {
+        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex))
         let layer = layers[layerIndex]
         if layer.blendMode != blendMode {
             layers[layerIndex] = .init(colors: layer.colors, id: layer.id, blendMode: blendMode)
             NotificationCenter.default.post(name: .layerblendModeDidChange, object: nil)
         }
+        redoHistory.removeAll()
+    }
+    
+    func deleteLayer(idx:Int) {
+        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex))
+        layers.remove(at: idx)
+        redoHistory.removeAll()
     }
     
     func addLayer() {
+        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex))
         layers.append(.init(size: canvasSize, blendMode: .normal))        
+        redoHistory.removeAll()
     }
     
     func undo() {

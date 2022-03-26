@@ -143,7 +143,7 @@ struct LayerEditView: View {
     }
     
     fileprivate func deleteLayer(idx:Int) {
-        StageManager.shared.stage?.layers.remove(at: idx)
+        StageManager.shared.stage?.deleteLayer(idx: idx)
         reload()        
         StageManager.shared.saveTemp {
         
