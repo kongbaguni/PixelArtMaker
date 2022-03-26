@@ -101,6 +101,7 @@ struct PixelDrawView: View {
     }
     
     @State var previewImage:Image? = nil
+    @State var isLoadingAnimated = true
     @State var isLoadingDataFin = false
     @State var isLoadedColorPreset = false
     @State var colorSelectMode:ColorSelectMode = .foreground
@@ -293,6 +294,7 @@ struct PixelDrawView: View {
             }
             
             //MARK: - 드로잉 켄버스
+            ZStack {
             Canvas { context, size in
                 func draw() {
                     let w = size.width / CGFloat(colors.first?.count ?? 1)
@@ -375,6 +377,10 @@ struct PixelDrawView: View {
                 }
             }))
             .frame(width: screenWidth, height: screenWidth, alignment: .center)
+                if isLoadingDataFin == false {
+                    ActivityIndicator(isAnimating: $isLoadingAnimated, style: .large).frame(width: screenWidth, height: screenWidth, alignment: .center)
+                }
+            }
             HStack {
                 //MARK: - 레이어 토글
                 Toggle(isOn: $isShowSelectLayerOnly) {

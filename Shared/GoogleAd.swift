@@ -21,7 +21,7 @@ class GoogleAd : NSObject {
     static let shared = GoogleAd()
     private var interstitial: GADRewardedInterstitialAd? = nil
 
-    func loadAd() {
+    func loadAd(complete:@escaping(_ isSucess:Bool)->Void) {
         let request = GADRequest()
         
         GADRewardedInterstitialAd.load(withAdUnitID: gaid, request: request) { [self] ad, error in
@@ -37,6 +37,7 @@ class GoogleAd : NSObject {
             else {
                 print("ad 가 없다")
             }
+            complete(ad != nil)
         }
     }
     var callback:(_ isSucess:Bool)->Void = { _ in}
@@ -44,6 +45,13 @@ class GoogleAd : NSObject {
     func showAd(complete:@escaping(_ isSucess:Bool)->Void) {
         if let vc = UIApplication.shared.keyWindow?.rootViewController {
             print(interstitial == nil ? "없다" : "있다")
+            if interstitial == nil {
+                loadAd { [self] isSucess in
+                    showAd(complete: complete)
+                }
+                return
+            }
+            
             interstitial?.present(fromRootViewController: vc, userDidEarnRewardHandler: {[self] in
                 print(interstitial?.adMetadata ?? "메타 없다")
             })
@@ -70,8 +78,7 @@ extension GoogleAd : GADFullScreenContentDelegate {
     //광고 종료
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("google ad \(#function)")
-        callback(true)
-        loadAd()
+        callback(true)        
     }
 }
 

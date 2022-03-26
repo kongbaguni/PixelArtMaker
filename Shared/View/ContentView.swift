@@ -15,7 +15,9 @@ struct ContentView: View {
         GADMobileAds.sharedInstance().start { status in
             print("-------------------------------")
             print("google ad status : \(status.adapterStatusesByClassName)")
-            GoogleAd.shared.loadAd()
+            GoogleAd.shared.loadAd { isSucess in
+                
+            }
         }
         
     }

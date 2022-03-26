@@ -10,6 +10,7 @@ import SwiftUI
 struct SaveView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
+    @State var isLoadingAnimated = false
     @State var colors:[[[Color]]] = []
     @State var backgroundColor:Color = .white
     @State var title:String = "" 
@@ -20,67 +21,73 @@ struct SaveView: View {
             
             ScrollView {
                 if let id = StageManager.shared.stage?.documentId {
-                    Text("id : \(id)").padding(20)
+                    Text(id)
+                        .padding(5)
+                        .foregroundColor(.k_tagText)
+                        .background(Color.k_tagBackground)
+                        .cornerRadius(10)
                 }
                 else {
-                    Text("new file").padding(20)
+                    Text("new file")
+                        .padding(5)
+                        .foregroundColor(.k_tagText)
+                        .background(Color.k_tagBackground)
+                        .cornerRadius(10)
                 }
-//                TextField("title", text: $title)
-//                    .frame(width: screenBounds.width - 20, height: 50, alignment: .center)
-//                    .textFieldStyle(.roundedBorder)
                 
-                if let img = previewImage {
-                    img.resizable().frame(width: 200, height: 200, alignment: .center)                        
+                ZStack {
+                    if let img = previewImage {
+                        img.resizable().frame(width: 200, height: 200, alignment: .center)
+                            .opacity(isLoadingAnimated ? 0.5 : 1.0)
+                    }
+                    if isLoadingAnimated {
+                        ActivityIndicator(isAnimating: $isLoadingAnimated, style: .large)
+                            .frame(width: 200, height: 200, alignment: .center)
+                    }
                 }
-                else {
-                    Canvas { context, size in
-                        for data in colors {
-                            let w = size.width / CGFloat(data.first?.count ?? 1)
-                            for (y,list) in data.enumerated() {
-                                for (x,color) in list.enumerated() {
-                                    if color != .clear {
-                                        context.fill(.init(roundedRect: .init(x: CGFloat(x) * w - 0.01,
-                                                                              y: CGFloat(y) * w - 0.01,
-                                                                              width: w + 0.02,
-                                                                              height: w + 0.02),
-                                                           cornerSize: .zero), with: .color(color))
+                HStack {
+                    if StageManager.shared.stage?.documentId != nil {
+                        Button {
+                            isLoadingAnimated = true
+                            GoogleAd.shared.showAd { isSucess in
+                                StageManager.shared.save(asNewForce: false, complete: {
+                                    StageManager.shared.loadList { result in
+                                        isLoadingAnimated = false
+                                        presentationMode.wrappedValue.dismiss()
                                     }
-                                }
+                                })
                             }
+                            
+                        } label: {
+                            Text.save_to_existing_file
+                                .padding(10)
+                                .foregroundColor(.white)
+                                .background(Color.orange)
+                                .cornerRadius(10)
+                            
                         }
                     }
-                    .background(backgroundColor)
-                    .frame(width: screenBounds.width - 20, height: screenBounds.width - 20, alignment: .center)
-                    .padding(20)
-                }
-                
-                if StageManager.shared.stage?.documentId != nil {
+                    
                     Button {
+                        isLoadingAnimated = true
                         GoogleAd.shared.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false, complete: {
+                            StageManager.shared.save(asNewForce: true, complete: {
                                 StageManager.shared.loadList { result in
+                                    isLoadingAnimated = false
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             })
                         }
                         
                     } label: {
-                        Text.save_to_existing_file
+                        Text.save_as_new_file
+                            .padding(10)
+                            .foregroundColor(.white)
+                            .background(Color.orange)
+                            .cornerRadius(10)
+                        
                     }
-                    .padding(20)
                 }
-                
-                Button {
-                    StageManager.shared.save(asNewForce: true, complete: {
-                        StageManager.shared.loadList { result in
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    })
-                    
-                } label: {
-                    Text.save_as_new_file
-                }
-                .padding(20)
 
             }
         }

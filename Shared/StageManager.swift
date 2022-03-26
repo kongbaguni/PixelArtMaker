@@ -97,8 +97,16 @@ class StageManager {
             }
         }
     }
-    
+        
     func save(asNewForce:Bool,complete:@escaping()->Void) {
+        if let time = lastSaveTime {
+            if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
+                complete()
+                return
+            }
+        }
+        lastSaveTime = Date()
+        
         DispatchQueue.global().async {[self] in
             guard let email = AuthManager.shared.auth.currentUser?.email,
                   let stage = stage else {
