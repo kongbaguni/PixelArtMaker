@@ -14,6 +14,10 @@ struct LayerEditView: View {
             
     @State var blendModes:[Int] = []
     @State var isRequestMakePreview = false
+    
+    @State var isShowAlert = false
+    @State var willDeleteLayerIdx:Int? = nil
+    
     let blendModeStrs:[String] = [
         "normal",
         "multiply",
@@ -98,6 +102,15 @@ struct LayerEditView: View {
                                 Text(" ")
                             }
                         }
+                        .swipeActions {
+                            Button {
+                                deleteLayer(idx: id)                                
+                            } label: {
+                                Text("delete layer")
+                            }
+                            .tint(.red)
+
+                        }
                         .padding(20)
                         .background(
                             StageManager.shared.stage?.selectedLayerIndex == id ? .yellow : .clear
@@ -125,6 +138,15 @@ struct LayerEditView: View {
         .navigationTitle(.layer_edit_title)
         .onAppear {
             reload()
+        }
+        
+    }
+    
+    fileprivate func deleteLayer(idx:Int) {
+        StageManager.shared.stage?.layers.remove(at: idx)
+        reload()
+        StageManager.shared.saveTemp {
+        
         }
     }
         
