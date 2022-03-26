@@ -8,16 +8,12 @@
 import Foundation
 import SwiftUI
 extension Color {
-#if MAC
-    static let k_background = Color(nsColor: NSColor(named: "background")!)
-    static let k_pointer = Color(nsColor: NSColor(named: "pointer")!)
-    static let k_pointer2 = Color(nsColor: NSColor(named: "pointer2")!)
-    
-#else
     static let k_background = Color(uiColor: UIColor(named: "background")!)
     static let k_pointer = Color(uiColor: UIColor(named: "pointer")!)
     static let k_pointer2 = Color(uiColor: UIColor(named: "pointer2")!)
-#endif
+    static let k_tagBackground = Color(uiColor: UIColor(named: "tagBackground")!)
+    static let k_tagText = Color(uiColor: UIColor(named: "tagText")!)
+    
     var uiColor:UIColor {
         UIColor(red: ciColor.red, green: ciColor.green, blue: ciColor.blue, alpha: ciColor.alpha)
     }

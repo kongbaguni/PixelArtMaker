@@ -8,7 +8,7 @@
 import Foundation
 import CryptoKit
 import AuthenticationServices
-#if !MAC
+
 import FirebaseAuth
 
 extension Notification.Name {
@@ -149,4 +149,3 @@ extension AuthManager: ASAuthorizationControllerDelegate {
     
 }
 
-#endif

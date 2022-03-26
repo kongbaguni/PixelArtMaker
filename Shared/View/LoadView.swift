@@ -50,6 +50,12 @@ struct LoadView: View {
                                                                           height: loadingStart ? width2 : width1,
                                                                           alignment: .center)
                             Text(stage.documentId)
+                                .font(SwiftUI.Font.system(size: loadingStart ? 16 : 8))
+                                .padding(5)
+                                .foregroundColor(.k_tagText)
+                                .background(Color.k_tagBackground)
+                                .cornerRadius(10)
+                            
                         }.frame(width: loadingStart ? width2 + 10 : width1,
                                 height: loadingStart ? height2 + 10 : height1,
                                 alignment: .center)

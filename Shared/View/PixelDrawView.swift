@@ -279,7 +279,6 @@ struct PixelDrawView: View {
     
     var body: some View {
         VStack {
-#if !MAC
             NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
                 
             }
@@ -289,7 +288,6 @@ struct PixelDrawView: View {
             NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
                 
             }
-#endif
             NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
                 
             }
