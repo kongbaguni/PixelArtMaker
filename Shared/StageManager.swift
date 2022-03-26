@@ -114,9 +114,9 @@ class StageManager {
             }
             
             let collection = fireStore.collection("pixelarts")
-            var data = [
+            var data:[String:AnyHashable] = [
                 "data":stage.base64EncodedString,
-                "updateDt":Date().ISO8601Format()
+                "updateDt":Date().timeIntervalSince1970
             ]
             if let preview = stage.makeImageDataValue(size: .init(width: 320, height: 320)) as? NSData,
                 let cdata = try? preview.compressed(using: .zlib) {
@@ -136,7 +136,7 @@ class StageManager {
                     return
                 }
             }
-            data["regDt"] = Date().ISO8601Format()
+            data["regDt"] = Date().timeIntervalSince1970
             collection.document(email).collection("data").addDocument(data: data) { error in
                 print(error?.localizedDescription ?? "업로드 성공")
                 
@@ -201,11 +201,17 @@ class StageManager {
                 var result:[StagePreviewModel] = []
                 for data in datas {                    
                     if let string = data.0["preview"] as? String,
+                       let updateInterval = data.0["updateDt"] as? TimeInterval,
                        let image = UIImage(base64encodedString: string) {
-                        let model = StagePreviewModel.init(documentId: data.1, image: image)
+                        let updateDt = Date(timeIntervalSince1970: updateInterval)
+                        let model = StagePreviewModel.init(documentId: data.1, image: image, updateDt: updateDt)
                         result.append(model)
                     }
                 }
+                result = result.sorted { a, b in
+                    return a.updateDt > b.updateDt
+                }
+                
                 DispatchQueue.main.async {
                     self.stagePreviews = result
                     complete(result)

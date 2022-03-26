@@ -15,4 +15,5 @@ struct StagePreviewModel : Hashable {
 
     let documentId:String
     let image:UIImage
+    let updateDt:Date
 }

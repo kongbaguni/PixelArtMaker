@@ -60,6 +60,12 @@ struct LoadView: View {
                                 .foregroundColor(.k_tagText)
                                 .background(Color.k_tagBackground)
                                 .cornerRadius(10)
+                            Text(stage.updateDt.formatted(date:.long, time: .standard))
+                                .font(SwiftUI.Font.system(size: loadingStart ? 16 : 8))
+                                .padding(5)
+                                .foregroundColor(.k_tagText)
+                                .background(Color.k_tagBackground)
+                                .cornerRadius(10)
                             
                         }.frame(width: loadingStart ? width2 + 10 : width1,
                                 height: loadingStart ? height2 + 10 : height1,

@@ -104,7 +104,7 @@ struct LayerEditView: View {
                         }
                         .swipeActions {
                             Button {
-                                deleteLayer(idx: id)                                
+                                deleteLayer(idx: id)
                             } label: {
                                 Text("delete layer")
                             }
@@ -144,7 +144,7 @@ struct LayerEditView: View {
     
     fileprivate func deleteLayer(idx:Int) {
         StageManager.shared.stage?.layers.remove(at: idx)
-        reload()
+        reload()        
         StageManager.shared.saveTemp {
         
         }
