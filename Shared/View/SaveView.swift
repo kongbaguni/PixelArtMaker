@@ -27,6 +27,15 @@ struct SaveView: View {
     
     var body: some View {
         VStack {            
+            ZStack {
+                if let img = previewImage {
+                    img.resizable().frame(width: screenBounds.width - 10, height: screenBounds.width - 10 , alignment: .center)
+                        .opacity(isLoading ? 0.5 : 1.0)
+                }
+                ActivityIndicator(isAnimating: $isLoading, style: .large)
+                    .frame(width: 200, height: 200, alignment: .center)
+            }
+            
             if let id = StageManager.shared.stage?.documentId {
                 HStack {
                     Text("currentId")
@@ -44,14 +53,6 @@ struct SaveView: View {
                 OrangeTextView(Text("new file"))
             }
             
-            ZStack {
-                if let img = previewImage {
-                    img.resizable().frame(width: screenBounds.width - 10, height: screenBounds.width - 10 , alignment: .center)
-                        .opacity(isLoading ? 0.5 : 1.0)
-                }
-                ActivityIndicator(isAnimating: $isLoading, style: .large)
-                    .frame(width: 200, height: 200, alignment: .center)
-            }
             HStack {
                 if StageManager.shared.stage?.documentId != nil {
                     Button {
@@ -63,7 +64,7 @@ struct SaveView: View {
                                         isLoading = false
                                         presentationMode.wrappedValue.dismiss()
                                     }
-                                    return 
+                                    return
                                 }
                                 isLoading = false
                                 presentationMode.wrappedValue.dismiss()

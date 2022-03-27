@@ -362,11 +362,21 @@ class StageManager {
         }
         
         save(finish: {[self] shareId in
+            let now = Date()
             let data:[String:AnyHashable] = [
                 "shared_document_id":shareId!,
-                "updateDt":Date().timeIntervalSince1970
+                "updateDt":now.timeIntervalSince1970
             ]
             fireStore.collection("pixelarts").document(email).collection("data").document(id).updateData(data) { error in
+                let udata:[String:AnyHashable] = [
+                    "documentId":id,
+                    "shareDocumentId":shareId,
+                    "updateDt":now
+                ]
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.create(StagePreviewModel.self, value: udata, update: .modified)
+                }
                 complete(error == nil )
             }
         })
