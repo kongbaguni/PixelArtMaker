@@ -19,7 +19,7 @@ struct PublicShareListView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var dblist:Results<SharedStageModel> {
-        return try! Realm().objects(SharedStageModel.self).sorted(byKeyPath: "updateDt")
+        return try! Realm().objects(SharedStageModel.self).filter("deleted = %@", false).sorted(byKeyPath: "updateDt")
     }
     
     @State var list:[SharedStageModel] = []

@@ -58,6 +58,13 @@ struct SaveView: View {
                         isLoading = true
                         GoogleAd.shared.showAd { isSucess in
                             StageManager.shared.save(asNewForce: false, complete: {
+                                if sharedId != nil {
+                                    StageManager.shared.sharePublic { isSucess in
+                                        isLoading = false
+                                        presentationMode.wrappedValue.dismiss()
+                                    }
+                                    return 
+                                }
                                 isLoading = false
                                 presentationMode.wrappedValue.dismiss()
                             })
@@ -83,7 +90,7 @@ struct SaveView: View {
                 }
                 
             }
-            if StageManager.shared.stage?.documentId != nil {
+            if StageManager.shared.stage?.documentId != nil && sharedId == nil {
                 HStack {
                     Button {
                         isLoading = true
@@ -95,8 +102,7 @@ struct SaveView: View {
                         }
                         
                     } label: {
-                        OrangeTextView(Text(
-                            sharedId == nil ? "share public" : "update shared"))
+                        OrangeTextView(Text("share public"))
                     }
                 }
             }

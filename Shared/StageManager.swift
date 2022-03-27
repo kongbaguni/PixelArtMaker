@@ -268,6 +268,16 @@ class StageManager {
             let document = fireStore.collection("pixelarts").document(email).collection("data").document(id)
             document.delete { [self] error in
                 if error == nil {
+                    fireStore.collection("public").whereField("documentId", isEqualTo: id).getDocuments {[self] qs, error in
+                        for doc in qs?.documents ?? [] {
+                            let id = doc.documentID
+                            fireStore.collection("public").document(id).updateData(["deleted":true, "updateDt":Date().timeIntervalSince1970]) { error in
+                                
+                            }
+                        }
+                        
+                    }
+                    
                     let realm = try! Realm()
                     if let model = realm.object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
                         try! realm.write {
