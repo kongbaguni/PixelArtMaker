@@ -43,3 +43,8 @@
 "delete layer" = "delete layer";
 "share public" = "share public";
 "public shared list" = "public shared list";
+
+
+"currentId" = "current id";
+"sharedId" = "shared id";
+"save" = "save";

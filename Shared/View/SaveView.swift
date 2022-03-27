@@ -10,89 +10,92 @@ import RealmSwift
 
 struct SaveView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+    
     @State var isLoading = false
     @State var colors:[[[Color]]] = []
     @State var backgroundColor:Color = .white
-    @State var title:String = "" 
+    @State var title:String = ""
     @State var previewImage:Image? = nil
     
     var body: some View {
-        VStack {
-            
-            ScrollView {
-                if let id = StageManager.shared.stage?.documentId {
+        VStack {            
+            if let id = StageManager.shared.stage?.documentId {
+                HStack {
+                    Text("currentId")
                     TagView(Text(id))
-                    
-                    if let model = try! Realm().object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
-                        if model.shareDocumentId.isEmpty == false {
+                }
+                
+                if let model = try! Realm().object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
+                    if model.shareDocumentId.isEmpty == false {
+                        HStack {
+                            Text("sharedId")
                             TagView(Text(model.shareDocumentId))
                         }
                     }
                 }
-                else {
-                    OrangeTextView(Text("new file"))
+            }
+            else {
+                OrangeTextView(Text("new file"))
+            }
+            
+            ZStack {
+                if let img = previewImage {
+                    img.resizable().frame(width: screenBounds.width - 10, height: screenBounds.width - 10 , alignment: .center)
+                        .opacity(isLoading ? 0.5 : 1.0)
                 }
-                
-                ZStack {
-                    if let img = previewImage {
-                        img.resizable().frame(width: 200, height: 200, alignment: .center)
-                            .opacity(isLoading ? 0.5 : 1.0)
-                    }
-                    ActivityIndicator(isAnimating: $isLoading, style: .large)
-                        .frame(width: 200, height: 200, alignment: .center)
-                }
-                HStack {
-                    if StageManager.shared.stage?.documentId != nil {
-                        Button {
-                            isLoading = true
-                            GoogleAd.shared.showAd { isSucess in
-                                StageManager.shared.save(asNewForce: false, complete: {
-                                    isLoading = false
-                                    presentationMode.wrappedValue.dismiss()
-                                })
-                            }
-                            
-                        } label: {
-                            OrangeTextView(.save_to_existing_file)
-                            
-                        }
-                    }
-                    
+                ActivityIndicator(isAnimating: $isLoading, style: .large)
+                    .frame(width: 200, height: 200, alignment: .center)
+            }
+            HStack {
+                if StageManager.shared.stage?.documentId != nil {
                     Button {
                         isLoading = true
                         GoogleAd.shared.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: true, complete: {
+                            StageManager.shared.save(asNewForce: false, complete: {
                                 isLoading = false
                                 presentationMode.wrappedValue.dismiss()
                             })
                         }
                         
                     } label: {
-                        OrangeTextView(.save_as_new_file)
-                    }
-
-                }
-                if StageManager.shared.stage?.documentId != nil {
-                    HStack {
-                        Button {
-                            isLoading = true
-                            GoogleAd.shared.showAd { isSucess in
-                                StageManager.shared.sharePublic { isSucess in
-                                    isLoading = false
-                                    presentationMode.wrappedValue.dismiss()
-                                }
-                            }
-                            
-                        } label: {
-                            OrangeTextView(Text("share public"))
-                        }
+                        OrangeTextView(.save_to_existing_file)
+                        
                     }
                 }
-
+                
+                Button {
+                    isLoading = true
+                    GoogleAd.shared.showAd { isSucess in
+                        StageManager.shared.save(asNewForce: true, complete: {
+                            isLoading = false
+                            presentationMode.wrappedValue.dismiss()
+                        })
+                    }
+                    
+                } label: {
+                    OrangeTextView(.save_as_new_file)
+                }
+                
             }
+            if StageManager.shared.stage?.documentId != nil {
+                HStack {
+                    Button {
+                        isLoading = true
+                        GoogleAd.shared.showAd { isSucess in
+                            StageManager.shared.sharePublic { isSucess in
+                                isLoading = false
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        }
+                        
+                    } label: {
+                        OrangeTextView(Text("share public"))
+                    }
+                }
+            }
+            
         }
-        .navigationTitle("save")
+        .navigationTitle(Text("save"))
         .onAppear {
             if let stage = StageManager.shared.stage {
                 self.colors = stage.layers.map({ model in

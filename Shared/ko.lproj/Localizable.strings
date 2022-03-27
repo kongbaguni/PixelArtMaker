@@ -39,3 +39,7 @@
 "delete layer" = "레이어 삭제";
 "share public" = "공개하기";
 "public shared list" = "공개 게시판";
+
+"currentId" = "이 그림의 아이디";
+"sharedId" = "공유된 아이디";
+"save" = "저장하기";

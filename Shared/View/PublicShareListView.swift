@@ -44,6 +44,7 @@ struct PublicShareListView: View {
             }
             list = dblist.reversed()
         }
+        .navigationTitle(Text("public shared list"))
         
     }
 }
