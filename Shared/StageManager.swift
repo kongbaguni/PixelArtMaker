@@ -184,42 +184,59 @@ class StageManager {
     }
     
     func loadList(complete:@escaping(_ result:[StagePreviewModel])->Void) {
+        let lastSync = StageManager.shared.stagePreviews.first?.updateDt
+        
+        func make(snapShot:QuerySnapshot?, error:Error?) {
+            if let err = error {
+                print(err.localizedDescription)
+                complete([])
+                return
+            }
+            guard let datas = snapShot.map({ snap in
+                return snap.documents.map { dsnap in
+                    return (dsnap.data(), dsnap.documentID)
+                }
+            })
+            else {
+                return
+            }
+            
+            var result:[StagePreviewModel] = []
+            for data in datas {
+                if let string = data.0["preview"] as? String,
+                   let updateInterval = data.0["updateDt"] as? TimeInterval,
+                   let image = UIImage(base64encodedString: string) {
+                    let updateDt = Date(timeIntervalSince1970: updateInterval)
+                    let model = StagePreviewModel.init(documentId: data.1, image: image, updateDt: updateDt)
+                    result.append(model)
+                }
+            }
+            result = result.sorted { a, b in
+                return a.updateDt > b.updateDt
+            }
+            
+            for model in result.reversed() {
+                StageManager.shared.stagePreviews.insert(model, at: 0)
+            }
+            
+            DispatchQueue.main.async {
+                complete(result)
+            }
+        }
         DispatchQueue.global().async {[self] in
             guard let email = AuthManager.shared.auth.currentUser?.email else {
                 return
             }
             let collection = fireStore.collection("pixelarts").document(email).collection("data")
-            
-            collection.getDocuments { snapShot, error in
-                if let err = error {
-                    print(err.localizedDescription)
-                }
-                guard let datas = snapShot.map({ snap in
-                    return snap.documents.map { dsnap in
-                        return (dsnap.data(), dsnap.documentID)
+            if let date = lastSync {
+                collection
+                    .whereField("updateDt", isGreaterThan: date.timeIntervalSince1970)
+                    .getDocuments { snapShot, error in
+                        make(snapShot: snapShot, error: error)
                     }
-                })
-                else {
-                    return
-                }
-
-                var result:[StagePreviewModel] = []
-                for data in datas {                    
-                    if let string = data.0["preview"] as? String,
-                       let updateInterval = data.0["updateDt"] as? TimeInterval,
-                       let image = UIImage(base64encodedString: string) {
-                        let updateDt = Date(timeIntervalSince1970: updateInterval)
-                        let model = StagePreviewModel.init(documentId: data.1, image: image, updateDt: updateDt)
-                        result.append(model)
-                    }
-                }
-                result = result.sorted { a, b in
-                    return a.updateDt > b.updateDt
-                }
-                
-                DispatchQueue.main.async {
-                    self.stagePreviews = result
-                    complete(result)
+            } else {
+                collection.getDocuments { snapShot, error in
+                    make(snapShot: snapShot, error: error)
                 }
             }
         }
