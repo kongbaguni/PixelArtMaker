@@ -189,6 +189,7 @@ class StageManager {
                 return
             }
             let collection = fireStore.collection("pixelarts").document(email).collection("data")
+            
             collection.getDocuments { snapShot, error in
                 if let err = error {
                     print(err.localizedDescription)

@@ -420,14 +420,19 @@ struct PixelDrawView: View {
                 }
                 switch colorSelectMode {
                 case .foreground:
-                    ColorPicker(selection: $forgroundColor) {}.onChange(of: forgroundColor) { newValue in
+                    ColorPicker(selection: $forgroundColor) {
+                        
+                    }
+                    .onChange(of: forgroundColor) { newValue in
                         print("change forground : \(newValue.string)")
-                        //                        refreshStage()
-                    }.frame(width: 40, height: 40, alignment: .center)
+                    }
+                    .frame(width: 40, height: 40, alignment: .center)
                 case .background:
-                    ColorPicker(selection: $backgroundColor) {}.onChange(of: backgroundColor) { newValue in
+                    ColorPicker(selection: $backgroundColor) {
+                        
+                    }
+                    .onChange(of: backgroundColor) { newValue in
                         print("change backgroundColor : \(newValue.string)")
-                        //                        refreshStage()
                         if StageManager.shared.stage?.changeBgColor(color: newValue) == true {
                             undoCount = StageManager.shared.stage?.history.count ?? 0
                             redoCount = 0
