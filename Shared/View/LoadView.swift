@@ -15,7 +15,7 @@ fileprivate let height2 = width2 + 50
 
 struct LoadView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State var stages:[StagePreviewModel] = []
+    @State var stages:[MyStageModel] = []
     @State var gridItems:[GridItem] = [
         .init(.fixed(width1)),
         .init(.fixed(width1))

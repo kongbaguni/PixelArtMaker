@@ -16,9 +16,9 @@ class StageManager {
     static let shared = StageManager() 
     var stage:StageModel? = nil  
 
-    var stagePreviews:[StagePreviewModel] {
+    var stagePreviews:[MyStageModel] {
         let realm = try! Realm()
-        return realm.objects(StagePreviewModel.self).sorted(byKeyPath: "updateDt").reversed()
+        return realm.objects(MyStageModel.self).sorted(byKeyPath: "updateDt").reversed()
     }
     
     func initStage(size:CGSize) {
@@ -145,7 +145,7 @@ class StageManager {
             collection.addDocument(data: data) {[self] error in
                 print(error?.localizedDescription ?? "업로드 성공")
                 loadList { result in
-                    stage.documentId = try! Realm().objects(StagePreviewModel.self).sorted(byKeyPath: "updateDt").last?.documentId
+                    stage.documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last?.documentId
                     DispatchQueue.main.async {
                         complete()
                     }
@@ -205,7 +205,7 @@ class StageManager {
             }
             let realm = try! Realm()
         
-            var result:[StagePreviewModel] = []
+            var result:[MyStageModel] = []
             realm.beginWrite()
 
             for data in datas {
@@ -222,7 +222,7 @@ class StageManager {
                     if let sid = data.0["shared_document_id"] as? String {
                         ddata["shareDocumentId"] = sid
                     }
-                    let model = realm.create(StagePreviewModel.self, value: ddata, update: .modified)
+                    let model = realm.create(MyStageModel.self, value: ddata, update: .modified)
                     result.append(model)
                 }
             }
@@ -279,7 +279,7 @@ class StageManager {
                     }
                     
                     let realm = try! Realm()
-                    if let model = realm.object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
+                    if let model = realm.object(ofType: MyStageModel.self, forPrimaryKey: id) {
                         try! realm.write {
                             realm.delete(model)
                         }
@@ -375,7 +375,7 @@ class StageManager {
                 ]
                 let realm = try! Realm()
                 try! realm.write {
-                    realm.create(StagePreviewModel.self, value: udata, update: .modified)
+                    realm.create(MyStageModel.self, value: udata, update: .modified)
                 }
                 complete(error == nil )
             }

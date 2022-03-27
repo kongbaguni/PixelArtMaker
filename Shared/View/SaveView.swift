@@ -9,7 +9,7 @@ import SwiftUI
 import RealmSwift
 fileprivate var sharedId:String? {
     if let id = StageManager.shared.stage?.documentId {
-        if let model = try! Realm().object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
+        if let model = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id) {
             return model.shareDocumentId.isEmpty ? nil : model.shareDocumentId
         }
     }

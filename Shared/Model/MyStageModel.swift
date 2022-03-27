@@ -1,5 +1,5 @@
 //
-//  StagePreviewModel.swift
+//  MyStageModel.swift
 //  PixelArtMaker (iOS)
 //
 //  Created by Changyul Seo on 2022/03/24.
@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import RealmSwift
 
-class StagePreviewModel : Object {
+class MyStageModel : Object {
     @Persisted(primaryKey: true) var documentId:String = ""
     @Persisted var imageData:Data!
     @Persisted var updateDt:Date = Date()
