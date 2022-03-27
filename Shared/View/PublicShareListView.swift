@@ -16,6 +16,8 @@ fileprivate let height2 = width2 + 50
 
 
 struct PublicShareListView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     var dblist:Results<SharedStageModel> {
         return try! Realm().objects(SharedStageModel.self).sorted(byKeyPath: "updateDt")
     }
@@ -29,11 +31,21 @@ struct PublicShareListView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridItems, spacing:20) {
+
                 ForEach(list, id:\.self) { model in
                     if let image = model.imageValue {
-                        Image(uiImage: image)
-                            .resizable()
-                            .frame(width: width1, height: width1, alignment: .center)
+                        Button {
+                            StageManager.shared.openStage(id: model.documentId, email: model.email) { result in
+                                if result != nil {
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            }
+                        } label: {
+                            Image(uiImage: image)
+                                .resizable()
+                                .frame(width: width1, height: width1, alignment: .center)
+                        }
+
                     }
                 }
             }
@@ -45,6 +57,7 @@ struct PublicShareListView: View {
             list = dblist.reversed()
         }
         .navigationTitle(Text("public shared list"))
+        
         
     }
 }

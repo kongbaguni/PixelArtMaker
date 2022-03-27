@@ -119,6 +119,7 @@ struct PixelDrawView: View {
     @State var isShowColorPresetView = false
     @State var isShowSaveView = false
     @State var isShowLoadView = false
+    @State var isShowShareListView = false
     @State var isShowSigninView = false
     
     @State var isShowActionSheet = false
@@ -294,6 +295,9 @@ struct PixelDrawView: View {
                 
             }
             NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
+                
+            }
+            NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
                 
             }
             
@@ -739,6 +743,9 @@ struct PixelDrawView: View {
                     }))
                     buttons.append(.default(.menu_load_title, action: {
                         isShowLoadView = true
+                    }))
+                    buttons.append(.default(.menu_public_load_title, action : {
+                        isShowShareListView = true
                     }))
                     if StageManager.shared.stage?.documentId != nil {
                         buttons.append(.destructive(Text.menu_delete_title, action: {

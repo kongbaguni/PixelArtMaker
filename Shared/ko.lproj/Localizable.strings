@@ -22,7 +22,9 @@
 "menu signin title" = "로그인";
 "menu signout title" = "로그아웃";
 "menu save title" = "저장하기";
-"menu load title" = "불러오기";
+"menu load title" = "내 겔러리";
+"menu public load title" = "공유 겔러리";
+
 "menu color select title" = "컬러 프리셋";
 "menu delete title" = "삭제하기";
 "menu delete alert title" = "이미지 삭제";
@@ -43,3 +45,4 @@
 "currentId" = "이 그림의 아이디";
 "sharedId" = "공유된 아이디";
 "save" = "저장하기";
+"my gellery" = "내 갤러리";

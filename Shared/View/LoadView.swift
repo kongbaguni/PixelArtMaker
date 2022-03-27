@@ -74,12 +74,9 @@ struct LoadView: View {
 
                 }
             }
-            .padding(.horizontal)
-            
-            NavigationLink(destination: PublicShareListView()) {
-                OrangeTextView(Text("public shared list"))
-            }
+            .padding(.horizontal)            
         }
+        .navigationBarTitle(Text("my gellery"))
         .onAppear {
             load()
             StageManager.shared.loadList { sucess in

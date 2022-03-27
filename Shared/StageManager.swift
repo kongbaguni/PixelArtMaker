@@ -155,8 +155,8 @@ class StageManager {
         }
     }
         
-    func openStage(id:String, complete:@escaping(_ result:StageModel?)->Void) {
-        guard let email = AuthManager.shared.auth.currentUser?.email else {
+    func openStage(id:String, email:String? = nil, complete:@escaping(_ result:StageModel?)->Void) {
+        guard let email = email ?? AuthManager.shared.auth.currentUser?.email else {
             complete(nil)
             return
         }

@@ -23,7 +23,8 @@
 "menu signin title" = "signin";
 "menu signout title" = "signout";
 "menu save title" = "save";
-"menu load title" = "load";
+"menu load title" = "my gellery";
+"menu public load title" = "shared gellery";
 
 "menu delete title" = "delete";
 "menu delete alert title" = "Delete image";
@@ -48,3 +49,4 @@
 "currentId" = "current id";
 "sharedId" = "shared id";
 "save" = "save";
+"my gellery" = "my gellery";
