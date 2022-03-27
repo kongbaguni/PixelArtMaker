@@ -41,9 +41,13 @@ struct PublicShareListView: View {
                                 }
                             }
                         } label: {
-                            Image(uiImage: image)
-                                .resizable()
-                                .frame(width: width1, height: width1, alignment: .center)
+                            VStack {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .frame(width: width1, height: width1, alignment: .center)
+                                TagView(Text(model.email))
+                                TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
+                            }
                         }
 
                     }

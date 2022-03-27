@@ -15,6 +15,7 @@ struct TagView: View {
     
     var body: some View {
         text
+            .font(.system(size: 8))
             .padding(5)
             .foregroundColor(.k_tagText)
             .background(Color.k_tagBackground)
