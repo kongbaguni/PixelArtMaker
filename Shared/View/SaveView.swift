@@ -49,10 +49,8 @@ struct SaveView: View {
                             isLoading = true
                             GoogleAd.shared.showAd { isSucess in
                                 StageManager.shared.save(asNewForce: false, complete: {
-                                    StageManager.shared.loadList { result in
-                                        isLoading = false
-                                        presentationMode.wrappedValue.dismiss()
-                                    }
+                                    isLoading = false
+                                    presentationMode.wrappedValue.dismiss()
                                 })
                             }
                             
@@ -70,10 +68,8 @@ struct SaveView: View {
                         isLoading = true
                         GoogleAd.shared.showAd { isSucess in
                             StageManager.shared.save(asNewForce: true, complete: {
-                                StageManager.shared.loadList { result in
-                                    isLoading = false
-                                    presentationMode.wrappedValue.dismiss()
-                                }
+                                isLoading = false
+                                presentationMode.wrappedValue.dismiss()
                             })
                         }
                         

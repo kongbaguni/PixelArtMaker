@@ -113,7 +113,7 @@ class StageManager {
                 return
             }
             
-            let collection = fireStore.collection("pixelarts")
+            let collection = fireStore.collection("pixelarts").document(email).collection("data")
             var data:[String:AnyHashable] = [
                 "data":stage.base64EncodedString,
                 "updateDt":Date().timeIntervalSince1970
@@ -122,26 +122,30 @@ class StageManager {
                 let cdata = try? preview.compressed(using: .zlib) {
                 data["preview"] = cdata.base64EncodedString()
             }
-
+            
             
             if let documentPath = self.stage?.documentId {
                 if asNewForce == false {
-                    let d = collection.document(email).collection("data").document(documentPath)
-                    d.updateData(data) { error in
+                    let d = collection.document(documentPath)
+                    d.updateData(data) {[self] error in
                         print(error?.localizedDescription ?? "업로드 성공")
-                        DispatchQueue.main.async {
-                            complete()
+                        loadList { result in
+                            DispatchQueue.main.async {
+                                complete()
+                            }
                         }
                     }
                     return
                 }
             }
             data["regDt"] = Date().timeIntervalSince1970
-            collection.document(email).collection("data").addDocument(data: data) { error in
+            collection.addDocument(data: data) {[self] error in
                 print(error?.localizedDescription ?? "업로드 성공")
-                
-                DispatchQueue.main.async {
-                    complete()
+                loadList { result in
+                    stage.documentId = result.first?.documentId
+                    DispatchQueue.main.async {
+                        complete()
+                    }
                 }
             }
             

@@ -129,7 +129,10 @@ struct PixelDrawView: View {
     
     @State var backgroundColor:Color = .white {
         didSet {
-            StageManager.shared.stage?.backgroundColor = backgroundColor
+            if StageManager.shared.stage?.changeBgColor(color: backgroundColor) == true {
+                undoCount += 1
+                redoCount = 0
+            }
         }
     }
     
