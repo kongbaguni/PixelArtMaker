@@ -13,6 +13,7 @@ class StagePreviewModel : Object {
     @Persisted(primaryKey: true) var documentId:String = ""
     @Persisted var imageData:Data!
     @Persisted var updateDt:Date = Date()
+    @Persisted var shareDocumentId:String = ""
     convenience init(documentId:String, image:UIImage, updateDt:Date) {
         self.init()
         self.documentId = documentId

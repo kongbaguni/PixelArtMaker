@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct SaveView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -21,11 +22,13 @@ struct SaveView: View {
             
             ScrollView {
                 if let id = StageManager.shared.stage?.documentId {
-                    Text(id)
-                        .padding(5)
-                        .foregroundColor(.k_tagText)
-                        .background(Color.k_tagBackground)
-                        .cornerRadius(10)
+                    TagView(id)
+                    
+                    if let model = try! Realm().object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
+                        if model.shareDocumentId.isEmpty == false {
+                            TagView(model.shareDocumentId)        
+                        }
+                    }
                 }
                 else {
                     Text("new file")
@@ -79,7 +82,27 @@ struct SaveView: View {
                             .foregroundColor(.white)
                             .background(Color.orange)
                             .cornerRadius(10)
-                        
+                    }
+
+                }
+                if StageManager.shared.stage?.documentId != nil {
+                    HStack {
+                        Button {
+                            isLoading = true
+                            GoogleAd.shared.showAd { isSucess in
+                                StageManager.shared.sharePublic { isSucess in
+                                    isLoading = false
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            }
+                            
+                        } label: {
+                            Text("share public")
+                                .padding(10)
+                                .foregroundColor(.white)
+                                .background(Color.orange)
+                                .cornerRadius(10)
+                        }
                     }
                 }
 

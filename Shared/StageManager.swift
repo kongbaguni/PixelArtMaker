@@ -203,27 +203,35 @@ class StageManager {
             else {
                 return
             }
-            
+            let realm = try! Realm()
+        
             var result:[StagePreviewModel] = []
+            realm.beginWrite()
+
             for data in datas {
                 if let string = data.0["preview"] as? String,
                    let updateInterval = data.0["updateDt"] as? TimeInterval,
                    let image = UIImage(base64encodedString: string) {
                     let updateDt = Date(timeIntervalSince1970: updateInterval)
-                    let model = StagePreviewModel(documentId: data.1, image: image, updateDt: updateDt)
+                    var ddata:[String:AnyHashable] = [
+                        "documentId":data.1,
+                        "imageData":image.pngData(),
+                        "updateDt":updateDt
+                    ]
                     
+                    if let sid = data.0["shared_document_id"] as? String {
+                        ddata["shareDocumentId"] = sid
+                    }
+                    let model = realm.create(StagePreviewModel.self, value: ddata, update: .modified)
                     result.append(model)
                 }
             }
+            try! realm.commitWrite()
+            
             result = result.sorted { a, b in
                 return a.updateDt > b.updateDt
             }
-                        
-            let realm = try! Realm()
-            try! realm.write {
-                realm.add(result)
-            }
-            
+                                    
             DispatchQueue.main.async {
                 complete(true)
             }
@@ -292,5 +300,67 @@ class StageManager {
                 }
             }
         }
+    }
+    
+    func sharePublic(complete:@escaping(_ isSucess:Bool)->Void) {
+        guard let id = stage?.documentId,
+              let image = stage?.makeImageDataValue(size: .init(width: 320, height: 320)),
+              let email = AuthManager.shared.auth.currentUser?.email
+        else {
+            return
+        }
+        let collection = fireStore.collection("public")
+        let now = Date().timeIntervalSince1970
+        var data:[String:AnyHashable] = [
+            "documentId":id ,
+            "image":image.base64EncodedString(),
+            "email":email,
+            "updateDt":now
+        ]
+        
+        func getSharedList(complete:@escaping(_ list:[String])->Void) {
+            collection.whereField("documentId", isEqualTo: id).getDocuments { snapShot, error in
+                let ids = snapShot.map { snapShot in
+                    snapShot.documents.map {dsnap in
+                        return dsnap.documentID
+                    }
+                }
+                complete(ids ?? [])
+            }
+        }
+        func save(finish:@escaping(_ targetId:String?)->Void) {
+            getSharedList { list in
+                if list.count == 0 {
+                    data["regDt"] = now
+                    collection.addDocument(data: data) { error in
+                        collection.whereField("documentId", isEqualTo: id).getDocuments { snapShot, error in
+                            let ids = snapShot.map { snapShot in
+                                snapShot.documents.map {dsnap in
+                                    return dsnap.documentID
+                                }
+                            }
+                            finish(ids?.first)
+                        }
+                    }
+                }
+                else {
+                    collection.document(list.first!).updateData(data) { error in
+                        finish(list.first!)
+                    }
+                }
+            }
+        }
+        
+        save(finish: {[self] shareId in
+            let data:[String:AnyHashable] = [
+                "shared_document_id":shareId!,
+                "updateDt":Date().timeIntervalSince1970
+            ]
+            fireStore.collection("pixelarts").document(email).collection("data").document(id).updateData(data) { error in
+                complete(error == nil )
+            }
+        })
+        
+        
     }
 }
