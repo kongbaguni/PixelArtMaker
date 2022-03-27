@@ -7,6 +7,14 @@
 
 import SwiftUI
 import RealmSwift
+fileprivate var sharedId:String? {
+    if let id = StageManager.shared.stage?.documentId {
+        if let model = try! Realm().object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
+            return model.shareDocumentId.isEmpty ? nil : model.shareDocumentId
+        }
+    }
+    return nil
+}
 
 struct SaveView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -25,12 +33,10 @@ struct SaveView: View {
                     TagView(Text(id))
                 }
                 
-                if let model = try! Realm().object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
-                    if model.shareDocumentId.isEmpty == false {
-                        HStack {
-                            Text("sharedId")
-                            TagView(Text(model.shareDocumentId))
-                        }
+                if let id = sharedId {
+                    HStack {
+                        Text("sharedId")
+                        TagView(Text(id))
                     }
                 }
             }
@@ -89,7 +95,8 @@ struct SaveView: View {
                         }
                         
                     } label: {
-                        OrangeTextView(Text("share public"))
+                        OrangeTextView(Text(
+                            sharedId == nil ? "share public" : "update shared"))
                     }
                 }
             }
