@@ -130,7 +130,7 @@ struct PixelDrawView: View {
     @State var backgroundColor:Color = .white {
         didSet {
             if StageManager.shared.stage?.changeBgColor(color: backgroundColor) == true {
-                undoCount += 1
+                undoCount = StageManager.shared.stage?.history.count ?? 0
                 redoCount = 0
             }
         }
@@ -428,7 +428,12 @@ struct PixelDrawView: View {
                     ColorPicker(selection: $backgroundColor) {}.onChange(of: backgroundColor) { newValue in
                         print("change backgroundColor : \(newValue.string)")
                         //                        refreshStage()
-                    }.frame(width: 40, height: 40, alignment: .center)
+                        if StageManager.shared.stage?.changeBgColor(color: newValue) == true {
+                            undoCount = StageManager.shared.stage?.history.count ?? 0
+                            redoCount = 0
+                        }
+                    }
+                    .frame(width: 40, height: 40, alignment: .center)
                 }
                 
                 
