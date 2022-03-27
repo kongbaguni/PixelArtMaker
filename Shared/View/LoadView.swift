@@ -78,10 +78,8 @@ struct LoadView: View {
         }
         .onAppear {
             load()
-            if stages.count == 0 {
-                StageManager.shared.loadList { result in
-                    load()
-                }
+            StageManager.shared.loadList { sucess in
+                load()
             }
         }
     }

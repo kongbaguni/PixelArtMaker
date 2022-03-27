@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 import FirebaseFirestore
-
+import RealmSwift
 
 class StageManager {
     let fireStore = Firestore.firestore()
@@ -16,7 +16,10 @@ class StageManager {
     static let shared = StageManager() 
     var stage:StageModel? = nil  
 
-    var stagePreviews:[StagePreviewModel] = []
+    var stagePreviews:[StagePreviewModel] {
+        let realm = try! Realm()
+        return realm.objects(StagePreviewModel.self).sorted(byKeyPath: "updateDt").reversed()
+    }
     
     func initStage(size:CGSize) {
         let fc:Color? = stage?.forgroundColor
@@ -142,7 +145,7 @@ class StageManager {
             collection.addDocument(data: data) {[self] error in
                 print(error?.localizedDescription ?? "업로드 성공")
                 loadList { result in
-                    stage.documentId = result.first?.documentId
+                    stage.documentId = try! Realm().objects(StagePreviewModel.self).sorted(byKeyPath: "updateDt").last?.documentId
                     DispatchQueue.main.async {
                         complete()
                     }
@@ -183,13 +186,13 @@ class StageManager {
         }
     }
     
-    func loadList(complete:@escaping(_ result:[StagePreviewModel])->Void) {
+    func loadList(complete:@escaping(_ sucess:Bool)->Void) {
         let lastSync = StageManager.shared.stagePreviews.first?.updateDt
         
         func make(snapShot:QuerySnapshot?, error:Error?) {
             if let err = error {
                 print(err.localizedDescription)
-                complete([])
+                complete(false)
                 return
             }
             guard let datas = snapShot.map({ snap in
@@ -207,20 +210,22 @@ class StageManager {
                    let updateInterval = data.0["updateDt"] as? TimeInterval,
                    let image = UIImage(base64encodedString: string) {
                     let updateDt = Date(timeIntervalSince1970: updateInterval)
-                    let model = StagePreviewModel.init(documentId: data.1, image: image, updateDt: updateDt)
+                    let model = StagePreviewModel(documentId: data.1, image: image, updateDt: updateDt)
+                    
                     result.append(model)
                 }
             }
             result = result.sorted { a, b in
                 return a.updateDt > b.updateDt
             }
-            
-            for model in result.reversed() {
-                StageManager.shared.stagePreviews.insert(model, at: 0)
+                        
+            let realm = try! Realm()
+            try! realm.write {
+                realm.add(result)
             }
             
             DispatchQueue.main.async {
-                complete(result)
+                complete(true)
             }
         }
         DispatchQueue.global().async {[self] in
@@ -255,6 +260,12 @@ class StageManager {
             let document = fireStore.collection("pixelarts").document(email).collection("data").document(id)
             document.delete { [self] error in
                 if error == nil {
+                    let realm = try! Realm()
+                    if let model = realm.object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
+                        try! realm.write {
+                            realm.delete(model)
+                        }
+                    }
                     deleteTemp { isSucess in
                         DispatchQueue.main.async {
                             complete(isSucess)

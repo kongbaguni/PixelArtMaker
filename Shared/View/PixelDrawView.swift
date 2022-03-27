@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 enum Position:String {
     case 왼쪽상단 = "lt"
@@ -841,7 +842,7 @@ struct PixelDrawView: View {
         
     }
     
-    func load() {
+    func load() {        
         if let stage = StageManager.shared.stage {
             forgroundColor = stage.forgroundColor
             backgroundColor = stage.backgroundColor

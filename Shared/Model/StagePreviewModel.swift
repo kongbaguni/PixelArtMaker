@@ -7,13 +7,22 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
-struct StagePreviewModel : Hashable {
-    public static func == (lhs: StagePreviewModel, rhs: StagePreviewModel) -> Bool {
-        return lhs.documentId == rhs.documentId
+class StagePreviewModel : Object {
+    @Persisted(primaryKey: true) var documentId:String = ""
+    @Persisted var imageData:Data!
+    @Persisted var updateDt:Date = Date()
+    convenience init(documentId:String, image:UIImage, updateDt:Date) {
+        self.init()
+        self.documentId = documentId
+        self.imageData = image.pngData()
+        self.updateDt = updateDt
     }
-
-    let documentId:String
-    let image:UIImage
-    let updateDt:Date
+    
+    var image:UIImage {
+        UIImage(data: imageData)!
+    }
 }
+
+
