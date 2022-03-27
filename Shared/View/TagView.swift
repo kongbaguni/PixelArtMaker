@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct TagView: View {
-    @State var text:String 
-    init(_ text:String) {
+    @State var text:Text
+    init(_ text:Text) {
         self.text = text
     }
     
     var body: some View {
-        Text(text)
+        text
             .padding(5)
             .foregroundColor(.k_tagText)
             .background(Color.k_tagBackground)
@@ -24,6 +24,6 @@ struct TagView: View {
 
 struct TagView_Previews: PreviewProvider {
     static var previews: some View {
-        TagView("test")
+        TagView(Text("test"))
     }
 }

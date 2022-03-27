@@ -22,20 +22,16 @@ struct SaveView: View {
             
             ScrollView {
                 if let id = StageManager.shared.stage?.documentId {
-                    TagView(id)
+                    TagView(Text(id))
                     
                     if let model = try! Realm().object(ofType: StagePreviewModel.self, forPrimaryKey: id) {
                         if model.shareDocumentId.isEmpty == false {
-                            TagView(model.shareDocumentId)        
+                            TagView(Text(model.shareDocumentId))
                         }
                     }
                 }
                 else {
-                    Text("new file")
-                        .padding(5)
-                        .foregroundColor(.k_tagText)
-                        .background(Color.k_tagBackground)
-                        .cornerRadius(10)
+                    OrangeTextView(Text("new file"))
                 }
                 
                 ZStack {
@@ -58,11 +54,7 @@ struct SaveView: View {
                             }
                             
                         } label: {
-                            Text.save_to_existing_file
-                                .padding(10)
-                                .foregroundColor(.white)
-                                .background(Color.orange)
-                                .cornerRadius(10)
+                            OrangeTextView(.save_to_existing_file)
                             
                         }
                     }
@@ -77,11 +69,7 @@ struct SaveView: View {
                         }
                         
                     } label: {
-                        Text.save_as_new_file
-                            .padding(10)
-                            .foregroundColor(.white)
-                            .background(Color.orange)
-                            .cornerRadius(10)
+                        OrangeTextView(.save_as_new_file)
                     }
 
                 }
@@ -97,11 +85,7 @@ struct SaveView: View {
                             }
                             
                         } label: {
-                            Text("share public")
-                                .padding(10)
-                                .foregroundColor(.white)
-                                .background(Color.orange)
-                                .cornerRadius(10)
+                            OrangeTextView(Text("share public"))
                         }
                     }
                 }

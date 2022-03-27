@@ -360,7 +360,38 @@ class StageManager {
                 complete(error == nil )
             }
         })
+    }
+    
+    func loadSharedList(complete:@escaping()->Void){
+        let collection = fireStore.collection("public")
+        func make(snapShot:QuerySnapshot?, error:Error?) {
+            let list = snapShot.map { qs in
+                return qs.documents.map { qsn in
+                    return (qsn.documentID,qsn.data())
+                }
+            }
+            let realm = try! Realm()
+            realm.beginWrite()
+            for item in list ?? [] {
+                var data = item.1
+                data["id"] = item.0
+                realm.create(SharedStageModel.self, value: data, update: .modified)
+            }
+            print("new item \(list?.count ?? 0)")
+            try! realm.commitWrite()
+            complete()
+        }
         
-        
+        let lastSyncDt = try! Realm().objects(SharedStageModel.self).sorted(byKeyPath: "updateDt").last?.updateDt
+        if let dt = lastSyncDt {
+            collection.whereField("updateDt", isGreaterThan: dt).getDocuments { snapShot, error in
+                make(snapShot: snapShot, error: error)
+            }
+        }
+        else {
+            collection.getDocuments { snapShot, error in
+                make(snapShot: snapShot, error: error)
+            }
+        }
     }
 }

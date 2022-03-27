@@ -38,6 +38,9 @@
 		C3011F5127F039E1001B12AC /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = C3011F5027F039E1001B12AC /* Realm */; };
 		C3011F5327F039E1001B12AC /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C3011F5227F039E1001B12AC /* RealmSwift */; };
 		C3011F5527F0495C001B12AC /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F5427F0495B001B12AC /* TagView.swift */; };
+		C3011F5727F050CD001B12AC /* SharedStageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F5627F050CD001B12AC /* SharedStageModel.swift */; };
+		C3011F5927F05675001B12AC /* PublicShareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F5827F05675001B12AC /* PublicShareListView.swift */; };
+		C3011F5B27F05750001B12AC /* OrangeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F5A27F05750001B12AC /* OrangeTextView.swift */; };
 		C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
 		C320338A27C3895E0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
 		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
@@ -93,6 +96,9 @@
 		C3011F4127EF21B1001B12AC /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
 		C3011F4527EF4067001B12AC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C3011F5427F0495B001B12AC /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		C3011F5627F050CD001B12AC /* SharedStageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStageModel.swift; sourceTree = "<group>"; };
+		C3011F5827F05675001B12AC /* PublicShareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicShareListView.swift; sourceTree = "<group>"; };
+		C3011F5A27F05750001B12AC /* OrangeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeTextView.swift; sourceTree = "<group>"; };
 		C320338727C3729B0019B546 /* Text+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extensions.swift"; sourceTree = "<group>"; };
 		C320338927C3895E0019B546 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		C320338B27C389AA0019B546 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
@@ -217,6 +223,7 @@
 				1B28C3EA27BE108F003F8312 /* LayerModel.swift */,
 				1B28C3F327BF302B003F8312 /* StageModel.swift */,
 				C3DBA08227EC5F8900FE8392 /* StagePreviewModel.swift */,
+				C3011F5627F050CD001B12AC /* SharedStageModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -232,6 +239,8 @@
 				1BF1B25D27E3288E007A73CB /* SaveView.swift */,
 				1BF1B26027E32BF0007A73CB /* LoadView.swift */,
 				C3011F4527EF4067001B12AC /* ActivityIndicator.swift */,
+				C3011F5827F05675001B12AC /* PublicShareListView.swift */,
+				C3011F5A27F05750001B12AC /* OrangeTextView.swift */,
 				C3011F5427F0495B001B12AC /* TagView.swift */,
 			);
 			path = View;
@@ -447,9 +456,12 @@
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
+				C3011F5727F050CD001B12AC /* SharedStageModel.swift in Sources */,
 				1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */,
+				C3011F5B27F05750001B12AC /* OrangeTextView.swift in Sources */,
 				1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */,
 				C3DBA08E27ECB25600FE8392 /* UIApplication+Extensions.swift in Sources */,
+				C3011F5927F05675001B12AC /* PublicShareListView.swift in Sources */,
 				1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */,
 				1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */,
 				1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,

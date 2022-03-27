@@ -75,6 +75,10 @@ struct LoadView: View {
                 }
             }
             .padding(.horizontal)
+            
+            NavigationLink(destination: PublicShareListView()) {
+                OrangeTextView(Text("public shared list"))
+            }
         }
         .onAppear {
             load()
