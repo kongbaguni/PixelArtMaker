@@ -49,9 +49,6 @@ struct SaveView: View {
                     }
                 }
             }
-            else {
-                OrangeTextView(Text("new file"))
-            }
             
             HStack {
                 if StageManager.shared.stage?.documentId != nil {

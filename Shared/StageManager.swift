@@ -37,15 +37,15 @@ class StageManager {
         }
     }
     
-    var lastSaveTime:Date? = nil
-    func saveTemp(comnplete:@escaping()->Void) {
-        if let time = lastSaveTime {
+    var lastSaveTempTime:Date? = nil
+    func saveTemp(documentId:String? = nil ,comnplete:@escaping()->Void) {
+        if let time = lastSaveTempTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
                 comnplete()
                 return
             }
         }
-        lastSaveTime = Date()
+        lastSaveTempTime = Date()
 
         DispatchQueue.global().async {[self] in
             let collection = fireStore.collection("temp")
@@ -59,7 +59,7 @@ class StageManager {
             var data:[String:String] = [
                 "data":str
             ]
-            if let id = StageManager.shared.stage?.documentId {
+            if let id = documentId ?? StageManager.shared.stage?.documentId {
                 data["documentId"] = id
             }
             
@@ -101,6 +101,7 @@ class StageManager {
         }
     }
         
+    var lastSaveTime:Date? = nil
     func save(asNewForce:Bool,complete:@escaping()->Void) {
         if let time = lastSaveTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
@@ -132,10 +133,12 @@ class StageManager {
                     let d = collection.document(documentPath)
                     d.updateData(data) {[self] error in
                         print(error?.localizedDescription ?? "업로드 성공")
-                        loadList { result in
-                            DispatchQueue.main.async {
-                                complete()
-                            }
+                        loadList { [self] result in
+                            saveTemp (documentId: documentPath, comnplete: {
+                                DispatchQueue.main.async {
+                                    complete()
+                                }
+                            })
                         }
                     }
                     return
@@ -144,11 +147,15 @@ class StageManager {
             data["regDt"] = Date().timeIntervalSince1970
             collection.addDocument(data: data) {[self] error in
                 print(error?.localizedDescription ?? "업로드 성공")
-                loadList { result in
+                loadList { [self] result in
                     stage.documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last?.documentId
-                    DispatchQueue.main.async {
-                        complete()
-                    }
+                    
+                    saveTemp(documentId: stage.documentId, comnplete: {
+                        DispatchQueue.main.async {
+                            complete()
+                        }
+                    })
+                    
                 }
             }
             
@@ -271,7 +278,14 @@ class StageManager {
                     fireStore.collection("public").whereField("documentId", isEqualTo: id).getDocuments {[self] qs, error in
                         for doc in qs?.documents ?? [] {
                             let id = doc.documentID
-                            fireStore.collection("public").document(id).updateData(["deleted":true, "updateDt":Date().timeIntervalSince1970]) { error in
+                            let updateData:[String:AnyHashable] = [
+                                "email":"",
+                                "documentId":"",
+                                "image":"",
+                                "deleted":true,
+                                "updateDt":Date().timeIntervalSince1970
+                            ]
+                            fireStore.collection("public").document(id).updateData(updateData) { error in
                                 
                             }
                         }
