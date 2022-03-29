@@ -362,4 +362,25 @@ class StageModel {
             }
         }
     }
+    
+    func copyLayer(idx:Int)->Bool {
+        if layers.count >= 5 || idx < 0 || idx >= layers.count {
+            return false
+        }
+        let cl = layers[idx]
+        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
+        let newLayer:LayerModel = .init(colors: cl.colors, id: UUID().uuidString, blendMode: cl.blendMode)
+        layers.insert(newLayer, at: idx)
+        reArrangeLayers()
+        redoHistory.removeAll()
+
+        return true
+    }
+    
+    /** 레이어 아이디 제할당 */
+    func reArrangeLayers() {
+        for (idx,layer) in layers.enumerated() {
+            layers[idx] = .init(colors: layer.colors, id: "layer\(idx)", blendMode: layer.blendMode)
+        }
+    }
 }

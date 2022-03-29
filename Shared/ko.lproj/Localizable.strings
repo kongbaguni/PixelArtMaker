@@ -39,6 +39,7 @@
 "open start" = "그림을 읽어오는 중입니다.";
 
 "delete layer" = "레이어 삭제";
+"copy layer" = "레이어 복사";
 "share public" = "공개하기";
 "update shared" = "공개한 게시물 갱신하기";
 "public shared list" = "공개 게시판";

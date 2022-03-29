@@ -84,23 +84,22 @@ struct LayerEditView: View {
                                     }
                                 }
                             }
-                            Canvas { context,size in
-                                for (y, list) in layer.colors.enumerated() {
-                                    for (x,color) in list.enumerated() {
-                                        context.fill(.init(roundedRect: .init(x: CGFloat(x),
-                                                                              y: CGFloat(y),
-                                                                              width: 1,
-                                                                              height: 1),
-                                                           cornerSize: .zero), with: .color(color))
-                                    }
-                                }
-                            }.frame(width: CGFloat(layer.colors.first!.count),
-                                    height: CGFloat(layer.colors.count), alignment: .center)
                             Button {
                                 StageManager.shared.stage?.selectLayer(index: id)
                                 presentationMode.wrappedValue.dismiss()
                             } label: {
-                                Text(" ")
+                                Canvas { context,size in
+                                    for (y, list) in layer.colors.enumerated() {
+                                        for (x,color) in list.enumerated() {
+                                            context.fill(.init(roundedRect: .init(x: CGFloat(x),
+                                                                                  y: CGFloat(y),
+                                                                                  width: 1,
+                                                                                  height: 1),
+                                                               cornerSize: .zero), with: .color(color))
+                                        }
+                                    }
+                                }.frame(width: CGFloat(layer.colors.first!.count),
+                                        height: CGFloat(layer.colors.count), alignment: .center)
                             }
                         }
                         .swipeActions {
@@ -112,6 +111,17 @@ struct LayerEditView: View {
                                 }
                                 .tint(.red)
                             }
+                            if layers.count < 5 {
+                                Button {
+                                    if StageManager.shared.stage?.copyLayer(idx: id) == true {
+                                        reload()
+                                    }
+                                } label: {
+                                    Text("copy layer")
+                                }
+                                .tint(.blue)
+                            }
+                            
                         }
                         .padding(20)
                         .background(
@@ -120,6 +130,7 @@ struct LayerEditView: View {
                         .cornerRadius(20)
                     }
                 }
+                .onMove(perform: move)
                 if layers.count < 5 {
                     Button {
                         googleAd.showAd { isSucess in
@@ -136,12 +147,26 @@ struct LayerEditView: View {
                 
             }
         }
+        .toolbar(content: {
+            EditButton()
+        })
+        
         .listStyle(GroupedListStyle())
         .navigationTitle(.layer_edit_title)
         .onAppear {
             reload()
         }
         
+        
+        
+    }
+    
+    func move(from source: IndexSet, to destination: Int) {
+        layers.move(fromOffsets: source, toOffset: destination)
+        print("move \(source) \(destination)")
+        StageManager.shared.stage?.layers = layers
+        StageManager.shared.stage?.reArrangeLayers()
+        reload()
     }
     
     fileprivate func deleteLayer(idx:Int) {
