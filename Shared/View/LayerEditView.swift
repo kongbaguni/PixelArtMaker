@@ -130,6 +130,7 @@ struct LayerEditView: View {
                         .cornerRadius(20)
                     }
                 }
+                .onMove(perform: move)
                 if layers.count < 5 {
                     Button {
                         googleAd.showAd { isSucess in
@@ -146,12 +147,26 @@ struct LayerEditView: View {
                 
             }
         }
+        .toolbar(content: {
+            EditButton()
+        })
+        
         .listStyle(GroupedListStyle())
         .navigationTitle(.layer_edit_title)
         .onAppear {
             reload()
         }
         
+        
+        
+    }
+    
+    func move(from source: IndexSet, to destination: Int) {
+        layers.move(fromOffsets: source, toOffset: destination)
+        print("move \(source) \(destination)")
+        StageManager.shared.stage?.layers = layers
+        StageManager.shared.stage?.reArrangeLayers()
+        reload()
     }
     
     fileprivate func deleteLayer(idx:Int) {
