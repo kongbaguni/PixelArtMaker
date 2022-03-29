@@ -8,54 +8,47 @@
 
 import UIKit
 import GoogleMobileAds
+import AppTrackingTransparency
 
-//fileprivate let gaid = "ca-app-pub-7714069006629518/9980070837"
-#if DEBUG
-fileprivate let gaid = "ca-app-pub-3940256099942544/6978759866"
-
-#else
-fileprivate let gaid = "ca-app-pub-7714069006629518/5985835565"
-#endif
+fileprivate let gaid = "ca-app-pub-3940256099942544/6978759866" // test ga id
+//fileprivate let gaid = "ca-app-pub-7714069006629518/5985835565" // real ga id
 
 class GoogleAd : NSObject {
-    static let shared = GoogleAd()
-    private var interstitial: GADRewardedInterstitialAd? = nil
-
-    func loadAd(complete:@escaping(_ isSucess:Bool)->Void) {
+    
+    var interstitial:GADRewardedInterstitialAd? = nil
+    
+    private func loadAd(complete:@escaping(_ isSucess:Bool)->Void) {
         let request = GADRequest()
         
-        GADRewardedInterstitialAd.load(withAdUnitID: gaid, request: request) { [self] ad, error in
-            if let err = error {
-                print("google ad load error : \(err.localizedDescription)")
-                return
+        ATTrackingManager.requestTrackingAuthorization { status in
+            print("google ad tracking status : \(status)")
+            GADRewardedInterstitialAd.load(withAdUnitID: gaid, request: request) { [weak self] ad, error in
+                if let err = error {
+                    print("google ad load error : \(err.localizedDescription)")
+                }
+                ad?.fullScreenContentDelegate = self
+                self?.interstitial = ad
+                complete(ad != nil)
             }
-                
-            if let ad = ad {
-                ad.fullScreenContentDelegate = self
-                interstitial = ad
-            }
-            else {
-                print("ad 가 없다")
-            }
-            complete(ad != nil)
         }
     }
+    
     var callback:(_ isSucess:Bool)->Void = { _ in}
     
     func showAd(complete:@escaping(_ isSucess:Bool)->Void) {
-        if let vc = UIApplication.shared.keyWindow?.rootViewController {
-            print(interstitial == nil ? "없다" : "있다")
-            if interstitial == nil {
-                loadAd { [self] isSucess in
-                    showAd(complete: complete)
+        callback = complete
+        loadAd { [weak self] isSucess in
+            if isSucess == false {
+                DispatchQueue.main.async {
+                    complete(true)
                 }
                 return
             }
-            
-            interstitial?.present(fromRootViewController: vc, userDidEarnRewardHandler: {[self] in
-                print(interstitial?.adMetadata ?? "메타 없다")
-            })
-            callback = complete
+            if let vc = UIApplication.shared.keyWindow?.rootViewController {
+                self?.interstitial?.present(fromRootViewController: vc, userDidEarnRewardHandler: {
+                    
+                })
+            }
         }
     }
         
@@ -66,7 +59,9 @@ extension GoogleAd : GADFullScreenContentDelegate {
     func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("google ad \(#function)")
         print(error.localizedDescription)
-        callback(true)
+        DispatchQueue.main.async {
+            self.callback(true)
+        }
     }
     func adDidRecordClick(_ ad: GADFullScreenPresentingAd) {
         print("google ad \(#function)")
@@ -78,7 +73,9 @@ extension GoogleAd : GADFullScreenContentDelegate {
     //광고 종료
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("google ad \(#function)")
-        callback(true)        
+        DispatchQueue.main.async {
+            self.callback(true)
+        }
     }
 }
 

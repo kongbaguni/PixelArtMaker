@@ -336,14 +336,15 @@ struct PixelDrawView: View {
                         
                     }
                     for rect in [
-                        CGRect(x: size.width*0.25 - 0.25, y: 0, width: 0.5, height: size.height),
-                        CGRect(x: size.width*0.5 - 0.25, y: 0, width: 0.5, height: size.height),
-                        CGRect(x: size.width*0.75 - 0.25, y: 0, width: 0.5, height: size.height),
-                        CGRect(x: 0, y: size.height * 0.25 - 0.25, width: size.width, height: 0.5),
-                        CGRect(x: 0, y: size.height * 0.5 - 0.25, width: size.width, height: 0.5),
-                        CGRect(x: 0, y: size.height * 0.75 - 0.25, width: size.width, height: 0.5)
+                        CGRect(x: 0, y: 0, width: size.width, height: size.height),
+                        CGRect(x: size.width*0.25, y: 0, width: 0, height: size.height),
+                        CGRect(x: size.width*0.5, y: 0, width: 0, height: size.height),
+                        CGRect(x: size.width*0.75 , y: 0, width: 0, height: size.height),
+                        CGRect(x: 0, y: size.height * 0.25 , width: size.width, height: 0),
+                        CGRect(x: 0, y: size.height * 0.5 , width: size.width, height: 0),
+                        CGRect(x: 0, y: size.height * 0.75 , width: size.width, height: 0)
                     ]{
-                        context.stroke(.init(roundedRect: rect, cornerSize: .zero), with: .color(.green))
+                        context.stroke(.init(roundedRect: rect, cornerSize: .zero), with: .color(.green.opacity(0.5)))
                     }
                     context.stroke(Path(roundedRect: .init(
                         x: pointer.x * w,

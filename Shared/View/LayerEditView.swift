@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LayerEditView: View {
+    let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @State var layers:[LayerModel] = []
@@ -121,7 +122,7 @@ struct LayerEditView: View {
                 }
                 if layers.count < 5 {
                     Button {
-                        GoogleAd.shared.showAd { isSucess in
+                        googleAd.showAd { isSucess in
                             StageManager.shared.stage?.addLayer()
                             reload()
                             StageManager.shared.saveTemp {

@@ -17,6 +17,7 @@ fileprivate var sharedId:String? {
 }
 
 struct SaveView: View {
+    let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State var isLoading = false
@@ -54,7 +55,7 @@ struct SaveView: View {
                 if StageManager.shared.stage?.documentId != nil {
                     Button {
                         isLoading = true
-                        GoogleAd.shared.showAd { isSucess in
+                        googleAd.showAd { isSucess in
                             StageManager.shared.save(asNewForce: false, complete: {
                                 if sharedId != nil {
                                     StageManager.shared.sharePublic { isSucess in
@@ -76,7 +77,7 @@ struct SaveView: View {
                 
                 Button {
                     isLoading = true
-                    GoogleAd.shared.showAd { isSucess in
+                    googleAd.showAd { isSucess in
                         StageManager.shared.save(asNewForce: true, complete: {
                             isLoading = false
                             presentationMode.wrappedValue.dismiss()
@@ -92,11 +93,13 @@ struct SaveView: View {
                 HStack {
                     Button {
                         isLoading = true
-                        GoogleAd.shared.showAd { isSucess in
-                            StageManager.shared.sharePublic { isSucess in
-                                isLoading = false
-                                presentationMode.wrappedValue.dismiss()
-                            }
+                        googleAd.showAd { isSucess in
+                            StageManager.shared.save(asNewForce: false) {
+                                StageManager.shared.sharePublic { isSucess in
+                                    isLoading = false
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            }                            
                         }
                         
                     } label: {
