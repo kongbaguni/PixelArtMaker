@@ -367,9 +367,13 @@ class StageModel {
         if layers.count >= 5 || idx < 0 || idx >= layers.count {
             return false
         }
-        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
         let cl = layers[idx]
-        layers.insert(.init(colors: cl.colors, id: "copy layer of \(idx)", blendMode: cl.blendMode), at: idx)
+        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
+        let newLayer:LayerModel = .init(colors: cl.colors, id: UUID().uuidString, blendMode: cl.blendMode)
+        layers.insert(newLayer, at: idx)
+        for (idx,layer) in layers.enumerated() {
+            layers[idx] = .init(colors: layer.colors, id: "layer\(idx)", blendMode: layer.blendMode)
+        }
         redoHistory.removeAll()
 
         return true
