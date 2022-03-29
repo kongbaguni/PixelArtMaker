@@ -42,6 +42,7 @@
 "open start" = "The picture is being read.";
 
 "delete layer" = "delete layer";
+"copy layer" = "copy layer";
 "share public" = "share public";
 "update shared" = "update shared";
 "public shared list" = "public shared list";

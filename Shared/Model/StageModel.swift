@@ -362,4 +362,16 @@ class StageModel {
             }
         }
     }
+    
+    func copyLayer(idx:Int)->Bool {
+        if layers.count >= 5 || idx < 0 || idx >= layers.count {
+            return false
+        }
+        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
+        let cl = layers[idx]
+        layers.insert(.init(colors: cl.colors, id: "copy layer of \(idx)", blendMode: cl.blendMode), at: idx)
+        redoHistory.removeAll()
+
+        return true
+    }
 }
