@@ -306,7 +306,7 @@ struct PixelDrawView: View {
             Canvas { context, size in
                 func draw() {
                     let w = size.width / CGFloat(colors.first?.count ?? 1)
-                    for (i,layer) in (StageManager.shared.stage?.layers ?? []).enumerated() {
+                    for (i,layer) in (StageManager.shared.stage?.layers ?? []).reversed().enumerated() {
                         context.blendMode = .init(rawValue: layer.blendMode.rawValue)
                         for (y,list) in layer.colors.enumerated() {
                             for (x,color) in list.enumerated() {

@@ -11,6 +11,8 @@ struct LayerEditView: View {
     let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
+    @State var orientation = UIDeviceOrientation.unknown
+    
     @State var layers:[LayerModel] = []
             
     @State var blendModes:[Int] = []
@@ -51,15 +53,16 @@ struct LayerEditView: View {
     ]
     
     @State var previewImage:Image? = nil
+   
     
-    var body: some View {
-        VStack {
+    var body: some View {        
+         VStack {
             if let img = previewImage {
                 img.resizable().frame(width: 200, height: 200, alignment: .center)
                     .opacity(isRequestMakePreview ? 0.1 : 1.0)
             }
             List {
-                ForEach(layers.reversed(), id:\.self) { layer in
+                ForEach(layers, id:\.self) { layer in
                     if let id = layers.firstIndex(of: layer) {
                         HStack {
                             Text("\(id)")
@@ -157,14 +160,12 @@ struct LayerEditView: View {
             reload()
         }
         
-        
-        
     }
     
     func move(from source: IndexSet, to destination: Int) {
         layers.move(fromOffsets: source, toOffset: destination)
         print("move \(source) \(destination)")
-        StageManager.shared.stage?.layers = layers
+        StageManager.shared.stage?.layers = layers.reversed()
         StageManager.shared.stage?.reArrangeLayers()
         reload()
     }

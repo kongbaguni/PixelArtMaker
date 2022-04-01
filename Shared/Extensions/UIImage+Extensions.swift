@@ -16,7 +16,7 @@ extension UIImage {
             backgroundColor.uiColor.setFill()
             UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
         }
-        for (i,colors) in totalColors.enumerated() {
+        for (i,colors) in totalColors.reversed().enumerated() {
             for (y,list) in colors.enumerated() {
                 for (x,color) in list.enumerated() {
                     let ci = color.ciColor
