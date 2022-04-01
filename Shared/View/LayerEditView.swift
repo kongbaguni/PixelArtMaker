@@ -14,6 +14,7 @@ struct LayerEditView: View {
     @State var orientation = UIDeviceOrientation.unknown
     
     @State var layers:[LayerModel] = []
+    @State var selection:[Bool] = []
             
     @State var blendModes:[Int] = []
     @State var isRequestMakePreview = false
@@ -128,7 +129,7 @@ struct LayerEditView: View {
                         }
                         .padding(20)
                         .background(
-                            StageManager.shared.stage?.selectedLayerIndex == id ? .yellow : .clear
+                            selection[id] ? .yellow : .clear
                         )
                         .cornerRadius(20)
                     }
@@ -164,8 +165,17 @@ struct LayerEditView: View {
     
     func move(from source: IndexSet, to destination: Int) {
         layers.move(fromOffsets: source, toOffset: destination)
-        print("move \(source) \(destination)")
-        StageManager.shared.stage?.layers = layers.reversed()
+        let oldselection = selection
+        selection.move(fromOffsets: source, toOffset: destination)
+            
+        if oldselection != selection {
+            if let idx = selection.firstIndex(of: true) {
+                StageManager.shared.stage?.selectedLayerIndex = idx
+            }
+        }
+        
+        
+        StageManager.shared.stage?.layers = layers
         StageManager.shared.stage?.reArrangeLayers()
         reload()
     }
@@ -180,12 +190,20 @@ struct LayerEditView: View {
         
     fileprivate func reload() {
         layers = StageManager.shared.stage?.layers ?? []
+        layerSelectionRefresh()
         blendModes = StageManager.shared.stage?.layers.map({ model in
             return Int(model.blendMode.rawValue)
         }) ?? []
         StageManager.shared.stage?.getImage(size: .init(width: 320, height: 320), complete: { image in
             previewImage = image
         })
+    }
+    
+    fileprivate func layerSelectionRefresh() {
+        selection = []
+        for i in 0..<layers.count {
+            selection.append(i == StageManager.shared.stage?.selectedLayerIndex)
+        }
     }
 }
 
