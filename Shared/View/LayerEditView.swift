@@ -66,7 +66,7 @@ struct LayerEditView: View {
                 ForEach(layers, id:\.self) { layer in
                     if let id = layers.firstIndex(of: layer) {
                         HStack {
-                            Text("\(id)")
+                            Text("\(layers.count - id)")
                             Spacer()
                             if blendModes.count > id {
                                 Picker(selection: $blendModes[id], label: Text("")) {
