@@ -36,6 +36,10 @@ class GoogleAd : NSObject {
     var callback:(_ isSucess:Bool)->Void = { _ in}
     
     func showAd(complete:@escaping(_ isSucess:Bool)->Void) {
+        if Date().timeIntervalSince1970 - (UserDefaults.standard.lastGoogleAdWatchTime?.timeIntervalSince1970 ?? 0) < 60 {
+            complete(true)
+            return
+        }
         callback = complete
         loadAd { [weak self] isSucess in
             if isSucess == false {
@@ -73,6 +77,7 @@ extension GoogleAd : GADFullScreenContentDelegate {
     //광고 종료
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("google ad \(#function)")
+        UserDefaults.standard.lastGoogleAdWatchTime = Date()
         DispatchQueue.main.async {
             self.callback(true)
         }

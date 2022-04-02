@@ -48,21 +48,28 @@ class StageModel {
         }
     }
     
-    var selectedLayerIndex:Int = 0
+    private var _selectedLayerIndex:Int = 0
     
+    var selectedLayerIndex:Int {
+        get {
+            _selectedLayerIndex
+        }
+    }
+    
+        
     var selectedLayer:LayerModel {
         if layers.count > selectedLayerIndex {
             return layers[selectedLayerIndex]
         }
         else {
-            selectedLayerIndex = layers.count - 1
+            selectLayer(index: layers.count - 1)
             return layers.last!
         }
     }
     
     func selectLayer(index:Int) {
         if index < layers.count {
-            selectedLayerIndex = index
+            _selectedLayerIndex = index
         }
     }
     
@@ -77,6 +84,7 @@ class StageModel {
     }
     
     func change(colors:[[Color]]) {
+        print("\(#function) layeridx : \(selectedLayerIndex)")
         history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
         let blendMode = layers[selectedLayerIndex].blendMode
         layers[selectedLayerIndex] = .init(colors: colors, id:"layer\(selectedLayerIndex)", blendMode:blendMode)
@@ -111,7 +119,7 @@ class StageModel {
         if let data = history.pop() {
             redoHistory.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
             layers = data.layers
-            selectedLayerIndex = data.selectedLayerIndex
+            selectLayer(index: data.selectedLayerIndex)
             backgroundColor = data.backgroundColor
             NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         }
@@ -124,7 +132,7 @@ class StageModel {
         if let data = redoHistory.pop() {
             history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
             layers = data.layers
-            selectedLayerIndex = data.selectedLayerIndex
+            selectLayer(index: data.selectedLayerIndex)
             backgroundColor = data.backgroundColor
             NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         }
@@ -258,7 +266,7 @@ class StageModel {
                 model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
                 model.documentId = documentId
                 if let idx = json["selected_layer_index"] as? Int {
-                    model.selectedLayerIndex = idx
+                    model.selectLayer(index: idx)
                 }
 
                 if let p = json["pallete_colors"] as? [String] {

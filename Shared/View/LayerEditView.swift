@@ -87,7 +87,7 @@ struct LayerEditView: View {
                                 }
                             }
                             Button {
-                                StageManager.shared.stage?.selectLayer(index:layers.count - id - 1)
+                                StageManager.shared.stage?.selectLayer(index:id)
                                 presentationMode.wrappedValue.dismiss()
                                 
                             } label: {
@@ -140,7 +140,7 @@ struct LayerEditView: View {
                     
                     if oldselection != selection {
                         if let idx = selection.firstIndex(of: true) {
-                            StageManager.shared.stage?.selectedLayerIndex = layers.count - idx - 1
+                            StageManager.shared.stage?.selectLayer(index: idx)
                         }
                     }
                     
@@ -200,7 +200,7 @@ struct LayerEditView: View {
     fileprivate func layerSelectionRefresh() {
         selection = []
         for i in 0..<layers.count {
-            selection.append(layers.count - i - 1 == StageManager.shared.stage?.selectedLayerIndex)
+            selection.append(i == StageManager.shared.stage?.selectedLayerIndex)
         }
     }
 }

@@ -326,7 +326,7 @@ struct PixelDrawView: View {
                                                                           height: w - 1.0),
                                                        cornerSize: .zero), with: .color(
                                                         isShowSelectLayerOnly
-                                                        ? (i == StageManager.shared.stage?.selectedLayerIndex ? color : .clear)
+                                                        ? (layers.count - i - 1 == StageManager.shared.stage?.selectedLayerIndex ? color : .clear)
                                                         : color
                                                        ))
                                 }

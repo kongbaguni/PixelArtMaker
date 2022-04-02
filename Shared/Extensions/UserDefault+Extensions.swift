@@ -24,4 +24,17 @@ extension UserDefaults {
             integer(forKey: "lastColorPresetRowSelectionIndex")
         }
     }
+    
+    var lastGoogleAdWatchTime:Date? {
+        set {
+            set(newValue?.timeIntervalSince1970, forKey: "lastGoogleAdWatchTime")
+        }
+        get {            
+            let value = double(forKey: "lastGoogleAdWatchTime")
+            if value > 0 {
+                return Date(timeIntervalSince1970: value)
+            }
+            return nil
+        }
+    }
 }
