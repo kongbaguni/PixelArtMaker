@@ -46,9 +46,12 @@
 "share public" = "share public";
 "update shared" = "update shared";
 "public shared list" = "public shared list";
-
+"empty public shard list message" = "There are no pictures shared.";
 
 "currentId" = "current id";
 "sharedId" = "shared id";
 "save" = "save";
 "my gellery" = "my gellery";
+
+
+"profile" = "profile";

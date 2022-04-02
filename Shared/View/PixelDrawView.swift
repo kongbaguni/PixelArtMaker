@@ -121,6 +121,7 @@ struct PixelDrawView: View {
     @State var isShowLoadView = false
     @State var isShowShareListView = false
     @State var isShowSigninView = false
+    @State var isShowProfileView = false
     
     @State var isShowActionSheet = false
     @State var isShowAlert = false
@@ -285,6 +286,7 @@ struct PixelDrawView: View {
     
     var body: some View {
         VStack {
+            //MARK: - 네비게이션
             NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
                 
             }
@@ -298,6 +300,9 @@ struct PixelDrawView: View {
                 
             }
             NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
+                
+            }
+            NavigationLink(destination: ProfileView(), isActive: $isShowProfileView) {
                 
             }
             
@@ -736,6 +741,11 @@ struct PixelDrawView: View {
                         })
                     )
                 } else {
+                    if AuthManager.shared.auth.currentUser?.isAnonymous == false {
+                        buttons.append(.default(Text("profile"), action: {
+                            isShowProfileView = true
+                        }))
+                    }
                     buttons.append(.default(.menu_signout_title, action: {
                         AuthManager.shared.signout()
                     }))

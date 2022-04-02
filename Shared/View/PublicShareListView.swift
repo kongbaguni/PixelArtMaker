@@ -29,29 +29,36 @@ struct PublicShareListView: View {
     ]
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: gridItems, spacing:20) {
-
-                ForEach(list, id:\.self) { model in
-                    if let image = model.imageValue {
-                        Button {
-//                            if model.uid == AuthManager.shared.userId {
-                                StageManager.shared.openStage(id: model.documentId, uid: model.uid) { result in
-                                    if result != nil {
-                                        presentationMode.wrappedValue.dismiss()
+        VStack {
+            if list.count == 0 {
+                Text("empty public shard list message")
+            }
+            else {
+                ScrollView {
+                    LazyVGrid(columns: gridItems, spacing:20) {
+                        
+                        ForEach(list, id:\.self) { model in
+                            if let image = model.imageValue {
+                                Button {
+                                    //                            if model.uid == AuthManager.shared.userId {
+                                    StageManager.shared.openStage(id: model.documentId, uid: model.uid) { result in
+                                        if result != nil {
+                                            presentationMode.wrappedValue.dismiss()
+                                        }
+                                    }
+                                    //                            }
+                                } label: {
+                                    VStack {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame(width: width1, height: width1, alignment: .center)
+                                        TagView(Text(model.email))
+                                        TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
                                     }
                                 }
-//                            }
-                        } label: {
-                            VStack {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .frame(width: width1, height: width1, alignment: .center)
-                                TagView(Text(model.email))
-                                TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
+                                
                             }
                         }
-
                     }
                 }
             }

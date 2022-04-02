@@ -22,8 +22,8 @@
 "menu signin title" = "로그인";
 "menu signout title" = "로그아웃";
 "menu save title" = "저장하기";
-"menu load title" = "내 겔러리";
-"menu public load title" = "공유 겔러리";
+"menu load title" = "내 갤러리";
+"menu public load title" = "공유 갤러리";
 
 "menu color select title" = "컬러 프리셋";
 "menu delete title" = "삭제하기";
@@ -35,16 +35,18 @@
 
 "save as new file" = "새 파일로 저장";
 "save to existing file" = "기존 파일에 저장";
-"empty gallery title" = "겔러리에 저장된 그림이 없습니다.";
+"empty gallery title" = "갤러리에 저장된 그림이 없습니다.";
 "open start" = "그림을 읽어오는 중입니다.";
 
 "delete layer" = "레이어 삭제";
 "copy layer" = "레이어 복사";
 "share public" = "공개하기";
 "update shared" = "공개한 게시물 갱신하기";
-"public shared list" = "공개 게시판";
-
+"public shared list" = "공유 갤러리";
+"empty public shard list message" = "공유된 그림이 없습니다.";
 "currentId" = "이 그림의 아이디";
 "sharedId" = "공유된 그림의 아이디";
 "save" = "저장하기";
 "my gellery" = "내 갤러리";
+
+"profile" = "내 정보";
