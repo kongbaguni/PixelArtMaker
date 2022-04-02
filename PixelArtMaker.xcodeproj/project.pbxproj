@@ -55,6 +55,7 @@
 		C3DBA08C27ECA32B00FE8392 /* GoogleAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */; };
 		C3DBA08E27ECB25600FE8392 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DBA08D27ECB25600FE8392 /* UIApplication+Extensions.swift */; };
 		C3EDBF1F27F6B06C00BBEC01 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EDBF1E27F6B06C00BBEC01 /* View+Extensions.swift */; };
+		C3EDBF2127F8020B00BBEC01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +116,7 @@
 		C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAd.swift; sourceTree = "<group>"; };
 		C3DBA08D27ECB25600FE8392 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		C3EDBF1E27F6B06C00BBEC01 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F9940D8FB396FA3693BE19D4 /* Pods-PixelArtMaker (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).release.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +177,7 @@
 		1B28C3AC27BE100E003F8312 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
 				C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */,
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
 				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
@@ -460,6 +463,7 @@
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
 				C3011F5727F050CD001B12AC /* SharedStageModel.swift in Sources */,
+				C3EDBF2127F8020B00BBEC01 /* AppDelegate.swift in Sources */,
 				1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */,
 				C3EDBF1F27F6B06C00BBEC01 /* View+Extensions.swift in Sources */,
 				C3011F5B27F05750001B12AC /* OrangeTextView.swift in Sources */,

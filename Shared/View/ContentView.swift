@@ -29,7 +29,13 @@ struct ContentView: View {
                 )
                 .background(Color.k_background)
                 .navigationBarTitleDisplayMode(.inline)
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear {
+            //Portrait 고정
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            AppDelegate.orientationLock = .portrait
+        }
     }
 }
 

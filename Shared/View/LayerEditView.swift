@@ -10,12 +10,10 @@ import SwiftUI
 struct LayerEditView: View {
     let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    @State var orientation = UIDeviceOrientation.unknown
-    
+        
     @State var layers:[LayerModel] = []
     @State var selection:[Bool] = []
-            
+    
     @State var blendModes:[Int] = []
     @State var isRequestMakePreview = false
     
@@ -54,10 +52,10 @@ struct LayerEditView: View {
     ]
     
     @State var previewImage:Image? = nil
-   
     
-    var body: some View {        
-         VStack {
+    var body: some View {
+        
+        VStack {
             if let img = previewImage {
                 img.resizable().frame(width: 200, height: 200, alignment: .center)
                     .opacity(isRequestMakePreview ? 0.1 : 1.0)
@@ -79,7 +77,7 @@ struct LayerEditView: View {
                                 .onChange(of: blendModes[id]) { value in
                                     print(value)
                                     isRequestMakePreview = true
-                                    if let new = CGBlendMode(rawValue: Int32(value)) { 
+                                    if let new = CGBlendMode(rawValue: Int32(value)) {
                                         StageManager.shared.stage?.change(blendMode: new , layerIndex: id)
                                         StageManager.shared.stage?.getImage(size: .init(width: 320, height: 320), complete: { image in
                                             previewImage = image
@@ -89,8 +87,9 @@ struct LayerEditView: View {
                                 }
                             }
                             Button {
-                                StageManager.shared.stage?.selectLayer(index: id)
+                                StageManager.shared.stage?.selectLayer(index:layers.count - id - 1)
                                 presentationMode.wrappedValue.dismiss()
+                                
                             } label: {
                                 Canvas { context,size in
                                     for (y, list) in layer.colors.enumerated() {
@@ -134,7 +133,21 @@ struct LayerEditView: View {
                         .cornerRadius(20)
                     }
                 }
-                .onMove(perform: move)
+                .onMove(perform: {source, destination in
+                    layers.move(fromOffsets: source, toOffset: destination)
+                    let oldselection = selection
+                    selection.move(fromOffsets: source, toOffset: destination)
+                    
+                    if oldselection != selection {
+                        if let idx = selection.firstIndex(of: true) {
+                            StageManager.shared.stage?.selectedLayerIndex = layers.count - idx - 1
+                        }
+                    }
+                    
+                    StageManager.shared.stage?.layers = layers
+                    StageManager.shared.stage?.reArrangeLayers()
+                    reload()
+                })
                 if layers.count < 5 {
                     Button {
                         googleAd.showAd { isSucess in
@@ -161,33 +174,18 @@ struct LayerEditView: View {
             reload()
         }
         
+        
     }
     
-    func move(from source: IndexSet, to destination: Int) {
-        layers.move(fromOffsets: source, toOffset: destination)
-        let oldselection = selection
-        selection.move(fromOffsets: source, toOffset: destination)
-            
-        if oldselection != selection {
-            if let idx = selection.firstIndex(of: true) {
-                StageManager.shared.stage?.selectedLayerIndex = idx
-            }
-        }
-        
-        
-        StageManager.shared.stage?.layers = layers
-        StageManager.shared.stage?.reArrangeLayers()
-        reload()
-    }
     
     fileprivate func deleteLayer(idx:Int) {
         StageManager.shared.stage?.deleteLayer(idx: idx)
-        reload()        
+        reload()
         StageManager.shared.saveTemp {
-        
+            
         }
     }
-        
+    
     fileprivate func reload() {
         layers = StageManager.shared.stage?.layers ?? []
         layerSelectionRefresh()
@@ -202,7 +200,7 @@ struct LayerEditView: View {
     fileprivate func layerSelectionRefresh() {
         selection = []
         for i in 0..<layers.count {
-            selection.append(i == StageManager.shared.stage?.selectedLayerIndex)
+            selection.append(layers.count - i - 1 == StageManager.shared.stage?.selectedLayerIndex)
         }
     }
 }
