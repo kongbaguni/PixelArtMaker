@@ -10,4 +10,5 @@ target 'PixelArtMaker (iOS)' do
   # Pods for PixelArtMaker (iOS)
 
 pod 'Google-Mobile-Ads-SDK'
+pod 'GoogleSignIn'
 end

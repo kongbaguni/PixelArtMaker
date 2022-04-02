@@ -56,11 +56,13 @@ struct SaveView: View {
                     Button {
                         isLoading = true
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false, complete: {
+                            StageManager.shared.save(asNewForce: false, complete: {isSucessA in
                                 if sharedId != nil {
-                                    StageManager.shared.sharePublic { isSucess in
+                                    StageManager.shared.sharePublic { isSucessB in
                                         isLoading = false
-                                        presentationMode.wrappedValue.dismiss()
+                                        if isSucessA && isSucessB {
+                                            presentationMode.wrappedValue.dismiss()
+                                        }
                                     }
                                     return
                                 }
@@ -78,9 +80,11 @@ struct SaveView: View {
                 Button {
                     isLoading = true
                     googleAd.showAd { isSucess in
-                        StageManager.shared.save(asNewForce: true, complete: {
+                        StageManager.shared.save(asNewForce: true, complete: { isSucess in
                             isLoading = false
-                            presentationMode.wrappedValue.dismiss()
+                            if isSucess {
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         })
                     }
                     
@@ -89,15 +93,17 @@ struct SaveView: View {
                 }
                 
             }
-            if StageManager.shared.stage?.documentId != nil && sharedId == nil {
+            if StageManager.shared.stage?.documentId != nil && sharedId == nil && AuthManager.shared.auth.currentUser?.isAnonymous == false {
                 HStack {
                     Button {
                         isLoading = true
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false) {
-                                StageManager.shared.sharePublic { isSucess in
+                            StageManager.shared.save(asNewForce: false) { isSucessA in
+                                StageManager.shared.sharePublic { isSucessB in
                                     isLoading = false
-                                    presentationMode.wrappedValue.dismiss()
+                                    if isSucessA && isSucessB {
+                                        presentationMode.wrappedValue.dismiss()
+                                    }
                                 }
                             }                            
                         }

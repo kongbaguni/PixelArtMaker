@@ -7,6 +7,10 @@
 
 import Foundation
 import UIKit
+var rootViewController : UIViewController? {
+    UIApplication.shared.keyWindow?.rootViewController
+}
+
 extension UIApplication {
     
     var keyWindow: UIWindow? {

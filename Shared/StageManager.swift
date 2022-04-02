@@ -55,7 +55,7 @@ class StageManager {
                 
             let str = stage.base64EncodedString
             
-            let email = AuthManager.shared.auth.currentUser?.email ?? "guest"
+            let uid = AuthManager.shared.userId!
             var data:[String:String] = [
                 "data":str
             ]
@@ -63,7 +63,7 @@ class StageManager {
                 data["documentId"] = id
             }
             
-            collection.document(email).setData(data, merge: true) { error in
+            collection.document(uid).setData(data, merge: true) { error in
                 print(error?.localizedDescription ?? "성공")
                 if error == nil {
                     DispatchQueue.main.async {
@@ -75,18 +75,24 @@ class StageManager {
         }
     }
     
-    func loadTemp(comptete:@escaping(_ isLoadSucess:Bool)->Void) {
+    func loadTemp(complete:@escaping(_ isLoadSucess:Bool)->Void) {
+        guard let uid = AuthManager.shared.userId else {
+            complete(false)
+            return
+        }
         DispatchQueue.global().async {[self] in
             let collection = fireStore.collection("temp")
-            let email = AuthManager.shared.auth.currentUser?.email ?? "guest"
             
-            collection.document(email).getDocument { snapShopt, error in
+            
+            collection.document(uid).getDocument { snapShopt, error in
                 
                 guard let data = snapShopt?.data(),
                       let string = data["data"] as? String,
                       let stage = StageModel.makeModel(base64EncodedString: string, documentId: nil)
                 else {
-                    comptete(false)
+                    DispatchQueue.main.async {
+                        complete(false)
+                    }
                     return
                 }
                 self.stage = stage
@@ -95,29 +101,33 @@ class StageManager {
                 }
                             
                 DispatchQueue.main.async {
-                    comptete(true)
+                    complete(true)
                 }
             }
         }
     }
         
     var lastSaveTime:Date? = nil
-    func save(asNewForce:Bool,complete:@escaping()->Void) {
+    func save(asNewForce:Bool,complete:@escaping(_ isSucess:Bool)->Void) {
         if let time = lastSaveTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
-                complete()
+                complete(false)
                 return
             }
         }
         lastSaveTime = Date()
         
+        
         DispatchQueue.global().async {[self] in
-            guard let email = AuthManager.shared.auth.currentUser?.email,
+            guard let uid = AuthManager.shared.userId,
                   let stage = stage else {
+                DispatchQueue.main.async {
+                    complete(false)
+                }
                 return
             }
             
-            let collection = fireStore.collection("pixelarts").document(email).collection("data")
+            let collection = fireStore.collection("pixelarts").document(uid).collection("data")
             var data:[String:AnyHashable] = [
                 "data":stage.base64EncodedString,
                 "updateDt":Date().timeIntervalSince1970
@@ -136,7 +146,7 @@ class StageManager {
                         loadList { [self] result in
                             saveTemp (documentId: documentPath, comnplete: {
                                 DispatchQueue.main.async {
-                                    complete()
+                                    complete(true)
                                 }
                             })
                         }
@@ -152,7 +162,7 @@ class StageManager {
                     
                     saveTemp(documentId: stage.documentId, comnplete: {
                         DispatchQueue.main.async {
-                            complete()
+                            complete(true)
                         }
                     })
                     
@@ -162,14 +172,18 @@ class StageManager {
         }
     }
         
-    func openStage(id:String, email:String? = nil, complete:@escaping(_ result:StageModel?)->Void) {
-        guard let email = email ?? AuthManager.shared.auth.currentUser?.email else {
+    func openStage(id:String, uid:String? = nil, complete:@escaping(_ result:StageModel?)->Void) {
+        guard let uid = uid ?? AuthManager.shared.userId else {
+            complete(nil)
+            return
+        }
+        if uid.isEmpty {
             complete(nil)
             return
         }
 
         DispatchQueue.global().async { [self] in
-            let document = fireStore.collection("pixelarts").document(email).collection("data").document(id)
+            let document = fireStore.collection("pixelarts").document(uid).collection("data").document(id)
             document.getDocument { [self] snapShot, error in
                 if let err = error {
                     print(err.localizedDescription)
@@ -244,10 +258,10 @@ class StageManager {
             }
         }
         DispatchQueue.global().async {[self] in
-            guard let email = AuthManager.shared.auth.currentUser?.email else {
+            guard let uid = AuthManager.shared.userId else {
                 return
             }
-            let collection = fireStore.collection("pixelarts").document(email).collection("data")
+            let collection = fireStore.collection("pixelarts").document(uid).collection("data")
             if let date = lastSync {
                 collection
                     .whereField("updateDt", isGreaterThan: date.timeIntervalSince1970)
@@ -266,13 +280,13 @@ class StageManager {
         guard let id = documentId ?? stage?.documentId else {
             return
         }
-        guard let email = AuthManager.shared.auth.currentUser?.email else {
+        guard let uid = AuthManager.shared.userId else {
             complete(false)
             return
         }
         
         DispatchQueue.global().async {[self] in
-            let document = fireStore.collection("pixelarts").document(email).collection("data").document(id)
+            let document = fireStore.collection("pixelarts").document(uid).collection("data").document(id)
             document.delete { [self] error in
                 if error == nil {
                     fireStore.collection("public").whereField("documentId", isEqualTo: id).getDocuments {[self] qs, error in
@@ -313,12 +327,12 @@ class StageManager {
     }
     
     func deleteTemp(complete:@escaping(_ isSucess:Bool)->Void) {
-        guard let email = AuthManager.shared.auth.currentUser?.email else {
+        guard let uid = AuthManager.shared.userId else {
             return
         }
         let collection = fireStore.collection("temp")
         DispatchQueue.global().async {
-            collection.document(email).delete { error in
+            collection.document(uid).delete { error in
                 DispatchQueue.main.async {
                     complete(error == nil)
                 }
@@ -329,7 +343,9 @@ class StageManager {
     func sharePublic(complete:@escaping(_ isSucess:Bool)->Void) {
         guard let id = stage?.documentId,
               let image = stage?.makeImageDataValue(size: .init(width: 320, height: 320)),
+              let uid = AuthManager.shared.userId,
               let email = AuthManager.shared.auth.currentUser?.email
+                
         else {
             return
         }
@@ -339,7 +355,8 @@ class StageManager {
             "documentId":id ,
             "image":image.base64EncodedString(),
             "email":email,
-            "updateDt":now
+            "updateDt":now,
+            "uid":uid
         ]
         
         func getSharedList(complete:@escaping(_ list:[String])->Void) {

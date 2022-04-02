@@ -8,8 +8,9 @@
 import Foundation
 import CryptoKit
 import AuthenticationServices
-
+import Firebase
 import FirebaseAuth
+import GoogleSignIn
 
 extension Notification.Name {
     static let authDidSucessed = Notification.Name("authDidSucessed_observer")
@@ -17,6 +18,11 @@ extension Notification.Name {
 class AuthManager : NSObject {
     static let shared = AuthManager()
     let auth = Auth.auth()
+    
+    var userId:String? {
+        return auth.currentUser?.uid
+    }
+    
     var isSignined:Bool {
         return auth.currentUser != nil
     }
@@ -69,7 +75,52 @@ class AuthManager : NSObject {
     fileprivate var didComplete:(_ loginSucess:Bool)->Void = { _ in }
     // Unhashed nonce.
     fileprivate var currentNonce: String?
-    
+
+    //    MARK: - 구글 아이디로 로그인하기
+        func startSignInWithGoogleId(complete:@escaping(_ loginSucess:Bool)->Void) {
+            didComplete = complete
+            guard let clientID = FirebaseApp.app()?.options.clientID,
+                  let vc = rootViewController
+            else { return }
+
+            // Create Google Sign In configuration object.
+            let config = GIDConfiguration(clientID: clientID)
+
+            // Start the sign in flow!
+            GIDSignIn.sharedInstance.signIn(with: config, presenting: vc) { user, error in
+                
+                if let error = error {
+                    print(error.localizedDescription)
+                    complete(false)
+                    return
+                }
+                
+                guard
+                    let authentication = user?.authentication,
+                    let idToken = authentication.idToken
+                else {
+                    return
+                }
+                
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                               accessToken: authentication.accessToken)
+                
+                
+                print(credential)
+                Auth.auth().signIn(with: credential) { result, error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        complete(false)
+                        return
+                    }
+                    
+                    complete(true)
+                
+                }
+            }
+        }
+        
+//MARK: - 애플 아이디로 로그인하기
     func startSignInWithAppleFlow(complete:@escaping(_ loginSucess:Bool)->Void) {
         didComplete = complete
         let nonce = randomNonceString()
@@ -85,9 +136,24 @@ class AuthManager : NSObject {
         authorizationController.performRequests()
     }
     
+//MARK: - 익명 로그인
+    func startSignInAnonymously(complete:@escaping(_ loginSucess:Bool)->Void) {
+        Auth.auth().signInAnonymously { authResult, error in
+            if let err = error {
+                print("error : \(err.localizedDescription)")
+                complete(false)
+                return
+            }
+            complete(true)
+        }
+    }
+    
     func signout() {
         do {
             try auth.signOut()
+            
+            StageManager.shared.stage?.layers.removeAll()
+            StageManager.shared.stage?.documentId = nil 
         } catch {
             print(error.localizedDescription)
         }

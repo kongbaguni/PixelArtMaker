@@ -12,6 +12,7 @@ import UIKit
 class SharedStageModel : Object {
     @Persisted(primaryKey: true) var id:String = ""
     @Persisted var documentId:String = ""
+    @Persisted var uid:String = ""
     @Persisted var email:String = ""
     @Persisted var image:String = ""
     @Persisted var regDt:TimeInterval = 0.0

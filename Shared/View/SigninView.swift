@@ -13,14 +13,36 @@ struct SigninView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
-        HStack {
+        VStack {
             if AuthManager.shared.isSignined == false {
                 Button {
                     AuthManager.shared.startSignInWithAppleFlow { loginSucess in
-                        presentationMode.wrappedValue.dismiss()
+                        if loginSucess {
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }
                 } label: {
                     Text("Apple 로 로그인")
+                }
+                
+                Button {
+                    AuthManager.shared.startSignInWithGoogleId { loginSucess in
+                        if loginSucess {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                } label: {
+                    Text("Google ID 로 로그인")
+                }
+                
+                Button {
+                    AuthManager.shared.startSignInAnonymously { loginSucess in
+                        if loginSucess {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                } label: {
+                    Text("익명 로그인")
                 }
             } else {
                 Button {

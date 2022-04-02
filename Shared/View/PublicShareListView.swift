@@ -35,13 +35,13 @@ struct PublicShareListView: View {
                 ForEach(list, id:\.self) { model in
                     if let image = model.imageValue {
                         Button {
-                            if model.email == AuthManager.shared.auth.currentUser?.email {
-                                StageManager.shared.openStage(id: model.documentId, email: model.email) { result in
+//                            if model.uid == AuthManager.shared.userId {
+                                StageManager.shared.openStage(id: model.documentId, uid: model.uid) { result in
                                     if result != nil {
                                         presentationMode.wrappedValue.dismiss()
                                     }
                                 }
-                            }
+//                            }
                         } label: {
                             VStack {
                                 Image(uiImage: image)
