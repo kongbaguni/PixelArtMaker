@@ -18,6 +18,7 @@ struct PixelArtDetailView: View {
     @State var profileModel:ProfileModel? = nil
     @State var isMyLike:Bool = false
     @State var likeCount:Int = 0
+    let googleAd = GoogleAd()
     
     init(id:String) {
         pid = id
@@ -72,7 +73,12 @@ struct PixelArtDetailView: View {
                     
                     if let img = m.imageValue?.pngData() {
                         Button {
-                            share(items: [img])
+                            googleAd.showAd { isSucess in
+                                if isSucess {
+                                    share(items: [img])
+                                }
+                            }
+                            
                         } label: {
                             OrangeTextView(Text("share"))
                         }

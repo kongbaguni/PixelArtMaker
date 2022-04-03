@@ -819,9 +819,9 @@ struct PixelDrawView: View {
                                 }), secondaryButton: .cancel())
             }
         }
-        .frame(width: screenBounds.width,
-               height: screenBounds.width > 500 ? screenBounds.height : CGFloat.leastNormalMagnitude,
-               alignment: .center)
+//        .frame(width: screenBounds.width,
+//               height: screenBounds.width > 500 ? screenBounds.height : CGFloat.leastNormalMagnitude,
+//               alignment: .center)
         
 #if MAC
         .background(KeyEventHandling())

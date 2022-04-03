@@ -22,13 +22,16 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView {
-            PixelDrawView()
-                .navigationTitle(
-                    .app_title
-                )
-                .background(Color.k_background)
-                .navigationBarTitleDisplayMode(.inline)
+        GeometryReader { geomentry in
+            NavigationView {
+                PixelDrawView()
+                    .navigationTitle(
+                        .app_title
+                    )
+                    .background(Color.k_background)
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .frame(width: geomentry.size.width, height: geomentry.size.height, alignment: .center)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {

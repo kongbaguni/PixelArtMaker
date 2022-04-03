@@ -104,7 +104,11 @@ struct SaveView: View {
             
             if let img = shareImageData {
                 Button {
-                    share(items: [img])
+                    googleAd.showAd { isSucess in
+                        if isSucess {
+                            share(items: [img])
+                        }
+                    }
                 } label: {
                     OrangeTextView(Text("share"))
                 }
