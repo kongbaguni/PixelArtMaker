@@ -51,9 +51,9 @@ struct SaveView: View {
                     }
                 }
             }
-            
             HStack {
-                if StageManager.shared.stage?.documentId != nil {
+                //MARK : 기존 파일에 저장
+                if StageManager.shared.stage?.documentId != nil && StageManager.shared.stage?.isMyPicture == true {
                     Button {
                         isLoading = true
                         googleAd.showAd { isSucess in
@@ -79,7 +79,7 @@ struct SaveView: View {
                         
                     }
                 }
-                
+                //MARK: 새 파일로 저장
                 Button {
                     isLoading = true
                     googleAd.showAd { isSucess in

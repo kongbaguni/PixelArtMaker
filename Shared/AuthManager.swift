@@ -11,6 +11,7 @@ import AuthenticationServices
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
+import RealmSwift
 
 extension Notification.Name {
     static let authDidSucessed = Notification.Name("authDidSucessed_observer")
@@ -154,6 +155,12 @@ class AuthManager : NSObject {
             try auth.signOut()            
             StageManager.shared.initStage(size: .init(width: 32, height: 32))
             StageManager.shared.stage?.documentId = nil
+            StageManager.shared.stage?.previewImage = nil
+            let realm = try! Realm()
+            try! realm.write {
+                realm.deleteAll()
+            }
+            NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         } catch {
             print(error.localizedDescription)
         }

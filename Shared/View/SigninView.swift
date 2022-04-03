@@ -18,7 +18,9 @@ struct SigninView: View {
                 Button {
                     AuthManager.shared.startSignInWithAppleFlow { loginSucess in
                         if loginSucess {
-                            presentationMode.wrappedValue.dismiss()
+                            ProfileModel.downloadProfile { error in
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         }
                     }
                 } label: {
@@ -28,22 +30,24 @@ struct SigninView: View {
                 Button {
                     AuthManager.shared.startSignInWithGoogleId { loginSucess in
                         if loginSucess {
-                            presentationMode.wrappedValue.dismiss()
+                            ProfileModel.downloadProfile { error in
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         }
                     }
                 } label: {
                     Text("Google ID 로 로그인")
                 }
                 
-                Button {
-                    AuthManager.shared.startSignInAnonymously { loginSucess in
-                        if loginSucess {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }
-                } label: {
-                    Text("익명 로그인")
-                }
+//                Button {
+//                    AuthManager.shared.startSignInAnonymously { loginSucess in
+//                        if loginSucess {
+//                            presentationMode.wrappedValue.dismiss()
+//                        }
+//                    }
+//                } label: {
+//                    Text("익명 로그인")
+//                }
             } else {
                 Button {
                     do {

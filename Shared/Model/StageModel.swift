@@ -19,6 +19,7 @@ class StageModel {
         let selectedLayerIndex:Int
         let backgroundColor:Color
     }
+    var createrId:String = ""
     var documentId:String? = nil
     var previewImage:UIImage? = nil
     
@@ -390,5 +391,9 @@ class StageModel {
         for (idx,layer) in layers.enumerated() {
             layers[idx] = .init(colors: layer.colors, id: "layer\(idx)", blendMode: layer.blendMode)
         }
+    }
+    
+    var isMyPicture:Bool {
+        return createrId == AuthManager.shared.userId
     }
 }

@@ -38,10 +38,14 @@ class StageManager {
     }
     
     var lastSaveTempTime:Date? = nil
-    func saveTemp(documentId:String? = nil ,comnplete:@escaping(_ error:Error?)->Void) {
+    func saveTemp(documentId:String? = nil ,complete:@escaping(_ error:Error?)->Void) {
+        guard let uid = AuthManager.shared.userId else {
+            complete(nil)
+            return
+        }
         if let time = lastSaveTempTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
-                comnplete(nil)
+                complete(nil)
                 return
             }
         }
@@ -55,7 +59,6 @@ class StageManager {
                 
             let str = stage.base64EncodedString
             
-            let uid = AuthManager.shared.userId!
             var data:[String:String] = [
                 "data":str
             ]
@@ -67,7 +70,7 @@ class StageManager {
                 print(error?.localizedDescription ?? "성공")
                 if error == nil {
                     DispatchQueue.main.async {
-                        comnplete(error)
+                        complete(error)
                     }
                 }
             }
@@ -144,7 +147,7 @@ class StageManager {
                     d.updateData(data) {[self] error in
                         print(error?.localizedDescription ?? "업로드 성공")
                         loadList { [self] result in
-                            saveTemp (documentId: documentPath, comnplete: { tmpError in
+                            saveTemp (documentId: documentPath, complete: { tmpError in
                                 DispatchQueue.main.async {
                                     complete(error)
                                 }
@@ -160,7 +163,7 @@ class StageManager {
                 loadList { [self] result in
                     stage.documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last?.documentId
                     
-                    saveTemp(documentId: stage.documentId, comnplete: { tmeError in 
+                    saveTemp(documentId: stage.documentId, complete: { tmeError in
                         DispatchQueue.main.async {
                             complete(error)
                         }
@@ -199,6 +202,7 @@ class StageManager {
                 
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
                 stage = model
+                model?.createrId = uid
                 DispatchQueue.main.async {
                     complete(model,error)
                 }
@@ -444,4 +448,7 @@ class StageManager {
             }
         }
     }
+    
+    
+    
 }
