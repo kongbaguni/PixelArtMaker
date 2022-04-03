@@ -115,7 +115,8 @@ struct PixelDrawView: View {
     @State private var timer: Timer?
     @State var isLongPressing = false
     
-    
+    @State var toastMessage = ""
+    @State var isShowToast = false
     @State var isShowColorPresetView = false
     @State var isShowSaveView = false
     @State var isShowLoadView = false
@@ -267,10 +268,15 @@ struct PixelDrawView: View {
             undoCount = stage.history.count
             redoCount = stage.redoHistory.count
         }
-        StageManager.shared.saveTemp {
-            StageManager.shared.stage?.getImage(size: .init(width: 320, height: 320), complete: { image in
-                previewImage = image
-            })
+        StageManager.shared.saveTemp { error in
+            if let err = error {
+                toastMessage = err.localizedDescription
+                isShowToast = true
+            } else {
+                StageManager.shared.stage?.getImage(size: .init(width: 320, height: 320), complete: { image in
+                    previewImage = image
+                })
+            }
         }
     }
     
@@ -556,9 +562,11 @@ struct PixelDrawView: View {
                         //MARK: - undo
                         Button {
                             StageManager.shared.stage?.undo()
-                            StageManager.shared.saveTemp {
-                                
+                            StageManager.shared.saveTemp { error in
+                                toastMessage = error?.localizedDescription ?? ""
+                                isShowToast = error != nil
                             }
+                            
                             if isLongPressing {
                                 isLongPressing = false
                                 timer?.invalidate()
@@ -685,9 +693,11 @@ struct PixelDrawView: View {
                         //MARK: - redo
                         Button {
                             StageManager.shared.stage?.redo()
-                            StageManager.shared.saveTemp {
-                                
+                            StageManager.shared.saveTemp { error in
+                                toastMessage = error?.localizedDescription ?? ""
+                                isShowToast = error != nil
                             }
+                            
                             if isLongPressing {
                                 isLongPressing = false
                                 timer?.invalidate()
@@ -798,15 +808,17 @@ struct PixelDrawView: View {
                              primaryButton: .destructive(
                                 Text.menu_delete_alert_confirm, action: {
                                     isLoadingDataFin = false
-                                    StageManager.shared.delete { isSucess in
-                                        if isSucess {
+                                    StageManager.shared.delete { error in
+                                        if let err = error {
+                                            isLoadingDataFin = false
+                                            toastMessage = err.localizedDescription
+                                            isShowToast = true
+                                        } else {
                                             StageManager.shared.loadList { list in
                                                 isLoadingDataFin = true
                                                 StageManager.shared.initStage(size: pixelSize)
                                                 load()
                                             }
-                                        } else {
-                                            isLoadingDataFin = false
                                         }
                                     }
                                 }), secondaryButton: .cancel())
@@ -819,6 +831,7 @@ struct PixelDrawView: View {
 #if MAC
         .background(KeyEventHandling())
 #endif
+        .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .onAppear {
             //MARK: - onAppear
             if let color = Color.lastSelectColors {

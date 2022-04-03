@@ -60,6 +60,7 @@
 		C3EDBF2527F8863A00BBEC01 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EDBF2427F8863A00BBEC01 /* ProfileView.swift */; };
 		C3EDBF2827F88FE500BBEC01 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C3EDBF2727F88FE500BBEC01 /* SDWebImageSwiftUI */; };
 		C3EDBF2A27F892B700BBEC01 /* LabelTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EDBF2927F892B700BBEC01 /* LabelTextView.swift */; };
+		C3EDBF2C27F9412100BBEC01 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EDBF2B27F9412100BBEC01 /* Toast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		C3EDBF2227F87FE500BBEC01 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		C3EDBF2427F8863A00BBEC01 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		C3EDBF2927F892B700BBEC01 /* LabelTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTextView.swift; sourceTree = "<group>"; };
+		C3EDBF2B27F9412100BBEC01 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		F9940D8FB396FA3693BE19D4 /* Pods-PixelArtMaker (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).release.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +191,7 @@
 				C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */,
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
 				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
+				C3EDBF2B27F9412100BBEC01 /* Toast.swift */,
 				C320338627C370A30019B546 /* Extensions */,
 				1B28C3EC27BE11C2003F8312 /* View */,
 				1B28C3E927BE107D003F8312 /* Model */,
@@ -477,6 +480,7 @@
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
 				C3011F5727F050CD001B12AC /* SharedStageModel.swift in Sources */,
+				C3EDBF2C27F9412100BBEC01 /* Toast.swift in Sources */,
 				C3EDBF2327F87FE500BBEC01 /* ProfileModel.swift in Sources */,
 				C3EDBF2127F8020B00BBEC01 /* AppDelegate.swift in Sources */,
 				1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */,

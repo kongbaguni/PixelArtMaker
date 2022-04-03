@@ -19,7 +19,8 @@ fileprivate var sharedId:String? {
 struct SaveView: View {
     let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+    @State var isShowToast = false
+    @State var toastMessage = ""
     @State var isLoading = false
     @State var colors:[[[Color]]] = []
     @State var backgroundColor:Color = .white
@@ -56,11 +57,13 @@ struct SaveView: View {
                     Button {
                         isLoading = true
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false, complete: {isSucessA in
+                            StageManager.shared.save(asNewForce: false, complete: {errorA in
                                 if sharedId != nil {
-                                    StageManager.shared.sharePublic { isSucessB in
+                                    StageManager.shared.sharePublic { errorB in
                                         isLoading = false
-                                        if isSucessA && isSucessB {
+                                        isShowToast = errorA != nil || errorB != nil
+                                        toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
+                                        if errorA == nil && errorB == nil  {
                                             presentationMode.wrappedValue.dismiss()
                                         }
                                     }
@@ -80,9 +83,12 @@ struct SaveView: View {
                 Button {
                     isLoading = true
                     googleAd.showAd { isSucess in
-                        StageManager.shared.save(asNewForce: true, complete: { isSucess in
+                        StageManager.shared.save(asNewForce: true, complete: { error in
+                            
                             isLoading = false
-                            if isSucess {
+                            toastMessage = error?.localizedDescription ?? ""
+                            isShowToast = error != nil
+                            if error == nil  {
                                 presentationMode.wrappedValue.dismiss()
                             }
                         })
@@ -98,10 +104,13 @@ struct SaveView: View {
                     Button {
                         isLoading = true
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false) { isSucessA in
-                                StageManager.shared.sharePublic { isSucessB in
+                            StageManager.shared.save(asNewForce: false) { errorA in
+                                StageManager.shared.sharePublic { errorB in
                                     isLoading = false
-                                    if isSucessA && isSucessB {
+                                    toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
+                                    isShowToast = errorA != nil || errorB != nil
+                                    
+                                    if errorA == nil && errorB == nil {
                                         presentationMode.wrappedValue.dismiss()
                                     }
                                 }
@@ -131,6 +140,7 @@ struct SaveView: View {
         .onDisappear {
             StageManager.shared.stage?.title = title
         }
+        .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
     }
 }
 

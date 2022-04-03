@@ -43,14 +43,14 @@ extension ProfileModel {
         return try! Realm().object(ofType: ProfileModel.self, forPrimaryKey: uid)
     }
     
-    static func findBy(uid:String, complete:@escaping()->Void) {
+    static func findBy(uid:String, complete:@escaping(_ error:Error?)->Void) {
         collection.document(uid).getDocument { snapShot, error in
             if let data = snapShot?.data() {
                 let realm = try! Realm()
                 try! realm.write {
                     realm.create(ProfileModel.self, value: data, update: .all)
                 }
-                complete()
+                complete(error)
             }
         }
     }
@@ -62,9 +62,9 @@ extension ProfileModel {
         return nil
     }
     
-    static func downloadProfile(complete:@escaping(_ isSucess:Bool)->Void) {
+    static func downloadProfile(complete:@escaping(_ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
-            complete(false)
+            complete(nil)
             return
         }
         
@@ -80,17 +80,16 @@ extension ProfileModel {
                 try! realm.write {
                     realm.create(ProfileModel.self, value: data, update: .all)
                 }
-                complete(true)
+                complete(error)
                 return
             }
-            print(error?.localizedDescription ?? "")
-            complete(false)
+            complete(error)
         }
     }
     
-    func updateProfile(complete:@escaping(_ isSuccess:Bool)->Void) {
+    func updateProfile(complete:@escaping(_ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
-            complete(false)
+            complete(nil)
             return
         }
         let data:[String:String] = [
@@ -103,7 +102,7 @@ extension ProfileModel {
             if let err = error {
                 print(err.localizedDescription)
             }
-            complete(error == nil)
+            complete(error)
         }
     }
 }

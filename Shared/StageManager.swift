@@ -38,10 +38,10 @@ class StageManager {
     }
     
     var lastSaveTempTime:Date? = nil
-    func saveTemp(documentId:String? = nil ,comnplete:@escaping()->Void) {
+    func saveTemp(documentId:String? = nil ,comnplete:@escaping(_ error:Error?)->Void) {
         if let time = lastSaveTempTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
-                comnplete()
+                comnplete(nil)
                 return
             }
         }
@@ -67,7 +67,7 @@ class StageManager {
                 print(error?.localizedDescription ?? "성공")
                 if error == nil {
                     DispatchQueue.main.async {
-                        comnplete()
+                        comnplete(error)
                     }
                 }
             }
@@ -75,9 +75,9 @@ class StageManager {
         }
     }
     
-    func loadTemp(complete:@escaping(_ isLoadSucess:Bool)->Void) {
+    func loadTemp(complete:@escaping(_ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
-            complete(false)
+            complete(nil)
             return
         }
         DispatchQueue.global().async {[self] in
@@ -91,7 +91,7 @@ class StageManager {
                       let stage = StageModel.makeModel(base64EncodedString: string, documentId: nil)
                 else {
                     DispatchQueue.main.async {
-                        complete(false)
+                        complete(error)
                     }
                     return
                 }
@@ -101,17 +101,17 @@ class StageManager {
                 }
                             
                 DispatchQueue.main.async {
-                    complete(true)
+                    complete(error)
                 }
             }
         }
     }
         
     var lastSaveTime:Date? = nil
-    func save(asNewForce:Bool,complete:@escaping(_ isSucess:Bool)->Void) {
+    func save(asNewForce:Bool,complete:@escaping(_ error:Error?)->Void) {
         if let time = lastSaveTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
-                complete(false)
+                complete(nil)
                 return
             }
         }
@@ -122,7 +122,7 @@ class StageManager {
             guard let uid = AuthManager.shared.userId,
                   let stage = stage else {
                 DispatchQueue.main.async {
-                    complete(false)
+                    complete(nil)
                 }
                 return
             }
@@ -144,9 +144,9 @@ class StageManager {
                     d.updateData(data) {[self] error in
                         print(error?.localizedDescription ?? "업로드 성공")
                         loadList { [self] result in
-                            saveTemp (documentId: documentPath, comnplete: {
+                            saveTemp (documentId: documentPath, comnplete: { tmpError in
                                 DispatchQueue.main.async {
-                                    complete(true)
+                                    complete(error)
                                 }
                             })
                         }
@@ -160,9 +160,9 @@ class StageManager {
                 loadList { [self] result in
                     stage.documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last?.documentId
                     
-                    saveTemp(documentId: stage.documentId, comnplete: {
+                    saveTemp(documentId: stage.documentId, comnplete: { tmeError in 
                         DispatchQueue.main.async {
-                            complete(true)
+                            complete(error)
                         }
                     })
                     
@@ -172,13 +172,13 @@ class StageManager {
         }
     }
         
-    func openStage(id:String, uid:String? = nil, complete:@escaping(_ result:StageModel?)->Void) {
+    func openStage(id:String, uid:String? = nil, complete:@escaping(_ result:StageModel?, _ error:Error?)->Void) {
         guard let uid = uid ?? AuthManager.shared.userId else {
-            complete(nil)
+            complete(nil,nil)
             return
         }
         if uid.isEmpty {
-            complete(nil)
+            complete(nil,nil)
             return
         }
 
@@ -192,7 +192,7 @@ class StageManager {
                       let str = data["data"] as? String
                 else {
                     DispatchQueue.main.async {
-                        complete(nil)
+                        complete(nil,error)
                     }
                     return
                 }
@@ -200,20 +200,19 @@ class StageManager {
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
                 stage = model
                 DispatchQueue.main.async {
-                    complete(model)
+                    complete(model,error)
                 }
             }
         
         }
     }
     
-    func loadList(complete:@escaping(_ sucess:Bool)->Void) {
+    func loadList(complete:@escaping(_ error:Error?)->Void) {
         let lastSync = StageManager.shared.stagePreviews.first?.updateDt
         
         func make(snapShot:QuerySnapshot?, error:Error?) {
             if let err = error {
-                print(err.localizedDescription)
-                complete(false)
+                complete(err)
                 return
             }
             guard let datas = snapShot.map({ snap in
@@ -254,7 +253,7 @@ class StageManager {
             }
                                     
             DispatchQueue.main.async {
-                complete(true)
+                complete(nil)
             }
         }
         DispatchQueue.global().async {[self] in
@@ -276,12 +275,12 @@ class StageManager {
         }
     }
     
-    func delete(documentId:String? = nil ,complete:@escaping(_ isSucess:Bool)->Void) {
+    func delete(documentId:String? = nil ,complete:@escaping(_ error:Error?)->Void) {
         guard let id = documentId ?? stage?.documentId else {
             return
         }
         guard let uid = AuthManager.shared.userId else {
-            complete(false)
+            complete(nil)
             return
         }
         
@@ -314,19 +313,19 @@ class StageManager {
                     }
                     deleteTemp { isSucess in
                         DispatchQueue.main.async {
-                            complete(isSucess)
+                            complete(error)
                         }
                     }
                     return
                 }
                 DispatchQueue.main.async {
-                    complete(false)
+                    complete(error)
                 }
             }
         }        
     }
     
-    func deleteTemp(complete:@escaping(_ isSucess:Bool)->Void) {
+    func deleteTemp(complete:@escaping(_ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
             return
         }
@@ -334,13 +333,13 @@ class StageManager {
         DispatchQueue.global().async {
             collection.document(uid).delete { error in
                 DispatchQueue.main.async {
-                    complete(error == nil)
+                    complete(error)
                 }
             }
         }
     }
     
-    func sharePublic(complete:@escaping(_ isSucess:Bool)->Void) {
+    func sharePublic(complete:@escaping(_ error:Error?)->Void) {
         guard let id = stage?.documentId,
               let image = stage?.makeImageDataValue(size: .init(width: 320, height: 320)),
               let uid = AuthManager.shared.userId,
@@ -408,12 +407,12 @@ class StageManager {
                 try! realm.write {
                     realm.create(MyStageModel.self, value: udata, update: .modified)
                 }
-                complete(error == nil )
+                complete(error)
             }
         })
     }
     
-    func loadSharedList(complete:@escaping()->Void){
+    func loadSharedList(complete:@escaping(_ error:Error?)->Void){
         let collection = fireStore.collection("public")
         func make(snapShot:QuerySnapshot?, error:Error?) {
             let list = snapShot.map { qs in
@@ -430,7 +429,7 @@ class StageManager {
             }
             print("new item \(list?.count ?? 0)")
             try! realm.commitWrite()
-            complete()
+            complete(error)
         }
         
         let lastSyncDt = try! Realm().objects(SharedStageModel.self).sorted(byKeyPath: "updateDt").last?.updateDt

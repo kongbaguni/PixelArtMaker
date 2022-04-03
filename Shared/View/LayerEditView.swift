@@ -10,7 +10,9 @@ import SwiftUI
 struct LayerEditView: View {
     let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-        
+    @State var isShowToast = false
+    @State var toastMessage:String = ""
+
     @State var layers:[LayerModel] = []
     @State var selection:[Bool] = []
     
@@ -153,8 +155,9 @@ struct LayerEditView: View {
                         googleAd.showAd { isSucess in
                             StageManager.shared.stage?.addLayer()
                             reload()
-                            StageManager.shared.saveTemp {
-                                
+                            StageManager.shared.saveTemp { error in
+                                toastMessage = error?.localizedDescription ?? ""
+                                isShowToast = error != nil
                             }
                         }
                     } label: {
@@ -173,6 +176,7 @@ struct LayerEditView: View {
         .onAppear {
             reload()
         }
+        .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         
         
     }
@@ -181,8 +185,9 @@ struct LayerEditView: View {
     fileprivate func deleteLayer(idx:Int) {
         StageManager.shared.stage?.deleteLayer(idx: idx)
         reload()
-        StageManager.shared.saveTemp {
-            
+        StageManager.shared.saveTemp { error in
+            toastMessage = error?.localizedDescription ?? ""
+            isShowToast = error != nil
         }
     }
     

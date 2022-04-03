@@ -15,6 +15,8 @@ fileprivate let height2 = width2 + 50
 
 struct LoadView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State var isShowToast = false
+    @State var toastMessage = ""
     @State var stages:[MyStageModel] = []
     @State var gridItems:[GridItem] = [
         .init(.fixed(width1)),
@@ -37,9 +39,13 @@ struct LoadView: View {
                             loadingStart = true
                             stages = [stage]
                             gridItems = [.init(.fixed(width2))]
-                            StageManager.shared.openStage(id: stage.documentId) { result in
-                                StageManager.shared.saveTemp {
-                                    presentationMode.wrappedValue.dismiss()
+                            StageManager.shared.openStage(id: stage.documentId) { (result,errorA) in
+                                StageManager.shared.saveTemp { errorB in
+                                    if errorA == nil && errorB == nil {
+                                        presentationMode.wrappedValue.dismiss()
+                                    }
+                                    isShowToast = errorA != nil || errorB != nil
+                                    toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                 }                                
                             }
                         }

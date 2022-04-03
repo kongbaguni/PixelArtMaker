@@ -21,7 +21,8 @@ struct PublicShareListView: View {
     var dblist:Results<SharedStageModel> {
         return try! Realm().objects(SharedStageModel.self).filter("deleted = %@", false).sorted(byKeyPath: "updateDt")
     }
-    
+    @State var isShowToast = false
+    @State var toastMessage:String = ""
     @State var list:[SharedStageModel] = []
     @State var gridItems:[GridItem] = [
         .init(.fixed(width1)),
@@ -41,7 +42,12 @@ struct PublicShareListView: View {
                             if let image = model.imageValue {
                                 Button {
                                     //                            if model.uid == AuthManager.shared.userId {
-                                    StageManager.shared.openStage(id: model.documentId, uid: model.uid) { result in
+                                    StageManager.shared.openStage(id: model.documentId, uid: model.uid) { (result,error) in
+                                        if let err = error {
+                                            toastMessage = err.localizedDescription
+                                            isShowToast = true
+                                        }
+                            
                                         if result != nil {
                                             presentationMode.wrappedValue.dismiss()
                                         }
@@ -64,11 +70,14 @@ struct PublicShareListView: View {
             }
         }
         .onAppear {
-            StageManager.shared.loadSharedList {
+            StageManager.shared.loadSharedList { error in
                 list = dblist.reversed()
+                toastMessage = error?.localizedDescription ?? ""
+                isShowToast = error != nil
             }
             list = dblist.reversed()
         }
+        .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .navigationTitle(Text("public shared list"))
         
         
