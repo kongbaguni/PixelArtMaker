@@ -49,7 +49,7 @@ extension Color {
     [
         "default" :
             [
-                [.red,.orange,.yellow,.green,.blue,.purple,.black],
+                [.red,.orange,.yellow,.green,.blue,.white,.black],
                 [
                     .init(red: 1.0 / 7, green: 0, blue: 0),
                     .init(red: 1.0 / 7 * 2, green: 0, blue: 0),
