@@ -26,6 +26,7 @@ struct SaveView: View {
     @State var backgroundColor:Color = .white
     @State var title:String = ""
     @State var previewImage:Image? = nil
+    @State var shareImageData:Data? = nil
     
     var body: some View {
         ScrollView {
@@ -100,6 +101,15 @@ struct SaveView: View {
                 }
                 
             }
+            
+            if let img = shareImageData {
+                Button {
+                    share(items: [img])
+                } label: {
+                    OrangeTextView(Text("share"))
+                }
+            }
+            
             if StageManager.shared.stage?.documentId != nil && sharedId == nil && AuthManager.shared.auth.currentUser?.isAnonymous == false {
                 HStack {
                     Button {
@@ -136,6 +146,8 @@ struct SaveView: View {
                 stage.getImage(size: .init(width: 320, height: 320)) { image in
                     previewImage = image
                 }
+                let data = stage.makeImageDataValue(size: .init(width: 320, height: 320))
+                shareImageData = data
             }
         }
         .onDisappear {
