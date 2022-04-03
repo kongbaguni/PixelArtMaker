@@ -39,6 +39,22 @@ extension ProfileModel {
         return URL(string: profileURL)
     }
     
+    static func findBy(uid:String)->ProfileModel? {
+        return try! Realm().object(ofType: ProfileModel.self, forPrimaryKey: uid)
+    }
+    
+    static func findBy(uid:String, complete:@escaping()->Void) {
+        collection.document(uid).getDocument { snapShot, error in
+            if let data = snapShot?.data() {
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.create(ProfileModel.self, value: data, update: .all)
+                }
+                complete()
+            }
+        }
+    }
+    
     static var currentUser:ProfileModel? {
         if let uid = AuthManager.shared.userId {
             return try! Realm().object(ofType: ProfileModel.self, forPrimaryKey: uid)

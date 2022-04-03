@@ -22,7 +22,7 @@ struct ProfileView: View {
             VStack {
                 LabelTextView(label: "uid", text: uid)
                 LabelTextView(label: "email", text: email)
-                LabelTextView(label: "nickname", text: nickname)
+                LabelTextView(label: "name", text: nickname)
                 
             }
         }
