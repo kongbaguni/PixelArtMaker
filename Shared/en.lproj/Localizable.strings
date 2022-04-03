@@ -56,3 +56,7 @@
 
 "profile" = "profile";
 "share" = "share";
+
+"latest order" = "last registration order";
+"old net" = "outdated registration order";
+"like" = "Like many order";

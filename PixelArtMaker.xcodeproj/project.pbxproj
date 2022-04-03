@@ -47,6 +47,8 @@
 		C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320339827C4AFEA0019B546 /* LayerEditView.swift */; };
 		C356362D27F9712500B2609A /* PixelArtDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356362C27F9712500B2609A /* PixelArtDetailView.swift */; };
 		C356362F27F976E600B2609A /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356362E27F976E600B2609A /* Share.swift */; };
+		C356363427F9AE7400B2609A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = C356363327F9AE7400B2609A /* SideMenu */; };
+		C356363627F9D9A800B2609A /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363527F9D9A800B2609A /* SortType.swift */; };
 		C365E18F27C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
 		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
@@ -116,6 +118,7 @@
 		C320339827C4AFEA0019B546 /* LayerEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerEditView.swift; sourceTree = "<group>"; };
 		C356362C27F9712500B2609A /* PixelArtDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtDetailView.swift; sourceTree = "<group>"; };
 		C356362E27F976E600B2609A /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
+		C356363527F9D9A800B2609A /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
 		C365E19127C36CC400154E56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C365E19327C36CEA00154E56 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C3D087F927DB31DA003F886E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -151,6 +154,7 @@
 				C3DBA08727EC99C200FE8392 /* FirebaseCrashlytics in Frameworks */,
 				C3011EFF27EDA544001B12AC /* Pods_PixelArtMaker__iOS_.framework in Frameworks */,
 				1BF1B25827E2CC28007A73CB /* FirebasePerformance in Frameworks */,
+				C356363427F9AE7400B2609A /* SideMenu in Frameworks */,
 				1BF1B24C27E2CC28007A73CB /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,6 +201,7 @@
 				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
 				C3EDBF2B27F9412100BBEC01 /* Toast.swift */,
 				C356362E27F976E600B2609A /* Share.swift */,
+				C356363527F9D9A800B2609A /* SortType.swift */,
 				C320338627C370A30019B546 /* Extensions */,
 				1B28C3EC27BE11C2003F8312 /* View */,
 				1B28C3E927BE107D003F8312 /* Model */,
@@ -329,6 +334,7 @@
 				C3011F5027F039E1001B12AC /* Realm */,
 				C3011F5227F039E1001B12AC /* RealmSwift */,
 				C3EDBF2727F88FE500BBEC01 /* SDWebImageSwiftUI */,
+				C356363327F9AE7400B2609A /* SideMenu */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -388,6 +394,7 @@
 				C3DBA08527EC99C100FE8392 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				C3011F4F27F039E1001B12AC /* XCRemoteSwiftPackageReference "realm-swift" */,
 				C3EDBF2627F88FE400BBEC01 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				C356363227F9AE7300B2609A /* XCRemoteSwiftPackageReference "SideMenu" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -471,6 +478,7 @@
 				1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
+				C356363627F9D9A800B2609A /* SortType.swift in Sources */,
 				C3011F4627EF4068001B12AC /* ActivityIndicator.swift in Sources */,
 				1BE77B5227E9BC7800A36F8E /* Image+Extensions.swift in Sources */,
 				C356362D27F9712500B2609A /* PixelArtDetailView.swift in Sources */,
@@ -818,6 +826,14 @@
 				version = 10.24.2;
 			};
 		};
+		C356363227F9AE7300B2609A /* XCRemoteSwiftPackageReference "SideMenu" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Vidhyadharan-Mohanram/SideMenu";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
 		C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -897,6 +913,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C3011F4F27F039E1001B12AC /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		C356363327F9AE7400B2609A /* SideMenu */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C356363227F9AE7300B2609A /* XCRemoteSwiftPackageReference "SideMenu" */;
+			productName = SideMenu;
 		};
 		C3D087F727DB3053003F886E /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

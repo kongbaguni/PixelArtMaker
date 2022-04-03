@@ -16,9 +16,9 @@ class StageManager {
     static let shared = StageManager() 
     var stage:StageModel? = nil  
 
-    var stagePreviews:[MyStageModel] {
+    var stagePreviews:Results<MyStageModel> {
         let realm = try! Realm()
-        return realm.objects(MyStageModel.self).sorted(byKeyPath: "updateDt").reversed()
+        return realm.objects(MyStageModel.self)//.sorted(byKeyPath: "updateDt").reversed()
     }
     
     func initStage(size:CGSize) {

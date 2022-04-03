@@ -20,7 +20,17 @@ struct PublicShareListView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var dblist:Results<SharedStageModel> {
-        return try! Realm().objects(SharedStageModel.self).filter("deleted = %@", false).sorted(byKeyPath: "updateDt")
+        let db = try! Realm().objects(SharedStageModel.self).filter("deleted = %@", false)
+            
+        switch sortType {
+        case .latestOrder:
+            return db.sorted(byKeyPath: "updateDt",ascending: true)
+        case .oldnet:
+            return db.sorted(byKeyPath: "updateDt",ascending: false)
+        case .like:
+            return db.sorted(byKeyPath: "likeCount",ascending: true)
+        }
+            
     }
     var pwidth:CGFloat {
         switch list.count {
@@ -66,6 +76,12 @@ struct PublicShareListView: View {
 
     @State var pictureId:String = ""
     @State var isShowPictureDetail = false
+
+    @State var sortIndex = 0
+    
+    var sortType:Sort.SortType {
+        return Sort.SortType.allCases[sortIndex]
+    }
     
     var body: some View {
         VStack {
@@ -82,6 +98,14 @@ struct PublicShareListView: View {
             }
             else {
                 ScrollView {
+                    Picker(selection:$sortIndex, label:Text("sort")) {
+                        ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
+                            let type = Sort.SortType.allCases[idx]
+                            Sort.getText(type: type)
+                        }
+                    }.onChange(of: sortIndex) { newValue in
+                        load()
+                    }
                     LazyVGrid(columns: gridItems, spacing:20) {
                         
                         ForEach(list, id:\.self) { model in
@@ -119,12 +143,7 @@ struct PublicShareListView: View {
             }
         }
         .onAppear {
-            StageManager.shared.loadSharedList { error in
-                list = dblist.reversed()
-                toastMessage = error?.localizedDescription ?? ""
-                isShowToast = error != nil
-            }
-            list = dblist.reversed()
+            load()
         }
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .navigationTitle(Text("public shared list"))
@@ -133,7 +152,12 @@ struct PublicShareListView: View {
     }
     
     func load() {
-        
+        StageManager.shared.loadSharedList { error in
+            list = dblist.reversed()
+            toastMessage = error?.localizedDescription ?? ""
+            isShowToast = error != nil
+        }
+        list = dblist.reversed()
     }
 }
 

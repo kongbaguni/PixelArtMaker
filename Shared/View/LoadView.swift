@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 fileprivate let width1 = screenBounds.width / 2 - 10
 fileprivate let width2 = screenBounds.width - 10
@@ -23,9 +24,20 @@ struct LoadView: View {
         .init(.fixed(width1))
     ]
     @State var loadingStart = false
+    @State var sortIndex = 0
+    
     var body: some View {
             
         ScrollView {
+            Picker(selection:$sortIndex, label:Text("sort")) {
+                ForEach(0..<Sort.SortTypeForMyGellery.count, id:\.self) { idx in
+                    let type = Sort.SortTypeForMyGellery[idx]
+                    Sort.getText(type: type)
+                }
+            }.onChange(of: sortIndex) { newValue in
+                load()
+            }
+
             if stages.count == 0 {
                 Text("empty gallery title").padding(20)
             }
@@ -91,7 +103,15 @@ struct LoadView: View {
         }
     }
     func load() {
-        stages = StageManager.shared.stagePreviews
+        switch Sort.SortType.allCases[sortIndex] {
+        case .latestOrder:
+            stages = StageManager.shared.stagePreviews.sorted(byKeyPath: "updateDt", ascending: true).reversed()
+        case .oldnet:
+            stages = StageManager.shared.stagePreviews.sorted(byKeyPath: "updateDt", ascending: false).reversed()
+        default:
+            stages = []
+        }
+        
         gridItems = stages.count > 1 ? [.init(.fixed(width1)),.init(.fixed(width1))] : [.init(.fixed(width2))]
         
     }
