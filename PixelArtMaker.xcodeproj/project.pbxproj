@@ -45,6 +45,8 @@
 		C320338A27C3895E0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
 		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
 		C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320339827C4AFEA0019B546 /* LayerEditView.swift */; };
+		C356362D27F9712500B2609A /* PixelArtDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356362C27F9712500B2609A /* PixelArtDetailView.swift */; };
+		C356362F27F976E600B2609A /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356362E27F976E600B2609A /* Share.swift */; };
 		C365E18F27C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
 		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
@@ -112,6 +114,8 @@
 		C320339427C4793D0019B546 /* KeyEventHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyEventHandling.swift; sourceTree = "<group>"; };
 		C320339627C47B800019B546 /* Character+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Extensions.swift"; sourceTree = "<group>"; };
 		C320339827C4AFEA0019B546 /* LayerEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerEditView.swift; sourceTree = "<group>"; };
+		C356362C27F9712500B2609A /* PixelArtDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtDetailView.swift; sourceTree = "<group>"; };
+		C356362E27F976E600B2609A /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		C365E19127C36CC400154E56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C365E19327C36CEA00154E56 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C3D087F927DB31DA003F886E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
 				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
 				C3EDBF2B27F9412100BBEC01 /* Toast.swift */,
+				C356362E27F976E600B2609A /* Share.swift */,
 				C320338627C370A30019B546 /* Extensions */,
 				1B28C3EC27BE11C2003F8312 /* View */,
 				1B28C3E927BE107D003F8312 /* Model */,
@@ -261,6 +266,7 @@
 				C3011F5827F05675001B12AC /* PublicShareListView.swift */,
 				C3011F5A27F05750001B12AC /* OrangeTextView.swift */,
 				C3011F5427F0495B001B12AC /* TagView.swift */,
+				C356362C27F9712500B2609A /* PixelArtDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -467,12 +473,14 @@
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
 				C3011F4627EF4068001B12AC /* ActivityIndicator.swift in Sources */,
 				1BE77B5227E9BC7800A36F8E /* Image+Extensions.swift in Sources */,
+				C356362D27F9712500B2609A /* PixelArtDetailView.swift in Sources */,
 				C3011F5527F0495C001B12AC /* TagView.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
 				1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */,
 				1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
 				C3EDBF2A27F892B700BBEC01 /* LabelTextView.swift in Sources */,
 				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
+				C356362F27F976E600B2609A /* Share.swift in Sources */,
 				C3DBA08C27ECA32B00FE8392 /* GoogleAd.swift in Sources */,
 				C3DBA08327EC5F8900FE8392 /* MyStageModel.swift in Sources */,
 				1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,

@@ -39,15 +39,15 @@ struct SigninView: View {
                     Text("Google ID 로 로그인")
                 }
                 
-//                Button {
-//                    AuthManager.shared.startSignInAnonymously { loginSucess in
-//                        if loginSucess {
-//                            presentationMode.wrappedValue.dismiss()
-//                        }
-//                    }
-//                } label: {
-//                    Text("익명 로그인")
-//                }
+                Button {
+                    AuthManager.shared.startSignInAnonymously { loginSucess in
+                        if loginSucess {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                } label: {
+                    Text("익명 로그인")
+                }
             } else {
                 Button {
                     do {

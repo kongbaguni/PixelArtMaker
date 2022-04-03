@@ -7,13 +7,20 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import RealmSwift
 
 struct ProfileView: View {
     @State var nickname:String = ProfileModel.currentUser?.nickname ?? "없음"
     @State var imageURL:URL? = ProfileModel.currentUser?.profileImageURL ?? nil
     @State var email:String = ProfileModel.currentUser?.email ?? "없음"
     @State var uid:String = ProfileModel.currentUser?.uid ?? "없음"
-        
+     
+    init(_ uid:String? = nil) {
+        if let id = uid {
+            self.uid = id
+        }
+    }
+    
     var body: some View {
         HStack {
             if let url = imageURL {
@@ -26,23 +33,22 @@ struct ProfileView: View {
                 
             }
         }
+        .padding(10)
         .onAppear {
-            ProfileModel.downloadProfile { isSucess in
+            ProfileModel.findBy(uid: uid) { error in
                 loadData()
             }
         }
-        .navigationTitle(Text("profile"))
+        
     }
     
     private func loadData() {
-        guard let user = ProfileModel.currentUser else {
+        guard let user = try! Realm().object(ofType: ProfileModel.self, forPrimaryKey: uid) else {
             return
         }
-        uid = user.uid
         nickname = user.nickname
         imageURL = URL(string: user.profileURL)
         email = user.email
-        print(user)
         
     }
     

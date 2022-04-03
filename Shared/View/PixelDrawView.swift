@@ -751,11 +751,6 @@ struct PixelDrawView: View {
                         })
                     )
                 } else {
-                    if AuthManager.shared.auth.currentUser?.isAnonymous == false {
-                        buttons.append(.default(Text("profile"), action: {
-                            isShowProfileView = true
-                        }))
-                    }
                     buttons.append(.default(.menu_signout_title, action: {
                         AuthManager.shared.signout()
                     }))

@@ -99,6 +99,7 @@ class StageManager {
                     return
                 }
                 self.stage = stage
+                self.stage?.createrId = uid
                 if let id = data["documentId"] as? String {
                     self.stage?.documentId = id
                 }

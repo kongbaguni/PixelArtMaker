@@ -28,7 +28,8 @@ struct SaveView: View {
     @State var previewImage:Image? = nil
     
     var body: some View {
-        VStack {            
+        ScrollView {
+            ProfileView()
             ZStack {
                 if let img = previewImage {
                     img.resizable().frame(width: screenBounds.width - 10, height: screenBounds.width - 10 , alignment: .center)

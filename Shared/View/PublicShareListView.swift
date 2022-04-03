@@ -8,8 +8,9 @@
 import SwiftUI
 import RealmSwift
 
-fileprivate let width1 = screenBounds.width / 2 - 10
-fileprivate let width2 = screenBounds.width - 10
+fileprivate let width1 = screenBounds.width - 10
+fileprivate let width2 = screenBounds.width / 2 - 10
+fileprivate let width3 = screenBounds.width / 3 - 10
 
 fileprivate let height1 = width1 + 50
 fileprivate let height2 = width2 + 50
@@ -21,16 +22,61 @@ struct PublicShareListView: View {
     var dblist:Results<SharedStageModel> {
         return try! Realm().objects(SharedStageModel.self).filter("deleted = %@", false).sorted(byKeyPath: "updateDt")
     }
+    var pwidth:CGFloat {
+        switch list.count {
+        case 1:
+            return width1
+        case 2:
+            return width2
+        default:
+            return width3
+        }
+    }
     @State var isShowToast = false
     @State var toastMessage:String = ""
-    @State var list:[SharedStageModel] = []
+    @State var list:[SharedStageModel] = [] {
+        didSet {
+            switch list.count {
+            case 0:
+                gridItems = []
+            case 1:
+                gridItems = [
+                    .init(.fixed(width1))
+                ]
+            case 2:
+                gridItems = [
+                    .init(.fixed(width2)),
+                    .init(.fixed(width2))
+                ]
+            default:
+                gridItems = [
+                    .init(.fixed(width3)),
+                    .init(.fixed(width3)),
+                    .init(.fixed(width3)),
+                ]
+            }
+        }
+    }
+    
     @State var gridItems:[GridItem] = [
-        .init(.fixed(width1)),
-        .init(.fixed(width1))
+        .init(.fixed(width3)),
+        .init(.fixed(width3)),
+        .init(.fixed(width3)),
     ]
 
+    @State var pictureId:String = ""
+    @State var isShowPictureDetail = false
+    
     var body: some View {
         VStack {
+            //MARK: - Navigation
+            NavigationLink(isActive: $isShowPictureDetail) {
+                PixelArtDetailView(id:pictureId)
+            } label: {
+                
+            }
+
+
             if list.count == 0 {
                 Text("empty public shard list message")
             }
@@ -41,24 +87,27 @@ struct PublicShareListView: View {
                         ForEach(list, id:\.self) { model in
                             if let image = model.imageValue {
                                 Button {
-                                    //                            if model.uid == AuthManager.shared.userId {
-                                    StageManager.shared.openStage(id: model.documentId, uid: model.uid) { (result,error) in
-                                        if let err = error {
-                                            toastMessage = err.localizedDescription
-                                            isShowToast = true
-                                        }
-                            
-                                        if result != nil {
-                                            presentationMode.wrappedValue.dismiss()
-                                        }
-                                    }
-                                    //                            }
+                                    pictureId = model.id
+                                    isShowPictureDetail = true
                                 } label: {
                                     VStack {
-                                        Image(uiImage: image)
-                                            .resizable()
-                                            .frame(width: width1, height: width1, alignment: .center)
-                                        TagView(Text(model.email))
+                                        ZStack {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .frame(width: pwidth, height: pwidth, alignment: .center)
+                                            
+                                            if model.isNew {
+                                                VStack {
+                                                    HStack {
+                                                        TagView(Text("NEW"))
+                                                            .padding(5)
+                                                        Spacer()
+                                                    }
+                                                    Spacer()
+                                                }
+                                            }
+                                        }
+                                        
                                         TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
                                     }
                                 }
@@ -80,6 +129,10 @@ struct PublicShareListView: View {
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .navigationTitle(Text("public shared list"))
         
+        
+    }
+    
+    func load() {
         
     }
 }
