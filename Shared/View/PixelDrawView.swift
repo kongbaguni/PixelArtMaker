@@ -131,9 +131,13 @@ struct PixelDrawView: View {
     @State var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.clear]
     @State var forgroundColor:Color = .red
     
+    @State var previewUpdateTimmer:Timer? = nil
     @State var backgroundColor:Color = .white {
         didSet {
             if StageManager.shared.stage?.changeBgColor(color: backgroundColor) == true {
+                if let imgData = StageManager.shared.stage?.makeImageDataValue(size: .init(width: 320, height: 320)) {
+                    previewImage = Image(uiImage: UIImage(data: imgData)!)
+                }
                 undoCount = StageManager.shared.stage?.history.count ?? 0
                 redoCount = 0
             }
@@ -176,9 +180,12 @@ struct PixelDrawView: View {
     }
     
     init() {
-        StageManager.shared.initStage(size: pixelSize)
+        if StageManager.shared.stage == nil {
+            StageManager.shared.initStage(size: pixelSize)
+        }
         let stage = StageManager.shared.stage!
         colors = stage.selectedLayer.colors
+                    
     }
     
     func changeColor(target:CGPoint, color:Color) {
@@ -467,7 +474,7 @@ struct PixelDrawView: View {
                             case .foreground:
                                 forgroundColor = paletteColors[i]
                             case .background:
-                                backgroundColor = paletteColors[i]
+                                backgroundColor = paletteColors[i]                                
                             }
                             
                         } label: {
@@ -868,6 +875,8 @@ struct PixelDrawView: View {
         
     }
     
+    @State var _oldBgColor:Color? = nil
+    
     func load() {        
         if let stage = StageManager.shared.stage {
             forgroundColor = stage.forgroundColor
@@ -881,6 +890,16 @@ struct PixelDrawView: View {
             }
         }
         
+        timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { [self] timer in
+            if _oldBgColor != backgroundColor {
+                if let imageData = StageManager.shared.stage?.makeImageDataValue(size: .init(width: 320, height: 320)) {
+                    previewImage = Image(uiImage: UIImage(data: imageData)!)
+                    print("update preview with timmer")
+                }
+                _oldBgColor = backgroundColor
+            }
+
+        })
     }
     
 }
