@@ -27,7 +27,7 @@ struct ProfileView: View {
                 WebImage(url: url)
             }
             VStack {
-                LabelTextView(label: "uid", text: uid)
+//                LabelTextView(label: "uid", text: uid)
                 LabelTextView(label: "email", text: email)
                 LabelTextView(label: "name", text: nickname)
                 
