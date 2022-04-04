@@ -98,52 +98,55 @@ struct PublicShareListView: View {
                 Text("empty public shard list message")
             }
             else {
-                ScrollView {
-                    Picker(selection:$sortIndex, label:Text("sort")) {
-                        ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
-                            let type = Sort.SortType.allCases[idx]
-                            Sort.getText(type: type)
-                        }
-                    }.onChange(of: sortIndex) { newValue in
-                        load()
-                    }
+                ZStack {
                     if isLoading {
                         ActivityIndicator(isAnimating: $isLoading, style: .large)
                     }
-
-                    LazyVGrid(columns: gridItems, spacing:20) {
-                        ForEach(list, id:\.self) { model in
-                            if let image = model.imageValue {
-                                Button {
-                                    pictureId = model.id
-                                    isShowPictureDetail = true
-                                } label: {
-                                    VStack {
-                                        ZStack {
-                                            Image(uiImage: image)
-                                                .resizable()
-                                                .frame(width: pwidth, height: pwidth, alignment: .center)
-                                            
-                                            if model.isNew {
-                                                VStack {
-                                                    HStack {
-                                                        TagView(Text("NEW"))
-                                                            .padding(5)
+                    ScrollView {
+                        Picker(selection:$sortIndex, label:Text("sort")) {
+                            ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
+                                let type = Sort.SortType.allCases[idx]
+                                Sort.getText(type: type)
+                            }
+                        }.onChange(of: sortIndex) { newValue in
+                            load()
+                        }
+                        
+                        LazyVGrid(columns: gridItems, spacing:20) {
+                            ForEach(list, id:\.self) { model in
+                                if let image = model.imageValue {
+                                    Button {
+                                        pictureId = model.id
+                                        isShowPictureDetail = true
+                                    } label: {
+                                        VStack {
+                                            ZStack {
+                                                Image(uiImage: image)
+                                                    .resizable()
+                                                    .frame(width: pwidth, height: pwidth, alignment: .center)
+                                                
+                                                if model.isNew {
+                                                    VStack {
+                                                        HStack {
+                                                            TagView(Text("NEW"))
+                                                                .padding(5)
+                                                            Spacer()
+                                                        }
                                                         Spacer()
                                                     }
-                                                    Spacer()
                                                 }
                                             }
+                                            
+                                            TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
                                         }
-                                        
-                                        TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
                                     }
+                                    
                                 }
-                                
                             }
                         }
-                    }
-                    .refreshable {
+                        .opacity(isLoading ? 0.5 : 1.0)
+                        .animation(.easeInOut, value: isLoading)
+                    }.refreshable {
                         load()
                     }
                 }

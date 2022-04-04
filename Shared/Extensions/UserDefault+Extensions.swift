@@ -37,4 +37,17 @@ extension UserDefaults {
             return nil
         }
     }
+    
+    var lastInAppPurchaseExpireDate:Date? {
+        set {
+            set(newValue?.timeIntervalSince1970, forKey: "lastInAppPurchaseExpireDate")
+        }
+        get {
+            let value = double(forKey: "lastInAppPurchaseExpireDate")
+            if value > 0 {
+                return Date(timeIntervalSince1970: value)
+            }
+            return nil
+        }        
+    }
 }

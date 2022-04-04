@@ -24,6 +24,23 @@ class MyStageModel : Object {
     var image:UIImage {
         UIImage(data: imageData)!
     }
+    
+    struct ThreadSafeModel : Hashable {
+        public static func == (lhs: ThreadSafeModel, rhs: ThreadSafeModel) -> Bool {
+            return lhs.documentId == rhs.documentId
+        }
+        let documentId:String
+        let imageData:Data
+        let updateDt:Date
+        let shareDocumentId:String
+        var image:UIImage {
+            UIImage(data: imageData)!
+        }
+    }
+    
+    var threadSafeModel:ThreadSafeModel {
+        return .init(documentId: documentId, imageData: imageData, updateDt: updateDt, shareDocumentId: shareDocumentId)
+    }
 }
 
 

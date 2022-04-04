@@ -50,6 +50,11 @@
 		C356363427F9AE7400B2609A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = C356363327F9AE7400B2609A /* SideMenu */; };
 		C356363627F9D9A800B2609A /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363527F9D9A800B2609A /* SortType.swift */; };
 		C356363827FA7C2200B2609A /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363727FA7C2100B2609A /* Consts.swift */; };
+		C356363A27FAC29400B2609A /* InAppPurches.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363927FAC29200B2609A /* InAppPurches.swift */; };
+		C356363D27FAC2F700B2609A /* SwiftyStoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = C356363C27FAC2F700B2609A /* SwiftyStoreKit */; };
+		C356363F27FAC41C00B2609A /* InAppPurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363E27FAC41C00B2609A /* InAppPurchaseModel.swift */; };
+		C356364127FAC4AE00B2609A /* Float+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356364027FAC4AE00B2609A /* Float+Extensions.swift */; };
+		C356364527FAC73A00B2609A /* InAppPurchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356364427FAC73A00B2609A /* InAppPurchesView.swift */; };
 		C365E18F27C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
 		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
@@ -121,6 +126,10 @@
 		C356362E27F976E600B2609A /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		C356363527F9D9A800B2609A /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
 		C356363727FA7C2100B2609A /* Consts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
+		C356363927FAC29200B2609A /* InAppPurches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurches.swift; sourceTree = "<group>"; };
+		C356363E27FAC41C00B2609A /* InAppPurchaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseModel.swift; sourceTree = "<group>"; };
+		C356364027FAC4AE00B2609A /* Float+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Extensions.swift"; sourceTree = "<group>"; };
+		C356364427FAC73A00B2609A /* InAppPurchesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchesView.swift; sourceTree = "<group>"; };
 		C365E19127C36CC400154E56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C365E19327C36CEA00154E56 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C3D087F927DB31DA003F886E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -152,6 +161,7 @@
 				1BF1B24E27E2CC28007A73CB /* FirebaseAuthCombine-Community in Frameworks */,
 				1BF1B25427E2CC28007A73CB /* FirebaseFirestoreCombine-Community in Frameworks */,
 				C3011F5127F039E1001B12AC /* Realm in Frameworks */,
+				C356363D27FAC2F700B2609A /* SwiftyStoreKit in Frameworks */,
 				1BF1B25227E2CC28007A73CB /* FirebaseFirestore in Frameworks */,
 				C3DBA08727EC99C200FE8392 /* FirebaseCrashlytics in Frameworks */,
 				C3011EFF27EDA544001B12AC /* Pods_PixelArtMaker__iOS_.framework in Frameworks */,
@@ -198,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
+				C356363927FAC29200B2609A /* InAppPurches.swift */,
 				C356363727FA7C2100B2609A /* Consts.swift */,
 				C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */,
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
@@ -254,6 +265,7 @@
 				C3DBA08227EC5F8900FE8392 /* MyStageModel.swift */,
 				C3EDBF2227F87FE500BBEC01 /* ProfileModel.swift */,
 				C3011F5627F050CD001B12AC /* SharedStageModel.swift */,
+				C356363E27FAC41C00B2609A /* InAppPurchaseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -275,6 +287,7 @@
 				C3011F5A27F05750001B12AC /* OrangeTextView.swift */,
 				C3011F5427F0495B001B12AC /* TagView.swift */,
 				C356362C27F9712500B2609A /* PixelArtDetailView.swift */,
+				C356364427FAC73A00B2609A /* InAppPurchesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -301,6 +314,7 @@
 				1BE77B5427E9C0DC00A36F8E /* UIImage+Extensions.swift */,
 				C3DBA08D27ECB25600FE8392 /* UIApplication+Extensions.swift */,
 				C3EDBF1E27F6B06C00BBEC01 /* View+Extensions.swift */,
+				C356364027FAC4AE00B2609A /* Float+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -338,6 +352,7 @@
 				C3011F5227F039E1001B12AC /* RealmSwift */,
 				C3EDBF2727F88FE500BBEC01 /* SDWebImageSwiftUI */,
 				C356363327F9AE7400B2609A /* SideMenu */,
+				C356363C27FAC2F700B2609A /* SwiftyStoreKit */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -398,6 +413,7 @@
 				C3011F4F27F039E1001B12AC /* XCRemoteSwiftPackageReference "realm-swift" */,
 				C3EDBF2627F88FE400BBEC01 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				C356363227F9AE7300B2609A /* XCRemoteSwiftPackageReference "SideMenu" */,
+				C356363B27FAC2F500B2609A /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -479,6 +495,7 @@
 			files = (
 				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
 				1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */,
+				C356364527FAC73A00B2609A /* InAppPurchesView.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
 				C356363627F9D9A800B2609A /* SortType.swift in Sources */,
@@ -491,11 +508,14 @@
 				1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
 				C3EDBF2A27F892B700BBEC01 /* LabelTextView.swift in Sources */,
 				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
+				C356364127FAC4AE00B2609A /* Float+Extensions.swift in Sources */,
 				C356362F27F976E600B2609A /* Share.swift in Sources */,
+				C356363F27FAC41C00B2609A /* InAppPurchaseModel.swift in Sources */,
 				C3DBA08C27ECA32B00FE8392 /* GoogleAd.swift in Sources */,
 				C3DBA08327EC5F8900FE8392 /* MyStageModel.swift in Sources */,
 				C356363827FA7C2200B2609A /* Consts.swift in Sources */,
 				1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,
+				C356363A27FAC29400B2609A /* InAppPurches.swift in Sources */,
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
@@ -838,6 +858,14 @@
 				minimumVersion = 0.1.0;
 			};
 		};
+		C356363B27FAC2F500B2609A /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bizz84/SwiftyStoreKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.3;
+			};
+		};
 		C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -922,6 +950,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C356363227F9AE7300B2609A /* XCRemoteSwiftPackageReference "SideMenu" */;
 			productName = SideMenu;
+		};
+		C356363C27FAC2F700B2609A /* SwiftyStoreKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C356363B27FAC2F500B2609A /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */;
+			productName = SwiftyStoreKit;
 		};
 		C3D087F727DB3053003F886E /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

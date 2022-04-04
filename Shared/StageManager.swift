@@ -213,11 +213,13 @@ class StageManager {
     }
     
     func loadList(complete:@escaping(_ error:Error?)->Void) {
-        let lastSync = StageManager.shared.stagePreviews.first?.updateDt
+        
         
         func make(snapShot:QuerySnapshot?, error:Error?) {
             if let err = error {
-                complete(err)
+                DispatchQueue.main.async {
+                    complete(err)
+                }
                 return
             }
             guard let datas = snapShot.map({ snap in
@@ -262,6 +264,8 @@ class StageManager {
             }
         }
         DispatchQueue.global().async {[self] in
+            let lastSync = StageManager.shared.stagePreviews.first?.updateDt
+            
             guard let uid = AuthManager.shared.userId else {
                 return
             }
