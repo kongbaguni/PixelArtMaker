@@ -38,7 +38,7 @@ class SharedStageModel : Object {
     }
     
     var isNew:Bool {
-        Date().timeIntervalSince1970 - updateDt < 86400
+        Date().timeIntervalSince1970 - updateDt < 43200
     }
     
     var likeUserIdsSet:Set<String> {

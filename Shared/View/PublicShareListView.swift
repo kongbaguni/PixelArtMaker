@@ -78,6 +78,7 @@ struct PublicShareListView: View {
     @State var isShowPictureDetail = false
 
     @State var sortIndex = 0
+    @State var isLoading = false
     
     var sortType:Sort.SortType {
         return Sort.SortType.allCases[sortIndex]
@@ -106,8 +107,11 @@ struct PublicShareListView: View {
                     }.onChange(of: sortIndex) { newValue in
                         load()
                     }
+                    if isLoading {
+                        ActivityIndicator(isAnimating: $isLoading, style: .large)
+                    }
+
                     LazyVGrid(columns: gridItems, spacing:20) {
-                        
                         ForEach(list, id:\.self) { model in
                             if let image = model.imageValue {
                                 Button {
@@ -139,6 +143,9 @@ struct PublicShareListView: View {
                             }
                         }
                     }
+                    .refreshable {
+                        load()
+                    }
                 }
             }
         }
@@ -152,7 +159,12 @@ struct PublicShareListView: View {
     }
     
     func load() {
-        StageManager.shared.loadSharedList { error in
+        isLoading = true
+        
+        StageManager.shared.loadSharedList(sort: sortType, limit: 50) { error in
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {[self] in
+                isLoading = false
+            }
             list = dblist.reversed()
             toastMessage = error?.localizedDescription ?? ""
             isShowToast = error != nil

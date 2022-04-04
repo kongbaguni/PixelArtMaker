@@ -28,7 +28,7 @@
 
 "menu delete title" = "delete";
 "menu delete alert title" = "Delete image";
-"menu delete alert message" = "Delete this picture.";
+"menu delete alert message" = "This picture will be deleted.\nPictures published in the shared gallery are also deleted, and deleted pictures cannot be recovered.";
 "menu delete alert confirm" = "confirm";
 
 
@@ -56,6 +56,10 @@
 
 "profile" = "profile";
 "share" = "share";
+"share 32*32" = "share 32*32";
+"share 320*320" = "share 320*320";
+"share 640*640" = "share 640*640";
+"share 1280*1280" = "share 1280*1280";
 
 "latest order" = "last registration order";
 "old net" = "outdated registration order";

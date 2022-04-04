@@ -28,7 +28,7 @@
 "menu color select title" = "컬러 프리셋";
 "menu delete title" = "삭제하기";
 "menu delete alert title" = "이미지 삭제";
-"menu delete alert message" = "이 그림을 삭제합니다.";
+"menu delete alert message" = "이 그림을 삭제합니다.\n공유 겔러리에 공개된 그림도 함깨 삭제되고 삭제된 그림은 복구할 수 없습니다.";
 "menu delete alert confirm" = "확인";
 
 "title_select_Layer_only" = "선택한 레이어만 보기";
@@ -50,8 +50,13 @@
 "my gellery" = "내 갤러리";
 
 "profile" = "내 정보";
-"share" = "공유하기";
 
 "latest order" = "최근 등록 순서";
 "old net" = "오래된 등록 순서";
 "like" = "좋아요 많은 순서";
+
+"share" = "공유하기";
+"share 32*32" = "공유하기 32*32";
+"share 320*320" = "공유하기 320*320";
+"share 640*640" = "공유하기 640*640";
+"share 1280*1280" = "공유하기 1280*1280";

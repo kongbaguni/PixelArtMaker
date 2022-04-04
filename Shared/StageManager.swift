@@ -364,6 +364,7 @@ class StageManager {
         ]
         
         func getSharedList(complete:@escaping(_ list:[String])->Void) {
+            
             collection.whereField("documentId", isEqualTo: id).getDocuments { snapShot, error in
                 let ids = snapShot.map { snapShot in
                     snapShot.documents.map {dsnap in
@@ -417,7 +418,7 @@ class StageManager {
         })
     }
     
-    func loadSharedList(complete:@escaping(_ error:Error?)->Void){
+    func loadSharedList(sort:Sort.SortType, limit:Int = 50, complete:@escaping(_ error:Error?)->Void){
         let collection = fireStore.collection("public")
         func make(snapShot:QuerySnapshot?, error:Error?) {
             let list = snapShot.map { qs in
@@ -437,16 +438,35 @@ class StageManager {
             complete(error)
         }
         
-        let lastSyncDt = try! Realm().objects(SharedStageModel.self).sorted(byKeyPath: "updateDt").last?.updateDt
-        if let dt = lastSyncDt {
-            collection.whereField("updateDt", isGreaterThan: dt).getDocuments { snapShot, error in
-                make(snapShot: snapShot, error: error)
+        let dblist = try! Realm().objects(SharedStageModel.self)
+        let lastSyncDt = dblist.sorted(byKeyPath: "updateDt").last?.updateDt
+        
+        var sortvalue:(String,Bool) {
+            switch sort {
+            case .oldnet:
+                return ("updateDt",false)
+            case .latestOrder:
+                return ("updateDt", true)
+            case .like:
+                return ("likeCount", true)
             }
         }
-        else {
-            collection.getDocuments { snapShot, error in
-                make(snapShot: snapShot, error: error)
+         
+        
+        let limitedColletion = collection
+            .order(by: sortvalue.0, descending: sortvalue.1)
+            .limit(to: limit + dblist.count)
+        
+        if sort == .latestOrder {
+            if let dt = lastSyncDt {
+                limitedColletion.whereField("updateDt", isGreaterThan: dt).getDocuments { snapShot, error in
+                    make(snapShot: snapShot, error: error)
+                }
+                return
             }
+        }
+        limitedColletion.getDocuments { snapShot, error in
+            make(snapShot: snapShot, error: error)
         }
     }
     
