@@ -135,7 +135,7 @@ struct PixelDrawView: View {
     @State var backgroundColor:Color = .white {
         didSet {
             if StageManager.shared.stage?.changeBgColor(color: backgroundColor) == true {
-                if let imgData = StageManager.shared.stage?.makeImageDataValue(size: .init(width: 320, height: 320)) {
+                if let imgData = StageManager.shared.stage?.makeImageDataValue(size: Consts.previewImageSize) {
                     previewImage = Image(uiImage: UIImage(data: imgData)!)
                 }
                 undoCount = StageManager.shared.stage?.history.count ?? 0
@@ -280,7 +280,7 @@ struct PixelDrawView: View {
                 toastMessage = err.localizedDescription
                 isShowToast = true
             } else {
-                StageManager.shared.stage?.getImage(size: .init(width: 320, height: 320), complete: { image in
+                StageManager.shared.stage?.getImage(size: Consts.previewImageSize, complete: { image in
                     previewImage = image
                 })
             }
@@ -885,14 +885,14 @@ struct PixelDrawView: View {
             undoCount = stage.history.count
             redoCount = stage.redoHistory.count
             paletteColors = stage.paletteColors
-            stage.getImage(size: .init(width: 320, height: 320)) { image in
+            stage.getImage(size: Consts.previewImageSize) { image in
                 previewImage = image
             }
         }
         
         timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { [self] timer in
             if _oldBgColor != backgroundColor {
-                if let imageData = StageManager.shared.stage?.makeImageDataValue(size: .init(width: 320, height: 320)) {
+                if let imageData = StageManager.shared.stage?.makeImageDataValue(size: Consts.previewImageSize) {
                     previewImage = Image(uiImage: UIImage(data: imageData)!)
                     print("update preview with timmer")
                 }

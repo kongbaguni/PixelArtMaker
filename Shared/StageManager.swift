@@ -136,7 +136,7 @@ class StageManager {
                 "data":stage.base64EncodedString,
                 "updateDt":Date().timeIntervalSince1970
             ]
-            if let preview = stage.makeImageDataValue(size: .init(width: 320, height: 320)) as? NSData,
+            if let preview = stage.makeImageDataValue(size: Consts.previewImageSize) as? NSData,
                 let cdata = try? preview.compressed(using: .zlib) {
                 data["preview"] = cdata.base64EncodedString()
             }
@@ -346,7 +346,7 @@ class StageManager {
     
     func sharePublic(complete:@escaping(_ error:Error?)->Void) {
         guard let id = stage?.documentId,
-              let image = stage?.makeImageDataValue(size: .init(width: 320, height: 320)),
+              let image = stage?.makeImageDataValue(size: Consts.previewImageSize),
               let uid = AuthManager.shared.userId,
               let email = AuthManager.shared.auth.currentUser?.email
                 

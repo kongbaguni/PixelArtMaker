@@ -81,7 +81,7 @@ struct LayerEditView: View {
                                     isRequestMakePreview = true
                                     if let new = CGBlendMode(rawValue: Int32(value)) {
                                         StageManager.shared.stage?.change(blendMode: new , layerIndex: id)
-                                        StageManager.shared.stage?.getImage(size: .init(width: 320, height: 320), complete: { image in
+                                        StageManager.shared.stage?.getImage(size: Consts.previewImageSize, complete: { image in
                                             previewImage = image
                                             isRequestMakePreview = false
                                         })
@@ -197,7 +197,7 @@ struct LayerEditView: View {
         blendModes = StageManager.shared.stage?.layers.map({ model in
             return Int(model.blendMode.rawValue)
         }) ?? []
-        StageManager.shared.stage?.getImage(size: .init(width: 320, height: 320), complete: { image in
+        StageManager.shared.stage?.getImage(size: Consts.previewImageSize, complete: { image in
             previewImage = image
         })
     }

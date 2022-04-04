@@ -27,6 +27,9 @@ struct SaveView: View {
     @State var title:String = ""
     @State var previewImage:Image? = nil
     @State var shareImageData:Data? = nil
+    @State var shareImageSmallData:Data? = nil
+    @State var shareImageMediumData:Data? = nil
+    @State var shareImageLargeData:Data? = nil
     
     var body: some View {
         ScrollView {
@@ -102,6 +105,17 @@ struct SaveView: View {
                 
             }
             
+            if let img = shareImageSmallData {
+                Button {
+                    googleAd.showAd { isSucess in
+                        if isSucess {
+                            share(items: [img])
+                        }
+                    }
+                } label: {
+                    OrangeTextView(Text("share 32*32"))
+                }
+            }
             if let img = shareImageData {
                 Button {
                     googleAd.showAd { isSucess in
@@ -110,7 +124,30 @@ struct SaveView: View {
                         }
                     }
                 } label: {
-                    OrangeTextView(Text("share"))
+                    OrangeTextView(Text("share 320*320"))
+                }
+            }
+           
+            if let img = shareImageMediumData {
+                Button {
+                    googleAd.showAd { isSucess in
+                        if isSucess {
+                            share(items: [img])
+                        }
+                    }
+                } label: {
+                    OrangeTextView(Text("share 640*640"))
+                }
+            }
+            if let img = shareImageLargeData {
+                Button {
+                    googleAd.showAd { isSucess in
+                        if isSucess {
+                            share(items: [img])
+                        }
+                    }
+                } label: {
+                    OrangeTextView(Text("share 1280 * 1280"))
                 }
             }
             
@@ -147,11 +184,13 @@ struct SaveView: View {
                 })
                 backgroundColor = stage.backgroundColor
                 title = stage.title ?? ""
-                stage.getImage(size: .init(width: 320, height: 320)) { image in
+                stage.getImage(size: Consts.previewImageSize) { image in
                     previewImage = image
                 }
-                let data = stage.makeImageDataValue(size: .init(width: 320, height: 320))
-                shareImageData = data
+                shareImageData = stage.makeImageDataValue(size: Consts.previewImageSize)
+                shareImageSmallData = stage.makeImageDataValue(size: Consts.smallImageSize)
+                shareImageMediumData = stage.makeImageDataValue(size: Consts.mediumImageSize)
+                shareImageLargeData = stage.makeImageDataValue(size: Consts.largeImageSize)
             }
         }
         .onDisappear {
