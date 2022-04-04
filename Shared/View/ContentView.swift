@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import GoogleMobileAds
+import SwiftyStoreKit
 
 struct ContentView: View {
     init() {
@@ -17,6 +18,24 @@ struct ContentView: View {
         GADMobileAds.sharedInstance().start { status in
             print("-------------------------------")
             print("google ad status : \(status.adapterStatusesByClassName)")
+        }
+        
+        SwiftyStoreKit.completeTransactions { purchases in
+            for purchase in purchases {
+                print(purchase)
+                switch purchase.transaction.transactionState {
+                case .purchased, .restored:
+                    if purchase.needsFinishTransaction {
+                        // Deliver content from server, then:
+                        SwiftyStoreKit.finishTransaction(purchase.transaction)
+                    }
+                    // Unlock content
+                case .failed, .purchasing, .deferred:
+                    break // do nothing
+                default:
+                    break
+                }
+            }
         }
         
     }

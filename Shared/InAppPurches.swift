@@ -10,20 +10,20 @@ import Foundation
 import SwiftyStoreKit
 
 struct InAppPurchase {
-    let productIdSet:Set<String> = ["weeklyPlusMode","monthlyPlusMode"]
+    let productIdSet:Set<String> = ["weeklyPlusMode","monthlyPlusMode","3monthPlusMode","yearlyPlusMode"]
     
     let title:[String:String] = [
         "weeklyPlusMode":"주간",
         "monthlyPlusMode":"월간",
-//        "6monthsADBonus":"6개월",
-//        "yearlyADBonus":"연간"
+        "3monthPlusMode":"3개월",
+        "yearlyPlusMode":"연간"
     ]
     
     let desc:[String:String] = [
         "weeklyADBonus":"1주일간 광고 없이 모든 기능을 사용합니다.",
         "monthlyADBonus":"한달동안 광고 없이 모든 기능을 사용합니다.",
-//        "6monthsADBonus":"6개월간 광고시청후 받는 리워드 포인트가 3~10배로 증가합니다.",
-//        "yearlyADBonus":"1년동안 광고시청후 받는 리워드 포인트가 3~10배로 증가합니다."
+        "3monthPlusMode":"3개월간 광고 없이 모든 기능을 사용합니다.",
+        "yearlyPlusMode":"1년동안 광고 없이 모든 기능을 사용합니다."
     ]
     
     /** 인앱 결재 제품 정보 얻어오기*/
@@ -41,7 +41,7 @@ struct InAppPurchase {
     /** 구매내역 복원 */
     func restorePurchases(complete:@escaping(_ isSucess:Bool)->Void) {
         func restore() {
-            let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "27aa41384d2f48d6b78eeac367079f4c")
+            let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "ac8adb0c613b44a5bb4ebc1073cbfbfb")
             
             SwiftyStoreKit.verifyReceipt(using: appleValidator) { (result) in
                 switch result {
@@ -118,4 +118,5 @@ struct InAppPurchase {
             }
         }
     }
+    
 }

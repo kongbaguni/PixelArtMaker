@@ -13,7 +13,7 @@ extension Color {
     static let k_pointer2 = Color(uiColor: UIColor(named: "pointer2")!)
     static let k_tagBackground = Color(uiColor: UIColor(named: "tagBackground")!)
     static let k_tagText = Color(uiColor: UIColor(named: "tagText")!)
-    
+    static let K_boldText = Color(uiColor: UIColor(named: "boldText")!)
     var uiColor:UIColor {
         UIColor(red: ciColor.red, green: ciColor.green, blue: ciColor.blue, alpha: ciColor.alpha)
     }

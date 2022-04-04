@@ -8,6 +8,13 @@
 import SwiftUI
 
 struct LayerEditView: View {
+    var layerLimit:Int {
+        if InAppPurchaseModel.isSubscribe {
+            return 5
+        }
+        return 2
+    }
+    
     let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var isShowToast = false
@@ -116,7 +123,7 @@ struct LayerEditView: View {
                                 }
                                 .tint(.red)
                             }
-                            if layers.count < 5 {
+                            if layers.count < layerLimit {
                                 Button {
                                     if StageManager.shared.stage?.copyLayer(idx: id) == true {
                                         reload()
@@ -150,7 +157,7 @@ struct LayerEditView: View {
                     StageManager.shared.stage?.reArrangeLayers()
                     reload()
                 })
-                if layers.count < 5 {
+                if layers.count < layerLimit {
                     Button {
                         googleAd.showAd { isSucess in
                             StageManager.shared.stage?.addLayer()

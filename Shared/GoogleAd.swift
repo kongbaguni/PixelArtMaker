@@ -36,6 +36,10 @@ class GoogleAd : NSObject {
     var callback:(_ isSucess:Bool)->Void = { _ in}
     
     func showAd(complete:@escaping(_ isSucess:Bool)->Void) {
+        if InAppPurchaseModel.isSubscribe {
+            complete(true)
+            return
+        }
         if Date().timeIntervalSince1970 - (UserDefaults.standard.lastGoogleAdWatchTime?.timeIntervalSince1970 ?? 0) < 60 * 30 {
             complete(true)
             return

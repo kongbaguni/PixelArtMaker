@@ -125,6 +125,8 @@ struct PixelDrawView: View {
     @State var isShowProfileView = false
     
     @State var isShowActionSheet = false
+    @State var isShowInAppPurches = false
+    
     @State var isShowAlert = false
     @State var alertType:AlertType = .clear
     
@@ -299,25 +301,6 @@ struct PixelDrawView: View {
     
     var body: some View {
         VStack {
-            //MARK: - 네비게이션
-            NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
-                
-            }
-            NavigationLink(destination: SaveView(), isActive: $isShowSaveView) {
-                
-            }
-            NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
-                
-            }
-            NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
-                
-            }
-            NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
-                
-            }
-            NavigationLink(destination: ProfileView(), isActive: $isShowProfileView) {
-                
-            }
             
             //MARK: - 드로잉 켄버스
             ZStack {
@@ -739,6 +722,30 @@ struct PixelDrawView: View {
                 }.padding(20)
             }
             
+            //MARK: - 네비게이션
+            Group {
+                NavigationLink(destination: InAppPurchesView(), isActive: $isShowInAppPurches) {
+                    
+                }
+                NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
+                    
+                }
+                NavigationLink(destination: SaveView(), isActive: $isShowSaveView) {
+                    
+                }
+                NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
+                    
+                }
+                NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
+                    
+                }
+                NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
+                    
+                }
+                NavigationLink(destination: ProfileView(), isActive: $isShowProfileView) {
+                    
+                }
+            }
         }
         
         .toolbar {
@@ -757,10 +764,18 @@ struct PixelDrawView: View {
                             isShowSigninView = true
                         })
                     )
+                    
                 } else {
                     buttons.append(.default(.menu_signout_title, action: {
                         AuthManager.shared.signout()
                     }))
+                    
+                    buttons.append(
+                        .default(Text("subscribe"), action: {
+                            isShowInAppPurches = true
+                        })
+                    )
+
                     buttons.append(.default(.menu_save_title, action: {
                         isShowSaveView = true
                     }))

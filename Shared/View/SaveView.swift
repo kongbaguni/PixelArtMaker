@@ -127,30 +127,30 @@ struct SaveView: View {
                     OrangeTextView(Text("share 320*320"))
                 }
             }
-           
-            if let img = shareImageMediumData {
-                Button {
-                    googleAd.showAd { isSucess in
-                        if isSucess {
-                            share(items: [img])
+            if InAppPurchaseModel.isSubscribe {
+                if let img = shareImageMediumData {
+                    Button {
+                        googleAd.showAd { isSucess in
+                            if isSucess {
+                                share(items: [img])
+                            }
                         }
+                    } label: {
+                        OrangeTextView(Text("share 640*640"))
                     }
-                } label: {
-                    OrangeTextView(Text("share 640*640"))
+                }
+                if let img = shareImageLargeData {
+                    Button {
+                        googleAd.showAd { isSucess in
+                            if isSucess {
+                                share(items: [img])
+                            }
+                        }
+                    } label: {
+                        OrangeTextView(Text("share 1280 * 1280"))
+                    }
                 }
             }
-            if let img = shareImageLargeData {
-                Button {
-                    googleAd.showAd { isSucess in
-                        if isSucess {
-                            share(items: [img])
-                        }
-                    }
-                } label: {
-                    OrangeTextView(Text("share 1280 * 1280"))
-                }
-            }
-            
             if StageManager.shared.stage?.documentId != nil && sharedId == nil && AuthManager.shared.auth.currentUser?.isAnonymous == false {
                 HStack {
                     Button {

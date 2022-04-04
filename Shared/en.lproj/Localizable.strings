@@ -64,3 +64,13 @@
 "latest order" = "last registration order";
 "old net" = "outdated registration order";
 "like" = "Like many order";
+"subscribe" = "subscribe";
+
+"subscribe desc1_1" = "The following benefits are given during the subscription period.";
+"subscribe desc1_2" = "1.Ads do not appear.\n2.The number of layers that can be created is increased to 5.\n3.You can share your drawings in a higher resolution.";
+
+"subscribe desc2_1" = "Payment is repeated. Cancel anytime.";
+"subscribe desc2_2" = "Subscription Terms";
+"subscribe desc2_3" = "The payment amount will be charged to the user's Apple account upon confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period. Account will be charged for renewal 24 hours prior to the end of the current period. You can manage your subscription in your account settings.";
+"discount" = "discount!";
+"Restore subscribe" = "Restore subscribe";
