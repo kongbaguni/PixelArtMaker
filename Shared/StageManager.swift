@@ -435,6 +435,7 @@ class StageManager {
             for item in list ?? [] {
                 var data = item.1
                 data["id"] = item.0
+                print(data["likeCount"] as? String ?? "")
                 realm.create(SharedStageModel.self, value: data, update: .modified)
             }
             print("new item \(list?.count ?? 0)")
@@ -457,20 +458,27 @@ class StageManager {
         }
          
         
-        let limitedColletion = collection
+        let orderd = collection
             .order(by: sortvalue.0, descending: sortvalue.1)
-            .limit(to: limit + dblist.count)
         
-        if sort == .latestOrder {
+        if sort == .oldnet {
             if let dt = lastSyncDt {
-                limitedColletion.whereField("updateDt", isGreaterThan: dt).getDocuments { snapShot, error in
+                orderd.whereField("updateDt", isGreaterThan: dt).getDocuments { snapShot, error in
                     make(snapShot: snapShot, error: error)
                 }
                 return
             }
+            orderd.getDocuments { snapShot, error in
+                make(snapShot: snapShot, error: error)
+            }
         }
-        limitedColletion.getDocuments { snapShot, error in
-            make(snapShot: snapShot, error: error)
+        if limit > 0 {
+            orderd.limit(to: limit).getDocuments { snapShot, error in
+                make(snapShot: snapShot, error: error)
+            }
+        }
+        else {
+            
         }
     }
     

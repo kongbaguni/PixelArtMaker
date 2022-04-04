@@ -42,6 +42,9 @@ struct PublicShareListView: View {
             return width3
         }
     }
+    fileprivate let limit = 20
+    @State var page = 1
+        
     @State var isShowToast = false
     @State var toastMessage:String = ""
     @State var list:[SharedStageModel] = [] {
@@ -109,6 +112,7 @@ struct PublicShareListView: View {
                                 Sort.getText(type: type)
                             }
                         }.onChange(of: sortIndex) { newValue in
+                            page = 1
                             load()
                         }
                         
@@ -143,11 +147,11 @@ struct PublicShareListView: View {
                                     
                                 }
                             }
+                                                     
                         }
                         .opacity(isLoading ? 0.5 : 1.0)
                         .animation(.easeInOut, value: isLoading)
-                    }.refreshable {
-                        load()
+                        
                     }
                 }
             }
@@ -163,8 +167,8 @@ struct PublicShareListView: View {
     
     func load() {
         isLoading = true
-        
-        StageManager.shared.loadSharedList(sort: sortType, limit: 50) { error in
+        print("limit: \(page * limit)")
+        StageManager.shared.loadSharedList(sort: .oldnet, limit: page * limit) { error in
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {[self] in
                 isLoading = false
             }
