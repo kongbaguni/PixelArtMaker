@@ -19,7 +19,7 @@ struct InAppPurchesView: View {
     @State var isLoading = false
     @State var isShowAlert = false
     @State var alertType:AlertType = .구입복원_구매내역없음
-    
+    @State var isSubscribe = false
     var body: some View {
         List {
             Text("subscribe desc1_1")
@@ -36,7 +36,7 @@ struct InAppPurchesView: View {
             ForEach(purches, id:\.self) { model in
                 Button {
                     inappPurchase.buyProduct(productId: model.id) { isSucess in
-
+                        self.isSubscribe = InAppPurchaseModel.isSubscribe
                     }
                 } label: {
                     let idx = purches.firstIndex(of: model)!
@@ -70,7 +70,7 @@ struct InAppPurchesView: View {
             Text("subscribe desc2_3")
                 .font(.system(size:12))
                 .foregroundColor(.gray)
-            if InAppPurchaseModel.isSubscribe == false {
+            if isSubscribe == false {
                 Button {
                     inappPurchase.restorePurchases { isSucess in
                         if isSucess {
@@ -82,6 +82,7 @@ struct InAppPurchesView: View {
                         }
                         alertType = .구입복원_구매내역없음
                         isShowAlert = true
+                        self.isSubscribe = InAppPurchaseModel.isSubscribe
                         
                     }
                 } label: {
@@ -120,6 +121,7 @@ struct InAppPurchesView: View {
     }
     
     private func load() {
+        self.isSubscribe = InAppPurchaseModel.isSubscribe
         self.purches = try! Realm().objects(InAppPurchaseModel.self).sorted(byKeyPath: "price", ascending: false).reversed()
         discount.removeAll()
         var dailyPrice:Float = 0
