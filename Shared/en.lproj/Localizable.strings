@@ -74,3 +74,12 @@
 "subscribe desc2_3" = "The payment amount will be charged to the user's Apple account upon confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period. Account will be charged for renewal 24 hours prior to the end of the current period. You can manage your subscription in your account settings.";
 "discount" = "discount!";
 "Restore subscribe" = "Restore subscribe";
+
+
+"empty subscribe title" = "Ops!";
+"empty subscribe message" = "There are no purchases to restore.";
+"empty subscribe confirm" = "confirm";
+
+"restore subscribe title" = "notice";
+"restore subscribe message" = "You have successfully restored your purchase history.";
+"restore subscribe confirm" = "confirm";

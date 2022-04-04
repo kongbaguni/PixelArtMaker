@@ -16,6 +16,7 @@ class InAppPurchaseModel: Object {
     @Persisted var price:Float = 0
     @Persisted var priceLocaleId:String = ""
     @Persisted var expireDate:Date = Date(timeIntervalSince1970: 0)
+    @Persisted var purchaseDate:Date = Date(timeIntervalSince1970: 0)
 }
 
 extension InAppPurchaseModel {
@@ -44,10 +45,21 @@ extension InAppPurchaseModel {
                 "title" : product.localizedTitle.isEmpty ? (purch.title[product.productIdentifier] ?? "") : product.localizedTitle,
                 "desc" : product.localizedDescription.isEmpty ? (purch.desc[product.productIdentifier] ?? "") : product.localizedDescription,
                 "price" : product.price.floatValue,
-                "priceLocaleId" : product.priceLocale.identifier,
+                "priceLocaleId" : product.priceLocale.identifier,                
             ]
             realm.create(InAppPurchaseModel.self, value: data, update: .modified)
         }
+        try! realm.commitWrite()
+    }
+    
+    static func set(productId:String, purchaseDt:Date) {
+        let data:[String:Any] = [
+            "id":productId,
+            "purchaseDate":purchaseDt
+        ]
+        let realm = try! Realm()
+        realm.beginWrite()
+        realm.create(InAppPurchaseModel.self, value: data, update: .modified)
         try! realm.commitWrite()
     }
     
@@ -66,6 +78,10 @@ extension InAppPurchaseModel {
         return try! Realm().object(ofType: InAppPurchaseModel.self, forPrimaryKey: productId)
     }
     
+    static func isSubscribe(productId:String)->Bool {
+        return model(productId: productId)?.isExpire == false
+    }
+    
     /** 구독중인가?*/
     static var isSubscribe:Bool {
         let list = try! Realm().objects(InAppPurchaseModel.self)
@@ -77,4 +93,15 @@ extension InAppPurchaseModel {
         return false
     }
     
+    var isLastPurchase:Bool {
+        let list = try! Realm().objects(InAppPurchaseModel.self).sorted(byKeyPath: "purchaseDate")
+    
+        print("isLastPurchase---------------------------- start")
+        for item in list {
+            print(item.purchaseDate.formatted(date: .long, time: .standard))
+        }
+        print("isLastPurchase---------------------------- end")
+
+        return list.last == self
+    }
 }

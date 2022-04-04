@@ -147,7 +147,7 @@ struct SaveView: View {
                             }
                         }
                     } label: {
-                        OrangeTextView(Text("share 1280 * 1280"))
+                        OrangeTextView(Text("share 1280*1280"))
                     }
                 }
             }
