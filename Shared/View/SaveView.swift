@@ -39,7 +39,6 @@ struct SaveView: View {
     @State var shareImageSmallData:Data? = nil
     @State var shareImageMediumData:Data? = nil
     @State var shareImageLargeData:Data? = nil
-    @State var updateDt:Date? = nil
     
     var body: some View {
         ScrollView {
@@ -66,10 +65,11 @@ struct SaveView: View {
                     }
                 }
                 
-                if let dt = updateDt {
+                if let dt = updateDateTimeFromDb {
                     HStack {
                         Text("update dt")
-                        TagView(Text(dt.formatted(date: .long, time: .standard)))
+                        Text(dt.formatted(date: .long, time: .standard))
+                            .foregroundColor(.gray)
                     }
                 }
                  
@@ -88,7 +88,6 @@ struct SaveView: View {
                                         toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                         if errorA == nil && errorB == nil  {
 //                                            presentationMode.wrappedValue.dismiss()
-                                            updateDt = Date()
                                         }
                                     }
                                     return
@@ -114,7 +113,6 @@ struct SaveView: View {
                             isShowToast = error != nil
                             if error == nil  {
 //                                presentationMode.wrappedValue.dismiss()
-                                updateDt = Date()
                             }
                         })
                     }
@@ -184,7 +182,6 @@ struct SaveView: View {
                                     
                                     if errorA == nil && errorB == nil {
 //                                        presentationMode.wrappedValue.dismiss()
-                                        updateDt = Date()
                                     }
                                 }
                             }                            
@@ -213,7 +210,6 @@ struct SaveView: View {
                 shareImageMediumData = stage.makeImageDataValue(size: Consts.mediumImageSize)
                 shareImageLargeData = stage.makeImageDataValue(size: Consts.largeImageSize)
             }
-            updateDt = updateDateTimeFromDb
         }
         .onDisappear {
             StageManager.shared.stage?.title = title
