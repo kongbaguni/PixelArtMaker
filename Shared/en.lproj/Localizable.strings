@@ -83,3 +83,6 @@
 "restore subscribe title" = "notice";
 "restore subscribe message" = "You have successfully restored your purchase history.";
 "restore subscribe confirm" = "confirm";
+
+"reg dt" = "reg date time";
+"update dt" = "update date time";

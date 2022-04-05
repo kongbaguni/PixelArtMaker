@@ -30,8 +30,8 @@ struct PublicShareListView: View {
         case .like:
             return db.sorted(byKeyPath: "likeCount",ascending: true)
         }
-            
     }
+    
     var pwidth:CGFloat {
         switch list.count {
         case 1:
@@ -42,9 +42,7 @@ struct PublicShareListView: View {
             return width3
         }
     }
-    fileprivate let limit = 20
-    @State var page = 1
-        
+    
     @State var isShowToast = false
     @State var toastMessage:String = ""
     @State var list:[SharedStageModel] = [] {
@@ -84,7 +82,7 @@ struct PublicShareListView: View {
     @State var isLoading = false
     
     var sortType:Sort.SortType {
-        return Sort.SortType.allCases[sortIndex]
+        return Sort.SortTypeForPublicGallery[sortIndex]
     }
     
     var body: some View {
@@ -107,12 +105,11 @@ struct PublicShareListView: View {
                     }
                     ScrollView {
                         Picker(selection:$sortIndex, label:Text("sort")) {
-                            ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
-                                let type = Sort.SortType.allCases[idx]
+                            ForEach(0..<Sort.SortTypeForPublicGallery.count, id:\.self) { idx in
+                                let type = Sort.SortTypeForPublicGallery[idx]
                                 Sort.getText(type: type)
                             }
                         }.onChange(of: sortIndex) { newValue in
-                            page = 1
                             load()
                         }
                         
@@ -164,11 +161,12 @@ struct PublicShareListView: View {
         
         
     }
+
     
     func load() {
         isLoading = true
-        print("limit: \(page * limit)")
-        StageManager.shared.loadSharedList(sort: .oldnet, limit: page * limit) { error in
+        
+        StageManager.shared.loadSharedList(sort: sortType, limit: 50) { error in
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {[self] in
                 isLoading = false
             }

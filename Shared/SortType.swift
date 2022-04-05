@@ -9,14 +9,15 @@ import Foundation
 import SwiftUI
 struct Sort {
     enum SortType: CaseIterable {
-        /** 기본순서 */
+        /** 최근 등록 순서 */
         case latestOrder
-        /** 오래된 순서*/
+        /** 오래된 등록 순서*/
         case oldnet
         /** 좋아요 많은 순서*/
         case like
     }
     
+    static let SortTypeForPublicGallery:[SortType] = [.latestOrder, .like]
     static let SortTypeForMyGellery:[SortType] = [.latestOrder, .oldnet]
     static func getText(type:SortType)->Text {
         switch type {

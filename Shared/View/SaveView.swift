@@ -16,6 +16,15 @@ fileprivate var sharedId:String? {
     return nil
 }
 
+fileprivate var updateDateTimeFromDb:Date? {
+    if let id = StageManager.shared.stage?.documentId {
+        if let model = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id) {
+            return model.updateDt
+        }
+    }
+    return nil
+}
+
 struct SaveView: View {
     let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -30,6 +39,7 @@ struct SaveView: View {
     @State var shareImageSmallData:Data? = nil
     @State var shareImageMediumData:Data? = nil
     @State var shareImageLargeData:Data? = nil
+    @State var updateDt:Date? = nil
     
     var body: some View {
         ScrollView {
@@ -55,6 +65,14 @@ struct SaveView: View {
                         TagView(Text(id))
                     }
                 }
+                
+                if let dt = updateDt {
+                    HStack {
+                        Text("update dt")
+                        TagView(Text(dt.formatted(date: .long, time: .standard)))
+                    }
+                }
+                 
             }
             HStack {
                 //MARK : 기존 파일에 저장
@@ -69,13 +87,14 @@ struct SaveView: View {
                                         isShowToast = errorA != nil || errorB != nil
                                         toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                         if errorA == nil && errorB == nil  {
-                                            presentationMode.wrappedValue.dismiss()
+//                                            presentationMode.wrappedValue.dismiss()
+                                            updateDt = Date()
                                         }
                                     }
                                     return
                                 }
                                 isLoading = false
-                                presentationMode.wrappedValue.dismiss()
+//                                presentationMode.wrappedValue.dismiss()
                             })
                         }
                         
@@ -94,7 +113,8 @@ struct SaveView: View {
                             toastMessage = error?.localizedDescription ?? ""
                             isShowToast = error != nil
                             if error == nil  {
-                                presentationMode.wrappedValue.dismiss()
+//                                presentationMode.wrappedValue.dismiss()
+                                updateDt = Date()
                             }
                         })
                     }
@@ -163,7 +183,8 @@ struct SaveView: View {
                                     isShowToast = errorA != nil || errorB != nil
                                     
                                     if errorA == nil && errorB == nil {
-                                        presentationMode.wrappedValue.dismiss()
+//                                        presentationMode.wrappedValue.dismiss()
+                                        updateDt = Date()
                                     }
                                 }
                             }                            
@@ -192,6 +213,7 @@ struct SaveView: View {
                 shareImageMediumData = stage.makeImageDataValue(size: Consts.mediumImageSize)
                 shareImageLargeData = stage.makeImageDataValue(size: Consts.largeImageSize)
             }
+            updateDt = updateDateTimeFromDb
         }
         .onDisappear {
             StageManager.shared.stage?.title = title

@@ -78,3 +78,7 @@
 "restore subscribe title" = "알림";
 "restore subscribe message" = "구입내역 복원에 성공했습니다.";
 "restore subscribe confirm" = "확인";
+
+"reg dt" = "등록 시각";
+"update dt" = "갱신 시각";
+
