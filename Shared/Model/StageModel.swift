@@ -305,7 +305,9 @@ class StageModel {
                             
                             layers.append(.init(colors: color, id: "layer\(i)", blendMode: blendMode ))
                         }
-                        result.append(.init(layers: layers, selectedLayerIndex: indexs[idx], backgroundColor: bgColors[idx]))
+                        if indexs.count > idx && bgColors.count > idx {
+                            result.append(.init(layers: layers, selectedLayerIndex: indexs[idx], backgroundColor: bgColors[idx]))
+                        }
                     }
                     return result
                 }
@@ -394,6 +396,6 @@ class StageModel {
     }
     
     var isMyPicture:Bool {
-        return createrId == AuthManager.shared.userId
+        return createrId == AuthManager.shared.userId || createrId.isEmpty
     }
 }
