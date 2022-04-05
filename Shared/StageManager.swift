@@ -442,10 +442,7 @@ class StageManager {
             try! realm.commitWrite()
             complete(error)
         }
-        
-        let dblist = try! Realm().objects(SharedStageModel.self)
-        let lastSyncDt = dblist.sorted(byKeyPath: "updateDt").last?.updateDt
-        
+                
         var sortvalue:(String,Bool) {
             switch sort {
             case .oldnet:
@@ -461,24 +458,8 @@ class StageManager {
         let orderd = collection
             .order(by: sortvalue.0, descending: sortvalue.1)
         
-        if sort == .oldnet {
-            if let dt = lastSyncDt {
-                orderd.whereField("updateDt", isGreaterThan: dt).getDocuments { snapShot, error in
-                    make(snapShot: snapShot, error: error)
-                }
-                return
-            }
-            orderd.getDocuments { snapShot, error in
-                make(snapShot: snapShot, error: error)
-            }
-        }
-        if limit > 0 {
-            orderd.limit(to: limit).getDocuments { snapShot, error in
-                make(snapShot: snapShot, error: error)
-            }
-        }
-        else {
-            
+        orderd.limit(to: limit).getDocuments { snapShot, error in
+            make(snapShot: snapShot, error: error)
         }
     }
     
