@@ -141,7 +141,19 @@ struct PublicShareListView: View {
                                                 }
                                             }
                                             
-                                            TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
+                                            switch sortType {
+                                            case .like:
+                                                HStack {
+                                                    Image("heart_red")
+                                                        .padding(5)
+                                                    Text("\(model.likeCount.formatted(.number))")
+                                                        .font(.system(size: 10))
+                                                        .foregroundColor(.k_normalText)
+                                                }
+                                            default:
+                                                TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
+                                            }
+                                            
                                         }
                                     }
                                     

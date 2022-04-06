@@ -124,7 +124,9 @@ class StageManager {
         
         DispatchQueue.global().async {[self] in
             guard let uid = AuthManager.shared.userId,
-                  let stage = stage else {
+                  let stage = stage,
+                  let imageData = stage.makeImageDataValue(size: Consts.previewImageSize)
+            else {
                 DispatchQueue.main.async {
                     complete(nil)
                 }
@@ -136,42 +138,49 @@ class StageManager {
                 "data":stage.base64EncodedString,
                 "updateDt":Date().timeIntervalSince1970
             ]
-            if let preview = stage.makeImageDataValue(size: Consts.previewImageSize) as? NSData,
-                let cdata = try? preview.compressed(using: .zlib) {
-                data["preview"] = cdata.base64EncodedString()
-            }
+            
+            
+            
             
             
             if let documentPath = self.stage?.documentId {
-                if asNewForce == false {
-                    let d = collection.document(documentPath)
-                    d.updateData(data) {[self] error in
+                FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png, uploadURL: "preview/\(documentPath)") { downloadURL, error in
+                    data["imageURL"] = downloadURL?.absoluteString ?? ""
+                    
+                    if asNewForce == false {
+                        let d = collection.document(documentPath)
+                        d.updateData(data) {[self] error in
+                            print(error?.localizedDescription ?? "업로드 성공")
+                            loadList { [self] result in
+                                saveTemp (documentId: documentPath, complete: { tmpError in
+                                    DispatchQueue.main.async {
+                                        complete(error)
+                                    }
+                                })
+                            }
+                        }
+                        return
+                    }
+                    
+                    data["regDt"] = Date().timeIntervalSince1970
+                    collection.addDocument(data: data) {[self] error in
                         print(error?.localizedDescription ?? "업로드 성공")
                         loadList { [self] result in
-                            saveTemp (documentId: documentPath, complete: { tmpError in
+                            stage.documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last?.documentId
+                            
+                            saveTemp(documentId: stage.documentId, complete: { tmeError in
                                 DispatchQueue.main.async {
                                     complete(error)
                                 }
                             })
+                            
                         }
                     }
-                    return
-                }
-            }
-            data["regDt"] = Date().timeIntervalSince1970
-            collection.addDocument(data: data) {[self] error in
-                print(error?.localizedDescription ?? "업로드 성공")
-                loadList { [self] result in
-                    stage.documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last?.documentId
-                    
-                    saveTemp(documentId: stage.documentId, complete: { tmeError in
-                        DispatchQueue.main.async {
-                            complete(error)
-                        }
-                    })
                     
                 }
+                
             }
+           
             
         }
     }
@@ -236,19 +245,21 @@ class StageManager {
             realm.beginWrite()
 
             for data in datas {
-                if let string = data.0["preview"] as? String,
-                   let updateInterval = data.0["updateDt"] as? TimeInterval,
-                   let image = UIImage(base64encodedString: string) {
+                if let updateInterval = data.0["updateDt"] as? TimeInterval {
+                    
                     let updateDt = Date(timeIntervalSince1970: updateInterval)
+                    
                     var ddata:[String:AnyHashable] = [
                         "documentId":data.1,
-                        "imageData":image.pngData(),
                         "updateDt":updateDt
                     ]
-                    
+                    if let imageURL = data.0["imageURL"] as? String {
+                        ddata["imageURL"] = imageURL
+                    }
                     if let sid = data.0["shared_document_id"] as? String {
                         ddata["shareDocumentId"] = sid
                     }
+                    
                     let model = realm.create(MyStageModel.self, value: ddata, update: .modified)
                     result.append(model)
                 }
@@ -303,14 +314,14 @@ class StageManager {
                             let updateData:[String:AnyHashable] = [
                                 "email":"",
                                 "documentId":"",
-                                "image":"",
+                                "imageURL":"",
                                 "deleted":true,
                                 "updateDt":Date().timeIntervalSince1970
                             ]
                             fireStore.collection("public").document(id).updateData(updateData) { error in
                                 
                             }
-                        }
+                        }                        
                         
                     }
                     

@@ -59,10 +59,27 @@ struct ArtListView: View {
                         NavigationLink(destination: {
                             PixelArtDetailView(id: id, showProfile: false)
                         }, label: {
-                            WebImage(url: model.imageURLvalue)
-                                .placeholder(.imagePlaceHolder)
-                                .resizable()
-                                .frame(width: width3, height: width3, alignment: .center)
+                            VStack {
+                                WebImage(url: model.imageURLvalue)
+                                    .placeholder(.imagePlaceHolder)
+                                    .resizable()
+                                    .frame(width: width3, height: width3, alignment: .center)
+                                
+                                switch sort {
+                                case .like:
+                                    HStack {
+                                        Image("heart_red")
+                                            .padding(5)                                        
+                                        Text("\(model.likeCount.formatted(.number))")
+                                            .font(.system(size: 10))
+                                            .foregroundColor(.k_normalText)
+                                    }
+                                default:
+                                    TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
+                                }
+                            }
+                            
+                            
                         })
                     }
                 }

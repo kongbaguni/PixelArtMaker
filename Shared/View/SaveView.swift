@@ -103,22 +103,24 @@ struct SaveView: View {
                     }
                 }
                 //MARK: 새 파일로 저장
-                Button {
-                    isLoading = true
-                    googleAd.showAd { isSucess in
-                        StageManager.shared.save(asNewForce: true, complete: { error in
-                            
-                            isLoading = false
-                            toastMessage = error?.localizedDescription ?? ""
-                            isShowToast = error != nil
-                            if error == nil  {
-//                                presentationMode.wrappedValue.dismiss()
-                            }
-                        })
+                if StageManager.shared.stage?.documentId == nil || InAppPurchaseModel.isSubscribe {
+                    Button {
+                        isLoading = true
+                        googleAd.showAd { isSucess in
+                            StageManager.shared.save(asNewForce: true, complete: { error in
+                                
+                                isLoading = false
+                                toastMessage = error?.localizedDescription ?? ""
+                                isShowToast = error != nil
+                                if error == nil  {
+                                    //                                presentationMode.wrappedValue.dismiss()
+                                }
+                            })
+                        }
+                        
+                    } label: {
+                        OrangeTextView(.save_as_new_file)
                     }
-                    
-                } label: {
-                    OrangeTextView(.save_as_new_file)
                 }
                 
             }

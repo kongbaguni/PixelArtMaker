@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
+
 //import RealmSwift
 
 fileprivate let width1 = screenBounds.width - 10
@@ -60,7 +62,9 @@ struct LoadView: View {
                             }
                         } label : {
                             VStack {
-                                Image(uiImage: stage.image).resizable().frame(width: loadingStart && stages.count == 1 ? width1 : width2,
+                                WebImage(url: stage.imageURL)
+                                    .placeholder(.imagePlaceHolder)
+                                    .resizable().frame(width: loadingStart && stages.count == 1 ? width1 : width2,
                                                                               height: loadingStart  && stages.count == 1  ? width1 : width2,
                                                                               alignment: .center)
                                 TagView(Text(stage.documentId))
