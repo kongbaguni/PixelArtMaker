@@ -46,11 +46,14 @@ extension ProfileModel {
     static func findBy(uid:String, complete:@escaping(_ error:Error?)->Void) {
         collection.document(uid).getDocument { snapShot, error in
             if let data = snapShot?.data() {
+                print("find profile id \(uid) data \(data)")
                 let realm = try! Realm()
                 try! realm.write {
                     realm.create(ProfileModel.self, value: data, update: .all)
                 }
-                complete(error)
+                DispatchQueue.main.async {
+                    complete(error)
+                }
             }
         }
     }
@@ -80,14 +83,22 @@ extension ProfileModel {
                 try! realm.write {
                     realm.create(ProfileModel.self, value: data, update: .all)
                 }
-                complete(error)
+                DispatchQueue.main.async {
+                    complete(error)
+                }
                 return
             }
-            complete(error)
+            DispatchQueue.main.async {
+                complete(error)
+            }
         }
     }
     
     func updateProfile(complete:@escaping(_ error:Error?)->Void) {
+        ProfileModel.updateProfile(nickname: nickname, profileURL: profileURL, email: email, complete: complete)
+    }
+    
+    static func updateProfile(nickname:String, profileURL:String, email:String, complete:@escaping(_ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
             complete(nil)
             return
@@ -102,7 +113,9 @@ extension ProfileModel {
             if let err = error {
                 print(err.localizedDescription)
             }
-            complete(error)
+            DispatchQueue.main.async {
+                complete(error)
+            }
         }
     }
 }

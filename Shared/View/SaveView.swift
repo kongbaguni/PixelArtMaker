@@ -42,7 +42,7 @@ struct SaveView: View {
     
     var body: some View {
         ScrollView {
-            ProfileView()
+            ProfileView(AuthManager.shared.userId!)
             ZStack {
                 if let img = previewImage {
                     img.resizable().frame(width: screenBounds.width - 10, height: screenBounds.width - 10 , alignment: .center)

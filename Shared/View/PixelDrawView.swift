@@ -742,7 +742,7 @@ struct PixelDrawView: View {
                 NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
                     
                 }
-                NavigationLink(destination: ProfileView(), isActive: $isShowProfileView) {
+                NavigationLink(destination: ProfileView(AuthManager.shared.userId!), isActive: $isShowProfileView) {
                     
                 }
             }

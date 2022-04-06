@@ -125,6 +125,7 @@ struct PublicShareListView: View {
                                         VStack {
                                             ZStack {
                                                 WebImage(url:imageURL)
+                                                    .placeholder(Image("placeHolder"))
                                                     .resizable()
                                                     .frame(width: pwidth, height: pwidth, alignment: .center)
                                                 

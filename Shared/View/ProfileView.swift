@@ -10,33 +10,56 @@ import SDWebImageSwiftUI
 import RealmSwift
 
 struct ProfileView: View {
-    @State var nickname:String = ProfileModel.currentUser?.nickname ?? "없음"
-    @State var imageURL:URL? = ProfileModel.currentUser?.profileImageURL ?? nil
-    @State var email:String = ProfileModel.currentUser?.email ?? "없음"
-    @State var uid:String = ProfileModel.currentUser?.uid ?? "없음"
+    let uid:String
+
+    @State var nickname:String = ""
+    @State var imageURL:URL? = nil
+    @State var email:String = ""
      
-    init(_ uid:String? = nil) {
-        if let id = uid {
-            self.uid = id
-        }
+    init(_ uid:String) {
+        self.uid = uid
+        print("profileview uid:\(uid)")
     }
     
     var body: some View {
         HStack {
             if let url = imageURL {
                 WebImage(url: url)
+                    .placeholder(Image("profilePlaceholder"))
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .center)
             }
             VStack {
-//                LabelTextView(label: "uid", text: uid)
-                LabelTextView(label: "email", text: email)
-                LabelTextView(label: "name", text: nickname)
-                
+                HStack {
+                    Text("email")
+                        .bold()
+                        .padding(5)
+                    Button {
+                        let urlstr = "mailto:\(email)"
+                        if let url = URL(string: urlstr) {
+                            UIApplication.shared.open(url)
+                        }
+                    } label : {
+                        Text(email)
+                    }
+                    Spacer()
+                }
+                HStack {
+                    Text("name")
+                        .bold()
+                        .padding(5)
+                    Text(nickname)
+                    Spacer()
+                }
             }
         }
         .padding(10)
         .onAppear {
-            ProfileModel.findBy(uid: uid) { error in
-                loadData()
+            loadData()
+            if uid.isEmpty == false {
+                ProfileModel.findBy(uid: uid) { error in
+                    loadData()
+                }
             }
         }
         
@@ -56,6 +79,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView("test")
     }
 }

@@ -47,6 +47,7 @@ struct PixelArtDetailView: View {
                         toggleLike()
                     } label: {
                         WebImage(url:imgUrl)
+                            .placeholder(Image("placeHolder"))
                             .resizable()
                             .frame(width: screenBounds.width - 20, height: screenBounds.width - 20, alignment: .center)
 

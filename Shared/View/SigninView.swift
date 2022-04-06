@@ -68,8 +68,19 @@ struct SigninView: View {
             else {
                 print("로그인 했다")
             }
-            
+        }.onDisappear {
+            if let user = AuthManager.shared.auth.currentUser {
+                if ProfileModel.currentUser == nil {
+                    
+                    ProfileModel.updateProfile(nickname: user.displayName ?? "",
+                                               profileURL: user.photoURL?.absoluteString ?? "",
+                                               email: user.email ?? "" ) { error in
+                        
+                    }
+                }
+            }
         }
+        
     }
 }
 
