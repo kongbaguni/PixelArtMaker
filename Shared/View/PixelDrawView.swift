@@ -555,7 +555,7 @@ struct PixelDrawView: View {
                             StageManager.shared.saveTemp { error in
                                 toastMessage = error?.localizedDescription ?? ""
                                 isShowToast = error != nil
-                            }                            
+                            }
                         } label: {
                             VStack {
                                 Text("undo")
@@ -572,6 +572,28 @@ struct PixelDrawView: View {
                         .padding(20)
                         
                         //MARK: - 화살표 컨트롤러
+                        Button {
+                            if isLongPressing {
+                                isLongPressing = false
+                                timer?.invalidate()
+                            }
+                            pointer = .init(x: pointer.x - 1, y: pointer.y)
+                        } label: {
+                            Image("arrow_left")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                    print("long press")
+                                    self.isLongPressing = true
+                                    //or fastforward has started to start the timer
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                        pointer = .init(x: pointer.x - 1, y: pointer.y)
+                                    })
+                                }
+                            )
+                        
                         VStack {
                             Button {
                                 if isLongPressing {
@@ -594,76 +616,51 @@ struct PixelDrawView: View {
                                         })
                                     }
                                 )
-                            HStack {
-                                Button {
-                                    if isLongPressing {
-                                        isLongPressing = false
-                                        timer?.invalidate()
+                            
+                            Button {
+                                if isLongPressing {
+                                    isLongPressing = false
+                                    timer?.invalidate()
+                                }
+                                pointer = .init(x: pointer.x, y: pointer.y + 1)
+                            } label: {
+                                Image("arrow_down")
+                                    .resizable()
+                                    .frame(width: 50, height: 50, alignment: .center)
+                            }.frame(width: 50, height: 50, alignment: .center)
+                                .simultaneousGesture(
+                                    LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                        print("long press")
+                                        self.isLongPressing = true
+                                        //or fastforward has started to start the timer
+                                        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                            pointer = .init(x: pointer.x, y: pointer.y + 1)
+                                        })
                                     }
-                                    pointer = .init(x: pointer.x - 1, y: pointer.y)
-                                } label: {
-                                    Image("arrow_left")
-                                        .resizable()
-                                        .frame(width: 50, height: 50, alignment: .center)
-                                }.frame(width: 50, height: 50, alignment: .center)
-                                    .simultaneousGesture(
-                                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                            print("long press")
-                                            self.isLongPressing = true
-                                            //or fastforward has started to start the timer
-                                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                                pointer = .init(x: pointer.x - 1, y: pointer.y)
-                                            })
-                                        }
-                                    )
-                                
-                                Button {
-                                    if isLongPressing {
-                                        isLongPressing = false
-                                        timer?.invalidate()
-                                    }
-                                    pointer = .init(x: pointer.x, y: pointer.y + 1)
-                                } label: {
-                                    Image("arrow_down")
-                                        .resizable()
-                                        .frame(width: 50, height: 50, alignment: .center)
-                                }.frame(width: 50, height: 50, alignment: .center)
-                                    .simultaneousGesture(
-                                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                            print("long press")
-                                            self.isLongPressing = true
-                                            //or fastforward has started to start the timer
-                                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                                pointer = .init(x: pointer.x, y: pointer.y + 1)
-                                            })
-                                        }
-                                    )
-                                
-                                Button {
-                                    if isLongPressing {
-                                        isLongPressing = false
-                                        timer?.invalidate()
-                                    }
-                                    pointer = .init(x: pointer.x + 1, y: pointer.y)
-                                } label: {
-                                    Image("arrow_right")
-                                        .resizable()
-                                        .frame(width: 50, height: 50, alignment: .center)
-                                }.frame(width: 50, height: 50, alignment: .center)
-                                    .simultaneousGesture(
-                                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                            print("long press")
-                                            self.isLongPressing = true
-                                            //or fastforward has started to start the timer
-                                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                                pointer = .init(x: pointer.x + 1, y: pointer.y)
-                                            })
-                                        }
-                                    )
-                            }
+                                )
                         }
                         
-                        
+                        Button {
+                            if isLongPressing {
+                                isLongPressing = false
+                                timer?.invalidate()
+                            }
+                            pointer = .init(x: pointer.x + 1, y: pointer.y)
+                        } label: {
+                            Image("arrow_right")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                    print("long press")
+                                    self.isLongPressing = true
+                                    //or fastforward has started to start the timer
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                        pointer = .init(x: pointer.x + 1, y: pointer.y)
+                                    })
+                                }
+                            )
                         
                         //MARK: - redo
                         Button {
