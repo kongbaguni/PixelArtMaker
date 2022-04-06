@@ -142,44 +142,53 @@ class StageManager {
             
             
             
-            
-            if let documentPath = self.stage?.documentId {
-                FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png, uploadURL: "preview/\(documentPath)") { downloadURL, error in
-                    data["imageURL"] = downloadURL?.absoluteString ?? ""
-                    
-                    if asNewForce == false {
-                        let d = collection.document(documentPath)
-                        d.updateData(data) {[self] error in
-                            print(error?.localizedDescription ?? "업로드 성공")
-                            loadList { [self] result in
-                                saveTemp (documentId: documentPath, complete: { tmpError in
-                                    DispatchQueue.main.async {
-                                        complete(error)
-                                    }
-                                })
+            if asNewForce == false {
+                if let documentPath = self.stage?.documentId {
+                    FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png, uploadURL: "previews/\(documentPath)") { downloadURL, error in
+                        data["imageURL"] = downloadURL?.absoluteString ?? ""
+                        
+                            let d = collection.document(documentPath)
+                            d.updateData(data) {[self] error in
+                                print(error?.localizedDescription ?? "업로드 성공")
+                                loadList { [self] result in
+                                    saveTemp (documentId: documentPath, complete: { tmpError in
+                                        DispatchQueue.main.async {
+                                            complete(error)
+                                        }
+                                    })
+                                }
                             }
-                        }
-                        return
                     }
+                    return
+                }
+            }
+            
+            data["regDt"] = Date().timeIntervalSince1970
+            collection.addDocument(data: data) {[self] error in
+                print(error?.localizedDescription ?? "업로드 성공")
+                loadList { [self] result in
+                    let documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last!.documentId
+                    stage.documentId = documentId
                     
-                    data["regDt"] = Date().timeIntervalSince1970
-                    collection.addDocument(data: data) {[self] error in
-                        print(error?.localizedDescription ?? "업로드 성공")
-                        loadList { [self] result in
-                            stage.documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last?.documentId
-                            
+                    FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png, uploadURL: "previews/\(documentId)") {
+                        downloadURL, error in
+                        data["imageURL"] = downloadURL?.absoluteString ?? ""
+                        
+                        let d = collection.document(documentId)
+                        d.updateData(data) { [self] error in
                             saveTemp(documentId: stage.documentId, complete: { tmeError in
                                 DispatchQueue.main.async {
                                     complete(error)
                                 }
                             })
-                            
+
                         }
+                        
                     }
                     
                 }
-                
             }
+
            
             
         }
@@ -305,6 +314,13 @@ class StageManager {
         }
         
         DispatchQueue.global().async {[self] in
+            FirebaseStorageHelper.shared.delete(deleteURL: "shareImages/\(id)") { error in
+                FirebaseStorageHelper.shared.delete(deleteURL: "previews/\(id)") { error in
+                    
+                }
+            }
+
+            
             let document = fireStore.collection("pixelarts").document(uid).collection("data").document(id)
             document.delete { [self] error in
                 if error == nil {

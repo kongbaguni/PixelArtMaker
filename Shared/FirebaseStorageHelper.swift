@@ -62,4 +62,11 @@ class FirebaseStorageHelper {
             complete(nil, snapshot.error)
         }
     }
+    
+    func delete(deleteURL:String, complete:@escaping(_ error:Error?)->Void) {
+        let ref = storageRef.child(deleteURL)
+        ref.delete { error in
+            complete(error)
+        }
+    }
 }
