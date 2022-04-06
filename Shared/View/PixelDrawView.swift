@@ -555,12 +555,7 @@ struct PixelDrawView: View {
                             StageManager.shared.saveTemp { error in
                                 toastMessage = error?.localizedDescription ?? ""
                                 isShowToast = error != nil
-                            }
-                            
-                            if isLongPressing {
-                                isLongPressing = false
-                                timer?.invalidate()
-                            }
+                            }                            
                         } label: {
                             VStack {
                                 Text("undo")
@@ -574,16 +569,6 @@ struct PixelDrawView: View {
                             }
                         }
                         .frame(width: 50, height: 50, alignment: .center)
-                        .simultaneousGesture(
-                            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                print("long press")
-                                self.isLongPressing = true
-                                //or fastforward has started to start the timer
-                                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                    StageManager.shared.stage?.undo()
-                                })
-                            }
-                        )
                         .padding(20)
                         
                         //MARK: - 화살표 컨트롤러
@@ -687,11 +672,7 @@ struct PixelDrawView: View {
                                 toastMessage = error?.localizedDescription ?? ""
                                 isShowToast = error != nil
                             }
-                            
-                            if isLongPressing {
-                                isLongPressing = false
-                                timer?.invalidate()
-                            }
+                                        
                         } label: {
                             VStack {
                                 Text("redo")
@@ -706,16 +687,6 @@ struct PixelDrawView: View {
                             }
                         }
                         .frame(width: 50, height: 50, alignment: .center)
-                        .simultaneousGesture(
-                            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                print("long press")
-                                self.isLongPressing = true
-                                //or fastforward has started to start the timer
-                                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                    StageManager.shared.stage?.redo()
-                                })
-                            }
-                        )
                         .padding(20)
                     }
                     
