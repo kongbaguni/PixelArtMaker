@@ -34,7 +34,7 @@ struct PublicShareListView: View {
     }
     
     var pwidth:CGFloat {
-        switch list.count {
+        switch idlist.count {
         case 1:
             return width1
         case 2:
@@ -46,9 +46,9 @@ struct PublicShareListView: View {
     
     @State var isShowToast = false
     @State var toastMessage:String = ""
-    @State var list:[SharedStageModel] = [] {
+    @State var idlist:[String] = [] {
         didSet {
-            switch list.count {
+            switch idlist.count {
             case 0:
                 gridItems = []
             case 1:
@@ -96,7 +96,7 @@ struct PublicShareListView: View {
             }
 
 
-            if list.count == 0 {
+            if idlist.count == 0 {
                 Text("empty public shard list message")
             }
             else {
@@ -115,8 +115,9 @@ struct PublicShareListView: View {
                         }
                         
                         LazyVGrid(columns: gridItems, spacing:20) {
-                            ForEach(list, id:\.self) { model in
-                                if let imageURL = model.imageURLvalue {
+                            ForEach(idlist, id:\.self) { id in
+                                if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id),
+                                    let imageURL = model.imageURLvalue {
                                     Button {
                                         pictureId = model.id
                                         isShowPictureDetail = true
@@ -171,11 +172,15 @@ struct PublicShareListView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {[self] in
                 isLoading = false
             }
-            list = dblist.reversed()
+            idlist = dblist.reversed().map({ model in
+                return model.id
+            })
             toastMessage = error?.localizedDescription ?? ""
             isShowToast = error != nil
         }
-        list = dblist.reversed()
+        idlist = dblist.reversed().map({ model in
+            return model.id
+        })
     }
 }
 

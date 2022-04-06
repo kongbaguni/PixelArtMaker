@@ -10,6 +10,7 @@ import RealmSwift
 import UIKit
 import FirebaseFirestore
 
+
 class SharedStageModel : Object {
     @Persisted(primaryKey: true) var id:String = ""
     @Persisted var documentId:String = ""
@@ -20,8 +21,7 @@ class SharedStageModel : Object {
     @Persisted var updateDt:TimeInterval = 0.0
     @Persisted var deleted:Bool = false
     @Persisted var likeUids:String = ""
-    @Persisted var likeCount:Int = 0
-
+    @Persisted var likeCount:Int = 0    
     
     var imageURLvalue:URL? {
         URL(string: imageUrl)
