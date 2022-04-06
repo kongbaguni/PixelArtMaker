@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealmSwift
+import SDWebImageSwiftUI
 
 fileprivate let width1 = screenBounds.width - 10
 fileprivate let width2 = screenBounds.width / 2 - 10
@@ -115,14 +116,14 @@ struct PublicShareListView: View {
                         
                         LazyVGrid(columns: gridItems, spacing:20) {
                             ForEach(list, id:\.self) { model in
-                                if let image = model.imageValue {
+                                if let imageURL = model.imageURLvalue {
                                     Button {
                                         pictureId = model.id
                                         isShowPictureDetail = true
                                     } label: {
                                         VStack {
                                             ZStack {
-                                                Image(uiImage: image)
+                                                WebImage(url:imageURL)
                                                     .resizable()
                                                     .frame(width: pwidth, height: pwidth, alignment: .center)
                                                 

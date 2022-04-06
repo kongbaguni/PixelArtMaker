@@ -15,19 +15,18 @@ class SharedStageModel : Object {
     @Persisted var documentId:String = ""
     @Persisted var uid:String = ""
     @Persisted var email:String = ""
-    @Persisted var image:String = ""
+    @Persisted var imageUrl:String = ""
     @Persisted var regDt:TimeInterval = 0.0
     @Persisted var updateDt:TimeInterval = 0.0
     @Persisted var deleted:Bool = false
     @Persisted var likeUids:String = ""
     @Persisted var likeCount:Int = 0
 
-    var imageValue:UIImage? {
-        if let d = Data(base64Encoded: image) {
-            return UIImage(data: d)
-        }
-        return nil
+    
+    var imageURLvalue:URL? {
+        URL(string: imageUrl)
     }
+    
     
     var regDate:Date {
         Date(timeIntervalSince1970: regDt)

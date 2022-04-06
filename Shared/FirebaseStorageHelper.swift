@@ -13,14 +13,17 @@ import FirebaseFirestore
 
 
 class FirebaseStorageHelper {
+    static let shared = FirebaseStorageHelper()
+    
     let storageRef = Storage.storage().reference()
     enum ContentType:String {
         case png = "image/png"
         case jpeg = "image/jpeg"
     }
-    func uploadImage(url:URL, contentType:ContentType, uploadURL:String, complete:@escaping(_ downloadURL:URL?)->Void) {
+    
+    func uploadImage(url:URL, contentType:ContentType, uploadURL:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
         guard var data = try? Data(contentsOf: url) else {
-            complete(nil)
+            complete(nil, nil)
             return
         }
         switch contentType {
@@ -39,7 +42,7 @@ class FirebaseStorageHelper {
     }
 
     
-    func uploadData(data:Data, contentType:ContentType, uploadURL:String, complete:@escaping(_ downloadURL:URL?)->Void) {
+    func uploadData(data:Data, contentType:ContentType, uploadURL:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
         let ref:StorageReference = storageRef.child(uploadURL)
         let metadata = StorageMetadata()
         metadata.contentType = contentType.rawValue
@@ -51,11 +54,12 @@ class FirebaseStorageHelper {
                         if (downloadUrl != nil) {
                             print(downloadUrl?.absoluteString ?? "없다")
                         }
-                        complete(downloadUrl)
+                        complete(downloadUrl, nil)
                     }
                 }
-        task.observe(.failure) { (_) in
-            complete(nil)
+        task.observe(.failure) { snapshot in
+            
+            complete(nil, snapshot.error)
         }
     }
 }

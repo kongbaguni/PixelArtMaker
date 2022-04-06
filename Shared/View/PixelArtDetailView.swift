@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealmSwift
+import SDWebImageSwiftUI
 
 struct PixelArtDetailView: View {
     let pid:String
@@ -41,11 +42,11 @@ struct PixelArtDetailView: View {
         ScrollView {
             if let m = model {
                 ProfileView(m.uid)
-                if let img = m.imageValue {
+                if let imgUrl = m.imageURLvalue {
                     Button {
                         toggleLike()
                     } label: {
-                        Image(uiImage: img)
+                        WebImage(url:imgUrl)
                             .resizable()
                             .frame(width: screenBounds.width - 20, height: screenBounds.width - 20, alignment: .center)
 
@@ -71,7 +72,7 @@ struct PixelArtDetailView: View {
                         }
                     }
                     
-                    if let img = m.imageValue?.pngData() {
+                    if let img = m.imageURLvalue {
                         Button {
                             googleAd.showAd { isSucess in
                                 if isSucess {
