@@ -106,7 +106,6 @@ struct InAppPurchesView: View {
 
             }
         })
-        .animation(.easeInOut, value: isLoading)
         .listStyle(SidebarListStyle())
         .navigationTitle(Text("subscribe"))
         .onAppear {
