@@ -27,16 +27,35 @@ struct ArtListView: View {
         .init(.fixed(width3)),
     ]
     @State var sortIndex:Int = 0
+    @State var isAnimate:Bool = false
+    
     var sort:Sort.SortType {
         return Sort.SortType.allCases[sortIndex]
     }
         
+    var profile:ProfileModel? {
+        return ProfileModel.findBy(uid: uid)
+    }
+    
     let uid:String
     init(_ uid:String) {
         self.uid = uid
     }
     var body: some View {
         ScrollView {
+            Picker(selection:$sortIndex, label:Text("sort")) {
+                ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
+                    let type = Sort.SortType.allCases[idx]
+                    Sort.getText(type: type)
+                }
+            }.onChange(of: sortIndex) { newValue in
+                ids = reloadFromLocalDb()
+                isAnimate = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+                    isAnimate = false
+                }
+            }
+            
             LazyVGrid(columns: gridItems, spacing:20) {
                 ForEach(ids, id:\.self) { id in
                     if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
@@ -53,6 +72,8 @@ struct ArtListView: View {
                 }
             }
         }
+        .navigationTitle(Text(profile?.nickname ?? "unknown people"))
+        .animation(.easeInOut, value: isAnimate)
         .onAppear {
             getListFromFirestore { ids, error in
                 if let err = error {
@@ -62,6 +83,7 @@ struct ArtListView: View {
                 self.ids = ids
             }
         }
+        
         .toast(message: toastMessage, isShowing: $isShowToast,duration: 4)
     }
     
