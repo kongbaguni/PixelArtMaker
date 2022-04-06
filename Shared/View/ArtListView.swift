@@ -50,10 +50,6 @@ struct ArtListView: View {
                 }
             }.onChange(of: sortIndex) { newValue in
                 ids = reloadFromLocalDb()
-                isAnimate = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
-                    isAnimate = false
-                }
             }
             
             LazyVGrid(columns: gridItems, spacing:20) {
@@ -61,7 +57,7 @@ struct ArtListView: View {
                     if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
                         
                         NavigationLink(destination: {
-                            PixelArtDetailView(id: id)
+                            PixelArtDetailView(id: id, showProfile: false)
                         }, label: {
                             WebImage(url: model.imageURLvalue)
                                 .placeholder(.imagePlaceHolder)
@@ -121,6 +117,10 @@ struct ArtListView: View {
         let ids = (result?.reversed() ?? []).map({ model in
             return model.id
         })
+        isAnimate = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+            isAnimate = false
+        }
         return ids
     }
 }

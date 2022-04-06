@@ -20,9 +20,11 @@ struct PixelArtDetailView: View {
     @State var isMyLike:Bool = false
     @State var likeCount:Int = 0
     let googleAd = GoogleAd()
+    let showProfile:Bool
     
-    init(id:String) {
+    init(id:String, showProfile:Bool = true) {
         pid = id
+        self.showProfile = showProfile
     }
     private func toggleLike() {
         model?.likeToggle(complete: {isMyLike, error in
@@ -41,7 +43,9 @@ struct PixelArtDetailView: View {
     var body: some View {
         ScrollView {
             if let m = model {
-                ProfileView(m.uid)
+                if isShowToast {
+                    ProfileView(m.uid)
+                }
                 if let imgUrl = m.imageURLvalue {
                     Button {
                         toggleLike()
