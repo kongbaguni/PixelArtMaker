@@ -360,7 +360,7 @@ class StageManager {
         let collection = fireStore.collection("public")
         let now = Date().timeIntervalSince1970
         
-        FirebaseStorageHelper.shared.uploadData(data: image, contentType: .png, uploadURL: id) { downloadURL, error in
+        FirebaseStorageHelper.shared.uploadData(data: image, contentType: .png, uploadURL: "shareImages/\(id)") { downloadURL, error in
             if let err = error {
                 complete(err)
                 return
