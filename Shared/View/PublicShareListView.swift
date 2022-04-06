@@ -90,7 +90,7 @@ struct PublicShareListView: View {
         VStack {
             //MARK: - Navigation
             NavigationLink(isActive: $isShowPictureDetail) {
-                PixelArtDetailView(id:pictureId)
+                PixelArtDetailView(id:pictureId, showProfile: true)
             } label: {
                 
             }
