@@ -26,7 +26,11 @@ struct ArtListView: View {
         .init(.fixed(width3)),
         .init(.fixed(width3)),
     ]
-    
+    @State var sortIndex:Int = 0
+    var sort:Sort.SortType {
+        return Sort.SortType.allCases[sortIndex]
+    }
+        
     let uid:String
     init(_ uid:String) {
         self.uid = uid
@@ -62,20 +66,40 @@ struct ArtListView: View {
     }
     
     private func getListFromFirestore(complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
-        collection.whereField("uid", isEqualTo: uid).order(by: "updateDt").getDocuments { snapShot, error in
-            let realm = try! Realm()
-            realm.beginWrite()
-            var ids:[String] = []
-            for doc in snapShot?.documents ?? [] {
-                let data = doc.data()
-                if let id = data["id"] as? String {
-                    ids.append(id)
-                    realm.create(SharedStageModel.self, value: data, update: .modified)
+        collection
+            .whereField("uid", isEqualTo: uid)
+            .getDocuments { snapShot, error in
+                let realm = try! Realm()
+                realm.beginWrite()
+                for doc in snapShot?.documents ?? [] {
+                    let data = doc.data()
+                    if let id = data["id"] as? String {
+                        ids.append(id)
+                        realm.create(SharedStageModel.self, value: data, update: .modified)
+                    }
                 }
+                try! realm.commitWrite()
+                print(error?.localizedDescription ?? "성공")
+                complete(reloadFromLocalDb(), error)
             }
-            try! realm.commitWrite()
-            complete(ids, error)
+    }
+    
+    func reloadFromLocalDb()->[String] {
+        let db = try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false)
+
+        var result:Results<SharedStageModel>? = nil
+        switch sort {
+        case .latestOrder:
+            result =  db.sorted(byKeyPath: "updateDt", ascending: true)
+        case .oldnet:
+            result = db.sorted(byKeyPath: "updateDt", ascending: false)
+        case .like:
+            result = db.sorted(byKeyPath: "likeCount", ascending: true)
         }
+        let ids = (result?.reversed() ?? []).map({ model in
+            return model.id
+        })
+        return ids
     }
 }
 
