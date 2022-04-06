@@ -15,6 +15,7 @@ struct SigninView: View {
     var body: some View {
         VStack {
             if AuthManager.shared.isSignined == false {
+                
                 Button {
                     AuthManager.shared.startSignInWithAppleFlow { loginSucess in
                         if loginSucess {

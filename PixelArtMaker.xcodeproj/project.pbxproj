@@ -33,6 +33,10 @@
 		1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25D27E3288E007A73CB /* SaveView.swift */; };
 		1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
+		8DF55C4327FD498300D68EB1 /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */; };
+		8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */; };
+		8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */; };
+		8DF55C4A27FD49FF00D68EB1 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4927FD49FF00D68EB1 /* FirebaseStorageSwift-Beta */; };
 		C3011EFF27EDA544001B12AC /* Pods_PixelArtMaker__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */; };
 		C3011F4627EF4068001B12AC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F4527EF4067001B12AC /* ActivityIndicator.swift */; };
 		C3011F5127F039E1001B12AC /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = C3011F5027F039E1001B12AC /* Realm */; };
@@ -110,6 +114,7 @@
 		1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPresetView.swift; sourceTree = "<group>"; };
 		28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixelArtMaker__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		C3011F4127EF21B1001B12AC /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
 		C3011F4527EF4067001B12AC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C3011F5427F0495B001B12AC /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
@@ -153,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3EDBF2827F88FE500BBEC01 /* SDWebImageSwiftUI in Frameworks */,
+				8DF55C4A27FD49FF00D68EB1 /* FirebaseStorageSwift-Beta in Frameworks */,
 				C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */,
 				1BF1B25027E2CC28007A73CB /* FirebaseCrashlytics in Frameworks */,
 				C3DBA08927EC99C200FE8392 /* FirebasePerformance in Frameworks */,
@@ -164,9 +170,11 @@
 				C356363D27FAC2F700B2609A /* SwiftyStoreKit in Frameworks */,
 				1BF1B25227E2CC28007A73CB /* FirebaseFirestore in Frameworks */,
 				C3DBA08727EC99C200FE8392 /* FirebaseCrashlytics in Frameworks */,
+				8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */,
 				C3011EFF27EDA544001B12AC /* Pods_PixelArtMaker__iOS_.framework in Frameworks */,
 				1BF1B25827E2CC28007A73CB /* FirebasePerformance in Frameworks */,
 				C356363427F9AE7400B2609A /* SideMenu in Frameworks */,
+				8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */,
 				1BF1B24C27E2CC28007A73CB /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,6 +234,7 @@
 				C365E19227C36CC400154E56 /* Localizable.strings */,
 				1B28C3AF27BE100F003F8312 /* Assets.xcassets */,
 				C320338927C3895E0019B546 /* Colors.xcassets */,
+				8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -353,6 +362,9 @@
 				C3EDBF2727F88FE500BBEC01 /* SDWebImageSwiftUI */,
 				C356363327F9AE7400B2609A /* SideMenu */,
 				C356363C27FAC2F700B2609A /* SwiftyStoreKit */,
+				8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */,
+				8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */,
+				8DF55C4927FD49FF00D68EB1 /* FirebaseStorageSwift-Beta */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -414,6 +426,7 @@
 				C3EDBF2627F88FE400BBEC01 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				C356363227F9AE7300B2609A /* XCRemoteSwiftPackageReference "SideMenu" */,
 				C356363B27FAC2F500B2609A /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */,
+				8DF55C4427FD49FF00D68EB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -493,6 +506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DF55C4327FD498300D68EB1 /* FirebaseStorageHelper.swift in Sources */,
 				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
 				1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */,
 				C356364527FAC73A00B2609A /* InAppPurchesView.swift in Sources */,
@@ -842,6 +856,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		8DF55C4427FD49FF00D68EB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		C3011F4F27F039E1001B12AC /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -935,6 +957,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebasePerformance;
+		};
+		8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
+		};
+		8DF55C4927FD49FF00D68EB1 /* FirebaseStorageSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageSwift-Beta";
 		};
 		C3011F5027F039E1001B12AC /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
