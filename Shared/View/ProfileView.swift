@@ -32,7 +32,7 @@ struct ProfileView: View {
             VStack {
                 HStack {
                     Text("email")
-                        .bold()
+                        .font(.system(size: 10, weight: .heavy, design: .serif))
                         .padding(5)
                     Button {
                         let urlstr = "mailto:\(email)"
@@ -41,14 +41,17 @@ struct ProfileView: View {
                         }
                     } label : {
                         Text(email)
+                            .font(.system(size: 10, weight: .light, design: .serif))
                     }
                     Spacer()
                 }
                 HStack {
                     Text("name")
-                        .bold()
+                        .font(.system(size: 10, weight: .heavy, design: .serif))
                         .padding(5)
                     Text(nickname)
+                        .font(.system(size: 10, weight: .light, design: .serif))
+                        .foregroundColor(.gray)
                     Spacer()
                 }
             }
