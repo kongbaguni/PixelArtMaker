@@ -25,7 +25,7 @@ struct ProfileView: View {
         HStack {
             if let url = imageURL {
                 WebImage(url: url)
-                    .placeholder(Image("profilePlaceholder"))
+                    .placeholder(.profilePlaceHolder)
                     .resizable()
                     .frame(width: 100, height: 100, alignment: .center)
             }
@@ -52,6 +52,15 @@ struct ProfileView: View {
                     Text(nickname)
                         .font(.system(size: 10, weight: .light, design: .serif))
                         .foregroundColor(.gray)
+                    Spacer()
+                }
+                HStack {
+                    NavigationLink(destination: ArtListView(uid)) {
+                        Text("art list")
+                            .padding(5)
+                            .font(.system(size: 10, weight: .heavy, design: .serif))
+
+                    }
                     Spacer()
                 }
             }

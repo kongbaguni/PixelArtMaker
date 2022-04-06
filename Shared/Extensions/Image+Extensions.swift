@@ -10,6 +10,8 @@ import SwiftUI
 import UIKit
 
 extension Image {
+    static let imagePlaceHolder = Image("placeHolder")
+    static let profilePlaceHolder = Image("profilePlaceholder")
     public init?(totalColors:[[[Color]]], blendModes:[CGBlendMode], backgroundColor: Color, size:CGSize) {
         let image = UIImage(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor, size: size)!
         self.init(uiImage: image)
