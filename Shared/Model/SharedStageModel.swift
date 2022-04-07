@@ -12,6 +12,17 @@ import FirebaseFirestore
 
 
 class SharedStageModel : Object {
+    struct ThreadSafeModel {
+        let id:String
+        let uid:String
+        let documentId:String
+        let email:String
+        let imageURL:URL
+        let regDt:Date
+        let updateDt:Date
+        let likeCount:Int
+        let isMyLike:Bool
+    }
     @Persisted(primaryKey: true) var id:String = ""
     @Persisted var documentId:String = ""
     @Persisted var uid:String = ""
@@ -51,6 +62,17 @@ class SharedStageModel : Object {
             return false
         }
         return likeUserIdsSet.firstIndex(of: uid) != nil
+    }
+    
+    var threadSafeModel:ThreadSafeModel {
+        .init(id: id,
+              uid: uid,
+              documentId: documentId,
+              email: email,
+              imageURL: URL(string: imageUrl)!,
+              regDt: Date(timeIntervalSince1970: regDt),
+              updateDt: Date(timeIntervalSince1970: updateDt),
+              likeCount: likeCount, isMyLike: isMyLike)
     }
     
 }
@@ -100,6 +122,20 @@ extension SharedStageModel {
                     complete(result ,error)
                 }
             }
+        }
+    }
+    
+    
+    static func findBy(id:String,complete:@escaping(_ error:Error?)->Void) {
+        collection.document(id).getDocument { snapShot, error in
+            if var data = snapShot?.data() {
+                data["id"] = id
+                let realm = try! Realm()
+                realm.beginWrite()
+                realm.create(SharedStageModel.self, value: data, update: .modified)
+                try! realm.commitWrite()
+            }
+            complete(error)
         }
     }
 }
