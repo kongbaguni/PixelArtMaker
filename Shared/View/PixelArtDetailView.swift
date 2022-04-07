@@ -66,6 +66,15 @@ struct PixelArtDetailView: View {
                     LabelTextView(label: "update dt", text: m.updateDt.formatted(date: .long, time: .standard))
                 }.padding(10)
 
+                if m.uid == AuthManager.shared.userId {
+                    Button {
+                        ProfileModel.findBy(uid: m.uid)?.updatePhoto(photoURL: m.imageURL.absoluteString, complete: { error in
+                            
+                        })
+                    } label : {
+                        OrangeTextView(Text("Set as Profile Image"))
+                    }
+                }
                 HStack {
                     Button {
                         toggleLike()
