@@ -74,6 +74,7 @@ struct InAppPurchesView: View {
             if let url = Bundle.main.url(forResource: "HTML/term", withExtension: "html") {
                 NavigationLink {
                     WebView(url: url)
+                        .navigationBarTitle(Text("term"))
                 } label: {
                     Text("term")
                 }
@@ -82,6 +83,7 @@ struct InAppPurchesView: View {
             if let url = Bundle.main.url(forResource: "HTML/privacyPolicy", withExtension: "html") {
                 NavigationLink {
                     WebView(url: url)
+                        .navigationBarTitle(Text("privacyPolicy"))
                 } label: {
                     Text("privacyPolicy")
                 }
@@ -96,12 +98,13 @@ struct InAppPurchesView: View {
                             if InAppPurchaseModel.isSubscribe {
                                 alertType = .구입복원_구매내역있음
                                 isShowAlert = true
+                                isSubscribe = true
                                 return
                             }
                         }
                         alertType = .구입복원_구매내역없음
                         isShowAlert = true
-                        self.isSubscribe = InAppPurchaseModel.isSubscribe
+                        isSubscribe = InAppPurchaseModel.isSubscribe
                         
                     }
                 } label: {

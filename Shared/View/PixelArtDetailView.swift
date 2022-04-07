@@ -15,7 +15,7 @@ struct PixelArtDetailView: View {
     var model:SharedStageModel? {
         return try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: pid)
     }
-    
+    @State var isProfileImage = false
     @State var tmodel:SharedStageModel.ThreadSafeModel? = nil
     @State var isShowToast = false
     @State var toastMessage = ""
@@ -66,10 +66,10 @@ struct PixelArtDetailView: View {
                     LabelTextView(label: "update dt", text: m.updateDt.formatted(date: .long, time: .standard))
                 }.padding(10)
 
-                if m.uid == AuthManager.shared.userId {
+                if m.uid == AuthManager.shared.userId && isProfileImage == false  {
                     Button {
                         ProfileModel.findBy(uid: m.uid)?.updatePhoto(photoURL: m.imageURL.absoluteString, complete: { error in
-                            
+                            isProfileImage = true
                         })
                     } label : {
                         OrangeTextView(Text("Set as Profile Image"))
@@ -124,7 +124,9 @@ struct PixelArtDetailView: View {
             tmodel = model.threadSafeModel
             isMyLike = model.isMyLike
             likeCount = model.likeCount
+            isProfileImage = model.imageUrl == ProfileModel.findBy(uid: model.uid)?.profileURL
         }
+        
     }
 
 }

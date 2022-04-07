@@ -73,6 +73,7 @@ struct InAppPurchase {
                         }
                     }
                     complete(true)
+                    
                 case .error(let error):
                     print(error.localizedDescription)
                     complete(false)

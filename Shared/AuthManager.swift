@@ -24,6 +24,13 @@ class AuthManager : NSObject {
         return auth.currentUser?.uid
     }
     
+    var profileModel:ProfileModel? {
+        if let id = userId {
+            return ProfileModel.findBy(uid: id)
+        }
+        return nil
+    }
+    
     var isSignined:Bool {
         return auth.currentUser != nil
     }
