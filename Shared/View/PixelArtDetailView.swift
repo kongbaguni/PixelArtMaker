@@ -8,6 +8,7 @@
 import SwiftUI
 import RealmSwift
 import SDWebImageSwiftUI
+import Alamofire
 
 struct PixelArtDetailView: View {
     let pid:String
@@ -68,12 +69,8 @@ struct PixelArtDetailView: View {
                         toggleLike()
                     } label: {
                         HStack {
-                            if isMyLike {
-                                Image("heart_red")
-                            } else {
-                                Image("heart_gray")
-                            }
-                            Text("\(likeCount)")
+                            Image(isMyLike ? "heart_red" : "heart_gray")
+                            Text(likeCount.formatted(.number))
                         }
                     }
                     

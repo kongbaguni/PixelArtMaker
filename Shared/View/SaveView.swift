@@ -61,7 +61,12 @@ struct SaveView: View {
                 if let id = sharedId {
                     HStack {
                         Text("sharedId")
-                        TagView(Text(id))
+                        NavigationLink {
+                            PixelArtDetailView(id: id, showProfile: false)
+                        } label: {
+                            TagView(Text(id))
+                        }
+
                     }
                 }
                 

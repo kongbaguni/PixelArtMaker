@@ -14,64 +14,49 @@ struct SigninView: View {
     
     var body: some View {
         VStack {
+            Image.imagePlaceHolder
+            Text("Signin title")
+                .font(.system(size: 20, weight: .heavy, design: .serif))
+                .padding(10)
+            Text("Signin desc")
+                .font(.system(size: 10,weight: .regular, design: .serif))
+                .foregroundColor(.gray)
+                .padding(10)
+            Spacer()
             if AuthManager.shared.isSignined == false {
-                
-                Button {
-                    AuthManager.shared.startSignInWithAppleFlow { loginSucess in
-                        if loginSucess {
-                            ProfileModel.downloadProfile { error in
-                                presentationMode.wrappedValue.dismiss()
+                //MARK: - Apple 로 로그인
+                SignInWithAppleButton()
+                    .frame(height:50)
+                    .onTapGesture {
+                        AuthManager.shared.startSignInWithAppleFlow { loginSucess in
+                            if loginSucess {
+                                ProfileModel.downloadProfile { error in
+                                    presentationMode.wrappedValue.dismiss()
+                                }
                             }
                         }
                     }
-                } label: {
-                    Text("Apple 로 로그인")
-                }
-                
-                Button {
-                    AuthManager.shared.startSignInWithGoogleId { loginSucess in
-                        if loginSucess {
-                            ProfileModel.downloadProfile { error in
-                                presentationMode.wrappedValue.dismiss()
+                    .padding(10)
+                //MARK: - Google 로 로그인
+                SignInWithGoogleButton()
+                    .frame(height:80)
+                    .padding(8)
+                    .onTapGesture {
+                        AuthManager.shared.startSignInWithGoogleId { loginSucess in
+                            if loginSucess {
+                                ProfileModel.downloadProfile { error in
+                                    presentationMode.wrappedValue.dismiss()
+                                }
                             }
                         }
                     }
-                } label: {
-                    Text("Google ID 로 로그인")
-                }
                 
-                Button {
-                    AuthManager.shared.startSignInAnonymously { loginSucess in
-                        if loginSucess {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }
-                } label: {
-                    Text("익명 로그인")
-                }
-            } else {
-                Button {
-                    do {
-                        try AuthManager.shared.auth.signOut()
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                } label: {
-                    Text("로그아웃")
-                }
+
             }
 
         }.onAppear {
-            if AuthManager.shared.auth.currentUser == nil {
-                print("로그인 안했다")
-            }
-            else {
-                print("로그인 했다")
-            }
-        }.onDisappear {
             if let user = AuthManager.shared.auth.currentUser {
                 if ProfileModel.currentUser == nil {
-                    
                     ProfileModel.updateProfile(nickname: user.displayName ?? "",
                                                profileURL: user.photoURL?.absoluteString ?? "",
                                                email: user.email ?? "" ) { error in
@@ -79,6 +64,9 @@ struct SigninView: View {
                     }
                 }
             }
+
+        }.onDisappear {
+
         }
         
     }
