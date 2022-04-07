@@ -28,7 +28,12 @@ struct ProfileView: View {
                     .placeholder(.profilePlaceHolder)
                     .resizable()
                     .frame(width: 100, height: 100, alignment: .center)
+            } else {
+                Image.profilePlaceHolder
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .center)
             }
+            
             VStack {
                 HStack {
                     Text("email")
