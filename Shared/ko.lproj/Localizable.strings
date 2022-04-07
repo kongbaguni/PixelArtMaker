@@ -83,3 +83,10 @@
 "update dt" = "갱신 시각";
 
 "unknown people" = "모르는 이";
+
+"Signin title" = "로그인";
+"Signin desc" = "로그인을 하면 작업한 그림을 저장하거나 다른사람과 공유 할 수 있습니다.";
+
+"Set as Profile Image" = "프로필 이미지로 설정하기";
+"term" = "이용약관";
+"privacyPolicy" = "개인정보 처리방침";

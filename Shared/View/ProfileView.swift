@@ -67,6 +67,9 @@ struct ProfileView: View {
         }
         .padding(10)
         .onAppear {
+            NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
+                self.loadData()
+            }
             loadData()
             if uid.isEmpty == false {
                 ProfileModel.findBy(uid: uid) { error in

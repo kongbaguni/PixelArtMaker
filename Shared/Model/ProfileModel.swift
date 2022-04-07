@@ -9,6 +9,10 @@ import Foundation
 import RealmSwift
 import FirebaseFirestore
 
+extension Notification.Name {
+    static let profileDidUpdated = Notification.Name("profileDidUpdated_observer")
+}
+
 class ProfileModel: Object {
     @Persisted(primaryKey: true) var uid:String = ""
     @Persisted var nickname:String = ""
@@ -114,8 +118,34 @@ extension ProfileModel {
                 print(err.localizedDescription)
             }
             DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .profileDidUpdated, object: nil)
                 complete(error)
             }
         }
     }
+    
+    func updatePhoto(photoURL:String, complete:@escaping(_ error:Error?)->Void) {
+        guard let uid = AuthManager.shared.userId else {
+            complete(nil)
+            return
+        }
+
+        let data:[String:String] = [
+            "uid":uid,
+            "profileURL":photoURL,
+        ]
+        collection.document(uid).updateData(data) { error in
+            if error == nil {
+                let realm = try! Realm()
+                realm.beginWrite()
+                realm.create(ProfileModel.self, value: data, update: .modified)
+                try! realm.commitWrite()
+            }
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .profileDidUpdated, object: nil)
+                complete(error)
+            }
+        }        
+    }
+    
 }

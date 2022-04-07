@@ -146,12 +146,15 @@ struct PublicShareListView: View {
                                                 HStack {
                                                     Image(model.isMyLike ? "heart_red" : "heart_gray")
                                                         .padding(5)
-                                                    Text("\(model.likeCount.formatted(.number))")
+                                                    Text(model.likeCount.formatted(.number))
                                                         .font(.system(size: 10))
                                                         .foregroundColor(.k_normalText)
                                                 }
                                             default:
-                                                TagView(Text(model.updateDate.formatted(date: .long, time: .standard )))
+                                                Text(model.updateDate.formatted(date: .long, time: .standard ))
+                                                    .font(.system(size: 10))
+                                                    .foregroundColor(.gray)
+                                                
                                             }
                                             
                                         }

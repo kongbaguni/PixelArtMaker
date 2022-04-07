@@ -8,12 +8,15 @@
 import SwiftUI
 import RealmSwift
 import SDWebImageSwiftUI
+import Alamofire
 
 struct PixelArtDetailView: View {
     let pid:String
     var model:SharedStageModel? {
         return try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: pid)
     }
+    
+    @State var tmodel:SharedStageModel.ThreadSafeModel? = nil
     @State var isShowToast = false
     @State var toastMessage = ""
     @State var profileModel:ProfileModel? = nil
@@ -42,11 +45,11 @@ struct PixelArtDetailView: View {
     
     var body: some View {
         ScrollView {
-            if let m = model {
+            if let m = tmodel {
                 if isShowProfile {
                     ProfileView(m.uid)
                 }
-                if let imgUrl = m.imageURLvalue {
+                if let imgUrl = m.imageURL {
                     Button {
                         toggleLike()
                     } label: {
@@ -59,25 +62,30 @@ struct PixelArtDetailView: View {
                 }
                 VStack {
                     LabelTextView(label: "id", text: pid)
-                    LabelTextView(label: "reg dt", text: m.regDate.formatted(date: .long, time: .standard))
-                    LabelTextView(label: "update dt", text: m.updateDate.formatted(date: .long, time: .standard))
+                    LabelTextView(label: "reg dt", text: m.regDt.formatted(date: .long, time: .standard))
+                    LabelTextView(label: "update dt", text: m.updateDt.formatted(date: .long, time: .standard))
                 }.padding(10)
 
+                if m.uid == AuthManager.shared.userId {
+                    Button {
+                        ProfileModel.findBy(uid: m.uid)?.updatePhoto(photoURL: m.imageURL.absoluteString, complete: { error in
+                            
+                        })
+                    } label : {
+                        OrangeTextView(Text("Set as Profile Image"))
+                    }
+                }
                 HStack {
                     Button {
                         toggleLike()
                     } label: {
                         HStack {
-                            if isMyLike {
-                                Image("heart_red")
-                            } else {
-                                Image("heart_gray")
-                            }
-                            Text("\(likeCount)")
+                            Image(isMyLike ? "heart_red" : "heart_gray")
+                            Text(likeCount.formatted(.number))
                         }
                     }
                     
-                    if let img = m.imageURLvalue {
+                    if let img = m.imageURL {
                         Button {
                             googleAd.showAd { isSucess in
                                 if isSucess {
@@ -92,21 +100,33 @@ struct PixelArtDetailView: View {
                 }
 
             }
+            else {
+                Text("loading")
+            }
         }
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .navigationTitle(Text(pid))
         .onAppear {
             print(pid)
-            if let uid = model?.uid {
-                ProfileModel.findBy(uid: uid) { error in
-                    profileModel = ProfileModel.findBy(uid: uid)
+            if model == nil {
+                SharedStageModel.findBy(id: pid) { error in
+                    load()
                 }
+            } else {
+                load()
             }
-            isMyLike = model?.isMyLike ?? false
-            likeCount = model?.likeCount ?? 0
+        }
+        
+    }
 
+    private func load() {
+        if let model = model {
+            tmodel = model.threadSafeModel
+            isMyLike = model.isMyLike
+            likeCount = model.likeCount
         }
     }
+
 }
 
 struct PixelArtDetailView_Previews: PreviewProvider {

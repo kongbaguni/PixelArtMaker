@@ -67,8 +67,21 @@ struct LoadView: View {
                                     .resizable().frame(width: loadingStart && stages.count == 1 ? width1 : width2,
                                                                               height: loadingStart  && stages.count == 1  ? width1 : width2,
                                                                               alignment: .center)
-                                TagView(Text(stage.documentId))
-                                TagView(Text(stage.updateDt.formatted(date:.long, time: .standard)))
+                                HStack {
+                                    Text("id").font(.system(size: 10))
+                                    Text(stage.documentId)
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                }
+                                HStack {
+                                    Text("update").font(.system(size:10))
+                                    Text(stage.updateDt.formatted(date:.long, time: .standard))
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                }                    
+
                                 Spacer()
                             }.frame(width: loadingStart && stages.count == 1 ? width1 + 10 : width2,
                                     height: loadingStart && stages.count == 1 ? height1 + 10 : height2,

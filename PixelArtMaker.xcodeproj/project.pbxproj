@@ -38,6 +38,11 @@
 		8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */; };
 		8DF55C4A27FD49FF00D68EB1 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4927FD49FF00D68EB1 /* FirebaseStorageSwift-Beta */; };
 		8DF55C5127FD74B800D68EB1 /* ArtListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C5027FD74B800D68EB1 /* ArtListView.swift */; };
+		8DF55C5327FE6D7800D68EB1 /* SigninButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */; };
+		8DF55C5627FE7E9C00D68EB1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C5527FE7E9C00D68EB1 /* Alamofire */; };
+		8DF55C5B27FE9C8100D68EB1 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C5A27FE9C8100D68EB1 /* SwiftyJSON */; };
+		8DF55C5D27FED83D00D68EB1 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C5C27FED83D00D68EB1 /* WebView.swift */; };
+		8DF55C6227FEDB5F00D68EB1 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 8DF55C6127FEDB5E00D68EB1 /* HTML */; };
 		C3011EFF27EDA544001B12AC /* Pods_PixelArtMaker__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */; };
 		C3011F4627EF4068001B12AC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F4527EF4067001B12AC /* ActivityIndicator.swift */; };
 		C3011F5127F039E1001B12AC /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = C3011F5027F039E1001B12AC /* Realm */; };
@@ -117,6 +122,9 @@
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		8DF55C5027FD74B800D68EB1 /* ArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtListView.swift; sourceTree = "<group>"; };
+		8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninButton.swift; sourceTree = "<group>"; };
+		8DF55C5C27FED83D00D68EB1 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		8DF55C6127FEDB5E00D68EB1 /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HTML; sourceTree = "<group>"; };
 		C3011F4127EF21B1001B12AC /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
 		C3011F4527EF4067001B12AC /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		C3011F5427F0495B001B12AC /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
@@ -164,6 +172,7 @@
 				C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */,
 				1BF1B25027E2CC28007A73CB /* FirebaseCrashlytics in Frameworks */,
 				C3DBA08927EC99C200FE8392 /* FirebasePerformance in Frameworks */,
+				8DF55C5627FE7E9C00D68EB1 /* Alamofire in Frameworks */,
 				C3011F5327F039E1001B12AC /* RealmSwift in Frameworks */,
 				1BF1B25627E2CC28007A73CB /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				1BF1B24E27E2CC28007A73CB /* FirebaseAuthCombine-Community in Frameworks */,
@@ -173,6 +182,7 @@
 				1BF1B25227E2CC28007A73CB /* FirebaseFirestore in Frameworks */,
 				C3DBA08727EC99C200FE8392 /* FirebaseCrashlytics in Frameworks */,
 				8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */,
+				8DF55C5B27FE9C8100D68EB1 /* SwiftyJSON in Frameworks */,
 				C3011EFF27EDA544001B12AC /* Pods_PixelArtMaker__iOS_.framework in Frameworks */,
 				1BF1B25827E2CC28007A73CB /* FirebasePerformance in Frameworks */,
 				C356363427F9AE7400B2609A /* SideMenu in Frameworks */,
@@ -217,6 +227,7 @@
 		1B28C3AC27BE100E003F8312 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
 				C356363927FAC29200B2609A /* InAppPurches.swift */,
 				C356363727FA7C2100B2609A /* Consts.swift */,
@@ -226,6 +237,8 @@
 				C3EDBF2B27F9412100BBEC01 /* Toast.swift */,
 				C356362E27F976E600B2609A /* Share.swift */,
 				C356363527F9D9A800B2609A /* SortType.swift */,
+				8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */,
+				8DF55C5C27FED83D00D68EB1 /* WebView.swift */,
 				C320338627C370A30019B546 /* Extensions */,
 				1B28C3EC27BE11C2003F8312 /* View */,
 				1B28C3E927BE107D003F8312 /* Model */,
@@ -368,6 +381,8 @@
 				8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */,
 				8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */,
 				8DF55C4927FD49FF00D68EB1 /* FirebaseStorageSwift-Beta */,
+				8DF55C5527FE7E9C00D68EB1 /* Alamofire */,
+				8DF55C5A27FE9C8100D68EB1 /* SwiftyJSON */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -430,6 +445,8 @@
 				C356363227F9AE7300B2609A /* XCRemoteSwiftPackageReference "SideMenu" */,
 				C356363B27FAC2F500B2609A /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */,
 				8DF55C4427FD49FF00D68EB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8DF55C5427FE7E9B00D68EB1 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				8DF55C5927FE9C8100D68EB1 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -450,6 +467,7 @@
 				C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */,
 				1B28C3D927BE100F003F8312 /* Assets.xcassets in Resources */,
 				C365E18F27C36CC400154E56 /* Localizable.strings in Resources */,
+				8DF55C6227FEDB5F00D68EB1 /* HTML in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,6 +528,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DF55C4327FD498300D68EB1 /* FirebaseStorageHelper.swift in Sources */,
+				8DF55C5D27FED83D00D68EB1 /* WebView.swift in Sources */,
 				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
 				1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */,
 				C356364527FAC73A00B2609A /* InAppPurchesView.swift in Sources */,
@@ -552,6 +571,7 @@
 				1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */,
 				1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
 				1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */,
+				8DF55C5327FE6D7800D68EB1 /* SigninButton.swift in Sources */,
 				C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -868,6 +888,22 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		8DF55C5427FE7E9B00D68EB1 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		8DF55C5927FE9C8100D68EB1 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		C3011F4F27F039E1001B12AC /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -976,6 +1012,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageSwift-Beta";
+		};
+		8DF55C5527FE7E9C00D68EB1 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DF55C5427FE7E9B00D68EB1 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		8DF55C5A27FE9C8100D68EB1 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DF55C5927FE9C8100D68EB1 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 		C3011F5027F039E1001B12AC /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
