@@ -144,7 +144,7 @@ struct PublicShareListView: View {
                                             switch sortType {
                                             case .like:
                                                 HStack {
-                                                    Image("heart_red")
+                                                    Image(model.isMyLike ? "heart_red" : "heart_gray")
                                                         .padding(5)
                                                     Text("\(model.likeCount.formatted(.number))")
                                                         .font(.system(size: 10))

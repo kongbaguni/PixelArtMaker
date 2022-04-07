@@ -68,8 +68,8 @@ struct ArtListView: View {
                                 switch sort {
                                 case .like:
                                     HStack {
-                                        Image("heart_red")
-                                            .padding(5)                                        
+                                        Image(model.isMyLike ? "heart_red" : "heart_gray")
+                                            .padding(5)
                                         Text("\(model.likeCount.formatted(.number))")
                                             .font(.system(size: 10))
                                             .foregroundColor(.k_normalText)
