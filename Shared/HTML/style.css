@@ -1,0 +1,147 @@
+body {
+    background:#fff;
+    color:#000
+}
+a {
+    color:#963;
+}
+em {
+    color:#48f;
+}
+
+q:before, q:after  {
+    color:#ff0000;
+}
+
+q {
+    color:#aaa;
+}
+
+article {
+    border:1px dashed #369;
+    margin:10px;
+    padding:0px;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+article p, article h3, article ul, article ol {
+    margin:5px;
+}
+
+article ul, article ol {
+    margin:5px;
+    padding-left:20px;
+}
+
+article header {
+    background:#369;
+    color:#fff;
+    margin:0px;
+    padding:5px;
+    text-align:center;
+}
+
+
+h3 {
+    color:#369;
+    border-bottom:1px dashed #369;
+}
+
+body.dark {
+    background:#000;
+    color:#fff;
+}
+body.dark a {
+    color:#369;
+}
+body.dark em {
+    color:#f84;
+}
+
+body.dark q:before, body.dark q:after  {
+    color:#ffff00;
+}
+
+body.dark q {
+    color:#999;
+}
+
+body.dark article {
+    border:1px dashed #963;
+}
+
+body.dark article header {
+    background:#963;
+    color:#000;
+}
+
+body.dark h3 {
+    color:#963;
+    border-bottom:1px dashed #963;
+}
+
+body article.firstLetter > p:first-letter {
+    text-transform:uppercase;
+    padding:10px;
+    margin-right:2px;
+    float:left;
+    color:#fff;
+    background:#369;
+    font-size:200%;
+    border-radius:10px;
+}
+
+body.dark article.firstLetter > p:first-letter {
+    color:#000;
+    background:#963;
+}
+
+body article.firstLetter > footer {
+    border-top:1px dashed #369;
+}
+
+body.dark article.firstLetter > footer {
+    border-top:1px dashed #963;
+}
+
+article.firstLetter header h1 {
+    text-align:center
+}
+
+article.firstLetter header {
+    background:#00000000;
+    color:#000;
+    margin:0px;
+    padding:5px;
+    text-align:left;
+    border-bottom:1px dashed #369;
+}
+
+body.dark article.firstLetter header {
+    color:#fff;
+    background:#00000000;
+    border-bottom:1px dashed #963;
+}
+
+a.toTop {
+    display:inline-block;
+    width:15px;
+    height:15px;
+    background-image:url("toTop_light.png");
+    text-indent:-10000em;
+    overflow:hidden;
+    margin-left:10px;
+}
+
+body.dark a.toTop {
+    background-image:url("toTop_dark.png");
+}
+
+article header a.toTop {
+    background-image:url("toTop_white.png");
+}
+
+body.dark article header a.toTop {
+    background-image:url("toTop_black.png");
+}

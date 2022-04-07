@@ -70,6 +70,25 @@ struct InAppPurchesView: View {
             Text("subscribe desc2_3")
                 .font(.system(size:12))
                 .foregroundColor(.gray)
+            
+            if let url = Bundle.main.url(forResource: "HTML/term", withExtension: "html") {
+                NavigationLink {
+                    WebView(url: url)
+                } label: {
+                    Text("term")
+                }
+            }
+            
+            if let url = Bundle.main.url(forResource: "HTML/privacyPolicy", withExtension: "html") {
+                NavigationLink {
+                    WebView(url: url)
+                } label: {
+                    Text("privacyPolicy")
+                }
+            }
+            
+
+            
             if isSubscribe == false {
                 Button {
                     inappPurchase.restorePurchases { isSucess in
@@ -89,6 +108,7 @@ struct InAppPurchesView: View {
                     Text("Restore subscribe")
                 }
             }
+            
         }
         .alert(isPresented: $isShowAlert, content: {
             switch alertType {
