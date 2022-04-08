@@ -51,8 +51,8 @@
 
 "profile" = "내 정보";
 
-"latest order" = "최근 등록 순서";
-"old net" = "오래된 등록 순서";
+"latest order" = "최근 갱신 순서";
+"old net" = "오래된 갱신 순서";
 "like" = "좋아요 많은 순서";
 
 "share" = "공유하기";

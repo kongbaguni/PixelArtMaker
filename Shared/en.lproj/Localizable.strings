@@ -57,9 +57,9 @@
 "profile" = "profile";
 "share" = "share";
 
-"latest order" = "last registration order";
-"old net" = "outdated registration order";
-"like" = "Like many order";
+"latest order" = "last update order";
+"old net" = "old update order";
+"like" = "order with many likes";
 "subscribe" = "subscribe";
 
 "subscribe desc1_1" = "The following benefits are given during the subscription period.";
