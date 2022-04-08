@@ -402,15 +402,14 @@ struct PixelDrawView: View {
                     }
                     .background(.gray)
                     .listStyle(SidebarListStyle())
-                    .frame(width: geomentry.size.width)
+                    .frame(width: geomentry.size.width * 0.8)
                     .transition(.move(edge: .trailing))
                     .zIndex(2)
-                    
                 }
-                VStack {
+                VStack(alignment: .leading) {
                     
                     //MARK: - 드로잉 켄버스
-                    ZStack {
+                    ZStack(alignment: .center) {
                         Canvas { context, size in
                             func draw() {
                                 let w = size.width / CGFloat(colors.first?.count ?? 1)
@@ -497,7 +496,7 @@ struct PixelDrawView: View {
                                 
                         }
                     }
-                    .frame(width: screenWidth - 20, height: screenWidth - 20, alignment: .center)
+                    .frame(width: screenWidth, height: screenWidth, alignment: .center)
                     .padding(0)
                     
                     HStack {
