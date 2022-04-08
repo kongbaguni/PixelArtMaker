@@ -14,12 +14,11 @@ struct SigninView: View {
     
     var body: some View {
         VStack {
-            Image.imagePlaceHolder
             Text("Signin title")
-                .font(.system(size: 20, weight: .heavy, design: .serif))
+                .font(.system(size: 30, weight: .heavy, design: .serif))
                 .padding(10)
             Text("Signin desc")
-                .font(.system(size: 10,weight: .regular, design: .serif))
+                .font(.system(size: 15,weight: .regular, design: .serif))
                 .foregroundColor(.gray)
                 .padding(10)
             Spacer()
