@@ -11,65 +11,71 @@ import RealmSwift
 
 struct ProfileView: View {
     let uid:String
+    let haveArtList:Bool
 
     @State var nickname:String = ""
     @State var imageURL:URL? = nil
     @State var email:String = ""
      
-    init(_ uid:String) {
-        self.uid = uid
-        print("profileview uid:\(uid)")
-    }
     
     var body: some View {
-        HStack {
-            if let url = imageURL {
-                WebImage(url: url)
-                    .placeholder(.profilePlaceHolder)
-                    .resizable()
-                    .frame(width: 100, height: 100, alignment: .center)
-            } else {
-                Image.profilePlaceHolder
-                    .resizable()
-                    .frame(width: 100, height: 100, alignment: .center)
-            }
-            
-            VStack {
-                HStack {
-                    Text("email")
-                        .font(.system(size: 10, weight: .heavy, design: .serif))
-                        .padding(5)
-                    Button {
-                        let urlstr = "mailto:\(email)"
-                        if let url = URL(string: urlstr) {
-                            UIApplication.shared.open(url)
-                        }
-                    } label : {
-                        Text(email)
-                            .font(.system(size: 10, weight: .light, design: .serif))
-                    }
-                    Spacer()
+        VStack {
+            HStack {
+                if let url = imageURL {
+                    WebImage(url: url)
+                        .placeholder(.profilePlaceHolder)
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
+                } else {
+                    Image.profilePlaceHolder
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
                 }
-                HStack {
-                    Text("name")
-                        .font(.system(size: 10, weight: .heavy, design: .serif))
-                        .padding(5)
-                    Text(nickname)
-                        .font(.system(size: 10, weight: .light, design: .serif))
-                        .foregroundColor(.gray)
-                    Spacer()
-                }
-                HStack {
-                    NavigationLink(destination: ArtListView(uid)) {
-                        Text("art list")
-                            .padding(5)
+                
+                VStack {
+                    HStack {
+                        Text("email")
                             .font(.system(size: 10, weight: .heavy, design: .serif))
-
+                            .padding(5)
+                        Button {
+                            let urlstr = "mailto:\(email)"
+                            if let url = URL(string: urlstr) {
+                                UIApplication.shared.open(url)
+                            }
+                        } label : {
+                            Text(email)
+                                .font(.system(size: 10, weight: .light, design: .serif))
+                        }
+                        Spacer()
                     }
-                    Spacer()
+                    HStack {
+                        Text("name")
+                            .font(.system(size: 10, weight: .heavy, design: .serif))
+                            .padding(5)
+                        Text(nickname)
+                            .font(.system(size: 10, weight: .light, design: .serif))
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                    if haveArtList == false {
+                        HStack {
+                            NavigationLink(destination: ArtListView(uid)) {
+                                Text("art list")
+                                    .padding(5)
+                                    .font(.system(size: 10, weight: .heavy, design: .serif))
+                                
+                            }
+                            Spacer()
+                        }
+                    }
+                    
                 }
+            }
+            if haveArtList {
+                ArtListView(uid)
             }
         }
+        
         .padding(10)
         .onAppear {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
@@ -99,6 +105,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView("test")
+        ProfileView(uid: "", haveArtList: false)
     }
 }

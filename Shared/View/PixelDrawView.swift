@@ -100,7 +100,7 @@ struct PixelDrawView: View {
         case clear
         case delete
     }
-    
+    @State var isShowMenu = false
     @State var previewImage:Image? = nil
     @State var isLoadingAnimated = true
     @State var isLoadingDataFin = false
@@ -124,7 +124,6 @@ struct PixelDrawView: View {
     @State var isShowSigninView = false
     @State var isShowProfileView = false
     
-    @State var isShowActionSheet = false
     @State var isShowInAppPurches = false
     
     @State var isShowAlert = false
@@ -187,7 +186,7 @@ struct PixelDrawView: View {
         }
         let stage = StageManager.shared.stage!
         colors = stage.selectedLayer.colors
-                    
+        
     }
     
     func changeColor(target:CGPoint, color:Color) {
@@ -300,475 +299,541 @@ struct PixelDrawView: View {
     
     
     var body: some View {
-        VStack {
-            
-            //MARK: - 드로잉 켄버스
-            ZStack {
-            Canvas { context, size in
-                func draw() {
-                    let w = size.width / CGFloat(colors.first?.count ?? 1)
-                    for (i,layer) in (StageManager.shared.stage?.layers ?? []).reversed().enumerated() {
-                        context.blendMode = .init(rawValue: layer.blendMode.rawValue)
-                        for (y,list) in layer.colors.enumerated() {
-                            for (x,color) in list.enumerated() {
-                                if (i == 0) {
-                                    context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
-                                                                          y: CGFloat(y) * w + 1,
-                                                                          width: w - 2.0,
-                                                                          height: w - 2.0),
-                                                       cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
+        
+        
+        GeometryReader { geomentry in
+            ZStack(alignment: .trailing) {
+                if isShowMenu {
+                    //MARK: - Side menu
+                    List {
+                        if AuthManager.shared.isSignined == false {
+                            Button {
+                                isShowSigninView = true
+                            } label : {
+                                SidebarMenuView(image: Image(systemName: "iphone.and.arrow.forward"), text: .menu_signin_title)
+                            }
+                            
+                            Button {
+                                alertType = .clear
+                                isShowAlert = true
+                            } label: {
+                                SidebarMenuView(image: Image(systemName: "clear"), text: .clear_all_button_title)
+                            }
+                            
+                            Spacer()
+                        } else {
+                            Group {
+                                Button {
+                                    isShowProfileView = true
+                                } label : {
+                                    SidebarMenuView(image: Image(systemName: "person"), text: Text("profile"))
                                 }
                                 
-                                if color != .clear {
+                                
+                                Button {
+                                    isShowInAppPurches = true
+                                } label : {
+                                    SidebarMenuView(image: Image(systemName: "plus"), text: Text("subscribe"))
+                                }
+                                Spacer()
+                            }
+                            
+                            Group {
+                                Button {
+                                    isShowSaveView = true
+                                } label : {
+                                    SidebarMenuView(image: Image(systemName: "icloud.and.arrow.up"), text: .menu_save_title)
+                                }
+                                
+                                
+                                Button {
+                                    isShowLoadView = true
+                                } label: {
+                                    SidebarMenuView(image: Image(systemName: "icloud.and.arrow.down"), text: .menu_load_title)
+                                }
+                                
+                                Button {
+                                    isShowShareListView = true
+                                } label: {
+                                    SidebarMenuView(image: Image(systemName: "icloud.square"), text: .menu_public_load_title)
+                                }
+                                Spacer()
+                            }
+                            
+                            Group {
+                                if StageManager.shared.stage?.documentId != nil {
+                                    Button {
+                                        alertType = .delete
+                                        isShowAlert = true
+                                    } label: {
+                                        SidebarMenuView(image: Image(systemName: "trash"), text: .menu_delete_title)
+                                    }
+                                }
+                                
+                                Button {
+                                    alertType = .clear
+                                    isShowAlert = true
+                                } label: {
+                                    SidebarMenuView(image: Image(systemName: "clear"), text: .clear_all_button_title)
+                                }
+                                Spacer()
+                            }
+                            
+                            Button {
+                                AuthManager.shared.signout()
+                            } label : {
+                                SidebarMenuView(image: Image(systemName: "rectangle.portrait.and.arrow.right"), text: .menu_signout_title)
+                            }
+                                                                                    
+                        }
+                        
+                        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+                            HStack {
+                                Text("version : ")
+                                    .foregroundColor(.gray)
+                                    .font(.subheadline)
+                                Text(appVersion)
+                                    .foregroundColor(.gray)
+                                    .font(.subheadline)
+
+                            }
+                        }
+                        
+                    }
+                    .background(.gray)
+                    .listStyle(SidebarListStyle())
+                    .frame(width: geomentry.size.width)
+                    .transition(.move(edge: .trailing))
+                    .zIndex(2)
+                    
+                }
+                VStack {
+                    
+                    //MARK: - 드로잉 켄버스
+                    ZStack {
+                        Canvas { context, size in
+                            func draw() {
+                                let w = size.width / CGFloat(colors.first?.count ?? 1)
+                                for (i,layer) in (StageManager.shared.stage?.layers ?? []).reversed().enumerated() {
+                                    context.blendMode = .init(rawValue: layer.blendMode.rawValue)
+                                    for (y,list) in layer.colors.enumerated() {
+                                        for (x,color) in list.enumerated() {
+                                            if (i == 0) {
+                                                context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
+                                                                                      y: CGFloat(y) * w + 1,
+                                                                                      width: w - 2.0,
+                                                                                      height: w - 2.0),
+                                                                   cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
+                                            }
+                                            
+                                            if color != .clear {
+                                                
+                                                context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
+                                                                                      y: CGFloat(y) * w + 0.5,
+                                                                                      width: w - 1.0,
+                                                                                      height: w - 1.0),
+                                                                   cornerSize: .zero), with: .color(
+                                                                    isShowSelectLayerOnly
+                                                                    ? (layers.count - i - 1 == StageManager.shared.stage?.selectedLayerIndex ? color : .clear)
+                                                                    : color
+                                                                   ))
+                                            }
+                                            
+                                        }
+                                    }
                                     
-                                    context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
-                                                                          y: CGFloat(y) * w + 0.5,
-                                                                          width: w - 1.0,
-                                                                          height: w - 1.0),
-                                                       cornerSize: .zero), with: .color(
-                                                        isShowSelectLayerOnly
-                                                        ? (layers.count - i - 1 == StageManager.shared.stage?.selectedLayerIndex ? color : .clear)
-                                                        : color
-                                                       ))
                                 }
-                                
-                            }
-                        }
-                        
-                    }
-                    for rect in [
-                        CGRect(x: 0, y: 0, width: size.width, height: size.height),
-                        CGRect(x: size.width*0.25, y: 0, width: 0, height: size.height),
-                        CGRect(x: size.width*0.5, y: 0, width: 0, height: size.height),
-                        CGRect(x: size.width*0.75 , y: 0, width: 0, height: size.height),
-                        CGRect(x: 0, y: size.height * 0.25 , width: size.width, height: 0),
-                        CGRect(x: 0, y: size.height * 0.5 , width: size.width, height: 0),
-                        CGRect(x: 0, y: size.height * 0.75 , width: size.width, height: 0)
-                    ]{
-                        context.stroke(.init(roundedRect: rect, cornerSize: .zero), with: .color(.green.opacity(0.5)))
-                    }
-                    context.stroke(Path(roundedRect: .init(
-                        x: pointer.x * w,
-                        y: pointer.y * w,
-                        width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer))
-                    context.stroke(Path(roundedRect: .init(
-                        x: pointer.x * w + 1,
-                        y: pointer.y * w + 1,
-                        width: pw - 2, height: pw - 2), cornerRadius: 0), with: .color(.k_pointer2))
-                }
-                if AuthManager.shared.isSignined {
-                    if isLoadingDataFin {
-                        draw()
-                    }
-                    else {
-                        for i in 1...30 {
-                            let a = CGFloat(i * 10)
-                            let b = a * 2
-                            let r = CGFloat(35 - i)
-                            context.stroke(Path(roundedRect: .init(x: a, y: a,
-                                                                   width: size.width - b,
-                                                                   height: size.height - b),
-                                                cornerSize: .init(width: r, height: r)),
-                                           with: .color(.randomColor))
-                        }
-                    }
-                } else {
-                    draw()
-                }
-            }
-            .padding(10)
-            .gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                print(value.location)
-                let idx = getIndex(location: value.location)
-                pointer = .init(x: idx.0, y: idx.1)
-                if isLongPressing {
-                    isLongPressing = false
-                    timer?.invalidate()
-                }
-            }))
-            .frame(width: screenWidth, height: screenWidth, alignment: .center)
-                if isLoadingDataFin == false {
-                    ActivityIndicator(isAnimating: $isLoadingAnimated, style: .large).frame(width: screenWidth, height: screenWidth, alignment: .center)
-                }
-            }
-            HStack {
-                //MARK: - 레이어 토글
-                Toggle(isOn: $isShowSelectLayerOnly) {
-                    Text.title_select_Layer_only
-                }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                //MARK:  미리보기
-                NavigationLink(destination: {
-                    LayerEditView()
-                }, label: {
-                    if let img = previewImage {
-                        img.resizable().frame(width: 64, height: 64, alignment: .center)
-                    }
-                })
-            }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-            
-            //            Spacer()
-            
-            HStack {
-                // MARK: -  빠렛트
-                VStack {
-                    Button {
-                        colorSelectMode = .foreground
-                    } label: {
-                        Text("").frame(width: 28, height: 15, alignment: .center)
-                            .background(forgroundColor)
-                    }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
-                    
-                    Button {
-                        colorSelectMode = .background
-                    } label: {
-                        Text("").frame(width: 28, height: 15, alignment: .center)
-                            .background(backgroundColor)
-                    }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
-                }
-                switch colorSelectMode {
-                case .foreground:
-                    ColorPicker(selection: $forgroundColor) {
-                        
-                    }
-                    .onChange(of: forgroundColor) { newValue in
-                        print("change forground : \(newValue.string)")
-                    }
-                    .frame(width: 40, height: 40, alignment: .center)
-                case .background:
-                    ColorPicker(selection: $backgroundColor) {
-                        
-                    }
-                    .onChange(of: backgroundColor) { newValue in
-                        print("change backgroundColor : \(newValue.string)")
-                        if StageManager.shared.stage?.changeBgColor(color: newValue) == true {
-                            undoCount = StageManager.shared.stage?.history.count ?? 0
-                            redoCount = 0
-                        }
-                    }
-                    .frame(width: 40, height: 40, alignment: .center)
-                }
-                
-                
-                HStack {
-                    ForEach(0..<7) { i in
-                        Button {
-                            switch colorSelectMode {
-                            case .foreground:
-                                forgroundColor = paletteColors[i]
-                            case .background:
-                                backgroundColor = paletteColors[i]                                
-                            }
-                            
-                        } label: {
-                            Spacer().frame(width: 26, height: 32, alignment: .center)
-                                .background(paletteColors[i])
-                        }
-                        .border(.white, width: colorSelectMode == .foreground
-                                ? forgroundColor == paletteColors[i] ? 5.0 : 0.5
-                                : backgroundColor == paletteColors[i] ? 5.0 : 0.5
-                        )
-                        .padding(SwiftUI.EdgeInsets(top: 0, leading: 1, bottom: 0, trailing: 1))
-                    }
-                    
-                    Button {
-                        isShowColorPresetView = true
-                    } label : {
-                        Image("more")
-                            .resizable()
-                            .frame(width: 20, height: 20, alignment: .center)
-                        
-                    }
-                    
-                }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
-            }.padding(SwiftUI.EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-            
-            HStack {
-                //MARK: - 포인터 브러시 컨트롤 뷰
-                VStack {
-                    HStack {
-                        // 연필
-                        Button {
-                        } label : {
-                            Image("pencil")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                            
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                                draw(target: pointer, color: forgroundColor)
-                            }))
-                        //페인트
-                        Button {
-                        } label : {
-                            Image("paint")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                                paint(target: pointer, color: forgroundColor)
-                            }))
-                        
-                        Button {
-                        } label : {
-                            Image("paint2")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                                changeColor(target: pointer, color: forgroundColor)
-                            }))
-                        
-                        //지우개
-                        Button {
-                        } label : {
-                            Image("eraser")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                                .background(.clear)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                                draw(target: pointer, color: .clear)
-                            }))
-                        //지우개
-                        Button {
-                        } label : {
-                            Image("spoid")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                                .background(.clear)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                                if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
-                                    forgroundColor = color
+                                for rect in [
+                                    CGRect(x: 0, y: 0, width: size.width, height: size.height),
+                                    CGRect(x: size.width*0.25, y: 0, width: 0, height: size.height),
+                                    CGRect(x: size.width*0.5, y: 0, width: 0, height: size.height),
+                                    CGRect(x: size.width*0.75 , y: 0, width: 0, height: size.height),
+                                    CGRect(x: 0, y: size.height * 0.25 , width: size.width, height: 0),
+                                    CGRect(x: 0, y: size.height * 0.5 , width: size.width, height: 0),
+                                    CGRect(x: 0, y: size.height * 0.75 , width: size.width, height: 0)
+                                ]{
+                                    context.stroke(.init(roundedRect: rect, cornerSize: .zero), with: .color(.green.opacity(0.5)))
                                 }
-                            }))
-                        
-                        
-                    }
-                    
-                    
-                    HStack {
-                        //MARK: - undo
-                        Button {
-                            StageManager.shared.stage?.undo()
-                            StageManager.shared.saveTemp { error in
-                                toastMessage = error?.localizedDescription ?? ""
-                                isShowToast = error != nil
+                                context.stroke(Path(roundedRect: .init(
+                                    x: pointer.x * w,
+                                    y: pointer.y * w,
+                                    width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer))
+                                context.stroke(Path(roundedRect: .init(
+                                    x: pointer.x * w + 1,
+                                    y: pointer.y * w + 1,
+                                    width: pw - 2, height: pw - 2), cornerRadius: 0), with: .color(.k_pointer2))
                             }
-                        } label: {
-                            VStack {
-                                Text("undo")
-                                if redoCount + undoCount > 0 {
-                                    ProgressView(value: CGFloat(undoCount) / CGFloat(redoCount + undoCount) )
-                                        .frame(width: 50, height: 5, alignment: .center)
-                                } else {
-                                    ProgressView(value: 0)
-                                        .frame(width: 50, height: 5, alignment: .center)
+                            if AuthManager.shared.isSignined {
+                                if isLoadingDataFin {
+                                    draw()
                                 }
+                                else {
+                                    for i in 1...30 {
+                                        let a = CGFloat(i * 10)
+                                        let b = a * 2
+                                        let r = CGFloat(35 - i)
+                                        context.stroke(Path(roundedRect: .init(x: a, y: a,
+                                                                               width: size.width - b,
+                                                                               height: size.height - b),
+                                                            cornerSize: .init(width: r, height: r)),
+                                                       with: .color(.randomColor))
+                                    }
+                                }
+                            } else {
+                                draw()
                             }
                         }
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .padding(20)
-                        
-                        //MARK: - 화살표 컨트롤러
-                        Button {
+                        .gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                            print(value.location)
+                            let idx = getIndex(location: value.location)
+                            pointer = .init(x: idx.0, y: idx.1)
                             if isLongPressing {
                                 isLongPressing = false
                                 timer?.invalidate()
                             }
-                            pointer = .init(x: pointer.x - 1, y: pointer.y)
-                        } label: {
-                            Image("arrow_left")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                    print("long press")
-                                    self.isLongPressing = true
-                                    //or fastforward has started to start the timer
-                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                        pointer = .init(x: pointer.x - 1, y: pointer.y)
-                                    })
-                                }
-                            )
-                        
+                        }))
+                        if isLoadingDataFin == false {
+                            ActivityIndicator(isAnimating: $isLoadingAnimated, style: .large)
+                                
+                        }
+                    }
+                    .frame(width: screenWidth - 20, height: screenWidth - 20, alignment: .center)
+                    .padding(0)
+                    
+                    HStack {
+                        //MARK: - 레이어 토글
+                        Toggle(isOn: $isShowSelectLayerOnly) {
+                            Text.title_select_Layer_only
+                        }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        //MARK:  미리보기
+                        NavigationLink(destination: {
+                            LayerEditView()
+                        }, label: {
+                            if let img = previewImage {
+                                img.resizable().frame(width: 64, height: 64, alignment: .center)
+                            }
+                        })
+                    }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                    
+                    //            Spacer()
+                    
+                    HStack {
+                        // MARK: -  빠렛트
                         VStack {
                             Button {
-                                if isLongPressing {
-                                    isLongPressing = false
-                                    timer?.invalidate()
-                                }
-                                pointer = .init(x: pointer.x, y: pointer.y - 1)
+                                colorSelectMode = .foreground
                             } label: {
-                                Image("arrow_up")
-                                    .resizable()
-                                    .frame(width: 50, height: 50, alignment: .center)
-                            }.frame(width: 50, height: 50, alignment: .center)
-                                .simultaneousGesture(
-                                    LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                        print("long press")
-                                        self.isLongPressing = true
-                                        //or fastforward has started to start the timer
-                                        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                            pointer = .init(x: pointer.x, y: pointer.y - 1)
-                                        })
-                                    }
-                                )
+                                Text("").frame(width: 28, height: 15, alignment: .center)
+                                    .background(forgroundColor)
+                            }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
                             
                             Button {
-                                if isLongPressing {
-                                    isLongPressing = false
-                                    timer?.invalidate()
-                                }
-                                pointer = .init(x: pointer.x, y: pointer.y + 1)
+                                colorSelectMode = .background
                             } label: {
-                                Image("arrow_down")
-                                    .resizable()
-                                    .frame(width: 50, height: 50, alignment: .center)
-                            }.frame(width: 50, height: 50, alignment: .center)
-                                .simultaneousGesture(
-                                    LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                        print("long press")
-                                        self.isLongPressing = true
-                                        //or fastforward has started to start the timer
-                                        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                            pointer = .init(x: pointer.x, y: pointer.y + 1)
-                                        })
+                                Text("").frame(width: 28, height: 15, alignment: .center)
+                                    .background(backgroundColor)
+                            }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
+                        }
+                        switch colorSelectMode {
+                        case .foreground:
+                            ColorPicker(selection: $forgroundColor) {
+                                
+                            }
+                            .onChange(of: forgroundColor) { newValue in
+                                print("change forground : \(newValue.string)")
+                            }
+                            .frame(width: 40, height: 40, alignment: .center)
+                        case .background:
+                            ColorPicker(selection: $backgroundColor) {
+                                
+                            }
+                            .onChange(of: backgroundColor) { newValue in
+                                print("change backgroundColor : \(newValue.string)")
+                                if StageManager.shared.stage?.changeBgColor(color: newValue) == true {
+                                    undoCount = StageManager.shared.stage?.history.count ?? 0
+                                    redoCount = 0
+                                }
+                            }
+                            .frame(width: 40, height: 40, alignment: .center)
+                        }
+                        
+                        
+                        HStack {
+                            ForEach(0..<7) { i in
+                                Button {
+                                    switch colorSelectMode {
+                                    case .foreground:
+                                        forgroundColor = paletteColors[i]
+                                    case .background:
+                                        backgroundColor = paletteColors[i]
                                     }
-                                )
-                        }
-                        
-                        Button {
-                            if isLongPressing {
-                                isLongPressing = false
-                                timer?.invalidate()
-                            }
-                            pointer = .init(x: pointer.x + 1, y: pointer.y)
-                        } label: {
-                            Image("arrow_right")
-                                .resizable()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }.frame(width: 50, height: 50, alignment: .center)
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                                    print("long press")
-                                    self.isLongPressing = true
-                                    //or fastforward has started to start the timer
-                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                        pointer = .init(x: pointer.x + 1, y: pointer.y)
-                                    })
-                                }
-                            )
-                        
-                        //MARK: - redo
-                        Button {
-                            StageManager.shared.stage?.redo()
-                            StageManager.shared.saveTemp { error in
-                                toastMessage = error?.localizedDescription ?? ""
-                                isShowToast = error != nil
-                            }
-                                        
-                        } label: {
-                            VStack {
-                                Text("redo")
-                                if redoCount + undoCount > 0 {
-                                    ProgressView(value: CGFloat(redoCount) / CGFloat(redoCount + undoCount) )
-                                        .frame(width: 50, height: 5, alignment: .center)
-                                } else {
-                                    ProgressView(value: 0)
-                                        .frame(width: 50, height: 5, alignment: .center)
                                     
+                                } label: {
+                                    Spacer().frame(width: 26, height: 32, alignment: .center)
+                                        .background(paletteColors[i])
                                 }
+                                .border(.white, width: colorSelectMode == .foreground
+                                        ? forgroundColor == paletteColors[i] ? 5.0 : 0.5
+                                        : backgroundColor == paletteColors[i] ? 5.0 : 0.5
+                                )
+                                .padding(SwiftUI.EdgeInsets(top: 0, leading: 1, bottom: 0, trailing: 1))
                             }
-                        }
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .padding(20)
+                            
+                            Button {
+                                isShowColorPresetView = true
+                            } label : {
+                                Image(systemName: "ellipsis")
+                                    .imageScale(.large)
+                            }
+                            
+                        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
+                    }.padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+                    
+                    HStack {
+                        //MARK: - 포인터 브러시 컨트롤 뷰
+                        VStack {
+                            HStack {
+                                // 연필
+                                Button {
+                                } label : {
+                                    Image("pencil")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                    
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                        draw(target: pointer, color: forgroundColor)
+                                    }))
+                                //페인트
+                                Button {
+                                } label : {
+                                    Image("paint")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                        paint(target: pointer, color: forgroundColor)
+                                    }))
+                                
+                                Button {
+                                } label : {
+                                    Image("paint2")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                        changeColor(target: pointer, color: forgroundColor)
+                                    }))
+                                
+                                //지우개
+                                Button {
+                                } label : {
+                                    Image("eraser")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                        .background(.clear)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                        draw(target: pointer, color: .clear)
+                                    }))
+                                //지우개
+                                Button {
+                                } label : {
+                                    Image("spoid")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                        .background(.clear)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                        if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
+                                            forgroundColor = color
+                                        }
+                                    }))
+                                
+                                
+                            }
+                            
+                            
+                            HStack {
+                                //MARK: - undo
+                                Button {
+                                    StageManager.shared.stage?.undo()
+                                    StageManager.shared.saveTemp { error in
+                                        toastMessage = error?.localizedDescription ?? ""
+                                        isShowToast = error != nil
+                                    }
+                                } label: {
+                                    VStack {
+                                        Text("undo")
+                                        if redoCount + undoCount > 0 {
+                                            ProgressView(value: CGFloat(undoCount) / CGFloat(redoCount + undoCount) )
+                                                .frame(width: 50, height: 5, alignment: .center)
+                                        } else {
+                                            ProgressView(value: 0)
+                                                .frame(width: 50, height: 5, alignment: .center)
+                                        }
+                                    }
+                                }
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .padding(20)
+                                
+                                //MARK: - 화살표 컨트롤러
+                                Button {
+                                    if isLongPressing {
+                                        isLongPressing = false
+                                        timer?.invalidate()
+                                    }
+                                    pointer = .init(x: pointer.x - 1, y: pointer.y)
+                                } label: {
+                                    Image("arrow_left")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                            print("long press")
+                                            self.isLongPressing = true
+                                            //or fastforward has started to start the timer
+                                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                                pointer = .init(x: pointer.x - 1, y: pointer.y)
+                                            })
+                                        }
+                                    )
+                                
+                                VStack {
+                                    Button {
+                                        if isLongPressing {
+                                            isLongPressing = false
+                                            timer?.invalidate()
+                                        }
+                                        pointer = .init(x: pointer.x, y: pointer.y - 1)
+                                    } label: {
+                                        Image("arrow_up")
+                                            .resizable()
+                                            .frame(width: 50, height: 50, alignment: .center)
+                                    }.frame(width: 50, height: 50, alignment: .center)
+                                        .simultaneousGesture(
+                                            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                                print("long press")
+                                                self.isLongPressing = true
+                                                //or fastforward has started to start the timer
+                                                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                                    pointer = .init(x: pointer.x, y: pointer.y - 1)
+                                                })
+                                            }
+                                        )
+                                    
+                                    Button {
+                                        if isLongPressing {
+                                            isLongPressing = false
+                                            timer?.invalidate()
+                                        }
+                                        pointer = .init(x: pointer.x, y: pointer.y + 1)
+                                    } label: {
+                                        Image("arrow_down")
+                                            .resizable()
+                                            .frame(width: 50, height: 50, alignment: .center)
+                                    }.frame(width: 50, height: 50, alignment: .center)
+                                        .simultaneousGesture(
+                                            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                                print("long press")
+                                                self.isLongPressing = true
+                                                //or fastforward has started to start the timer
+                                                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                                    pointer = .init(x: pointer.x, y: pointer.y + 1)
+                                                })
+                                            }
+                                        )
+                                }
+                                
+                                Button {
+                                    if isLongPressing {
+                                        isLongPressing = false
+                                        timer?.invalidate()
+                                    }
+                                    pointer = .init(x: pointer.x + 1, y: pointer.y)
+                                } label: {
+                                    Image("arrow_right")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                }.frame(width: 50, height: 50, alignment: .center)
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                                            print("long press")
+                                            self.isLongPressing = true
+                                            //or fastforward has started to start the timer
+                                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                                                pointer = .init(x: pointer.x + 1, y: pointer.y)
+                                            })
+                                        }
+                                    )
+                                
+                                //MARK: - redo
+                                Button {
+                                    StageManager.shared.stage?.redo()
+                                    StageManager.shared.saveTemp { error in
+                                        toastMessage = error?.localizedDescription ?? ""
+                                        isShowToast = error != nil
+                                    }
+                                    
+                                } label: {
+                                    VStack {
+                                        Text("redo")
+                                        if redoCount + undoCount > 0 {
+                                            ProgressView(value: CGFloat(redoCount) / CGFloat(redoCount + undoCount) )
+                                                .frame(width: 50, height: 5, alignment: .center)
+                                        } else {
+                                            ProgressView(value: 0)
+                                                .frame(width: 50, height: 5, alignment: .center)
+                                            
+                                        }
+                                    }
+                                }
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .padding(20)
+                            }
+                            
+                        }.padding(20)
                     }
                     
-                }.padding(20)
+                    //MARK: - 네비게이션
+                    Group {
+                        NavigationLink(destination: InAppPurchesView(), isActive: $isShowInAppPurches) {
+                            
+                        }
+                        NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
+                            
+                        }
+                        NavigationLink(destination: SaveView(), isActive: $isShowSaveView) {
+                            
+                        }
+                        NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
+                            
+                        }
+                        NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
+                            
+                        }
+                        NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
+                            
+                        }
+                        if let id = AuthManager.shared.userId {
+                            NavigationLink(destination: ProfileView(uid: id, haveArtList: true), isActive: $isShowProfileView) {
+                                
+                            }
+                        }
+                    }
+                }
             }
             
-            //MARK: - 네비게이션
-            Group {
-                NavigationLink(destination: InAppPurchesView(), isActive: $isShowInAppPurches) {
-                    
-                }
-                NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
-                    
-                }
-                NavigationLink(destination: SaveView(), isActive: $isShowSaveView) {
-                    
-                }
-                NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
-                    
-                }
-                NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
-                    
-                }
-                NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
-                    
-                }
-                if let id = AuthManager.shared.userId {
-                    NavigationLink(destination: ProfileView(id), isActive: $isShowProfileView) {
-                        
-                    }
-                }
-            }
         }
-        
         .toolbar {
             Button {
-                isShowActionSheet = true
-            } label : {
-                Image("hamburger-menu")
-            }
-            
-            // MARK: - 네비게이션바 액션시트 메뉴
-            .actionSheet(isPresented: $isShowActionSheet) {
-                var buttons:[ActionSheet.Button] = []
-                if AuthManager.shared.isSignined == false {
-                    buttons.append(
-                        .default(.menu_signin_title, action: {
-                            isShowSigninView = true
-                        })
-                    )
-                    
-                } else {
-                    buttons.append(.default(.menu_signout_title, action: {
-                        AuthManager.shared.signout()
-                    }))
-                    
-                    buttons.append(
-                        .default(Text("subscribe"), action: {
-                            isShowInAppPurches = true
-                        })
-                    )
-
-                    buttons.append(.default(.menu_save_title, action: {
-                        isShowSaveView = true
-                    }))
-                    buttons.append(.default(.menu_load_title, action: {
-                        isShowLoadView = true
-                    }))
-                    buttons.append(.default(.menu_public_load_title, action : {
-                        isShowShareListView = true
-                    }))
-                    if StageManager.shared.stage?.documentId != nil {
-                        buttons.append(.destructive(Text.menu_delete_title, action: {
-                            alertType = .delete
-                            isShowAlert = true
-                            
-                        }))
-                    }
+                withAnimation {
+                    isShowMenu.toggle()
                 }
                 
-                buttons.append(.destructive(Text.clear_all_button_title, action: {
-                    alertType = .clear
-                    isShowAlert = true
-                }))
-                buttons.append(.cancel())
-                return ActionSheet(title: Text("menu"), message: nil, buttons: buttons)
+            } label : {
+                Image(systemName: "line.3.horizontal")
             }
             
             
@@ -810,9 +875,9 @@ struct PixelDrawView: View {
                                 }), secondaryButton: .cancel())
             }
         }
-//        .frame(width: screenBounds.width,
-//               height: screenBounds.width > 500 ? screenBounds.height : CGFloat.leastNormalMagnitude,
-//               alignment: .center)
+        //        .frame(width: screenBounds.width,
+        //               height: screenBounds.width > 500 ? screenBounds.height : CGFloat.leastNormalMagnitude,
+        //               alignment: .center)
         
 #if MAC
         .background(KeyEventHandling())
@@ -861,7 +926,7 @@ struct PixelDrawView: View {
     
     @State var _oldBgColor:Color? = nil
     
-    func load() {        
+    func load() {
         if let stage = StageManager.shared.stage {
             forgroundColor = stage.forgroundColor
             backgroundColor = stage.backgroundColor
@@ -882,7 +947,7 @@ struct PixelDrawView: View {
                 }
                 _oldBgColor = backgroundColor
             }
-
+            
         })
     }
     

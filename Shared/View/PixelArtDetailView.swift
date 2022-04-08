@@ -49,7 +49,7 @@ struct PixelArtDetailView: View {
         ScrollView {
             if let m = tmodel {
                 if isShowProfile {
-                    ProfileView(m.uid)
+                    ProfileView(uid: m.uid, haveArtList: false)
                 }
                 if let imgUrl = m.imageURL {
                     Button {

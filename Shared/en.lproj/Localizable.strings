@@ -23,7 +23,7 @@
 "menu signin title" = "signin";
 "menu signout title" = "signout";
 "menu save title" = "save";
-"menu load title" = "my gellery";
+"menu load title" = "load";
 "menu public load title" = "shared gellery";
 
 "menu delete title" = "delete";

@@ -39,7 +39,9 @@ struct SaveView: View {
     
     var body: some View {
         ScrollView {
-            ProfileView(AuthManager.shared.userId!)
+            if let id = AuthManager.shared.userId {
+                ProfileView(uid: id, haveArtList: false)
+            }
             ZStack {
                 if let img = previewImage {
                     img.resizable().frame(width: screenBounds.width - 10, height: screenBounds.width - 10 , alignment: .center)

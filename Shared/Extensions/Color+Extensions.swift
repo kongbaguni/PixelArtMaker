@@ -15,6 +15,7 @@ extension Color {
     static let k_tagText = Color(uiColor: UIColor(named: "tagText")!)
     static let K_boldText = Color(uiColor: UIColor(named: "boldText")!)
     static let k_normalText = Color(uiColor: UIColor(named: "normalText")!)
+    static let k_dim = Color(uiColor: UIColor(named: "dim")!)
     var uiColor:UIColor {
         UIColor(red: ciColor.red, green: ciColor.green, blue: ciColor.blue, alpha: ciColor.alpha)
     }
