@@ -62,7 +62,7 @@ struct SaveView: View {
                     HStack {
                         Text("sharedId")
                         NavigationLink {
-                            PixelArtDetailView(id: id, showProfile: false)
+                            PixelArtDetailView(id: id, showProfile: false, forceUpdate: true)
                         } label: {
                             TagView(Text(id))
                         }
@@ -80,7 +80,7 @@ struct SaveView: View {
                  
             }
             HStack {
-                //MARK : 기존 파일에 저장
+                //MARK: 기존 파일에 저장
                 if StageManager.shared.stage?.documentId != nil && StageManager.shared.stage?.isMyPicture == true {
                     Button {
                         isLoading = true
