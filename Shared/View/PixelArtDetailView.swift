@@ -24,10 +24,12 @@ struct PixelArtDetailView: View {
     @State var likeCount:Int = 0
     let googleAd = GoogleAd()
     let isShowProfile:Bool
+    let isForceUpdate:Bool
     
-    init(id:String, showProfile:Bool) {
+    init(id:String, showProfile:Bool, forceUpdate:Bool = false) {
         pid = id
         isShowProfile = showProfile
+        isForceUpdate = forceUpdate
     }
     private func toggleLike() {
         model?.likeToggle(complete: {isMyLike, error in
@@ -108,7 +110,7 @@ struct PixelArtDetailView: View {
         .navigationTitle(Text(pid))
         .onAppear {
             print(pid)
-            if model == nil {
+            if model == nil || isForceUpdate {
                 SharedStageModel.findBy(id: pid) { error in
                     load()
                 }
@@ -133,6 +135,6 @@ struct PixelArtDetailView: View {
 
 struct PixelArtDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PixelArtDetailView(id:"", showProfile: false)
+        PixelArtDetailView(id:"", showProfile: false, forceUpdate: false)
     }
 }

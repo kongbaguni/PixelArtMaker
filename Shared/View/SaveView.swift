@@ -35,10 +35,7 @@ struct SaveView: View {
     @State var backgroundColor:Color = .white
     @State var title:String = ""
     @State var previewImage:Image? = nil
-    @State var shareImageData:Data? = nil
-    @State var shareImageSmallData:Data? = nil
-    @State var shareImageMediumData:Data? = nil
-    @State var shareImageLargeData:Data? = nil
+    @State var shareImageDatas:[Data] = []
     
     var body: some View {
         ScrollView {
@@ -62,7 +59,7 @@ struct SaveView: View {
                     HStack {
                         Text("sharedId")
                         NavigationLink {
-                            PixelArtDetailView(id: id, showProfile: false)
+                            PixelArtDetailView(id: id, showProfile: false, forceUpdate: true)
                         } label: {
                             TagView(Text(id))
                         }
@@ -80,7 +77,7 @@ struct SaveView: View {
                  
             }
             HStack {
-                //MARK : 기존 파일에 저장
+                //MARK: 기존 파일에 저장
                 if StageManager.shared.stage?.documentId != nil && StageManager.shared.stage?.isMyPicture == true {
                     Button {
                         isLoading = true
@@ -130,7 +127,8 @@ struct SaveView: View {
                 
             }
             
-            if let img = shareImageSmallData {
+            ForEach(shareImageDatas, id:\.self) { img in
+                let id = shareImageDatas.firstIndex(of: img)
                 Button {
                     googleAd.showAd { isSucess in
                         if isSucess {
@@ -138,44 +136,21 @@ struct SaveView: View {
                         }
                     }
                 } label: {
-                    OrangeTextView(Text("share 32*32"))
+                    HStack {
+                        Text("share")
+                            .font(.system(size: 20, weight: .heavy, design: .rounded))
+                        Consts.sizeTitles[id!]
+                            .font(.system(size: 20, weight: .light, design: .rounded))
+                    }                    
+                    .padding(10)
+                    .foregroundColor(.white)
+                    .background(.orange)
+                    .cornerRadius(10)
                 }
+
             }
-            if let img = shareImageData {
-                Button {
-                    googleAd.showAd { isSucess in
-                        if isSucess {
-                            share(items: [img])
-                        }
-                    }
-                } label: {
-                    OrangeTextView(Text("share 320*320"))
-                }
-            }
-            if InAppPurchaseModel.isSubscribe {
-                if let img = shareImageMediumData {
-                    Button {
-                        googleAd.showAd { isSucess in
-                            if isSucess {
-                                share(items: [img])
-                            }
-                        }
-                    } label: {
-                        OrangeTextView(Text("share 640*640"))
-                    }
-                }
-                if let img = shareImageLargeData {
-                    Button {
-                        googleAd.showAd { isSucess in
-                            if isSucess {
-                                share(items: [img])
-                            }
-                        }
-                    } label: {
-                        OrangeTextView(Text("share 1280*1280"))
-                    }
-                }
-            }
+            
+
             if StageManager.shared.stage?.documentId != nil && sharedId == nil && AuthManager.shared.auth.currentUser?.isAnonymous == false {
                 HStack {
                     Button {
@@ -212,10 +187,19 @@ struct SaveView: View {
                 stage.getImage(size: Consts.previewImageSize) { image in
                     previewImage = image
                 }
-                shareImageData = stage.makeImageDataValue(size: Consts.previewImageSize)
-                shareImageSmallData = stage.makeImageDataValue(size: Consts.smallImageSize)
-                shareImageMediumData = stage.makeImageDataValue(size: Consts.mediumImageSize)
-                shareImageLargeData = stage.makeImageDataValue(size: Consts.largeImageSize)
+                if InAppPurchaseModel.isSubscribe {
+                    shareImageDatas.removeAll()
+                    for size in Consts.sizes {
+                        if let data = stage.makeImageDataValue(size: size) {
+                            shareImageDatas.append(data)
+                        }
+                    }
+                }
+                else {
+                    if let data = stage.makeImageDataValue(size: Consts.previewImageSize) {
+                        shareImageDatas = [data]
+                    }
+                }
             }
         }
         .onDisappear {

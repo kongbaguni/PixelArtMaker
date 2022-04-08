@@ -56,14 +56,10 @@
 
 "profile" = "profile";
 "share" = "share";
-"share 32*32" = "share 32*32";
-"share 320*320" = "share 320*320";
-"share 640*640" = "share 640*640";
-"share 1280*1280" = "share 1280*1280";
 
-"latest order" = "last registration order";
-"old net" = "outdated registration order";
-"like" = "Like many order";
+"latest order" = "last update order";
+"old net" = "old update order";
+"like" = "order with many likes";
 "subscribe" = "subscribe";
 
 "subscribe desc1_1" = "The following benefits are given during the subscription period.";
