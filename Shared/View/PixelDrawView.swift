@@ -395,16 +395,16 @@ struct PixelDrawView: View {
                 //MARK: - 레이어 토글
                 Toggle(isOn: $isShowSelectLayerOnly) {
                     Text.title_select_Layer_only
-                }.padding(20)
+                }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                 //MARK:  미리보기
                 NavigationLink(destination: {
                     LayerEditView()
                 }, label: {
                     if let img = previewImage {
-                        img.resizable().frame(width: 40, height: 40, alignment: .center)
+                        img.resizable().frame(width: 64, height: 64, alignment: .center)
                     }
-                }).padding(20)
-            }
+                })
+            }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
             
             //            Spacer()
             
@@ -449,7 +449,6 @@ struct PixelDrawView: View {
                 }
                 
                 
-                Spacer()
                 HStack {
                     ForEach(0..<7) { i in
                         Button {
@@ -468,7 +467,7 @@ struct PixelDrawView: View {
                                 ? forgroundColor == paletteColors[i] ? 5.0 : 0.5
                                 : backgroundColor == paletteColors[i] ? 5.0 : 0.5
                         )
-                        .padding(1)
+                        .padding(SwiftUI.EdgeInsets(top: 0, leading: 1, bottom: 0, trailing: 1))
                     }
                     
                     Button {
@@ -481,7 +480,7 @@ struct PixelDrawView: View {
                     }
                     
                 }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
-            }.padding(10)
+            }.padding(SwiftUI.EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
             
             HStack {
                 //MARK: - 포인터 브러시 컨트롤 뷰
@@ -722,7 +721,7 @@ struct PixelDrawView: View {
             Button {
                 isShowActionSheet = true
             } label : {
-                Text("menu")
+                Image("hamburger-menu")
             }
             
             // MARK: - 네비게이션바 액션시트 메뉴
