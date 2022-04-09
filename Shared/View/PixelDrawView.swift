@@ -93,10 +93,7 @@ struct PixelDrawView: View {
     var layers:[LayerModel] {
         StageManager.shared.stage?.layers ?? []
     }
-    enum ColorSelectMode {
-        case foreground
-        case background
-    }
+    
     enum AlertType {
         case clear
         case delete
@@ -106,7 +103,7 @@ struct PixelDrawView: View {
     @State var isLoadingAnimated = true
     @State var isLoadingDataFin = false
     @State var isLoadedColorPreset = false
-    @State var colorSelectMode:ColorSelectMode = .foreground
+    @State var colorSelectMode:PaletteView.ColorSelectMode = .foreground
     
     @State var isShowSelectLayerOnly = false
     @State var colors:[[Color]]
@@ -537,82 +534,16 @@ struct PixelDrawView: View {
                         //            Spacer()
                         HStack {
                             // MARK: -  빠렛트
-                            VStack {
-                                Button {
-                                    if isShowMenu {
-                                        return
-                                    }
-                                    colorSelectMode = .foreground
-                                } label: {
-                                    Text("").frame(width: 28, height: 15, alignment: .center)
-                                        .background(forgroundColor)
-                                }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
-                                
-                                Button {
-                                    if isShowMenu {
-                                        return
-                                    }
-                                    
-                                    colorSelectMode = .background
-                                } label: {
-                                    Text("").frame(width: 28, height: 15, alignment: .center)
-                                        .background(backgroundColor)
-                                }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
-                            }
-                            switch colorSelectMode {
-                            case .foreground:
-                                ColorPicker(selection: $forgroundColor) {
-                                    
-                                }
-                                .onChange(of: forgroundColor) { newValue in
-                                    print("change forground : \(newValue.string)")
-                                }
-                                .frame(width: 40, height: 40, alignment: .center)
-                            case .background:
-                                ColorPicker(selection: $backgroundColor) {
-                                    
-                                }
-                                .onChange(of: backgroundColor) { newValue in
-                                    print("change backgroundColor : \(newValue.string)")
-                                    if StageManager.shared.stage?.changeBgColor(color: newValue) == true {
-                                        undoCount = StageManager.shared.stage?.history.count ?? 0
-                                        redoCount = 0
-                                    }
-                                }
-                                .frame(width: 40, height: 40, alignment: .center)
-                            }
+                            PaletteView(forgroundColor: $forgroundColor,
+                                        backgroundColor: $backgroundColor,
+                                        colorSelectMode: $colorSelectMode,
+                                        undoCount: $undoCount,
+                                        redoCount: $redoCount,
+                                        isShowMenu: isShowMenu,
+                                        paletteColors: paletteColors,
+                                        isShowColorPresetView: $isShowColorPresetView
+                            )
                             
-                            Spacer()
-                            
-                            HStack {
-                                ForEach(0..<7) { i in
-                                    Button {
-                                        switch colorSelectMode {
-                                        case .foreground:
-                                            forgroundColor = paletteColors[i]
-                                        case .background:
-                                            backgroundColor = paletteColors[i]
-                                        }
-                                        
-                                    } label: {
-                                        Spacer().frame(width: 26, height: 32, alignment: .center)
-                                            .background(paletteColors[i])
-                                    }
-                                    .border(.white, width: colorSelectMode == .foreground
-                                            ? forgroundColor == paletteColors[i] ? 5.0 : 0.5
-                                            : backgroundColor == paletteColors[i] ? 5.0 : 0.5
-                                    )
-                                    .padding(SwiftUI.EdgeInsets(top: 0, leading: 1, bottom: 0, trailing: 1))
-                                }
-                                
-                                Button {
-                                    isShowColorPresetView = true
-                                } label : {
-                                    Image(systemName: "ellipsis")
-                                        .imageScale(.large)
-                                }
-                                
-                            }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
                         }.padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
                         
                         HStack {

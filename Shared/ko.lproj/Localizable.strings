@@ -89,3 +89,8 @@
  
 "name" = "이름";
 "email" = "이메일";
+
+"canvas size" = "캔버스 크기";
+"new canvas view title" = "새 캔버스";
+"new canvas confirm button title" = "확인";
+

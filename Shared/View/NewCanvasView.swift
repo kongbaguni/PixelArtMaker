@@ -10,6 +10,8 @@ import SwiftUI
 struct NewCanvasView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var selection = 0
+    @State var backgroundColor = Color.white
+    
     var canvasSize:CGSize {
         let w = Consts.canvasSizes[selection]
         let h = Consts.canvasSizes[selection]
@@ -39,6 +41,10 @@ struct NewCanvasView: View {
                 .frame(width: geomentry.size.width, height: geomentry.size.width, alignment: .center)
                 
                 HStack {
+                    Text("canvas size")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                    
                     Picker("canvas size", selection: $selection) {
                         ForEach(0..<Consts.canvasSizes.count, id:\.self) { idx in
                             let size = Consts.canvasSizes[idx]
@@ -63,10 +69,13 @@ struct NewCanvasView: View {
                     }
                     
                 } label: {
-                    OrangeTextView(image: Image(systemName: "rectangle.center.inset.filled"), boldText: nil, text: Text("confirm"))
+                    OrangeTextView(image: Image(systemName: "rectangle.center.inset.filled"), boldText: nil, text: Text("new canvas confirm button title"))
                 }
                 
-            }.onAppear {
+            }
+            
+            .navigationTitle(Text("new canvas view title"))
+            .onAppear {
                 let size = StageManager.shared.canvasSize
                 if let idx = Consts.canvasSizes.firstIndex(of: size.width) {
                     selection = idx
