@@ -11,6 +11,7 @@ struct NewCanvasView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var selection = 0
     @State var backgroundColor = Color.white
+    @State var isLoadDataOnce = false
     
     var canvasSize:CGSize {
         let w = Consts.canvasSizes[selection]
@@ -32,7 +33,7 @@ struct NewCanvasView: View {
                                                                   y: CGFloat(y) * h + 0.5,
                                                                   width: w - 1.0,
                                                                   height: h - 1.0),
-                                               cornerSize: .init(width: 1, height: 1)), with: .color(.white))
+                                               cornerSize: .init(width: 1, height: 1)), with: .color(backgroundColor))
 
                         }
                     }
@@ -59,11 +60,19 @@ struct NewCanvasView: View {
                         }
                     }
                 }
-                
+                HStack {
+                    ColorPicker("", selection: $backgroundColor)
+                        .frame(width: 50)
+                    SimplePaleteView(color: $backgroundColor, paletteColors: Color.lastSelectColors ?? [])
+                    NavigationLink(destination: ColorPresetView()) {
+                        Image(systemName: "ellipsis").imageScale(.large)
+                    }
+                }
                 Spacer()
                 Button {
                     StageManager.shared.deleteTemp { isSucess in
                         StageManager.shared.initStage(canvasSize:canvasSize)
+                        StageManager.shared.stage?.backgroundColor = backgroundColor
                         NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
                         presentationMode.wrappedValue.dismiss()
                     }
@@ -76,12 +85,16 @@ struct NewCanvasView: View {
             
             .navigationTitle(Text("new canvas view title"))
             .onAppear {
-                let size = StageManager.shared.canvasSize
-                if let idx = Consts.canvasSizes.firstIndex(of: size.width) {
-                    selection = idx
-                }
-                if let idx = Consts.canvasSizes.firstIndex(of: size.height) {
-                    selection = idx
+                if isLoadDataOnce == false {
+                    backgroundColor = StageManager.shared.stage?.backgroundColor ?? .white
+                    let size = StageManager.shared.canvasSize
+                    if let idx = Consts.canvasSizes.firstIndex(of: size.width) {
+                        selection = idx
+                    }
+                    if let idx = Consts.canvasSizes.firstIndex(of: size.height) {
+                        selection = idx
+                    }
+                    isLoadDataOnce = true
                 }
             }
         }

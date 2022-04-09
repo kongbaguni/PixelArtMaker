@@ -70,24 +70,11 @@ struct PaletteView: View {
             }
             
             Spacer()
-            ForEach(0..<7) { i in
-                Button {
-                    switch colorSelectMode {
-                    case .foreground:
-                        forgroundColor = paletteColors[i]
-                    case .background:
-                        backgroundColor = paletteColors[i]
-                    }
-                    
-                } label: {
-                    Spacer().frame(width: 26, height: 32, alignment: .center)
-                        .background(paletteColors[i])
-                }
-                .border(.white, width: colorSelectMode == .foreground
-                        ? forgroundColor == paletteColors[i] ? 5.0 : 0.5
-                        : backgroundColor == paletteColors[i] ? 5.0 : 0.5
-                )
-                .padding(SwiftUI.EdgeInsets(top: 0, leading: 1, bottom: 0, trailing: 1))
+            switch colorSelectMode {
+            case .foreground:
+                 SimplePaleteView(color: $forgroundColor, paletteColors: paletteColors)
+            case .background:
+                SimplePaleteView(color: $backgroundColor, paletteColors: paletteColors)
             }
             
             Button {
@@ -95,6 +82,28 @@ struct PaletteView: View {
             } label : {
                 Image(systemName: "ellipsis")
                     .imageScale(.large)
+            }
+        }
+    }
+}
+
+
+struct SimplePaleteView : View {
+    @Binding var color:Color
+    let paletteColors:[Color]
+    
+    var body: some View {
+        HStack {
+            ForEach(0..<7) { i in
+                Button {
+                    color = paletteColors[i]
+                    
+                } label: {
+                    Spacer().frame(width: 26, height: 32, alignment: .center)
+                        .background(paletteColors[i])
+                }
+                .border(.white, width: color == paletteColors[i] ? 5.0 : 0.5)
+                .padding(SwiftUI.EdgeInsets(top: 0, leading: 1, bottom: 0, trailing: 1))
             }
         }
     }
