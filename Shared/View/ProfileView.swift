@@ -12,7 +12,14 @@ import RealmSwift
 struct ProfileView: View {
     let uid:String
     let haveArtList:Bool
+    let editabel:Bool
 
+    init(uid:String, haveArtList:Bool, editable:Bool = false) {
+        self.uid = uid
+        self.haveArtList = haveArtList
+        self.editabel = editable
+    }
+    
     @State var nickname:String = ""
     @State var imageURL:URL? = nil
     @State var email:String = ""
@@ -52,9 +59,14 @@ struct ProfileView: View {
                         Text("name")
                             .font(.system(size: 10, weight: .heavy, design: .serif))
                             .padding(5)
-                        Text(nickname)
-                            .font(.system(size: 10, weight: .light, design: .serif))
-                            .foregroundColor(.gray)
+                        if editabel {
+                            TextField("name", text: $nickname)
+                                .textFieldStyle(.roundedBorder)
+                        } else {
+                            Text(nickname)
+                                .font(.system(size: 10, weight: .light, design: .serif))
+                                .foregroundColor(.gray)
+                        }
                         Spacer()
                     }
                     if haveArtList == false {
@@ -75,7 +87,7 @@ struct ProfileView: View {
                 ArtListView(uid)
             }
         }
-        
+        .navigationBarTitle(Text("profile"))
         .padding(10)
         .onAppear {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
@@ -85,6 +97,13 @@ struct ProfileView: View {
             if uid.isEmpty == false {
                 ProfileModel.findBy(uid: uid) { error in
                     loadData()
+                }
+            }
+        }
+        .onDisappear {
+            if editabel {
+                ProfileModel.updateProfile(nickname: nickname) { error in
+                    
                 }
             }
         }

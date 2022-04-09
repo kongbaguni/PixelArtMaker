@@ -102,17 +102,28 @@ extension ProfileModel {
         ProfileModel.updateProfile(nickname: nickname, profileURL: profileURL, email: email, complete: complete)
     }
     
-    static func updateProfile(nickname:String, profileURL:String, email:String, complete:@escaping(_ error:Error?)->Void) {
+    
+    static func updateProfile(nickname:String, profileURL:String? = nil, email:String? = nil, complete:@escaping(_ error:Error?)->Void) {
+        if nickname.replacingOccurrences(of: " ", with: "").isEmpty == true {
+            complete(nil)
+            return
+        }        
         guard let uid = AuthManager.shared.userId else {
             complete(nil)
             return
         }
-        let data:[String:String] = [
+        var data:[String:String] = [
             "uid":uid,
-            "nickname":nickname,
-            "profileURL":profileURL,
-            "email":email
+            "nickname":nickname
         ]
+        
+        if let url = profileURL {
+            data["profileURL"] = url
+        }
+        if let email = email {
+            data["email"] = email
+        }
+        
         collection.document(uid).updateData(data) { error in
             if let err = error {
                 print(err.localizedDescription)

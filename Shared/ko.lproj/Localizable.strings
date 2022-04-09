@@ -87,3 +87,5 @@
 "term" = "이용약관";
 "privacyPolicy" = "개인정보 처리방침";
  
+"name" = "이름";
+"email" = "이메일";

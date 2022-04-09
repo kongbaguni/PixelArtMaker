@@ -487,6 +487,9 @@ struct PixelDrawView: View {
                         .gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                             print(value.location)
                             if isShowMenu {
+                                withAnimation {
+                                    isShowMenu = false
+                                }                                
                                 return
                             }
                             let idx = getIndex(location: value.location)
@@ -679,7 +682,7 @@ struct PixelDrawView: View {
                                         }
                                     } label: {
                                         VStack {
-                                            Text("undo")
+                                            Image(systemName:"arrow.uturn.backward.circle").imageScale(.large)
                                             if redoCount + undoCount > 0 {
                                                 ProgressView(value: CGFloat(undoCount) / CGFloat(redoCount + undoCount) )
                                                     .frame(width: 50, height: 5, alignment: .center)
@@ -794,7 +797,7 @@ struct PixelDrawView: View {
                                         
                                     } label: {
                                         VStack {
-                                            Text("redo")
+                                            Image(systemName:"arrow.uturn.forward.circle").imageScale(.large)
                                             if redoCount + undoCount > 0 {
                                                 ProgressView(value: CGFloat(redoCount) / CGFloat(redoCount + undoCount) )
                                                     .frame(width: 50, height: 5, alignment: .center)
@@ -834,7 +837,7 @@ struct PixelDrawView: View {
                             
                         }
                         if let id = AuthManager.shared.userId {
-                            NavigationLink(destination: ProfileView(uid: id, haveArtList: true), isActive: $isShowProfileView) {
+                            NavigationLink(destination: ProfileView(uid: id, haveArtList: true, editable: true), isActive: $isShowProfileView) {
                                 
                             }
                         }

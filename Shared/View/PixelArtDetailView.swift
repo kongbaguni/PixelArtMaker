@@ -68,36 +68,35 @@ struct PixelArtDetailView: View {
                     LabelTextView(label: "update dt", text: m.updateDt.formatted(date: .long, time: .standard))
                 }.padding(10)
 
+                Button {
+                    toggleLike()
+                } label: {
+                    HStack {
+                        Image(isMyLike ? "heart_red" : "heart_gray")
+                        Text(likeCount.formatted(.number))
+                    }
+                }
+                
                 if m.uid == AuthManager.shared.userId && isProfileImage == false  {
                     Button {
                         ProfileModel.findBy(uid: m.uid)?.updatePhoto(photoURL: m.imageURL.absoluteString, complete: { error in
                             isProfileImage = true
                         })
                     } label : {
-                        OrangeTextView(Text("Set as Profile Image"))
+                        OrangeTextView(image: Image(systemName: "person.crop.circle"), text: Text("Set as Profile Image"))
                     }
                 }
-                HStack {
+                                        
+                if let img = m.imageURL {
                     Button {
-                        toggleLike()
-                    } label: {
-                        HStack {
-                            Image(isMyLike ? "heart_red" : "heart_gray")
-                            Text(likeCount.formatted(.number))
-                        }
-                    }
-                    
-                    if let img = m.imageURL {
-                        Button {
-                            googleAd.showAd { isSucess in
-                                if isSucess {
-                                    share(items: [img])
-                                }
+                        googleAd.showAd { isSucess in
+                            if isSucess {
+                                share(items: [img])
                             }
-                            
-                        } label: {
-                            OrangeTextView(Text("share"))
                         }
+                        
+                    } label: {
+                        OrangeTextView(image: Image(systemName: "square.and.arrow.up"), text: Text("share"))
                     }
                 }
 

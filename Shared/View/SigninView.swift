@@ -22,6 +22,28 @@ struct SigninView: View {
                 .foregroundColor(.gray)
                 .padding(10)
             Spacer()
+            
+            HStack {
+                if let url = Bundle.main.url(forResource: "HTML/term", withExtension: "html") {
+                    NavigationLink {
+                        WebView(url: url)
+                            .navigationBarTitle(Text("term"))
+                    } label: {
+                        Text("term")
+                    }.padding(5)
+                }
+                
+                if let url = Bundle.main.url(forResource: "HTML/privacyPolicy", withExtension: "html") {
+                    NavigationLink {
+                        WebView(url: url)
+                            .navigationBarTitle(Text("privacyPolicy"))
+                    } label: {
+                        Text("privacyPolicy")
+                    }.padding(5)
+                }
+            }
+            
+            
             if AuthManager.shared.isSignined == false {
                 //MARK: - Apple 로 로그인
                 SignInWithAppleButton()
@@ -49,7 +71,6 @@ struct SigninView: View {
                             }
                         }
                     }
-                
 
             }
 

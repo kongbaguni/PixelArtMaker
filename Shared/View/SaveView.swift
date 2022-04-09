@@ -102,8 +102,7 @@ struct SaveView: View {
                         }
                         
                     } label: {
-                        OrangeTextView(.save_to_existing_file)
-                        
+                        OrangeTextView(image: Image(systemName: "icloud.and.arrow.up"), text: .save_to_existing_file)
                     }
                 }
                 //MARK: 새 파일로 저장
@@ -123,7 +122,7 @@ struct SaveView: View {
                         }
                         
                     } label: {
-                        OrangeTextView(.save_as_new_file)
+                        OrangeTextView(image: Image(systemName: "icloud.and.arrow.up"), text: .save_as_new_file)
                     }
                 }
                 
@@ -138,16 +137,7 @@ struct SaveView: View {
                         }
                     }
                 } label: {
-                    HStack {
-                        Text("share")
-                            .font(.system(size: 20, weight: .heavy, design: .rounded))
-                        Consts.sizeTitles[id!]
-                            .font(.system(size: 20, weight: .light, design: .rounded))
-                    }                    
-                    .padding(10)
-                    .foregroundColor(.white)
-                    .background(.orange)
-                    .cornerRadius(10)
+                    OrangeTextView(image: Image(systemName: "square.and.arrow.up"), boldText: Text("share"), text: Consts.sizeTitles[id!])
                 }
 
             }
@@ -172,7 +162,7 @@ struct SaveView: View {
                         }
                         
                     } label: {
-                        OrangeTextView(Text("share public"))
+                        OrangeTextView(image: Image(systemName: "shareplay"), text: .save_to_existing_file)
                     }
                 }
             }

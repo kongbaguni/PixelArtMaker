@@ -8,22 +8,43 @@
 import SwiftUI
 
 struct OrangeTextView: View {
-    @State var text:Text
+    let image:Image?
+    let boldText:Text?
+    let text:Text
+    let textSize:CGFloat
     init(_ text:Text) {
+        image = nil
+        boldText = nil
         self.text = text
+        textSize = 20
     }
+    
+    init(image:Image?, boldText:Text? = nil, text:Text, textSize:CGFloat = 20) {
+        self.image = image
+        self.boldText = boldText
+        self.text = text
+        self.textSize = textSize
+    }
+    
     var body: some View {
-        text
-            .font(.system(size: 20, weight: .heavy, design: .rounded))
-            .padding(10)
-            .foregroundColor(.white)
-            .background(.orange)
-            .cornerRadius(10)
+        HStack {
+            if let img = image {
+                img
+            }
+            if let txt = boldText {
+                txt.font(.system(size:textSize , weight: .heavy, design: .serif))
+            }
+            text.font(.system(size: textSize, weight: .regular, design: .serif))
+        }
+        .padding(10)
+        .foregroundColor(.white)
+        .background(.orange)
+        .cornerRadius(10)
     }
 }
 
 struct OrangeTextView_Previews: PreviewProvider {
     static var previews: some View {
-        OrangeTextView(Text("text"))
+        OrangeTextView(image: nil, boldText: nil, text: Text("test"), textSize: 20)
     }
 }
