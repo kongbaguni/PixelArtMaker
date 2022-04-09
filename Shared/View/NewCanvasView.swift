@@ -13,6 +13,9 @@ struct NewCanvasView: View {
     @State var backgroundColor = Color.white
     @State var isLoadDataOnce = false
     
+    @State var isToast = false
+    @State var toastMessage = ""
+    
     var canvasSize:CGSize {
         let w = Consts.canvasSizes[selection]
         let h = Consts.canvasSizes[selection]
@@ -70,11 +73,26 @@ struct NewCanvasView: View {
                 }
                 Spacer()
                 Button {
-                    StageManager.shared.deleteTemp { isSucess in
+                    StageManager.shared.deleteTemp { errorA in
                         StageManager.shared.initStage(canvasSize:canvasSize)
                         StageManager.shared.stage?.backgroundColor = backgroundColor
                         NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
-                        presentationMode.wrappedValue.dismiss()
+                        if let err = errorA {
+                            toastMessage = err.localizedDescription
+                            isToast = true
+                            return
+                        }
+
+                        
+                        StageManager.shared.saveTemp { errorB in
+                            if let err = errorB {
+                                toastMessage = err.localizedDescription
+                                isToast = true
+                                return
+                            }
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                        
                     }
                     
                 } label: {
@@ -82,7 +100,7 @@ struct NewCanvasView: View {
                 }
                 
             }
-            
+            .toast(message: toastMessage, isShowing: $isToast, duration: 4)
             .navigationTitle(Text("new canvas view title"))
             .onAppear {
                 if isLoadDataOnce == false {

@@ -47,10 +47,12 @@ class StageManager {
             complete(nil)
             return
         }
-        if let time = lastSaveTempTime {
-            if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 && isOnlineUpdate {
-                complete(nil)
-                return
+        if isOnlineUpdate {
+            if let time = lastSaveTempTime {
+                if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 && isOnlineUpdate {
+                    complete(nil)
+                    return
+                }
             }
         }
         lastSaveTempTime = Date()
