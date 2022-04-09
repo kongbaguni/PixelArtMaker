@@ -173,7 +173,10 @@ class StageManager {
             
             if asNewForce == false {
                 if let documentPath = self.stage?.documentId {
-                    FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png, uploadURL: "previews/\(documentPath)") { downloadURL, error in
+                    FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png,
+                                                            uploadPath: "previews",
+                                                            id:documentPath
+                                                            ) { downloadURL, error in
                         data["imageURL"] = downloadURL?.absoluteString ?? ""
                         
                             let d = collection.document(documentPath)
@@ -199,7 +202,9 @@ class StageManager {
                     let documentId = try! Realm().objects(MyStageModel.self).sorted(byKeyPath: "updateDt").last!.documentId
                     stage.documentId = documentId
                     
-                    FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png, uploadURL: "previews/\(documentId)") {
+                    FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png,
+                                                            uploadPath: "previews",
+                                                            id:documentId) {
                         downloadURL, error in
                         data["imageURL"] = downloadURL?.absoluteString ?? ""
                         
@@ -416,7 +421,10 @@ class StageManager {
         let collection = fireStore.collection("public")
         let now = Date().timeIntervalSince1970
         
-        FirebaseStorageHelper.shared.uploadData(data: image, contentType: .png, uploadURL: "shareImages/\(id)") { downloadURL, error in
+        FirebaseStorageHelper.shared.uploadData(data: image, contentType: .png,
+                                                uploadPath: "shareImages",
+                                                id:id
+                                                ) { downloadURL, error in
             if let err = error {
                 complete(err)
                 return

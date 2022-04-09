@@ -21,7 +21,7 @@ class FirebaseStorageHelper {
         case jpeg = "image/jpeg"
     }
     
-    func uploadImage(url:URL, contentType:ContentType, uploadURL:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
+    func uploadImage(url:URL, contentType:ContentType, uploadPath:String, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
         guard var data = try? Data(contentsOf: url) else {
             complete(nil, nil)
             return
@@ -38,28 +38,36 @@ class FirebaseStorageHelper {
             }
         }
 
-        uploadData(data: data, contentType: contentType, uploadURL: uploadURL, complete: complete)
+        uploadData(data: data, contentType: contentType, uploadPath: uploadPath, id: id, complete: complete)
     }
 
     
-    func uploadData(data:Data, contentType:ContentType, uploadURL:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
-        let ref:StorageReference = storageRef.child(uploadURL)
+    func uploadData(data:Data, contentType:ContentType, uploadPath:String, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
+        let ref:StorageReference = storageRef.child("\(uploadPath)/\(id)")
         let metadata = StorageMetadata()
         metadata.contentType = contentType.rawValue
         let task = ref.putData(data, metadata: metadata)
         task.observe(.success) { (snapshot) in
-                    let path = snapshot.reference.fullPath
-                    print(path)
-                    ref.downloadURL { (downloadUrl, err) in
-                        if (downloadUrl != nil) {
-                            print(downloadUrl?.absoluteString ?? "없다")
-                        }
-                        complete(downloadUrl, nil)
-                    }
-                }
-        task.observe(.failure) { snapshot in
+            let path = snapshot.reference.fullPath
+            print(snapshot.reference.name)
+            print(path)
             
+            ref.downloadURL { (downloadUrl, err) in
+                if (downloadUrl != nil) {
+                    print(downloadUrl?.absoluteString ?? "없다")
+                }
+                complete(downloadUrl, nil)
+            }
+        }
+        task.observe(.failure) { snapshot in
             complete(nil, snapshot.error)
+        }
+    }
+        
+    func getDownloadURL(uploadPath:String, id:String,complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
+        let ref:StorageReference = storageRef.child(id)
+        ref.downloadURL { downloadURL, err in
+            complete(downloadURL,err)
         }
     }
     
