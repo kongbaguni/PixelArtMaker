@@ -162,7 +162,7 @@ struct SaveView: View {
                         }
                         
                     } label: {
-                        OrangeTextView(image: Image(systemName: "shareplay"), text: .save_to_existing_file)
+                        OrangeTextView(image: Image(systemName: "shareplay"), text: Text("share public"))
                     }
                 }
             }
