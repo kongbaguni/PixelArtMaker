@@ -11,6 +11,10 @@ import FirebaseFirestore
 import RealmSwift
 
 class StageManager {
+    var canvasSize:CGSize {
+        return stage?.canvasSize ?? .init(width: 32, height: 32)
+    }
+    
     let fireStore = Firestore.firestore()
 
     static let shared = StageManager() 
@@ -21,11 +25,11 @@ class StageManager {
         return realm.objects(MyStageModel.self)//.sorted(byKeyPath: "updateDt").reversed()
     }
     
-    func initStage(size:CGSize) {
+    func initStage(canvasSize:CGSize) {
         let fc:Color? = stage?.forgroundColor
         let bc:Color? = stage?.backgroundColor
         let pc:[Color]? = stage?.paletteColors
-        stage = StageModel(canvasSize: size)
+        stage = StageModel(canvasSize: canvasSize)
         if let c = fc {
             stage?.forgroundColor = c
         }
@@ -38,13 +42,13 @@ class StageManager {
     }
     
     var lastSaveTempTime:Date? = nil
-    func saveTemp(documentId:String? = nil ,complete:@escaping(_ error:Error?)->Void) {
+    func saveTemp(documentId:String? = nil, isOnlineUpdate:Bool = false, complete:@escaping(_ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
             complete(nil)
             return
         }
         if let time = lastSaveTempTime {
-            if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
+            if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 && isOnlineUpdate {
                 complete(nil)
                 return
             }
@@ -52,37 +56,59 @@ class StageManager {
         lastSaveTempTime = Date()
 
         DispatchQueue.global().async {[self] in
-            let collection = fireStore.collection("temp")
             guard let stage = stage else {
                 return
             }
-                
-            let str = stage.base64EncodedString
             
+            let str = stage.base64EncodedString
             var data:[String:String] = [
                 "data":str
             ]
             if let id = documentId ?? StageManager.shared.stage?.documentId {
                 data["documentId"] = id
             }
-            
-            collection.document(uid).setData(data, merge: true) { error in
-                print(error?.localizedDescription ?? "성공")
-                if error == nil {
-                    DispatchQueue.main.async {
-                        complete(error)
+            if isOnlineUpdate {
+                let collection = fireStore.collection("temp")
+                collection.document(uid).setData(data, merge: true) { error in
+                    print(error?.localizedDescription ?? "성공")
+                    if error == nil {
+                        DispatchQueue.main.async {
+                            complete(error)
+                        }
                     }
+                }
+            } else {
+                data["uid"] = uid
+                let realm = try! Realm()
+                realm.beginWrite()
+                realm.create(TempModel.self, value: data, update: .modified)
+                try! realm.commitWrite()
+                DispatchQueue.main.async {
+                    complete(nil)
                 }
             }
 
         }
     }
     
-    func loadTemp(complete:@escaping(_ error:Error?)->Void) {
+    func loadTemp(isOnlineDownload:Bool = false  ,complete:@escaping(_ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
             complete(nil)
             return
         }
+        if isOnlineDownload == false {
+            if let model = try! Realm().object(ofType: TempModel.self, forPrimaryKey: uid) {
+                if let stage = StageModel.makeModel(base64EncodedString: model.data, documentId: model.documentId.isEmpty ? nil : model.documentId) {
+                    self.stage = stage
+                    self.stage?.createrId = uid
+                    print(stage.canvasSize)
+
+                    complete(nil)
+                    return
+                }
+            }
+        }
+        
         DispatchQueue.global().async {[self] in
             let collection = fireStore.collection("temp")
             
@@ -98,10 +124,11 @@ class StageManager {
                     }
                     return
                 }
-                self.stage = stage
+                self.stage = stage                
+                print(stage.canvasSize)
                 self.stage?.createrId = uid
                 if let id = data["documentId"] as? String {
-                    self.stage?.documentId = id
+                    self.stage?.documentId = id.isEmpty ? nil : id
                 }
                             
                 DispatchQueue.main.async {

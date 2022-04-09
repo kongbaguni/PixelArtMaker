@@ -220,7 +220,7 @@ class StageModel {
             "redo_bland_modes":redoblendModes,
             "selected_layer_index":selectedLayerIndex,
             "undo_background_colors":undoBackgroundColors,
-            "redo_background_colors":redoBackgroundColors
+            "redo_background_colors":redoBackgroundColors,
         ]
         
         

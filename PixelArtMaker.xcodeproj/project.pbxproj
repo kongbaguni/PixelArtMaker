@@ -67,6 +67,8 @@
 		C356364527FAC73A00B2609A /* InAppPurchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356364427FAC73A00B2609A /* InAppPurchesView.swift */; };
 		C365E18F27C36CC400154E56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 		C38C1B9E280071F300350176 /* SidebarMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1B9D280071F300350176 /* SidebarMenuView.swift */; };
+		C38C1BA028017C5300350176 /* TempModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1B9F28017C5300350176 /* TempModel.swift */; };
+		C38C1BA22801845E00350176 /* NewCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA12801845E00350176 /* NewCanvasView.swift */; };
 		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
 		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
 		C3D087FD27DB3509003F886E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D087FC27DB3509003F886E /* SigninView.swift */; };
@@ -149,6 +151,8 @@
 		C365E19127C36CC400154E56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C365E19327C36CEA00154E56 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C38C1B9D280071F300350176 /* SidebarMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuView.swift; sourceTree = "<group>"; };
+		C38C1B9F28017C5300350176 /* TempModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempModel.swift; sourceTree = "<group>"; };
+		C38C1BA12801845E00350176 /* NewCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCanvasView.swift; sourceTree = "<group>"; };
 		C3D087F927DB31DA003F886E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C3D087FC27DB3509003F886E /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		C3DBA08227EC5F8900FE8392 /* MyStageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStageModel.swift; sourceTree = "<group>"; };
@@ -287,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				1B28C3EA27BE108F003F8312 /* LayerModel.swift */,
+				C38C1B9F28017C5300350176 /* TempModel.swift */,
 				1B28C3F327BF302B003F8312 /* StageModel.swift */,
 				C3DBA08227EC5F8900FE8392 /* MyStageModel.swift */,
 				C3EDBF2227F87FE500BBEC01 /* ProfileModel.swift */,
@@ -300,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				1B28C3AE27BE100E003F8312 /* ContentView.swift */,
+				C38C1BA12801845E00350176 /* NewCanvasView.swift */,
 				C3EDBF2927F892B700BBEC01 /* LabelTextView.swift */,
 				C3EDBF2427F8863A00BBEC01 /* ProfileView.swift */,
 				1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */,
@@ -538,6 +544,7 @@
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
 				C356363627F9D9A800B2609A /* SortType.swift in Sources */,
+				C38C1BA22801845E00350176 /* NewCanvasView.swift in Sources */,
 				C3011F4627EF4068001B12AC /* ActivityIndicator.swift in Sources */,
 				1BE77B5227E9BC7800A36F8E /* Image+Extensions.swift in Sources */,
 				C356362D27F9712500B2609A /* PixelArtDetailView.swift in Sources */,
@@ -563,6 +570,7 @@
 				C3EDBF2C27F9412100BBEC01 /* Toast.swift in Sources */,
 				C3EDBF2327F87FE500BBEC01 /* ProfileModel.swift in Sources */,
 				C38C1B9E280071F300350176 /* SidebarMenuView.swift in Sources */,
+				C38C1BA028017C5300350176 /* TempModel.swift in Sources */,
 				C3EDBF2127F8020B00BBEC01 /* AppDelegate.swift in Sources */,
 				1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */,
 				C3EDBF1F27F6B06C00BBEC01 /* View+Extensions.swift in Sources */,

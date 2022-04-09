@@ -23,5 +23,14 @@ struct Consts {
             return Text("\(Int(size.width * 3)) * \(Int(size.width * 3))")
         }
     }
-    static let previewImageSize = sizes[0]
+    static var previewImageSize:CGSize {
+        let s = StageManager.shared.stage?.canvasSize ?? sizes[0]
+        return .init(width: s.width * 3, height: s.height * 3)
+    }
+    
+    
+    static let canvasSizes:[CGFloat] = [
+        16,24,32,36,48,56,64
+    ]
+    
 }

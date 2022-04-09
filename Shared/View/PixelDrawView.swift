@@ -75,18 +75,19 @@ fileprivate var screenWidth:CGFloat {
 }
 
 fileprivate var pw:CGFloat {
-    return screenWidth / pixelSize.width
+    return screenWidth / StageManager.shared.canvasSize.width
+}
+fileprivate var ph:CGFloat {
+    return screenWidth / StageManager.shared.canvasSize.height
 }
 
 fileprivate func getIndex(location:CGPoint)->(Int,Int) {
     let x = Int(location.x / pw)
-    let y = Int(location.y / pw)
+    let y = Int(location.y / ph)
     return (x,y)
 }
 
-fileprivate let pixelSize = CGSize(width: 32, height: 32)
-
-fileprivate let padSize = CGSize(width: 200, height: 200)
+fileprivate var pixelSize:CGSize { StageManager.shared.canvasSize }
 
 struct PixelDrawView: View {
     var layers:[LayerModel] {
@@ -123,7 +124,7 @@ struct PixelDrawView: View {
     @State var isShowShareListView = false
     @State var isShowSigninView = false
     @State var isShowProfileView = false
-    
+    @State var isShowNewCanvasView = false
     @State var isShowInAppPurches = false
     
     @State var isShowAlert = false
@@ -182,7 +183,7 @@ struct PixelDrawView: View {
     
     init() {
         if StageManager.shared.stage == nil {
-            StageManager.shared.initStage(size: pixelSize)
+            StageManager.shared.initStage(canvasSize: StageManager.shared.canvasSize)
         }
         let stage = StageManager.shared.stage!
         colors = stage.selectedLayer.colors
@@ -418,11 +419,21 @@ struct PixelDrawView: View {
                                     for (y,list) in layer.colors.enumerated() {
                                         for (x,color) in list.enumerated() {
                                             if (i == 0) {
+                                                var cornerSize:CGSize {
+                                                    if w > 8 {
+                                                        return .init(width: 4, height: 4)
+                                                    }
+                                                    if w > 3 {
+                                                        return .init(width: 1, height: 1)
+                                                    }
+                                                    return .zero
+                                                }
                                                 context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
                                                                                       y: CGFloat(y) * w + 1,
                                                                                       width: w - 2.0,
                                                                                       height: w - 2.0),
-                                                                   cornerSize: .init(width: 4, height: 4)), with: .color(backgroundColor))
+                                                                   cornerSize: cornerSize),
+                                                             with: .color(backgroundColor))
                                             }
                                             
                                             if color != .clear {
@@ -818,6 +829,9 @@ struct PixelDrawView: View {
                     
                     //MARK: - 네비게이션
                     Group {
+                        NavigationLink(destination: NewCanvasView(), isActive: $isShowNewCanvasView) {
+                            
+                        }
                         NavigationLink(destination: InAppPurchesView(), isActive: $isShowInAppPurches) {
                             
                         }
@@ -867,12 +881,8 @@ struct PixelDrawView: View {
                              message: Text.clear_alert_message,
                              primaryButton: .destructive(
                                 Text.clear_alert_confirm, action: {
-                                    isLoadingDataFin = false
-                                    StageManager.shared.deleteTemp { isSucess in
-                                        StageManager.shared.initStage(size: pixelSize)
-                                        load()
-                                        isLoadingDataFin = true
-                                    }
+                                    isLoadingDataFin = true
+                                    isShowNewCanvasView = true
                                 }), secondaryButton: .cancel())
             case .delete:
                 return Alert(title: Text.menu_delete_alert_title,
@@ -880,15 +890,17 @@ struct PixelDrawView: View {
                              primaryButton: .destructive(
                                 Text.menu_delete_alert_confirm, action: {
                                     isLoadingDataFin = false
+                                    let size = StageManager.shared.canvasSize
+                                    
                                     StageManager.shared.delete { error in
                                         if let err = error {
                                             isLoadingDataFin = false
                                             toastMessage = err.localizedDescription
                                             isShowToast = true
-                                        } else {
+                                        } else {                                    
                                             StageManager.shared.loadList { list in
                                                 isLoadingDataFin = true
-                                                StageManager.shared.initStage(size: pixelSize)
+                                                StageManager.shared.initStage(canvasSize: size)
                                                 load()
                                             }
                                         }

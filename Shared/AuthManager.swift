@@ -122,8 +122,9 @@ class AuthManager : NSObject {
                     complete(false)
                     return
                 }
-                
-                complete(true)
+                StageManager.shared.loadTemp(isOnlineDownload: true) { error in
+                    complete(true)
+                }
                 
             }
         }
@@ -158,18 +159,21 @@ class AuthManager : NSObject {
     }
     
     func signout() {
-        do {
-            try auth.signOut()            
-            StageManager.shared.initStage(size: .init(width: 32, height: 32))
-            StageManager.shared.stage?.documentId = nil
-            StageManager.shared.stage?.previewImage = nil
-            let realm = try! Realm()
-            try! realm.write {
-                realm.deleteAll()
+        StageManager.shared.saveTemp(isOnlineUpdate: true) { [self] error in
+            do {
+                try auth.signOut()
+                
+                StageManager.shared.initStage(canvasSize: StageManager.shared.canvasSize)
+                StageManager.shared.stage?.documentId = nil
+                StageManager.shared.stage?.previewImage = nil
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.deleteAll()
+                }
+                NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
+            } catch {
+                print(error.localizedDescription)
             }
-            NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
-        } catch {
-            print(error.localizedDescription)
         }
     }
 }
@@ -212,7 +216,7 @@ extension AuthManager: ASAuthorizationControllerDelegate {
                 print("login sucess")
                 didComplete(true)
                 print(authResult?.user.email ?? "없다")
-                StageManager.shared.loadTemp { _ in
+                StageManager.shared.loadTemp(isOnlineDownload: true) { error in
                     NotificationCenter.default.post(name: .authDidSucessed, object: nil)
                 }
                 // User is signed in to Firebase with Apple.

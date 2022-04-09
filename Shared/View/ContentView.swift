@@ -20,23 +20,7 @@ struct ContentView: View {
             print("google ad status : \(status.adapterStatusesByClassName)")
         }
         
-        SwiftyStoreKit.completeTransactions { purchases in
-            for purchase in purchases {
-                print(purchase)
-                switch purchase.transaction.transactionState {
-                case .purchased, .restored:
-                    if purchase.needsFinishTransaction {
-                        // Deliver content from server, then:
-                        SwiftyStoreKit.finishTransaction(purchase.transaction)
-                    }
-                    // Unlock content
-                case .failed, .purchasing, .deferred:
-                    break // do nothing
-                default:
-                    break
-                }
-            }
-        }
+      
     }
     
     var body: some View {
@@ -56,6 +40,24 @@ struct ContentView: View {
             //Portrait 고정
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
             AppDelegate.orientationLock = .portrait
+            
+            SwiftyStoreKit.completeTransactions { purchases in
+                for purchase in purchases {
+                    print(purchase)
+                    switch purchase.transaction.transactionState {
+                    case .purchased, .restored:
+                        if purchase.needsFinishTransaction {
+                            // Deliver content from server, then:
+                            SwiftyStoreKit.finishTransaction(purchase.transaction)
+                        }
+                        // Unlock content
+                    case .failed, .purchasing, .deferred:
+                        break // do nothing
+                    default:
+                        break
+                    }
+                }
+            }
         }
     }
 }
