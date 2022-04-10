@@ -70,6 +70,7 @@
 		C38C1BA028017C5300350176 /* TempModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1B9F28017C5300350176 /* TempModel.swift */; };
 		C38C1BA22801845E00350176 /* NewCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA12801845E00350176 /* NewCanvasView.swift */; };
 		C38C1BA42801A44700350176 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA32801A44600350176 /* PaletteView.swift */; };
+		C38C1BA62802CECA00350176 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA52802CECA00350176 /* CanvasView.swift */; };
 		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
 		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
 		C3D087FD27DB3509003F886E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D087FC27DB3509003F886E /* SigninView.swift */; };
@@ -155,6 +156,7 @@
 		C38C1B9F28017C5300350176 /* TempModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempModel.swift; sourceTree = "<group>"; };
 		C38C1BA12801845E00350176 /* NewCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCanvasView.swift; sourceTree = "<group>"; };
 		C38C1BA32801A44600350176 /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
+		C38C1BA52802CECA00350176 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		C3D087F927DB31DA003F886E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C3D087FC27DB3509003F886E /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		C3DBA08227EC5F8900FE8392 /* MyStageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStageModel.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				C356364427FAC73A00B2609A /* InAppPurchesView.swift */,
 				8DF55C5027FD74B800D68EB1 /* ArtListView.swift */,
 				C38C1B9D280071F300350176 /* SidebarMenuView.swift */,
+				C38C1BA52802CECA00350176 /* CanvasView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -589,6 +592,7 @@
 				1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */,
 				8DF55C5327FE6D7800D68EB1 /* SigninButton.swift in Sources */,
 				C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */,
+				C38C1BA62802CECA00350176 /* CanvasView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
