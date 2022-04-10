@@ -72,6 +72,8 @@
 		C38C1BA42801A44700350176 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA32801A44600350176 /* PaletteView.swift */; };
 		C38C1BA62802CECA00350176 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA52802CECA00350176 /* CanvasView.swift */; };
 		C38C1BA82802D6D600350176 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA72802D6D600350176 /* SideMenuView.swift */; };
+		C38C1BAA2802EC5800350176 /* DrawingToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA92802EC5800350176 /* DrawingToolView.swift */; };
+		C38C1BAC2802F26600350176 /* ArrowToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BAB2802F26600350176 /* ArrowToolView.swift */; };
 		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
 		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
 		C3D087FD27DB3509003F886E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D087FC27DB3509003F886E /* SigninView.swift */; };
@@ -159,6 +161,8 @@
 		C38C1BA32801A44600350176 /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		C38C1BA52802CECA00350176 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		C38C1BA72802D6D600350176 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
+		C38C1BA92802EC5800350176 /* DrawingToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingToolView.swift; sourceTree = "<group>"; };
+		C38C1BAB2802F26600350176 /* ArrowToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowToolView.swift; sourceTree = "<group>"; };
 		C3D087F927DB31DA003F886E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C3D087FC27DB3509003F886E /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		C3DBA08227EC5F8900FE8392 /* MyStageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStageModel.swift; sourceTree = "<group>"; };
@@ -311,6 +315,8 @@
 			isa = PBXGroup;
 			children = (
 				1B28C3AE27BE100E003F8312 /* ContentView.swift */,
+				C38C1BAB2802F26600350176 /* ArrowToolView.swift */,
+				C38C1BA92802EC5800350176 /* DrawingToolView.swift */,
 				C38C1BA32801A44600350176 /* PaletteView.swift */,
 				C38C1BA12801845E00350176 /* NewCanvasView.swift */,
 				C3EDBF2927F892B700BBEC01 /* LabelTextView.swift */,
@@ -568,8 +574,10 @@
 				C356363F27FAC41C00B2609A /* InAppPurchaseModel.swift in Sources */,
 				C3DBA08C27ECA32B00FE8392 /* GoogleAd.swift in Sources */,
 				C3DBA08327EC5F8900FE8392 /* MyStageModel.swift in Sources */,
+				C38C1BAA2802EC5800350176 /* DrawingToolView.swift in Sources */,
 				C356363827FA7C2200B2609A /* Consts.swift in Sources */,
 				C38C1BA42801A44700350176 /* PaletteView.swift in Sources */,
+				C38C1BAC2802F26600350176 /* ArrowToolView.swift in Sources */,
 				1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,
 				C356363A27FAC29400B2609A /* InAppPurches.swift in Sources */,
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,

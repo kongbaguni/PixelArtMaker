@@ -19,6 +19,7 @@ struct SideMenuView: View {
     
     let geomentryWidth:CGFloat
     
+    
     var body: some View {
         List {
             if AuthManager.shared.isSignined == false {
@@ -120,6 +121,7 @@ struct SideMenuView: View {
         .frame(width: geomentryWidth * 0.8)
         .transition(.move(edge: .trailing))
         .zIndex(2)
+       
 
     }
 }

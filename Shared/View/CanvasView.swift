@@ -20,29 +20,49 @@ struct CanvasView: View {
     let screenWidth:CGFloat
     let backgroundColor:Color
     let layers:[LayerModel]
+    let zoomMode:PixelDrawView.ZoomMode
+    let zoomFrame:(width:Int,height:Int)
+    let zoomOffset:(x:Int,y:Int)
     
     private var pw:CGFloat {
-        return screenWidth / StageManager.shared.canvasSize.width
+        return screenWidth / CGFloat(zoomFrame.width)
     }
     private var ph:CGFloat {
-        return screenWidth / StageManager.shared.canvasSize.height
+        return screenWidth / CGFloat(zoomFrame.height)
     }
 
     private func getIndex(location:CGPoint)->(Int,Int) {
-        let x = Int(location.x / pw)
-        let y = Int(location.y / ph)
+        let x = Int(location.x / pw) + zoomOffset.x
+        let y = Int(location.y / ph) + zoomOffset.y
         return (x,y)
     }
 
     var body: some View {
         ZStack(alignment: .center) {
+            if zoomMode != .none {
+                Text("zoom : \(zoomFrame.width) * \(zoomFrame.height) x:\(zoomOffset.x) y:\(zoomOffset.y)")
+                    .padding(5)
+                    .background(.blue)
+                    .zIndex(10)
+                    .cornerRadius(5)
+            }
+
             Canvas { context, size in
                 func draw() {
-                    let w = size.width / CGFloat(colors.first?.count ?? 1)
+                    let w = size.width / CGFloat(zoomFrame.width)
                     for (i,layer) in (StageManager.shared.stage?.layers ?? []).reversed().enumerated() {
                         context.blendMode = .init(rawValue: layer.blendMode.rawValue)
-                        for (y,list) in layer.colors.enumerated() {
-                            for (x,color) in list.enumerated() {
+                        for y in zoomOffset.y..<zoomOffset.y+zoomFrame.height {
+                            if y < 0 || y >= layer.colors.count {
+                                continue
+                            }
+                            let list = layer.colors[y]
+                            
+                            for x in zoomOffset.x..<zoomOffset.x+zoomFrame.width {
+                                if x < 0 || x >= list.count {
+                                    continue
+                                }
+                                let color = list[x]
                                 if (i == 0) {
                                     var cornerSize:CGSize {
                                         if w > 8 {
@@ -53,8 +73,8 @@ struct CanvasView: View {
                                         }
                                         return .zero
                                     }
-                                    context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 1,
-                                                                          y: CGFloat(y) * w + 1,
+                                    context.fill(.init(roundedRect: .init(x: CGFloat(x - zoomOffset.x) * w + 1,
+                                                                          y: CGFloat(y - zoomOffset.y) * w + 1,
                                                                           width: w - 2.0,
                                                                           height: w - 2.0),
                                                        cornerSize: cornerSize),
@@ -63,8 +83,8 @@ struct CanvasView: View {
                                 
                                 if color != .clear {
                                     
-                                    context.fill(.init(roundedRect: .init(x: CGFloat(x) * w + 0.5,
-                                                                          y: CGFloat(y) * w + 0.5,
+                                    context.fill(.init(roundedRect: .init(x: CGFloat(x - zoomOffset.x) * w + 0.5,
+                                                                          y: CGFloat(y - zoomOffset.y) * w + 0.5,
                                                                           width: w - 1.0,
                                                                           height: w - 1.0),
                                                        cornerSize: .zero), with: .color(
@@ -91,12 +111,12 @@ struct CanvasView: View {
                     }
                     if isShowMenu == false {
                         context.stroke(Path(roundedRect: .init(
-                            x: pointer.x * w,
-                            y: pointer.y * w,
+                            x: (pointer.x - CGFloat(zoomOffset.x)) * w,
+                            y: (pointer.y - CGFloat(zoomOffset.y)) * w,
                             width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer))
                         context.stroke(Path(roundedRect: .init(
-                            x: pointer.x * w + 1,
-                            y: pointer.y * w + 1,
+                            x: (pointer.x - CGFloat(zoomOffset.x)) * w + 1,
+                            y: (pointer.y - CGFloat(zoomOffset.y)) * w + 1,
                             width: pw - 2, height: pw - 2), cornerRadius: 0), with: .color(.k_pointer2))
                     }
                 }

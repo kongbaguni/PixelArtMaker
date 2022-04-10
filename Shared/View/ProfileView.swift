@@ -87,7 +87,6 @@ struct ProfileView: View {
                 ArtListView(uid)
             }
         }
-        .navigationBarTitle(Text("profile"))
         .padding(10)
         .onAppear {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
