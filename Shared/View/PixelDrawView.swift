@@ -180,26 +180,55 @@ struct PixelDrawView: View {
     
     
     var body: some View {
-        
-        
         GeometryReader { geomentry in
-            ZStack(alignment: .trailing) {
-                if isShowMenu {
-                    //MARK: - Side menu
-                    SideMenuView(isShowSigninView: $isShowSigninView,
-                                 alertType: $alertType,
-                                 isShowAlert: $isShowAlert,
-                                 isShowProfileView: $isShowProfileView,
-                                 isShowInAppPurches: $isShowInAppPurches,
-                                 isShowSaveView: $isShowSaveView,
-                                 isShowLoadView: $isShowLoadView,
-                                 isShowShareListView: $isShowShareListView,
-                                 geomentryWidth: geomentry.size.width)
-                }
-                VStack(alignment: .leading) {
+            //MARK: - 네비게이션
+            Group {
+                NavigationLink(destination: NewCanvasView(), isActive: $isShowNewCanvasView) {
                     
-                    //MARK: - 드로잉 켄버스
-                    ScrollView([.vertical,.horizontal], showsIndicators: true) {
+                }
+                NavigationLink(destination: InAppPurchesView(), isActive: $isShowInAppPurches) {
+                    
+                }
+                NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
+                    
+                }
+                NavigationLink(destination: SaveView(), isActive: $isShowSaveView) {
+                    
+                }
+                NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
+                    
+                }
+                NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
+                    
+                }
+                NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
+                    
+                }
+                if let id = AuthManager.shared.userId {
+                    NavigationLink(destination: ProfileView(uid: id, haveArtList: true, editable: true), isActive: $isShowProfileView) {
+                        
+                    }
+                }
+            }
+            
+            if geomentry.size.height > geomentry.size.width {
+                ZStack(alignment: .leading) {
+                    if isShowMenu {
+                        //MARK: - Side menu
+                        
+                        SideMenuView(isShowSigninView: $isShowSigninView,
+                                     alertType: $alertType,
+                                     isShowAlert: $isShowAlert,
+                                     isShowProfileView: $isShowProfileView,
+                                     isShowInAppPurches: $isShowInAppPurches,
+                                     isShowSaveView: $isShowSaveView,
+                                     isShowLoadView: $isShowLoadView,
+                                     isShowShareListView: $isShowShareListView,
+                                     geomentryWidth: geomentry.size.width)
+                    }
+                    VStack(alignment: .leading) {
+                        
+                        //MARK: - 드로잉 켄버스
                         CanvasView(pointer: $pointer,
                                    isShowMenu: $isShowMenu,
                                    isLoadingAnimated: $isLoadingAnimated,
@@ -216,107 +245,157 @@ struct PixelDrawView: View {
                                    zoomOffset: zoomOffset
                         )
                         
-
-                    }.frame(width: screenWidth, height: screenWidth, alignment: .leading)
-                    Spacer()
-                    if isShowMenu == false {
-                        HStack {
-                            //MARK: - 레이어 토글
-                            Toggle(isOn: $isShowSelectLayerOnly) {
-                                Text.title_select_Layer_only
-                            }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                            //MARK:  미리보기
-                            NavigationLink(destination: {
-                                LayerEditView()
-                            }, label: {
-                                if let img = previewImage {
-                                    img.resizable().frame(width: 64, height: 64, alignment: .center)
-                                }
-                            })
-                        }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                         
-                        //            Spacer()
-                        if zoomMode == .none {
-                            // MARK: -  빠렛트
-                            PaletteView(forgroundColor: $forgroundColor,
-                                        backgroundColor: $backgroundColor,
-                                        colorSelectMode: $colorSelectMode,
-                                        undoCount: $undoCount,
-                                        redoCount: $redoCount,
-                                        isShowMenu: isShowMenu,
-                                        paletteColors: paletteColors,
-                                        isShowColorPresetView: $isShowColorPresetView
-                            ).padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+                        Spacer()
+                        if isShowMenu == false {
+                            LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly, previewImage: previewImage)
                             
-                        }
-                        
-                        HStack {
-                            //MARK: - 포인터 브러시 컨트롤 뷰
-                            VStack {
-                                
-                                DrawingToolView(
-                                    zoomMode: $zoomMode,
-                                    colors: $colors,
-                                    forgroundColor: $forgroundColor,
-                                    undoCount: $undoCount,
-                                    redoCount: $redoCount,
-                                    toastMessage: $toastMessage,
-                                    isShowToast: $isShowToast,
-                                    previewImage: $previewImage,
-                                    pointer: pointer,
-                                    backgroundColor: backgroundColor)
-                                
-                                ArrowToolView(zoomMode: $zoomMode,
-                                              toastMessage: $toastMessage,
-                                              isShowToast: $isShowToast,
-                                              isLongPressing: $isLongPressing,
-                                              timer: $timer,
-                                              pointer: $pointer,
-                                              zoomOffset: $zoomOffset,
-                                              zoomScale: $zoomScale,
-                                              zoomFrame: zoomFrame,
-                                              isShowMenu: isShowMenu,
-                                              redoCount: redoCount,
-                                              undoCount: undoCount)
-                                
-                            }.padding(20)
-                        }
-                    }
-                    
-                    //MARK: - 네비게이션
-                    Group {
-                        NavigationLink(destination: NewCanvasView(), isActive: $isShowNewCanvasView) {
-                            
-                        }
-                        NavigationLink(destination: InAppPurchesView(), isActive: $isShowInAppPurches) {
-                            
-                        }
-                        NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
-                            
-                        }
-                        NavigationLink(destination: SaveView(), isActive: $isShowSaveView) {
-                            
-                        }
-                        NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
-                            
-                        }
-                        NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
-                            
-                        }
-                        NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
-                            
-                        }
-                        if let id = AuthManager.shared.userId {
-                            NavigationLink(destination: ProfileView(uid: id, haveArtList: true, editable: true), isActive: $isShowProfileView) {
+                            //            Spacer()
+                            if zoomMode == .none {
+                                // MARK: -  빠렛트
+                                PaletteView(forgroundColor: $forgroundColor,
+                                            backgroundColor: $backgroundColor,
+                                            colorSelectMode: $colorSelectMode,
+                                            undoCount: $undoCount,
+                                            redoCount: $redoCount,
+                                            isShowMenu: isShowMenu,
+                                            paletteColors: paletteColors,
+                                            isShowColorPresetView: $isShowColorPresetView
+                                ).padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
                                 
                             }
+                            
+                            HStack {
+                                //MARK: - 포인터 브러시 컨트롤 뷰
+                                VStack {
+                                    
+                                    DrawingToolView(
+                                        zoomMode: $zoomMode,
+                                        colors: $colors,
+                                        forgroundColor: $forgroundColor,
+                                        undoCount: $undoCount,
+                                        redoCount: $redoCount,
+                                        toastMessage: $toastMessage,
+                                        isShowToast: $isShowToast,
+                                        previewImage: $previewImage,
+                                        pointer: pointer,
+                                        backgroundColor: backgroundColor)
+                                    
+                                    ArrowToolView(zoomMode: $zoomMode,
+                                                  toastMessage: $toastMessage,
+                                                  isShowToast: $isShowToast,
+                                                  isLongPressing: $isLongPressing,
+                                                  timer: $timer,
+                                                  pointer: $pointer,
+                                                  zoomOffset: $zoomOffset,
+                                                  zoomScale: $zoomScale,
+                                                  zoomFrame: zoomFrame,
+                                                  isShowMenu: isShowMenu,
+                                                  redoCount: redoCount,
+                                                  undoCount: undoCount)
+                                    
+                                }.padding(20)
+                            }
+                        }
+                        
+                        
+                    }
+                    .opacity(isShowMenu ? 0.2 : 1.0)
+                }
+
+            } else {
+                ZStack(alignment: .leading) {
+                    if isShowMenu {
+                        //MARK: - Side menu
+                        
+                        SideMenuView(isShowSigninView: $isShowSigninView,
+                                     alertType: $alertType,
+                                     isShowAlert: $isShowAlert,
+                                     isShowProfileView: $isShowProfileView,
+                                     isShowInAppPurches: $isShowInAppPurches,
+                                     isShowSaveView: $isShowSaveView,
+                                     isShowLoadView: $isShowLoadView,
+                                     isShowShareListView: $isShowShareListView,
+                                     geomentryWidth: geomentry.size.height)
+                    }
+                    HStack {
+                        
+                        CanvasView(pointer: $pointer,
+                                   isShowMenu: $isShowMenu,
+                                   isLoadingAnimated: $isLoadingAnimated,
+                                   isLongPressing: $isLongPressing,
+                                   timer: $timer,
+                                   colors: colors,
+                                   isLoadingDataFin: isLoadingDataFin,
+                                   isShowSelectLayerOnly: isShowSelectLayerOnly,
+                                   screenWidth: geomentry.size.height,
+                                   backgroundColor: backgroundColor,
+                                   layers: layers,
+                                   zoomMode: zoomMode,
+                                   zoomFrame: zoomFrame,
+                                   zoomOffset: zoomOffset
+                        )
+                        
+    
+                        VStack {
+                            if isShowMenu == false {
+                            LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly, previewImage: previewImage)
+                            
+                            //            Spacer()
+                            if zoomMode == .none {
+                                // MARK: -  빠렛트
+                                PaletteView(forgroundColor: $forgroundColor,
+                                            backgroundColor: $backgroundColor,
+                                            colorSelectMode: $colorSelectMode,
+                                            undoCount: $undoCount,
+                                            redoCount: $redoCount,
+                                            isShowMenu: isShowMenu,
+                                            paletteColors: paletteColors,
+                                            isShowColorPresetView: $isShowColorPresetView
+                                ).padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+                                
+                            }
+                            
+                            HStack {
+                                //MARK: - 포인터 브러시 컨트롤 뷰
+                                VStack {
+                                    
+                                    DrawingToolView(
+                                        zoomMode: $zoomMode,
+                                        colors: $colors,
+                                        forgroundColor: $forgroundColor,
+                                        undoCount: $undoCount,
+                                        redoCount: $redoCount,
+                                        toastMessage: $toastMessage,
+                                        isShowToast: $isShowToast,
+                                        previewImage: $previewImage,
+                                        pointer: pointer,
+                                        backgroundColor: backgroundColor)
+                                    
+                                    ArrowToolView(zoomMode: $zoomMode,
+                                                  toastMessage: $toastMessage,
+                                                  isShowToast: $isShowToast,
+                                                  isLongPressing: $isLongPressing,
+                                                  timer: $timer,
+                                                  pointer: $pointer,
+                                                  zoomOffset: $zoomOffset,
+                                                  zoomScale: $zoomScale,
+                                                  zoomFrame: zoomFrame,
+                                                  isShowMenu: isShowMenu,
+                                                  redoCount: redoCount,
+                                                  undoCount: undoCount)
+                                    
+                                }.padding(20)
+                            }
+                        }
                         }
                     }
                 }
-                .opacity(isShowMenu ? 0.2 : 1.0)
             }
+
             
         }
+        
         .toolbar {
             Button {
                 withAnimation {

@@ -40,11 +40,11 @@ struct CanvasView: View {
     var body: some View {
         ZStack(alignment: .center) {
             if zoomMode != .none {
-                Text("zoom : \(zoomFrame.width) * \(zoomFrame.height) x:\(zoomOffset.x) y:\(zoomOffset.y)")
+                Text("\(zoomFrame.width) * \(zoomFrame.height) x:\(zoomOffset.x) y:\(zoomOffset.y)")
                     .padding(5)
                     .background(.blue)
                     .zIndex(10)
-                    .cornerRadius(5)
+                    .cornerRadius(10)
             }
 
             Canvas { context, size in

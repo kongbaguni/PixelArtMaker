@@ -119,7 +119,7 @@ struct SideMenuView: View {
         .background(.gray)
         .listStyle(SidebarListStyle())
         .frame(width: geomentryWidth * 0.8)
-        .transition(.move(edge: .trailing))
+        .transition(.move(edge: .leading))
         .zIndex(2)
        
 
