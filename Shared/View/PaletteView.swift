@@ -52,6 +52,7 @@ struct PaletteView: View {
                     
                 }
                 .onChange(of: forgroundColor) { newValue in
+                    StageManager.shared.stage?.forgroundColor = newValue
                     print("change forground : \(newValue.string)")
                 }
                 .frame(width: 40, height: 40, alignment: .center)

@@ -858,7 +858,6 @@ struct PixelDrawView: View {
                         StageManager.shared.stage?.forgroundColor = forgroundColor
                         StageManager.shared.stage?.backgroundColor = backgroundColor
                         isLoadedColorPreset = true
-                        forgroundColor = color.first!
                         
                         StageManager.shared.loadTemp { _ in
                             isLoadingDataFin = true
