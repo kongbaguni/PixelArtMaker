@@ -82,6 +82,13 @@ extension InAppPurchaseModel {
         return model(productId: productId)?.isExpire == false
     }
     
+    static var layerLimit:Int {
+        if InAppPurchaseModel.isSubscribe {
+            return 5
+        }
+        return 2
+    }
+    
     /** 구독중인가?*/
     static var isSubscribe:Bool {
         let list = try! Realm().objects(InAppPurchaseModel.self)

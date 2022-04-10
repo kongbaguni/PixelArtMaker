@@ -73,6 +73,8 @@ struct PixelDrawView: View {
         case clear
         case delete
     }
+    let googleAd = GoogleAd()
+    
     @State var isShowMenu = false
     @State var previewImage:Image? = nil
     @State var isLoadingAnimated = true
@@ -248,7 +250,15 @@ struct PixelDrawView: View {
                         
                         Spacer()
                         if isShowMenu == false {
-                            LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly, previewImage: previewImage)
+                            LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly,
+                                          selectedLayerIndex: StageManager.shared.stage?.selectedLayerIndex ?? 0,
+                                          toastMessage: $toastMessage,
+                                          isShowToast: $isShowToast,
+                                          previewImage: previewImage,
+                                          googleAd: googleAd,
+                                          layerCount: StageManager.shared.stage?.layers.count ?? 0,
+                                          isShowInAppPurches: $isShowInAppPurches
+                            )
                             
                             //            Spacer()
                             if zoomMode == .none {
@@ -339,7 +349,16 @@ struct PixelDrawView: View {
     
                         VStack {
                             if isShowMenu == false {
-                            LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly, previewImage: previewImage)
+                                LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly,
+                                              selectedLayerIndex: StageManager.shared.stage?.selectedLayerIndex ?? 0,
+                                              toastMessage: $toastMessage,
+                                              isShowToast: $isShowToast,
+                                              previewImage: previewImage,
+                                              googleAd: googleAd,
+                                              layerCount: StageManager.shared.stage?.layers.count ?? 0,
+                                              isShowInAppPurches: $isShowInAppPurches
+                                )
+
                             
                             //            Spacer()
                             if zoomMode == .none {
@@ -397,15 +416,16 @@ struct PixelDrawView: View {
         }
         
         .toolbar {
-            Button {
-                withAnimation {
-                    isShowMenu.toggle()
+            ToolbarItemGroup(placement: .navigationBarLeading) {
+                Button {
+                    withAnimation {
+                        isShowMenu.toggle()
+                    }
+                    
+                } label : {
+                    Image(systemName: "line.3.horizontal")
                 }
-                
-            } label : {
-                Image(systemName: "line.3.horizontal")
-            }
-            
+            }            
             
         }
         

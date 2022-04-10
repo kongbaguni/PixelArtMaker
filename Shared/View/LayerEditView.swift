@@ -8,14 +8,7 @@
 import SwiftUI
 
 struct LayerEditView: View {
-    var layerLimit:Int {
-        if InAppPurchaseModel.isSubscribe {
-            return 5
-        }
-        return 2
-    }
     
-    let googleAd = GoogleAd()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var isShowToast = false
     @State var toastMessage:String = ""
@@ -28,7 +21,9 @@ struct LayerEditView: View {
     
     @State var isShowAlert = false
     @State var willDeleteLayerIdx:Int? = nil
+    @State var isLoading = false
     
+    let googleAd:GoogleAd
     let blendModeStrs:[String] = [
         "normal",
         "multiply",
@@ -123,7 +118,7 @@ struct LayerEditView: View {
                                 }
                                 .tint(.red)
                             }
-                            if layers.count < layerLimit {
+                            if layers.count < InAppPurchaseModel.layerLimit {
                                 Button {
                                     if StageManager.shared.stage?.copyLayer(idx: id) == true {
                                         reload()
@@ -157,14 +152,19 @@ struct LayerEditView: View {
                     StageManager.shared.stage?.reArrangeLayers()
                     reload()
                 })
-                if layers.count < layerLimit {
+                if layers.count < InAppPurchaseModel.layerLimit {
                     Button {
+                        if isLoading {
+                            return
+                        }
+                        isLoading = true
                         googleAd.showAd { isSucess in
                             StageManager.shared.stage?.addLayer()
                             reload()
                             StageManager.shared.saveTemp { error in
                                 toastMessage = error?.localizedDescription ?? ""
                                 isShowToast = error != nil
+                                isLoading = false 
                             }
                         }
                     } label: {
@@ -195,6 +195,7 @@ struct LayerEditView: View {
         StageManager.shared.saveTemp { error in
             toastMessage = error?.localizedDescription ?? ""
             isShowToast = error != nil
+            NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         }
     }
     
@@ -217,8 +218,3 @@ struct LayerEditView: View {
     }
 }
 
-struct LayerEditView_Previews: PreviewProvider {
-    static var previews: some View {
-        LayerEditView()
-    }
-}
