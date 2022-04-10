@@ -24,6 +24,7 @@ struct PaletteView: View {
     
     var body: some View {
         HStack {
+            Spacer(minLength: 5)
             VStack {
                 Button {
                     if isShowMenu {
@@ -55,7 +56,7 @@ struct PaletteView: View {
                     StageManager.shared.stage?.forgroundColor = newValue
                     print("change forground : \(newValue.string)")
                 }
-                .frame(width: 40, height: 40, alignment: .center)
+                .frame(width: 30, height: 30, alignment: .center)
             case .background:
                 ColorPicker(selection: $backgroundColor) {
                     
@@ -67,10 +68,9 @@ struct PaletteView: View {
                         redoCount = 0
                     }
                 }
-                .frame(width: 40, height: 40, alignment: .center)
+                .frame(width: 30, height: 30, alignment: .center)
             }
             
-            Spacer()
             switch colorSelectMode {
             case .foreground:
                  SimplePaleteView(color: $forgroundColor, paletteColors: paletteColors)
@@ -84,6 +84,7 @@ struct PaletteView: View {
                 Image(systemName: "ellipsis")
                     .imageScale(.large)
             }
+            Spacer(minLength: 5)
         }
     }
 }
