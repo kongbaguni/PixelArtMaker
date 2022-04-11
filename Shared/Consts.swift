@@ -30,7 +30,7 @@ struct Consts {
     
     
     static let canvasSizes:[CGFloat] = [
-        16,24,32,36,48,56,64
+        16,24,32,36,48,56,64,72,80,88
     ]
     
 }
