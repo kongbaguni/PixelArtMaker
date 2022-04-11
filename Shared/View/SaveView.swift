@@ -36,21 +36,18 @@ struct SaveView: View {
     @State var title:String = ""
     @State var previewImage:Image? = nil
     @State var shareImageDatas:[Data] = []
-    
-    var body: some View {
-        ScrollView {
-            if let id = AuthManager.shared.userId {
-                ProfileView(uid: id, haveArtList: false)
+    private func makePreviewImageView(width:CGFloat)-> some View {
+        ZStack {
+            if let img = previewImage {
+                img.resizable().frame(width: width - 10, height: width - 10 , alignment: .center)
+                    .opacity(isLoading ? 0.5 : 1.0)
             }
-            ZStack {
-                if let img = previewImage {
-                    img.resizable().frame(width: screenBounds.width - 10, height: screenBounds.width - 10 , alignment: .center)
-                        .opacity(isLoading ? 0.5 : 1.0)
-                }
-                ActivityIndicator(isAnimating: $isLoading, style: .large)
-                    .frame(width: 200, height: 200, alignment: .center)
-            }
-            
+            ActivityIndicator(isAnimating: $isLoading, style: .large)
+                .frame(width: 200, height: 200, alignment: .center)
+        }
+    }
+    private func makeButtonList()-> some View {
+        Group {
             if let id = StageManager.shared.stage?.documentId {
                 HStack {
                     Text("currentId")
@@ -158,7 +155,7 @@ struct SaveView: View {
 //                                        presentationMode.wrappedValue.dismiss()
                                     }
                                 }
-                            }                            
+                            }
                         }
                         
                     } label: {
@@ -166,7 +163,35 @@ struct SaveView: View {
                     }
                 }
             }
-            
+
+        }
+    }
+    var body: some View {
+        GeometryReader { geomentry in
+            if geomentry.size.height > geomentry.size.width {
+                ScrollView {
+                    if let id = AuthManager.shared.userId {
+                        ProfileView(uid: id, haveArtList: false, landScape: false)
+                            .frame(height:150)
+                    }
+                    
+                    makePreviewImageView(width: geomentry.size.width)
+                    makeButtonList()
+                }
+            }
+            else {
+                HStack {
+                    if let id = AuthManager.shared.userId {
+                        ProfileView(uid: id, haveArtList: false, landScape: true)
+                            .frame(width:250)
+                    }
+                    ScrollView {
+                        makePreviewImageView(width: geomentry.size.width - 250)
+                        makeButtonList()
+                    }
+                }
+            }
+
         }
         .navigationTitle(Text("save"))
         .onAppear {

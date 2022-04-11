@@ -9,82 +9,126 @@ import SwiftUI
 import SDWebImageSwiftUI
 import RealmSwift
 
+
+
 struct ProfileView: View {
     let uid:String
     let haveArtList:Bool
     let editabel:Bool
+    let landScape:Bool?
 
-    init(uid:String, haveArtList:Bool, editable:Bool = false) {
+    init(uid:String, haveArtList:Bool, editable:Bool = false, landScape:Bool? = nil) {
         self.uid = uid
         self.haveArtList = haveArtList
         self.editabel = editable
+        self.landScape = landScape
     }
     
     @State var nickname:String = ""
     @State var imageURL:URL? = nil
     @State var email:String = ""
-     
+
+    private func makeProfileImageView(size:CGFloat)-> some View {
+        VStack {
+            if let url = imageURL {
+                 WebImage(url: url)
+                    .placeholder(.profilePlaceHolder)
+                    .resizable()
+                    .frame(width: size, height: size, alignment: .center)
+            } else {
+                 Image.profilePlaceHolder
+                    .resizable()
+                    .frame(width: size, height: size, alignment: .center)
+            }
+        }
+    }
     
-    var body: some View {
+    private func mkaeProfileInfomationView(isLandScape:Bool)-> some View {
         VStack {
             HStack {
-                if let url = imageURL {
-                    WebImage(url: url)
-                        .placeholder(.profilePlaceHolder)
-                        .resizable()
-                        .frame(width: 100, height: 100, alignment: .center)
-                } else {
-                    Image.profilePlaceHolder
-                        .resizable()
-                        .frame(width: 100, height: 100, alignment: .center)
+                Text("email")
+                    .font(.system(size: 10, weight: .heavy, design: .serif))
+                    .padding(5)
+                Button {
+                    let urlstr = "mailto:\(email)"
+                    if let url = URL(string: urlstr) {
+                        UIApplication.shared.open(url)
+                    }
+                } label : {
+                    Text(email)
+                        .font(.system(size: 10, weight: .light, design: .serif))
                 }
-                
-                VStack {
-                    HStack {
-                        Text("email")
-                            .font(.system(size: 10, weight: .heavy, design: .serif))
+                Spacer()
+            }
+            HStack {
+                Text("name")
+                    .font(.system(size: 10, weight: .heavy, design: .serif))
+                    .padding(5)
+                if editabel {
+                    TextField("name", text: $nickname)
+                        .textFieldStyle(.roundedBorder)
+                } else {
+                    Text(nickname)
+                        .font(.system(size: 10, weight: .light, design: .serif))
+                        .foregroundColor(.gray)
+                }
+                Spacer()
+            }
+            if haveArtList == false {
+                HStack {
+                    NavigationLink(destination: ArtListView(uid: uid, gridItems: ArtListView.grids3)) {
+                        Text("art list")
                             .padding(5)
-                        Button {
-                            let urlstr = "mailto:\(email)"
-                            if let url = URL(string: urlstr) {
-                                UIApplication.shared.open(url)
-                            }
-                        } label : {
-                            Text(email)
-                                .font(.system(size: 10, weight: .light, design: .serif))
-                        }
-                        Spacer()
-                    }
-                    HStack {
-                        Text("name")
                             .font(.system(size: 10, weight: .heavy, design: .serif))
-                            .padding(5)
-                        if editabel {
-                            TextField("name", text: $nickname)
-                                .textFieldStyle(.roundedBorder)
-                        } else {
-                            Text(nickname)
-                                .font(.system(size: 10, weight: .light, design: .serif))
-                                .foregroundColor(.gray)
-                        }
-                        Spacer()
+                        
                     }
-                    if haveArtList == false {
-                        HStack {
-                            NavigationLink(destination: ArtListView(uid)) {
-                                Text("art list")
-                                    .padding(5)
-                                    .font(.system(size: 10, weight: .heavy, design: .serif))
-                                
-                            }
-                            Spacer()
-                        }
-                    }
-                    
+                    Spacer()
                 }
             }
+            
+        }
+
+    }
+    private func makeProfileView(isLandscape:Bool)-> some View {
+        VStack {
+            if isLandscape {
+                ScrollView {
+                    HStack {
+                        makeProfileImageView(size: 200)
+                        Spacer()
+                    }
+                    mkaeProfileInfomationView(isLandScape: isLandscape)
+                }
+            } else {
+                HStack {
+                    makeProfileImageView(size: 100)
+                    mkaeProfileInfomationView(isLandScape: isLandscape)
+                }
+            }
+        }
+    }
+    
+    var body: some View {
+        GeometryReader { geomentry in
             if haveArtList {
-                ArtListView(uid)
+                if geomentry.size.height > geomentry.size.width {
+                    VStack {
+                        makeProfileView(isLandscape: false)
+                        ArtListView(uid: uid, gridItems: ArtListView.grids3)
+                    }
+                }
+                else {
+                    HStack {
+                        makeProfileView(isLandscape: true)
+                        ArtListView(uid: uid,
+                                    gridItems: ArtListView.makeGridItems(length: 4, width: geomentry.size.width - 250))
+                    }
+                }
+            }
+            else {
+                HStack {
+                    makeProfileView(isLandscape: landScape == true)
+                }
             }
         }
         .padding(10)

@@ -17,15 +17,22 @@ fileprivate let height1 = width1 + 50
 fileprivate let height2 = width2 + 50
 
 struct ArtListView: View {
+    static let grids3:[GridItem] = [.init(.fixed(width3)),.init(.fixed(width3)),.init(.fixed(width3))]
+    
+    static func makeGridItems(length:Int,width:CGFloat, padding:CGFloat = 10)->[GridItem] {
+        var result:[GridItem] = []
+        let width = (width / CGFloat(length)) + padding
+        for _ in 0..<length {
+            result.append(.init(.fixed(width)))
+        }
+        return result
+    }
+    
     let collection = Firestore.firestore().collection("public")
     @State var isShowToast = false
     @State var toastMessage = ""
     @State var ids:[String] = []
-    @State var gridItems:[GridItem] = [
-        .init(.fixed(width3)),
-        .init(.fixed(width3)),
-        .init(.fixed(width3)),
-    ]
+    
     @State var sortIndex:Int = 0
     @State var isAnimate:Bool = false
     
@@ -37,10 +44,15 @@ struct ArtListView: View {
         return ProfileModel.findBy(uid: uid)
     }
     
+    let gridItems:[GridItem]
+    
     let uid:String
-    init(_ uid:String) {
+
+    init(uid:String, gridItems:[GridItem]) {
         self.uid = uid
+        self.gridItems = gridItems
     }
+    
     var body: some View {
         ScrollView {
             Picker(selection:$sortIndex, label:Text("sort")) {
@@ -144,8 +156,3 @@ struct ArtListView: View {
     }
 }
 
-struct ArtListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ArtListView("")
-    }
-}
