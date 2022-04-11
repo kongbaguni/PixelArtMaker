@@ -76,7 +76,7 @@ struct ProfileView: View {
             }
             if haveArtList == false {
                 HStack {
-                    NavigationLink(destination: ArtListView(uid: uid, gridItems: ArtListView.grids3)) {
+                    NavigationLink(destination: ArtListView(uid: uid, gridItems: nil)) {
                         Text("art list")
                             .padding(5)
                             .font(.system(size: 10, weight: .heavy, design: .serif))

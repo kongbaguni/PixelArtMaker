@@ -172,7 +172,7 @@ struct SaveView: View {
                 ScrollView {
                     if let id = AuthManager.shared.userId {
                         ProfileView(uid: id, haveArtList: false, landScape: false)
-                            .frame(height:150)
+                            .frame(height:120)
                     }
                     
                     makePreviewImageView(width: geomentry.size.width)

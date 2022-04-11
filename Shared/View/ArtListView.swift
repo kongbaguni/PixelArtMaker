@@ -48,70 +48,57 @@ struct ArtListView: View {
     
     let uid:String
 
-    init(uid:String, gridItems:[GridItem]) {
+    init(uid:String, gridItems:[GridItem]?) {
         self.uid = uid
-        self.gridItems = gridItems
+        self.gridItems = gridItems ?? []
     }
     
-    var body: some View {
-        ScrollView {
-            Picker(selection:$sortIndex, label:Text("sort")) {
-                ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
-                    let type = Sort.SortType.allCases[idx]
-                    Sort.getText(type: type)
-                }
-            }.onChange(of: sortIndex) { newValue in
-                ids = reloadFromLocalDb()
+    private func makePickerView()-> some View {
+        Picker(selection:$sortIndex, label:Text("sort")) {
+            ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
+                let type = Sort.SortType.allCases[idx]
+                Sort.getText(type: type)
             }
-            
-            LazyVGrid(columns: gridItems, spacing:20) {
-                ForEach(ids, id:\.self) { id in
-                    if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
-                        
-                        NavigationLink(destination: {
-                            PixelArtDetailView(id: id, showProfile: false)
-                        }, label: {
-                            VStack {
-                                WebImage(url: model.imageURLvalue)
-                                    .placeholder(.imagePlaceHolder)
-                                    .resizable()
-                                    .frame(width: width3, height: width3, alignment: .center)
-                                
-                                switch sort {
-                                case .like:
-                                    HStack {
-                                        Image(model.isMyLike ? "heart_red" : "heart_gray")
-                                            .padding(5)                                        
-                                        Text(model.likeCount.formatted(.number))
-                                            .font(.system(size: 10))
-                                            .foregroundColor(.k_normalText)
-                                    }
-                                default:
-                                    Text(model.updateDate.formatted(date: .long, time: .standard ))
+        }.onChange(of: sortIndex) { newValue in
+            ids = reloadFromLocalDb()
+        }
+    }
+    
+    private func makeListView(gridItems:[GridItem])-> some View {
+        LazyVGrid(columns: gridItems, spacing:20) {
+            ForEach(ids, id:\.self) { id in
+                if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
+                    
+                    NavigationLink(destination: {
+                        PixelArtDetailView(id: id, showProfile: false)
+                    }, label: {
+                        VStack {
+                            WebImage(url: model.imageURLvalue)
+                                .placeholder(.imagePlaceHolder)
+                                .resizable()
+                                .frame(width: width3, height: width3, alignment: .center)
+                            
+                            switch sort {
+                            case .like:
+                                HStack {
+                                    Image(model.isMyLike ? "heart_red" : "heart_gray")
+                                        .padding(5)
+                                    Text(model.likeCount.formatted(.number))
                                         .font(.system(size: 10))
                                         .foregroundColor(.k_normalText)
                                 }
+                            default:
+                                Text(model.updateDate.formatted(date: .long, time: .standard ))
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.k_normalText)
                             }
-                            
-                            
-                        })
-                    }
+                        }
+                        
+                        
+                    })
                 }
             }
         }
-        .navigationTitle(Text(profile?.nickname ?? "unknown people"))
-        .animation(.easeInOut, value: isAnimate)
-        .onAppear {
-            getListFromFirestore { ids, error in
-                if let err = error {
-                    toastMessage = err.localizedDescription
-                    isShowToast = true
-                }
-                self.ids = ids
-            }
-        }
-        
-        .toast(message: toastMessage, isShowing: $isShowToast,duration: 4)
     }
     
     private func getListFromFirestore(complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
@@ -154,5 +141,45 @@ struct ArtListView: View {
         }
         return ids
     }
+    
+    var body: some View {
+        Group {
+            if gridItems.count > 0 {
+                ScrollView {
+                    makePickerView()
+                    makeListView(gridItems: gridItems)
+                }
+            } else {
+                GeometryReader { geomentry in
+                    ScrollView {
+                        makePickerView()
+                        if geomentry.size.width > geomentry.size.height {
+                            makeListView(gridItems:
+                                            ArtListView.makeGridItems(length: 5, width: geomentry.size.width, padding: 0))
+                            
+                        } else {
+                            makeListView(gridItems: ArtListView.grids3)
+                        }
+                        
+                    }
+                }
+            }
+        }
+        .navigationTitle(Text(profile?.nickname ?? "unknown people"))
+        .animation(.easeInOut, value: isAnimate)
+        .onAppear {
+            getListFromFirestore { ids, error in
+                if let err = error {
+                    toastMessage = err.localizedDescription
+                    isShowToast = true
+                }
+                self.ids = ids
+            }
+        }
+        
+        .toast(message: toastMessage, isShowing: $isShowToast,duration: 4)
+    }
+    
+    
 }
 
