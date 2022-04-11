@@ -44,13 +44,9 @@ struct PixelArtDetailView: View {
             }
         })
     }
-    
-    var body: some View {
-        ScrollView {
+    private func makeImageView(imageSize:CGFloat)->some View {
+        VStack {
             if let m = tmodel {
-                if isShowProfile {
-                    ProfileView(uid: m.uid, haveArtList: false)
-                }
                 if let imgUrl = m.imageURL {
                     Button {
                         toggleLike()
@@ -58,25 +54,36 @@ struct PixelArtDetailView: View {
                         WebImage(url:imgUrl)
                             .placeholder(.imagePlaceHolder)
                             .resizable()
-                            .frame(width: screenBounds.width - 20, height: screenBounds.width - 20, alignment: .center)
-
-                    }
-                }
-                VStack {
-                    LabelTextView(label: "id", text: pid)
-                    LabelTextView(label: "reg dt", text: m.regDt.formatted(date: .long, time: .standard))
-                    LabelTextView(label: "update dt", text: m.updateDt.formatted(date: .long, time: .standard))
-                }.padding(10)
-
-                Button {
-                    toggleLike()
-                } label: {
-                    HStack {
-                        Image(isMyLike ? "heart_red" : "heart_gray")
-                        Text(likeCount.formatted(.number))
+                            .frame(width: imageSize, height: imageSize, alignment: .center)
+                        
                     }
                 }
                 
+            }
+        }.padding(10)
+    }
+    
+    private func makeInfomationView()-> some View {
+        VStack {
+            LabelTextView(label: "id", text: pid)
+            if let m = tmodel {
+                LabelTextView(label: "reg dt", text: m.regDt.formatted(date: .long, time: .standard))
+                LabelTextView(label: "update dt", text: m.updateDt.formatted(date: .long, time: .standard))
+            }
+        }
+    }
+    
+    private func makeButtonsView()-> some View {
+        VStack {
+            Button {
+                toggleLike()
+            } label: {
+                HStack {
+                    Image(isMyLike ? "heart_red" : "heart_gray")
+                    Text(likeCount.formatted(.number))
+                }
+            }
+            if let m = tmodel {
                 if m.uid == AuthManager.shared.userId && isProfileImage == false  {
                     Button {
                         ProfileModel.findBy(uid: m.uid)?.updatePhoto(photoURL: m.imageURL.absoluteString, complete: { error in
@@ -86,7 +93,7 @@ struct PixelArtDetailView: View {
                         OrangeTextView(image: Image(systemName: "person.crop.circle"), text: Text("Set as Profile Image"))
                     }
                 }
-                                        
+                
                 if let img = m.imageURL {
                     Button {
                         googleAd.showAd { isSucess in
@@ -99,12 +106,49 @@ struct PixelArtDetailView: View {
                         OrangeTextView(image: Image(systemName: "square.and.arrow.up"), text: Text("share"))
                     }
                 }
-
+            }
+        }
+    }
+    
+    func makeProfileView(landScape:Bool)->some View {
+        Group {
+            if let m = tmodel {
+                if isShowProfile {
+                    ProfileView(uid: m.uid, haveArtList: false, landScape: landScape)
+                }
+            }
+        }
+    }
+    
+    var body: some View {
+        Group {
+            if tmodel != nil {
+                GeometryReader { geomentry in
+                    if geomentry.size.width < geomentry.size.height {
+                        ScrollView {
+                            makeProfileView(landScape: false).frame(height:120)
+                            makeImageView(imageSize: geomentry.size.width - 20)
+                            makeInfomationView()
+                            makeButtonsView()
+                        }
+                    } else {
+                        HStack {
+                            makeProfileView(landScape: true).frame(width:200)
+                            ScrollView {
+                                makeImageView(imageSize: geomentry.size.width - 220)
+                                makeInfomationView().frame(width:geomentry.size.width - 220)
+                                makeButtonsView()
+                            }
+                        }
+                        
+                    }
+                }
             }
             else {
                 Text("loading")
             }
         }
+
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .navigationTitle(Text(pid))
         .onAppear {
