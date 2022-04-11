@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+extension Notification.Name {
+    static let zoomOffsetDidChanged = Notification.Name("zoomOffsetDidChanged_observer")
+}
 
 struct ArrowToolView: View {
     @Binding var zoomMode:PixelDrawView.ZoomMode
@@ -74,6 +77,10 @@ struct ArrowToolView: View {
                             nx = 0
                         }
                         zoomOffset.x = nx
+                        NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
+                            "offset":zoomOffset,
+                            "frame":zoomFrame
+                        ])
                     }
                     
                 } label: {
@@ -113,13 +120,19 @@ struct ArrowToolView: View {
                             if zoomScale > zoomLimit {
                                 zoomScale = zoomLimit
                             }
-                        case .offset:
+                            NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
+                                "offset":zoomOffset,
+                                "frame":zoomFrame
+                            ])                        case .offset:
                             var ny = zoomOffset.y - 1
                             if ny < 0 {
                                 ny = 0
                             }
                             zoomOffset.y = ny
-                        }
+                            NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
+                                "offset":zoomOffset,
+                                "frame":zoomFrame
+                            ])                        }
                     } label: {
                         Image("arrow_up")
                             .resizable()
@@ -166,7 +179,10 @@ struct ArrowToolView: View {
                             else if zoomOffset.y > 0 {
                                 zoomOffset.y -= 1
                             }
-                            
+                            NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
+                                "offset":zoomOffset,
+                                "frame":zoomFrame
+                            ])
                         case .offset:
                             var ny = zoomOffset.y + 1
                             let ph = Int(StageManager.shared.canvasSize.height)
@@ -175,7 +191,10 @@ struct ArrowToolView: View {
                                 ny = ph - h
                             }
                             zoomOffset.y = ny
-                        }
+                            NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
+                                "offset":zoomOffset,
+                                "frame":zoomFrame
+                            ])                        }
                     } label: {
                         Image("arrow_down")
                             .resizable()
@@ -214,7 +233,10 @@ struct ArrowToolView: View {
                             nx = pw - w
                         }
                         zoomOffset.x = nx
-                    }
+                        NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
+                            "offset":zoomOffset,
+                            "frame":zoomFrame
+                        ])                    }
                 } label: {
                     Image("arrow_right")
                         .resizable()

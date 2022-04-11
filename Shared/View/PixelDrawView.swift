@@ -210,13 +210,15 @@ struct PixelDrawView: View {
     
     func makeLayerToolView()->LayerToolView {
         return LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly,
-                      selectedLayerIndex: StageManager.shared.stage?.selectedLayerIndex ?? 0,
-                      toastMessage: $toastMessage,
-                      isShowToast: $isShowToast,
-                      previewImage: previewImage,
-                      googleAd: googleAd,
-                      layerCount: StageManager.shared.stage?.layers.count ?? 0,
-                      isShowInAppPurches: $isShowInAppPurches
+                             selectedLayerIndex: StageManager.shared.stage?.selectedLayerIndex ?? 0,
+                             toastMessage: $toastMessage,
+                             isShowToast: $isShowToast,
+                             previewImage: previewImage,
+                             googleAd: googleAd,
+                             layerCount: StageManager.shared.stage?.layers.count ?? 0,
+                             isShowInAppPurches: $isShowInAppPurches,
+                             offset: zoomOffset,
+                             frame: zoomFrame
         )
     }
     

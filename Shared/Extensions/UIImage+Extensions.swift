@@ -9,7 +9,28 @@ import Foundation
 import UIKit
 import SwiftUI
 
-extension UIImage {
+extension UIImage {    
+    public convenience init?(offset:(x:Int,y:Int),frame:(width:Int,height:Int), size:CGSize, backgroundColor:UIColor, AreaLineColor:UIColor) {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+
+        backgroundColor.setFill()
+        UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
+
+        AreaLineColor.setFill()
+        
+        UIRectFill(.init(x: offset.x, y: offset.y, width: frame.width, height: frame.height))
+        
+        backgroundColor.setFill()
+        UIRectFill(.init(x: offset.x + 1, y: offset.y + 1, width: frame.width - 2, height: frame.height - 2))
+
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        guard let cgImage = image?.cgImage else {
+            return nil
+        }
+        self.init(cgImage:cgImage)
+    }
+    
     public convenience init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         

@@ -21,4 +21,8 @@ extension Image {
         let image = UIImage(pixelSize: pixelSize, backgroundColor: backgroundColor, size: size)!
         self.init(uiImage: image)
     }
+    public init?(offset:(x:Int,y:Int),frame:(width:Int,height:Int), size:CGSize, backgroundColor:UIColor, AreaLineColor:UIColor) {
+        let image = UIImage(offset: offset, frame: frame, size: size, backgroundColor: backgroundColor, AreaLineColor: AreaLineColor)!
+        self.init(uiImage: image)
+    }
 }

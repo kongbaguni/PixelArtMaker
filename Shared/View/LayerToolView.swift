@@ -18,13 +18,23 @@ struct LayerToolView: View {
     @State var layerCount = 0
     @State var isLoading = false
     @Binding var isShowInAppPurches:Bool
+    
+    let offset:(x:Int,y:Int)
+    let frame:(width:Int,height:Int)
+    @State var rangeImage:Image? = nil
+    
     var body: some View {
         HStack {
             Spacer(minLength: 10)
 
             //MARK: - 미리보기
-            if let img = previewImage {
-                img.resizable().frame(width: 64, height: 64, alignment: .center)
+            ZStack {
+                if let img = previewImage {
+                    img.resizable().frame(width: 64, height: 64, alignment: .center)
+                }
+                if let img = rangeImage {
+                    img.resizable().frame(width: 64, height: 64, alignment: .center).blendMode(BlendMode.lighten)
+                }
             }
 
             //MARK: - 레이어 선택
@@ -101,8 +111,18 @@ struct LayerToolView: View {
             NotificationCenter.default.addObserver(forName: .layerDataRefresh, object: nil, queue: nil) { _ in
                 layerCount = StageManager.shared.stage?.layers.count ?? 0
             }
+            
+            rangeImage = Image(offset: offset, frame: frame, size: StageManager.shared.canvasSize, backgroundColor: .black, AreaLineColor: .yellow)
+            NotificationCenter.default.addObserver(forName: .zoomOffsetDidChanged, object: nil, queue: nil) { noti in
+                if let a = noti.userInfo?["offset"] as? (x:Int, y:Int),
+                    let b = noti.userInfo?["frame"] as? (width:Int, height:Int) {
+                    rangeImage = Image(offset: a, frame: b, size: StageManager.shared.canvasSize, backgroundColor: .black, AreaLineColor: .yellow)
+                }
+            }
         }
 
     }
+    
+  
 }
 
