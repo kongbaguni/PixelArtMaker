@@ -9,15 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 import RealmSwift
 import SDWebImageSwiftUI
-fileprivate let width1 = screenBounds.width - 10
-fileprivate let width2 = screenBounds.width / 2 - 10
-fileprivate let width3 = screenBounds.width / 3 - 10
-
-fileprivate let height1 = width1 + 50
-fileprivate let height2 = width2 + 50
-
 struct ArtListView: View {
-    static let grids3:[GridItem] = [.init(.fixed(width3)),.init(.fixed(width3)),.init(.fixed(width3))]
         
     let collection = Firestore.firestore().collection("public")
     @State var isShowToast = false
@@ -27,6 +19,7 @@ struct ArtListView: View {
     @State var sortIndex:Int = 0
     @State var isAnimate:Bool = false
     
+    let width:CGFloat?
     var sort:Sort.SortType {
         return Sort.SortType.allCases[sortIndex]
     }
@@ -35,13 +28,16 @@ struct ArtListView: View {
         return ProfileModel.findBy(uid: uid)
     }
     
-    let gridItems:[GridItem]
     
     let uid:String
 
-    init(uid:String, gridItems:[GridItem]?) {
+    init(uid:String, width:CGFloat?) {
         self.uid = uid
-        self.gridItems = gridItems ?? []
+        self.width = width
+    }
+    
+    private func getWidth(width:CGFloat, length:Int)->CGFloat {
+        return (width - 10.0) / CGFloat(length)
     }
     
     private func makePickerView()-> some View {
@@ -55,7 +51,7 @@ struct ArtListView: View {
         }
     }
     
-    private func makeListView(gridItems:[GridItem])-> some View {
+    private func makeListView(gridItems:[GridItem], width:CGFloat)-> some View {
         LazyVGrid(columns: gridItems, spacing:20) {
             ForEach(ids, id:\.self) { id in
                 if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
@@ -67,7 +63,9 @@ struct ArtListView: View {
                             WebImage(url: model.imageURLvalue)
                                 .placeholder(.imagePlaceHolder)
                                 .resizable()
-                                .frame(width: width3, height: width3, alignment: .center)
+                                .frame(width: getWidth(width:width, length: gridItems.count),
+                                       height: getWidth(width:width, length: gridItems.count),
+                                       alignment: .center)
                             
                             switch sort {
                             case .like:
@@ -134,27 +132,20 @@ struct ArtListView: View {
     }
     
     var body: some View {
-        Group {
-            if gridItems.count > 0 {
-                ScrollView {
-                    makePickerView()
-                    makeListView(gridItems: gridItems)
+        GeometryReader { geomentry in
+            ScrollView {
+                makePickerView()
+                if geomentry.size.width > geomentry.size.height {
+                    makeListView(gridItems:GridItem.makeGridItems(length: 5, width: geomentry.size.width), width: width ?? geomentry.size.width)
+                    
+                } else {
+                    makeListView(gridItems: GridItem.makeGridItems(length: 3, width: geomentry.size.width), width: width ?? geomentry.size.width)
                 }
-            } else {
-                GeometryReader { geomentry in
-                    ScrollView {
-                        makePickerView()
-                        if geomentry.size.width > geomentry.size.height {
-                            makeListView(gridItems:GridItem.makeGridItems(length: 5, width: geomentry.size.width))
-                            
-                        } else {
-                            makeListView(gridItems: ArtListView.grids3)
-                        }
-                        
-                    }
-                }
+                
             }
+            
         }
+        
         .navigationTitle(Text(profile?.nickname ?? "unknown people"))
         .animation(.easeInOut, value: isAnimate)
         .onAppear {

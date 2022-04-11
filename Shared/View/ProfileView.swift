@@ -76,7 +76,7 @@ struct ProfileView: View {
             }
             if haveArtList == false {
                 HStack {
-                    NavigationLink(destination: ArtListView(uid: uid, gridItems: nil)) {
+                    NavigationLink(destination: ArtListView(uid: uid, width:nil)) {
                         Text("art list")
                             .padding(5)
                             .font(.system(size: 10, weight: .heavy, design: .serif))
@@ -114,14 +114,16 @@ struct ProfileView: View {
                 if geomentry.size.height > geomentry.size.width {
                     VStack {
                         makeProfileView(isLandscape: false)
-                        ArtListView(uid: uid, gridItems: ArtListView.grids3)
+                        ArtListView(uid: uid, width: geomentry.size.width)
                     }
                 }
                 else {
                     HStack {
                         makeProfileView(isLandscape: true)
+                            .frame(width:250)
                         ArtListView(uid: uid,
-                                    gridItems: GridItem.makeGridItems(length: 4, width: geomentry.size.width - 250))
+                                    width : geomentry.size.width - 250)
+                        .frame(width: geomentry.size.width - 250)
                     }
                 }
             }
