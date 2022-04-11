@@ -7,6 +7,8 @@
 
 import SwiftUI
 import RealmSwift
+import GoogleMobileAds
+
 fileprivate var sharedId:String? {
     if let id = StageManager.shared.stage?.documentId {
         if let model = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id) {
@@ -27,6 +29,8 @@ fileprivate var updateDateTimeFromDb:Date? {
 
 struct SaveView: View {
     let googleAd = GoogleAd()
+    let bannerView = GADBannerView(adSize: GADAdSizeLargeBanner)
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var isShowToast = false
     @State var toastMessage = ""
@@ -176,6 +180,12 @@ struct SaveView: View {
                     }
                     
                     makePreviewImageView(width: geomentry.size.width)
+                    if InAppPurchaseModel.isSubscribe == false {
+                        GoogleAdBannerView(bannerView: bannerView)
+                            .frame(width: 320, height: 100, alignment: .center)
+                            .padding(.top,10)
+                    }
+
                     makeButtonList()
                 }
             }
@@ -187,6 +197,11 @@ struct SaveView: View {
                     }
                     ScrollView {
                         makePreviewImageView(width: geomentry.size.width - 250)
+                        if InAppPurchaseModel.isSubscribe == false {
+                            GoogleAdBannerView(bannerView: bannerView)
+                                .frame(width: 320, height: 100, alignment: .center)
+                                .padding(.top,10)
+                        }
                         makeButtonList()
                     }
                 }
