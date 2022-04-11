@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import SwiftUI
 import GoogleMobileAds
 import AppTrackingTransparency
 
 fileprivate let gaid = "ca-app-pub-3940256099942544/6978759866" // test ga id
 //fileprivate let gaid = "ca-app-pub-7714069006629518/5985835565" // real ga id
+
+fileprivate let bannerGaId = "ca-app-pub-3940256099942544/2934735716" // test ga id
+//fileprivate let bannerGaId = "ca-app-pub-7714069006629518~8448347376" // real ga id
 
 class GoogleAd : NSObject {
     
@@ -59,7 +63,8 @@ class GoogleAd : NSObject {
             }
         }
     }
-        
+     
+    
 }
 
 extension GoogleAd : GADFullScreenContentDelegate {
@@ -88,4 +93,19 @@ extension GoogleAd : GADFullScreenContentDelegate {
     }
 }
 
-
+struct GoogleAdBannerView: UIViewRepresentable {
+    static let gadBannerView:GADBannerView = GADBannerView(adSize: GADAdSizeLargeBanner)
+    
+    func makeUIView(context: Context) -> GADBannerView {
+        let view = GoogleAdBannerView.gadBannerView
+        view.adUnitID = bannerGaId
+        view.rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        let request = GADRequest()
+        DispatchQueue.main.async {
+            view.load(request)
+        }
+        return view
+    }
+  
+  func updateUIView(_ uiView: GADBannerView, context: Context) {}
+}

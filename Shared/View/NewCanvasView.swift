@@ -122,7 +122,11 @@ struct NewCanvasView: View {
                     makeCanvasView(width: geomentry.size.width)
                     
                     makeInfomationView()
-                    
+                    if InAppPurchaseModel.isSubscribe == false {
+                        GoogleAdBannerView()
+                            .frame(width: 320, height: 100, alignment: .center)
+                            .padding(.top,10)
+                    }
                     Spacer()
                     makeButton()
                 }
@@ -133,7 +137,12 @@ struct NewCanvasView: View {
                     Spacer()
                     VStack {
                         makeInfomationView()
-                        
+                        if InAppPurchaseModel.isSubscribe == false {
+                            GoogleAdBannerView()
+                                .frame(width: 320, height: 100, alignment: .center)
+                                .padding(.top,10)
+                        }
+
                         Spacer()
                         makeButton()
                     }
