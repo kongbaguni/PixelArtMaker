@@ -15,7 +15,7 @@ extension UIImage {
         
         let ci = backgroundColor.ciColor
         
-        if ci.red + ci.green + ci.blue < 0.1 {
+        if ci.red + ci.green + ci.blue < 1.0 {
             UIColor.white.setFill()
         } else {
             UIColor.black.setFill()
