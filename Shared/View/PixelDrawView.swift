@@ -168,8 +168,7 @@ struct PixelDrawView: View {
                      isShowInAppPurches: $isShowInAppPurches,
                      isShowSaveView: $isShowSaveView,
                      isShowLoadView: $isShowLoadView,
-                     isShowShareListView: $isShowShareListView,
-                     geomentryWidth: geomentryWidth)
+                     isShowShareListView: $isShowShareListView)
 
     }
     
@@ -309,7 +308,7 @@ struct PixelDrawView: View {
                                     }
                                 }
                             }
-                        }.background(Color(.sRGB, white: 0.0, opacity: 0.8))
+                        }.background(Color.k_dim)
                     }
                     
                     .opacity(isShowMenu ? 0.2 : 1.0)

@@ -58,7 +58,7 @@ struct PaletteView: View {
                     StageManager.shared.stage?.forgroundColor = newValue
                     print("change forground : \(newValue.string)")
                 }
-                .frame(width: 30, height: 30, alignment: .center)
+                .frame(width: 50, height: 30, alignment: .center)
             case .background:
                 ColorPicker(selection: $backgroundColor) {
                     
@@ -70,7 +70,7 @@ struct PaletteView: View {
                         redoCount = 0
                     }
                 }
-                .frame(width: 30, height: 30, alignment: .center)
+                .frame(width: 50, height: 30, alignment: .center)
             }
         }
     }

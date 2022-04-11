@@ -17,8 +17,6 @@ struct SideMenuView: View {
     @Binding var isShowLoadView:Bool
     @Binding var isShowShareListView:Bool
     
-    let geomentryWidth:CGFloat
-    
     
     var body: some View {
         List {
@@ -118,7 +116,7 @@ struct SideMenuView: View {
         }
         .background(.gray)
         .listStyle(SidebarListStyle())
-        .frame(width: geomentryWidth * 0.8)
+        .frame(width: 200)
         .transition(.move(edge: .leading))
         .zIndex(2)
        
