@@ -26,4 +26,12 @@ extension UIApplication {
             .first(where: \.isKeyWindow)
     }
     
+    
+    var statusFrame:CGRect {
+        return keyWindow?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
+    }
+    
+    var safeAreaInsets:UIEdgeInsets {
+        return keyWindow?.safeAreaInsets ?? .zero
+    }
 }

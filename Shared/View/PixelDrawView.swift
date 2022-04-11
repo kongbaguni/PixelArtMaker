@@ -177,9 +177,89 @@ struct PixelDrawView: View {
         
     }
     
-   
+    func makeSideMenuView(geomentryWidth:CGFloat)->SideMenuView {
+        return SideMenuView(isShowSigninView: $isShowSigninView,
+                     alertType: $alertType,
+                     isShowAlert: $isShowAlert,
+                     isShowProfileView: $isShowProfileView,
+                     isShowInAppPurches: $isShowInAppPurches,
+                     isShowSaveView: $isShowSaveView,
+                     isShowLoadView: $isShowLoadView,
+                     isShowShareListView: $isShowShareListView,
+                     geomentryWidth: geomentryWidth)
+
+    }
     
+    func makeCanvasView(screenWidth:CGFloat)->CanvasView {
+        return CanvasView(pointer: $pointer,
+                   isShowMenu: $isShowMenu,
+                   isLoadingAnimated: $isLoadingAnimated,
+                   isLongPressing: $isLongPressing,
+                   timer: $timer,
+                   colors: colors,
+                   isLoadingDataFin: isLoadingDataFin,
+                   isShowSelectLayerOnly: isShowSelectLayerOnly,
+                   screenWidth: screenWidth,
+                   backgroundColor: backgroundColor,
+                   layers: layers,
+                   zoomMode: zoomMode,
+                   zoomFrame: zoomFrame,
+                   zoomOffset: zoomOffset
+        )
+    }
     
+    func makeLayerToolView()->LayerToolView {
+        return LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly,
+                      selectedLayerIndex: StageManager.shared.stage?.selectedLayerIndex ?? 0,
+                      toastMessage: $toastMessage,
+                      isShowToast: $isShowToast,
+                      previewImage: previewImage,
+                      googleAd: googleAd,
+                      layerCount: StageManager.shared.stage?.layers.count ?? 0,
+                      isShowInAppPurches: $isShowInAppPurches
+        )
+    }
+    
+    func makePalleteView()->PaletteView {
+        return PaletteView(forgroundColor: $forgroundColor,
+                    backgroundColor: $backgroundColor,
+                    colorSelectMode: $colorSelectMode,
+                    undoCount: $undoCount,
+                    redoCount: $redoCount,
+                    isShowMenu: isShowMenu,
+                    paletteColors: paletteColors,
+                    isShowColorPresetView: $isShowColorPresetView
+        )
+    }
+    
+    func makeDrawingToolView()->DrawingToolView {
+        return DrawingToolView(
+            zoomMode: $zoomMode,
+            colors: $colors,
+            forgroundColor: $forgroundColor,
+            undoCount: $undoCount,
+            redoCount: $redoCount,
+            toastMessage: $toastMessage,
+            isShowToast: $isShowToast,
+            previewImage: $previewImage,
+            pointer: pointer,
+            backgroundColor: backgroundColor)
+    }
+    
+    func makeArrowToolView()->ArrowToolView {
+        return ArrowToolView(zoomMode: $zoomMode,
+                      toastMessage: $toastMessage,
+                      isShowToast: $isShowToast,
+                      isLongPressing: $isLongPressing,
+                      timer: $timer,
+                      pointer: $pointer,
+                      zoomOffset: $zoomOffset,
+                      zoomScale: $zoomScale,
+                      zoomFrame: zoomFrame,
+                      isShowMenu: isShowMenu,
+                      redoCount: redoCount,
+                      undoCount: undoCount)
+    }
     
     var body: some View {
         GeometryReader { geomentry in
@@ -213,205 +293,72 @@ struct PixelDrawView: View {
                 }
             }
             
+                
+            
+            
             if geomentry.size.height > geomentry.size.width {
                 ZStack(alignment: .leading) {
                     if isShowMenu {
-                        //MARK: - Side menu
-                        
-                        SideMenuView(isShowSigninView: $isShowSigninView,
-                                     alertType: $alertType,
-                                     isShowAlert: $isShowAlert,
-                                     isShowProfileView: $isShowProfileView,
-                                     isShowInAppPurches: $isShowInAppPurches,
-                                     isShowSaveView: $isShowSaveView,
-                                     isShowLoadView: $isShowLoadView,
-                                     isShowShareListView: $isShowShareListView,
-                                     geomentryWidth: geomentry.size.width)
+                        makeSideMenuView(geomentryWidth: geomentry.size.width)
                     }
+
                     VStack(alignment: .leading) {
-                        
-                        //MARK: - 드로잉 켄버스
-                        CanvasView(pointer: $pointer,
-                                   isShowMenu: $isShowMenu,
-                                   isLoadingAnimated: $isLoadingAnimated,
-                                   isLongPressing: $isLongPressing,
-                                   timer: $timer,
-                                   colors: colors,
-                                   isLoadingDataFin: isLoadingDataFin,
-                                   isShowSelectLayerOnly: isShowSelectLayerOnly,
-                                   screenWidth: screenWidth,
-                                   backgroundColor: backgroundColor,
-                                   layers: layers,
-                                   zoomMode: zoomMode,
-                                   zoomFrame: zoomFrame,
-                                   zoomOffset: zoomOffset
-                        )
-                        
-                        
+                        makeCanvasView(screenWidth: screenWidth)
                         Spacer()
+
                         if isShowMenu == false {
-                            LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly,
-                                          selectedLayerIndex: StageManager.shared.stage?.selectedLayerIndex ?? 0,
-                                          toastMessage: $toastMessage,
-                                          isShowToast: $isShowToast,
-                                          previewImage: previewImage,
-                                          googleAd: googleAd,
-                                          layerCount: StageManager.shared.stage?.layers.count ?? 0,
-                                          isShowInAppPurches: $isShowInAppPurches
-                            )
-                            
-                            //            Spacer()
+                            makeLayerToolView()
+
                             if zoomMode == .none {
-                                // MARK: -  빠렛트
-                                PaletteView(forgroundColor: $forgroundColor,
-                                            backgroundColor: $backgroundColor,
-                                            colorSelectMode: $colorSelectMode,
-                                            undoCount: $undoCount,
-                                            redoCount: $redoCount,
-                                            isShowMenu: isShowMenu,
-                                            paletteColors: paletteColors,
-                                            isShowColorPresetView: $isShowColorPresetView
-                                ).padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
-                                
+                                makePalleteView()
+                                .padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
                             }
                             
                             HStack {
                                 //MARK: - 포인터 브러시 컨트롤 뷰
                                 VStack {
-                                    
-                                    DrawingToolView(
-                                        zoomMode: $zoomMode,
-                                        colors: $colors,
-                                        forgroundColor: $forgroundColor,
-                                        undoCount: $undoCount,
-                                        redoCount: $redoCount,
-                                        toastMessage: $toastMessage,
-                                        isShowToast: $isShowToast,
-                                        previewImage: $previewImage,
-                                        pointer: pointer,
-                                        backgroundColor: backgroundColor)
-                                    
-                                    ArrowToolView(zoomMode: $zoomMode,
-                                                  toastMessage: $toastMessage,
-                                                  isShowToast: $isShowToast,
-                                                  isLongPressing: $isLongPressing,
-                                                  timer: $timer,
-                                                  pointer: $pointer,
-                                                  zoomOffset: $zoomOffset,
-                                                  zoomScale: $zoomScale,
-                                                  zoomFrame: zoomFrame,
-                                                  isShowMenu: isShowMenu,
-                                                  redoCount: redoCount,
-                                                  undoCount: undoCount)
+                                    makeDrawingToolView()
+                                    makeArrowToolView()
                                     
                                 }.padding(20)
                             }
                         }
-                        
-                        
                     }
                     .opacity(isShowMenu ? 0.2 : 1.0)
                 }
-
+                
             } else {
                 ZStack(alignment: .leading) {
                     if isShowMenu {
                         //MARK: - Side menu
-                        
-                        SideMenuView(isShowSigninView: $isShowSigninView,
-                                     alertType: $alertType,
-                                     isShowAlert: $isShowAlert,
-                                     isShowProfileView: $isShowProfileView,
-                                     isShowInAppPurches: $isShowInAppPurches,
-                                     isShowSaveView: $isShowSaveView,
-                                     isShowLoadView: $isShowLoadView,
-                                     isShowShareListView: $isShowShareListView,
-                                     geomentryWidth: geomentry.size.height)
+                        makeSideMenuView(geomentryWidth: geomentry.size.height)
                     }
                     HStack {
+                        if isShowMenu {
+                            Spacer()
+                        }
+                        makeCanvasView(screenWidth: geomentry.size.height)
                         
-                        CanvasView(pointer: $pointer,
-                                   isShowMenu: $isShowMenu,
-                                   isLoadingAnimated: $isLoadingAnimated,
-                                   isLongPressing: $isLongPressing,
-                                   timer: $timer,
-                                   colors: colors,
-                                   isLoadingDataFin: isLoadingDataFin,
-                                   isShowSelectLayerOnly: isShowSelectLayerOnly,
-                                   screenWidth: geomentry.size.height,
-                                   backgroundColor: backgroundColor,
-                                   layers: layers,
-                                   zoomMode: zoomMode,
-                                   zoomFrame: zoomFrame,
-                                   zoomOffset: zoomOffset
-                        )
-                        
-    
                         VStack {
                             if isShowMenu == false {
-                                LayerToolView(isShowSelectLayerOnly: $isShowSelectLayerOnly,
-                                              selectedLayerIndex: StageManager.shared.stage?.selectedLayerIndex ?? 0,
-                                              toastMessage: $toastMessage,
-                                              isShowToast: $isShowToast,
-                                              previewImage: previewImage,
-                                              googleAd: googleAd,
-                                              layerCount: StageManager.shared.stage?.layers.count ?? 0,
-                                              isShowInAppPurches: $isShowInAppPurches
-                                )
-
-                            
-                            //            Spacer()
-                            if zoomMode == .none {
-                                // MARK: -  빠렛트
-                                PaletteView(forgroundColor: $forgroundColor,
-                                            backgroundColor: $backgroundColor,
-                                            colorSelectMode: $colorSelectMode,
-                                            undoCount: $undoCount,
-                                            redoCount: $redoCount,
-                                            isShowMenu: isShowMenu,
-                                            paletteColors: paletteColors,
-                                            isShowColorPresetView: $isShowColorPresetView
-                                ).padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+                                makeLayerToolView()
                                 
+                                if zoomMode == .none {
+                                    makePalleteView().padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+                                }
+                                
+                                HStack {
+                                    VStack {
+                                        makeDrawingToolView()
+                                        makeArrowToolView()
+                                    }.padding(20)
+                                }
                             }
-                            
-                            HStack {
-                                //MARK: - 포인터 브러시 컨트롤 뷰
-                                VStack {
-                                    
-                                    DrawingToolView(
-                                        zoomMode: $zoomMode,
-                                        colors: $colors,
-                                        forgroundColor: $forgroundColor,
-                                        undoCount: $undoCount,
-                                        redoCount: $redoCount,
-                                        toastMessage: $toastMessage,
-                                        isShowToast: $isShowToast,
-                                        previewImage: $previewImage,
-                                        pointer: pointer,
-                                        backgroundColor: backgroundColor)
-                                    
-                                    ArrowToolView(zoomMode: $zoomMode,
-                                                  toastMessage: $toastMessage,
-                                                  isShowToast: $isShowToast,
-                                                  isLongPressing: $isLongPressing,
-                                                  timer: $timer,
-                                                  pointer: $pointer,
-                                                  zoomOffset: $zoomOffset,
-                                                  zoomScale: $zoomScale,
-                                                  zoomFrame: zoomFrame,
-                                                  isShowMenu: isShowMenu,
-                                                  redoCount: redoCount,
-                                                  undoCount: undoCount)
-                                    
-                                }.padding(20)
-                            }
-                        }
                         }
                     }
                 }
             }
-
+            
             
         }
         
@@ -425,7 +372,7 @@ struct PixelDrawView: View {
                 } label : {
                     Image(systemName: "line.3.horizontal")
                 }
-            }            
+            }
             
         }
         
@@ -452,7 +399,7 @@ struct PixelDrawView: View {
                                             isLoadingDataFin = false
                                             toastMessage = err.localizedDescription
                                             isShowToast = true
-                                        } else {                                    
+                                        } else {
                                             StageManager.shared.loadList { list in
                                                 isLoadingDataFin = true
                                                 StageManager.shared.initStage(canvasSize: size)
@@ -463,13 +410,7 @@ struct PixelDrawView: View {
                                 }), secondaryButton: .cancel())
             }
         }
-        //        .frame(width: screenBounds.width,
-        //               height: screenBounds.width > 500 ? screenBounds.height : CGFloat.leastNormalMagnitude,
-        //               alignment: .center)
         
-#if MAC
-        .background(KeyEventHandling())
-#endif
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .onAppear {
             //MARK: - onAppear
