@@ -184,9 +184,11 @@ struct SaveView: View {
                         GoogleAdBannerView(bannerView: bannerView)
                             .frame(width: 320, height: 100, alignment: .center)
                             .padding(.top,10)
+                            .padding(.bottom,10)
                     }
 
                     makeButtonList()
+                        .padding(.bottom,10)
                 }
             }
             else {
@@ -201,8 +203,10 @@ struct SaveView: View {
                             GoogleAdBannerView(bannerView: bannerView)
                                 .frame(width: 320, height: 100, alignment: .center)
                                 .padding(.top,10)
+                                .padding(.bottom,10)
                         }
                         makeButtonList()
+                            .padding(.bottom,10)
                     }
                 }
             }

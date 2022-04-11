@@ -149,98 +149,101 @@ struct DrawingToolView: View {
     
     
     var body: some View {
-        HStack {
-            Button {
-                withAnimation {
-                    if zoomMode != .zoom {
-                        zoomMode = .zoom
-                    } else {
-                        zoomMode = .none
+        ScrollView(.horizontal) {
+            HStack {
+                Button {
+                    withAnimation {
+                        if zoomMode != .zoom {
+                            zoomMode = .zoom
+                        } else {
+                            zoomMode = .none
+                        }
                     }
+                } label : {
+                    Image(systemName: "plus.magnifyingglass")
+                        .opacity(zoomMode == .zoom ? 1.0 : 0.2)
+                        .imageScale(zoomMode == .none ? .small : .large)
+                        .padding(zoomMode == .none ? 0 : 5)
                 }
-            } label : {
-                Image(systemName: "plus.magnifyingglass")
-                    .opacity(zoomMode == .zoom ? 1.0 : 0.2)
-                    .imageScale(zoomMode == .none ? .small : .large)
-                    .padding(zoomMode == .none ? 0 : 5)
-            }
-            Button {
-                withAnimation {
-                    if zoomMode != .offset {
-                        zoomMode = .offset
-                    } else {
-                        zoomMode = .none
+                Button {
+                    withAnimation {
+                        if zoomMode != .offset {
+                            zoomMode = .offset
+                        } else {
+                            zoomMode = .none
+                        }
                     }
+                } label : {
+                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle")
+                        .opacity(zoomMode == .offset ? 1.0 : 0.2)
+                        .imageScale(zoomMode == .none ? .small : .large)
+                        .padding(zoomMode == .none ? 0 : 5)
                 }
-            } label : {
-                Image(systemName: "dot.arrowtriangles.up.right.down.left.circle")
-                    .opacity(zoomMode == .offset ? 1.0 : 0.2)
-                    .imageScale(zoomMode == .none ? .small : .large)
-                    .padding(zoomMode == .none ? 0 : 5)
-            }
-
-            if zoomMode == .none {
-                Group {
-                    // 연필
-                    Button {
-                    } label : {
-                        Image("pencil")
-                            .resizable()
-                            .frame(width: 50, height: 50, alignment: .center)
+                
+                if zoomMode == .none {
+                    Group {
+                        // 연필
+                        Button {
+                        } label : {
+                            Image("pencil")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                            
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                draw(target: pointer, color: forgroundColor)
+                            }))
+                        //페인트
+                        Button {
+                        } label : {
+                            Image("paint")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                paint(target: pointer, color: forgroundColor)
+                            }))
                         
-                    }.frame(width: 50, height: 50, alignment: .center)
-                        .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                            draw(target: pointer, color: forgroundColor)
-                        }))
-                    //페인트
-                    Button {
-                    } label : {
-                        Image("paint")
-                            .resizable()
-                            .frame(width: 50, height: 50, alignment: .center)
-                    }.frame(width: 50, height: 50, alignment: .center)
-                        .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                            paint(target: pointer, color: forgroundColor)
-                        }))
-                    
-                    Button {
-                    } label : {
-                        Image("paint2")
-                            .resizable()
-                            .frame(width: 50, height: 50, alignment: .center)
-                    }.frame(width: 50, height: 50, alignment: .center)
-                        .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                            changeColor(target: pointer, color: forgroundColor)
-                        }))
-                    
-                    //지우개
-                    Button {
-                    } label : {
-                        Image("eraser")
-                            .resizable()
-                            .frame(width: 50, height: 50, alignment: .center)
-                            .background(.clear)
-                    }.frame(width: 50, height: 50, alignment: .center)
-                        .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                            draw(target: pointer, color: .clear)
-                        }))
-                    //지우개
-                    Button {
-                    } label : {
-                        Image("spoid")
-                            .resizable()
-                            .frame(width: 50, height: 50, alignment: .center)
-                            .background(.clear)
-                    }.frame(width: 50, height: 50, alignment: .center)
-                        .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                            if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
-                                forgroundColor = color
-                            }
-                        }))
+                        Button {
+                        } label : {
+                            Image("paint2")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                changeColor(target: pointer, color: forgroundColor)
+                            }))
+                        
+                        //지우개
+                        Button {
+                        } label : {
+                            Image("eraser")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .background(.clear)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                draw(target: pointer, color: .clear)
+                            }))
+                        //지우개
+                        Button {
+                        } label : {
+                            Image("spoid")
+                                .resizable()
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .background(.clear)
+                        }.frame(width: 50, height: 50, alignment: .center)
+                            .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
+                                if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
+                                    forgroundColor = color
+                                }
+                            }))
+                    }
                 }
+                
+                
             }
-            
-            
+            .padding(5)
         }
         .onAppear {
             NotificationCenter.default.addObserver(forName: .layerblendModeDidChange, object: nil, queue: nil) { noti in

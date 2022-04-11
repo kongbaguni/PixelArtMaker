@@ -22,31 +22,33 @@ struct PaletteView: View {
     let paletteColors:[Color]
     @Binding var isShowColorPresetView:Bool
     
-    var body: some View {
-        HStack {
-            Spacer(minLength: 5)
-            VStack {
-                Button {
-                    if isShowMenu {
-                        return
-                    }
-                    colorSelectMode = .foreground
-                } label: {
-                    Text("").frame(width: 28, height: 15, alignment: .center)
-                        .background(forgroundColor)
-                }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
+    func makeFgBgSelectView() -> some View {
+        VStack {
+            Button {
+                if isShowMenu {
+                    return
+                }
+                colorSelectMode = .foreground
+            } label: {
+                Text("").frame(width: 28, height: 15, alignment: .center)
+                    .background(forgroundColor)
+            }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
+            
+            Button {
+                if isShowMenu {
+                    return
+                }
                 
-                Button {
-                    if isShowMenu {
-                        return
-                    }
-                    
-                    colorSelectMode = .background
-                } label: {
-                    Text("").frame(width: 28, height: 15, alignment: .center)
-                        .background(backgroundColor)
-                }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
-            }
+                colorSelectMode = .background
+            } label: {
+                Text("").frame(width: 28, height: 15, alignment: .center)
+                    .background(backgroundColor)
+            }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
+        }
+    }
+    
+    func makeColorPicker() -> some View {
+        Group {
             switch colorSelectMode {
             case .foreground:
                 ColorPicker(selection: $forgroundColor) {
@@ -70,21 +72,28 @@ struct PaletteView: View {
                 }
                 .frame(width: 30, height: 30, alignment: .center)
             }
-            
-            switch colorSelectMode {
-            case .foreground:
-                 SimplePaleteView(color: $forgroundColor, paletteColors: paletteColors)
-            case .background:
-                SimplePaleteView(color: $backgroundColor, paletteColors: paletteColors)
-            }
-            
-            Button {
-                isShowColorPresetView = true
-            } label : {
-                Image(systemName: "ellipsis")
-                    .imageScale(.large)
-            }
-            Spacer(minLength: 5)
+        }
+    }
+    var body: some View {
+        ScrollView(.horizontal) {
+            HStack {
+                makeFgBgSelectView()
+                makeColorPicker()
+                
+                switch colorSelectMode {
+                case .foreground:
+                    SimplePaleteView(color: $forgroundColor, paletteColors: paletteColors)
+                case .background:
+                    SimplePaleteView(color: $backgroundColor, paletteColors: paletteColors)
+                }
+                
+                Button {
+                    isShowColorPresetView = true
+                } label : {
+                    Image(systemName: "ellipsis")
+                        .imageScale(.large)
+                }
+            }.padding(5)
         }
     }
 }

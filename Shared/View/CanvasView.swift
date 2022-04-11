@@ -110,6 +110,7 @@ struct CanvasView: View {
                         context.stroke(.init(roundedRect: rect, cornerSize: .zero), with: .color(.green.opacity(0.5)))
                     }
                     if isShowMenu == false {
+                        context.blendMode = .difference
                         context.stroke(Path(roundedRect: .init(
                             x: (pointer.x - CGFloat(zoomOffset.x)) * w,
                             y: (pointer.y - CGFloat(zoomOffset.y)) * w,

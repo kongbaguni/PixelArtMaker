@@ -44,23 +44,6 @@ fileprivate func getPosition(location:CGPoint, targetSize:CGSize)->Position? {
     return Position(rawValue: txt)
 }
 
-fileprivate var screenWidth:CGFloat {
-    let s = screenBounds
-    
-    if s.width > s.height {
-        return s.height
-    }
-    print("scren : \(s.width / s.height)")
-    if s.width / s.height > 0.5 && s.width < 500 {
-        return 250
-    }
-    if s.width / s.height > 0.6 && s.width > 800 {
-        return 500
-    }
-    return s.width
-}
-
-
 
 fileprivate var pixelSize:CGSize { StageManager.shared.canvasSize }
 
@@ -304,28 +287,31 @@ struct PixelDrawView: View {
                         makeSideMenuView(geomentryWidth: geomentry.size.width)
                     }
 
-                    VStack(alignment: .leading) {
-                        makeCanvasView(screenWidth: screenWidth)
+                    VStack {
+                        makeCanvasView(screenWidth: geomentry.size.width)
                         Spacer()
-
-                        if isShowMenu == false {
-                            makeLayerToolView()
-
-                            if zoomMode == .none {
-                                makePalleteView()
-                                .padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
-                            }
-                            
-                            HStack {
-                                //MARK: - 포인터 브러시 컨트롤 뷰
-                                VStack {
-                                    makeDrawingToolView()
-                                    makeArrowToolView()
-                                    
-                                }.padding(20)
-                            }
-                        }
                     }
+                    VStack(alignment: .leading, spacing: 0) {
+                        Spacer()
+                        Group {
+                            if isShowMenu == false {
+                                makeLayerToolView()
+                                
+                                if zoomMode == .none {
+                                    makePalleteView()
+                                }
+                                
+                                HStack {
+                                    //MARK: - 포인터 브러시 컨트롤 뷰
+                                    VStack {
+                                        makeDrawingToolView()
+                                        makeArrowToolView()
+                                    }
+                                }
+                            }
+                        }.background(Color(.sRGB, white: 0.0, opacity: 0.8))
+                    }
+                    
                     .opacity(isShowMenu ? 0.2 : 1.0)
                 }
                 
@@ -344,16 +330,20 @@ struct PixelDrawView: View {
                         VStack {
                             if isShowMenu == false {
                                 makeLayerToolView()
+                                    .frame(width:geomentry.size.width - geomentry.size.height)
                                 
                                 if zoomMode == .none {
-                                    makePalleteView().padding(SwiftUI.EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+                                    makePalleteView()
+                                        .frame(width:geomentry.size.width - geomentry.size.height)
                                 }
                                 
                                 HStack {
                                     VStack {
                                         makeDrawingToolView()
+                                            .frame(width:geomentry.size.width - geomentry.size.height)
                                         makeArrowToolView()
-                                    }.padding(20)
+                                            .frame(width:geomentry.size.width - geomentry.size.height)
+                                    }
                                 }
                             }
                         }

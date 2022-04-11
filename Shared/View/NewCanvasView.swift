@@ -120,7 +120,7 @@ struct NewCanvasView: View {
     var body: some View {
         GeometryReader { geomentry in
             if geomentry.size.width < geomentry.size.height {
-                VStack {
+                ScrollView {
                     makeCanvasView(width: geomentry.size.width)
                     
                     makeInfomationView()
@@ -128,25 +128,26 @@ struct NewCanvasView: View {
                         GoogleAdBannerView(bannerView: bannerView)
                             .frame(width: 320, height: 100, alignment: .center)
                             .padding(.top,10)
+                            .padding(.bottom,10)
                     }
-                    Spacer()
                     makeButton()
+                        .padding(.bottom,10)
                 }
             }
             else {
                 HStack {
                     makeCanvasView(width: geomentry.size.height)
                     Spacer()
-                    VStack {
+                    ScrollView {
                         makeInfomationView()
                         if InAppPurchaseModel.isSubscribe == false {
                             GoogleAdBannerView(bannerView: bannerView)
                                 .frame(width: 320, height: 100, alignment: .center)
                                 .padding(.top,10)
+                                .padding(.bottom,10)
                         }
-
-                        Spacer()
                         makeButton()
+                            .padding(.bottom,10)
                     }
                 }
             }
