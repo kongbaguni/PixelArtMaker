@@ -37,7 +37,7 @@ struct ArtListView: View {
     }
     
     private func getWidth(width:CGFloat, length:Int)->CGFloat {
-        return (width - 10.0) / CGFloat(length)
+        return (width - 40.0) / CGFloat(length)
     }
     
     private func makePickerView()-> some View {
@@ -136,10 +136,10 @@ struct ArtListView: View {
             ScrollView {
                 makePickerView()
                 if geomentry.size.width > geomentry.size.height {
-                    makeListView(gridItems:GridItem.makeGridItems(length: 5, width: geomentry.size.width), width: width ?? geomentry.size.width)
+                    makeListView(gridItems:GridItem.makeGridItems(length: 5, width: geomentry.size.width - 40), width: width ?? geomentry.size.width)
                     
                 } else {
-                    makeListView(gridItems: GridItem.makeGridItems(length: 3, width: geomentry.size.width), width: width ?? geomentry.size.width)
+                    makeListView(gridItems: GridItem.makeGridItems(length: 3, width: geomentry.size.width - 40), width: width ?? geomentry.size.width)
                 }
                 
             }

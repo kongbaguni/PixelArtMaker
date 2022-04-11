@@ -9,14 +9,6 @@ import SwiftUI
 import RealmSwift
 import SDWebImageSwiftUI
 
-fileprivate let width1 = screenBounds.width - 10
-fileprivate let width2 = screenBounds.width / 2 - 10
-fileprivate let width3 = screenBounds.width / 3 - 10
-
-fileprivate let height1 = width1 + 50
-fileprivate let height2 = width2 + 50
-
-
 struct PublicShareListView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -33,52 +25,11 @@ struct PublicShareListView: View {
         }
     }
     
-    var pwidth:CGFloat {
-        switch idlist.count {
-        case 1:
-            return width1
-        case 2:
-            return width2
-        default:
-            return width3
-        }
-    }
-    
     @State var isShowToast = false
     @State var toastMessage:String = ""
-    @State var idlist:[String] = [] {
-        didSet {
-            switch idlist.count {
-            case 0:
-                gridItems = []
-            case 1:
-                gridItems = [
-                    .init(.fixed(width1))
-                ]
-            case 2:
-                gridItems = [
-                    .init(.fixed(width2)),
-                    .init(.fixed(width2))
-                ]
-            default:
-                gridItems = [
-                    .init(.fixed(width3)),
-                    .init(.fixed(width3)),
-                    .init(.fixed(width3)),
-                ]
-            }
-        }
-    }
-    
-    @State var gridItems:[GridItem] = [
-        .init(.fixed(width3)),
-        .init(.fixed(width3)),
-        .init(.fixed(width3)),
-    ]
-
+    @State var idlist:[String] = []
     @State var pictureId:String = ""
     @State var isShowPictureDetail = false
-
     @State var sortIndex = 0
     @State var isLoading = false
     
@@ -86,87 +37,104 @@ struct PublicShareListView: View {
         return Sort.SortTypeForPublicGallery[sortIndex]
     }
     
-    var body: some View {
-        VStack {
-            //MARK: - Navigation
-            NavigationLink(isActive: $isShowPictureDetail) {
-                PixelArtDetailView(id:pictureId, showProfile: true)
-            } label: {
-                
+    private func makePickerView()->some View {
+        Picker(selection:$sortIndex, label:Text("sort")) {
+            ForEach(0..<Sort.SortTypeForPublicGallery.count, id:\.self) { idx in
+                let type = Sort.SortTypeForPublicGallery[idx]
+                Sort.getText(type: type)
             }
-
-
-            if idlist.count == 0 {
-                Text("empty public shard list message")
-            }
-            else {
-                ZStack {
-                    if isLoading {
-                        ActivityIndicator(isAnimating: $isLoading, style: .large)
-                    }
-                    ScrollView {
-                        Picker(selection:$sortIndex, label:Text("sort")) {
-                            ForEach(0..<Sort.SortTypeForPublicGallery.count, id:\.self) { idx in
-                                let type = Sort.SortTypeForPublicGallery[idx]
-                                Sort.getText(type: type)
-                            }
-                        }.onChange(of: sortIndex) { newValue in
-                            load()
-                        }
-                        
-                        LazyVGrid(columns: gridItems, spacing:20) {
-                            ForEach(idlist, id:\.self) { id in
-                                if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id),
-                                    let imageURL = model.imageURLvalue {
-                                    Button {
-                                        pictureId = model.id
-                                        isShowPictureDetail = true
-                                    } label: {
+        }.onChange(of: sortIndex) { newValue in
+            load()
+        }
+    }
+    
+    private func getWidth(length:Int, width:CGFloat)->CGFloat {
+        return (width - 20) / CGFloat(length)
+    }
+    
+    private func makeListView(gridItems:[GridItem], width:CGFloat)->some View {
+        ScrollView {
+            makePickerView()
+            LazyVGrid(columns: gridItems, spacing:20) {
+                ForEach(idlist, id:\.self) { id in
+                    if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id),
+                       let imageURL = model.imageURLvalue {
+                        Button {
+                            pictureId = model.id
+                            isShowPictureDetail = true
+                        } label: {
+                            VStack {
+                                ZStack {
+                                    WebImage(url:imageURL)
+                                        .placeholder(.imagePlaceHolder)
+                                        .resizable()
+                                        .frame(width: getWidth(length: gridItems.count, width: width),
+                                               height: getWidth(length: gridItems.count, width: width), alignment: .center)
+                                    
+                                    if model.isNew {
                                         VStack {
-                                            ZStack {
-                                                WebImage(url:imageURL)
-                                                    .placeholder(.imagePlaceHolder)
-                                                    .resizable()
-                                                    .frame(width: pwidth, height: pwidth, alignment: .center)
-                                                
-                                                if model.isNew {
-                                                    VStack {
-                                                        HStack {
-                                                            TagView(Text("NEW"))
-                                                                .padding(5)
-                                                            Spacer()
-                                                        }
-                                                        Spacer()
-                                                    }
-                                                }
+                                            HStack {
+                                                TagView(Text("NEW"))
+                                                    .padding(5)
+                                                Spacer()
                                             }
-                                            
-                                            switch sortType {
-                                            case .like:
-                                                HStack {
-                                                    Image(model.isMyLike ? "heart_red" : "heart_gray")
-                                                        .padding(5)
-                                                    Text(model.likeCount.formatted(.number))
-                                                        .font(.system(size: 10))
-                                                        .foregroundColor(.k_normalText)
-                                                }
-                                            default:
-                                                Text(model.updateDate.formatted(date: .long, time: .standard ))
-                                                    .font(.system(size: 10))
-                                                    .foregroundColor(.gray)
-                                                
-                                            }
-                                            
+                                            Spacer()
                                         }
                                     }
+                                }
+                                
+                                switch sortType {
+                                case .like:
+                                    HStack {
+                                        Image(model.isMyLike ? "heart_red" : "heart_gray")
+                                            .padding(5)
+                                        Text(model.likeCount.formatted(.number))
+                                            .font(.system(size: 10))
+                                            .foregroundColor(.k_normalText)
+                                    }
+                                default:
+                                    Text(model.updateDate.formatted(date: .long, time: .standard ))
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.gray)
                                     
                                 }
+                                
                             }
-                                                     
                         }
-                        .opacity(isLoading ? 0.5 : 1.0)
-                        .animation(.easeInOut, value: isLoading)
                         
+                    }
+                }
+                
+            }
+            .opacity(isLoading ? 0.5 : 1.0)
+            .animation(.easeInOut, value: isLoading)
+        }
+    }
+    
+    var body: some View {
+        GeometryReader { geomentry in
+            VStack {
+                //MARK: - Navigation
+                NavigationLink(isActive: $isShowPictureDetail) {
+                    PixelArtDetailView(id:pictureId, showProfile: true)
+                } label: {
+                    
+                }
+
+                if idlist.count == 0 {
+                    Text("empty public shard list message")
+                }
+                else {
+                    ZStack {
+                        if isLoading {
+                            ActivityIndicator(isAnimating: $isLoading, style: .large)
+                        }
+                        makeListView(gridItems:
+                                        geomentry.size.width > geomentry.size.height
+                                     ? GridItem.makeGridItems(length: 5, width: geomentry.size.width - 10)
+                                     : GridItem.makeGridItems(length: 3, width: geomentry.size.width - 10)
+                                     ,width: geomentry.size.width
+                        )
                     }
                 }
             }

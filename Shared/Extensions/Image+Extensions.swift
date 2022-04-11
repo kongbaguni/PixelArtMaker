@@ -15,5 +15,10 @@ extension Image {
     public init?(totalColors:[[[Color]]], blendModes:[CGBlendMode], backgroundColor: Color, size:CGSize) {
         let image = UIImage(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor, size: size)!
         self.init(uiImage: image)
-    }    
+    }
+    
+    public init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize) {
+        let image = UIImage(pixelSize: pixelSize, backgroundColor: backgroundColor, size: size)!
+        self.init(uiImage: image)
+    }
 }
