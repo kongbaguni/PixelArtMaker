@@ -33,6 +33,7 @@
 		1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25D27E3288E007A73CB /* SaveView.swift */; };
 		1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
+		8DB0B9FD2803E1F900C2B0FF /* GridItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */; };
 		8DF55C4327FD498300D68EB1 /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */; };
 		8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */; };
 		8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */; };
@@ -129,6 +130,7 @@
 		1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPresetView.swift; sourceTree = "<group>"; };
 		28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixelArtMaker__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GridItem+Extensions.swift"; sourceTree = "<group>"; };
 		8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		8DF55C5027FD74B800D68EB1 /* ArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtListView.swift; sourceTree = "<group>"; };
 		8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninButton.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				C3DBA08D27ECB25600FE8392 /* UIApplication+Extensions.swift */,
 				C3EDBF1E27F6B06C00BBEC01 /* View+Extensions.swift */,
 				C356364027FAC4AE00B2609A /* Float+Extensions.swift */,
+				8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				C3011F5B27F05750001B12AC /* OrangeTextView.swift in Sources */,
 				1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */,
 				C3EDBF2527F8863A00BBEC01 /* ProfileView.swift in Sources */,
+				8DB0B9FD2803E1F900C2B0FF /* GridItem+Extensions.swift in Sources */,
 				C3DBA08E27ECB25600FE8392 /* UIApplication+Extensions.swift in Sources */,
 				C3011F5927F05675001B12AC /* PublicShareListView.swift in Sources */,
 				1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */,

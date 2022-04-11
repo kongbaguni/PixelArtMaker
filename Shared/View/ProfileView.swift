@@ -121,7 +121,7 @@ struct ProfileView: View {
                     HStack {
                         makeProfileView(isLandscape: true)
                         ArtListView(uid: uid,
-                                    gridItems: ArtListView.makeGridItems(length: 4, width: geomentry.size.width - 250))
+                                    gridItems: GridItem.makeGridItems(length: 4, width: geomentry.size.width - 250))
                     }
                 }
             }

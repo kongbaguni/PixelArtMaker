@@ -18,16 +18,7 @@ fileprivate let height2 = width2 + 50
 
 struct ArtListView: View {
     static let grids3:[GridItem] = [.init(.fixed(width3)),.init(.fixed(width3)),.init(.fixed(width3))]
-    
-    static func makeGridItems(length:Int,width:CGFloat, padding:CGFloat = 10)->[GridItem] {
-        var result:[GridItem] = []
-        let width = (width / CGFloat(length)) + padding
-        for _ in 0..<length {
-            result.append(.init(.fixed(width)))
-        }
-        return result
-    }
-    
+        
     let collection = Firestore.firestore().collection("public")
     @State var isShowToast = false
     @State var toastMessage = ""
@@ -154,8 +145,7 @@ struct ArtListView: View {
                     ScrollView {
                         makePickerView()
                         if geomentry.size.width > geomentry.size.height {
-                            makeListView(gridItems:
-                                            ArtListView.makeGridItems(length: 5, width: geomentry.size.width, padding: 0))
+                            makeListView(gridItems:GridItem.makeGridItems(length: 5, width: geomentry.size.width))
                             
                         } else {
                             makeListView(gridItems: ArtListView.grids3)
