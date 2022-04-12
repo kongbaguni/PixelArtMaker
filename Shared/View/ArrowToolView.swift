@@ -27,7 +27,8 @@ struct ArrowToolView: View {
     var zoomLimit:Int {
         (Int(StageManager.shared.canvasSize.width)/2) - 8
     }
-    private enum ButtonType {
+    
+    private enum ButtonType : Int {
         case up
         case down
         case left
@@ -38,39 +39,43 @@ struct ArrowToolView: View {
         case redo
     }
     
-    private enum MoveOffsetDirection {
-        case up
-        case down
-        case left
-        case right
+    private enum ZoomDirection {
         case zoomIn
         case zoomOut
     }
     
-    private enum PointerDirection {
+    private enum MoveDirection : Int{
         case up
         case down
         case left
         case right
     }
     
-    private func movePointer(direction:PointerDirection) {
+    private func timerReset() {
+        isLongPressing = false
+        timer?.invalidate()
+    }
+    
+    private func movePointer(direction:MoveDirection) {
         switch direction {
         case .up:
             pointer.y -= 1
             if pointer.y < 0 {
                 pointer.y = 0
+                timerReset()
             }
         case .down:
             pointer.y += 1
             let heightLimit = StageManager.shared.canvasSize.height
             if pointer.y > heightLimit {
                 pointer.y = heightLimit
+                timerReset()
             }
         case .left:
             pointer.x -= 1
             if pointer.x < 0 {
                 pointer.x = 0
+                timerReset()
             }
             
         case .right:
@@ -78,11 +83,12 @@ struct ArrowToolView: View {
             let widthLimit = StageManager.shared.canvasSize.width
             if pointer.x > widthLimit {
                 pointer.x = widthLimit
+                timerReset()
             }
         }
     }
     
-    private func move(directipn:MoveOffsetDirection) {
+    private func move(directipn:MoveDirection) {
         switch directipn {
         case .left:
             var nx = zoomOffset.x - 1
@@ -113,22 +119,6 @@ struct ArrowToolView: View {
                 nx = pw - w
             }
             zoomOffset.x = nx
-            
-        case .zoomIn:
-            zoomScale += 1
-            if zoomScale > zoomLimit {
-                zoomScale = zoomLimit
-                return
-            }
-            move(directipn: .right)
-            move(directipn: .down)
-        case .zoomOut:
-            zoomScale -= 1
-            if zoomScale < 0 {
-                zoomScale = 0
-            }
-            move(directipn: .up)
-            move(directipn: .left)
         }
         
         var frameSize:(width:Int,height:Int) {
@@ -146,15 +136,41 @@ struct ArrowToolView: View {
         while zoomOffset.y + frameSize.height > Int(StageManager.shared.canvasSize.height) {
             zoomOffset.y -= 1
         }
-        
-        
+                            
+        notifiZoomOffset()
+    }
+    
+    
+    private func zoom(direction:ZoomDirection) {
+        switch direction {
+        case .zoomIn:
+            zoomScale += 1
+            if zoomScale > zoomLimit {
+                zoomScale = zoomLimit
+                timerReset()
+                return
+            }
+            move(directipn: .right)
+            move(directipn: .down)
+        case .zoomOut:
+            zoomScale -= 1
+            if zoomScale < 0 {
+                zoomScale = 0
+                timerReset()
+            }
+            move(directipn: .up)
+            move(directipn: .left)
+        }
+        notifiZoomOffset()
+    }
+
+    private func notifiZoomOffset() {
         NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
             "offset":zoomOffset,
             "scale":zoomScale
         ])
-
     }
-
+    
     private func getImageName(type:ButtonType)->String {
         switch type {
         case .up, .zoomIn:
@@ -176,7 +192,79 @@ struct ArrowToolView: View {
             .frame(width: 50, height: 50, alignment: .center)
     }
     
+    private func makeArrowButton(direction:MoveDirection?)->some View {
+        Button {
+            if isLongPressing {
+                isLongPressing = false
+                timer?.invalidate()
+                timer = nil
+            }
+
+            if let d = direction {
+                if isZoomMode {
+                    move(directipn: d)
+                } else {
+                    movePointer(direction: d)
+                }
+            }
+        } label: {
+            makeImage(type: ButtonType(rawValue: direction?.rawValue ?? 0) ?? .up)
+        }
+        .frame(width: 50, height: 50, alignment: .center)
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                print("long press")
+                self.isLongPressing = true
+                //or fastforward has started to start the timer
+                if let t = timer {
+                    t.invalidate()
+                }
+                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                    if let d = direction {
+                        if isZoomMode {
+                            move(directipn: d)
+                        } else {
+                            movePointer(direction: d)
+                        }
+                    }
+                })
+            }
+        )
+    }
+    
+    private func makeZoomButton(zoomType:ZoomDirection)-> some View {
+        Button {
+            if isLongPressing {
+                isLongPressing = false
+                timer?.invalidate()
+                timer = nil
+            }
+
+            zoom(direction: zoomType)
+        } label : {
+            switch zoomType {
+            case .zoomIn:
+                makeImage(type: .zoomIn)
+            case .zoomOut:
+                makeImage(type: .zoomOut)
+            }
+        }
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+                print("long press")
+                self.isLongPressing = true
+                if let t = timer {
+                    t.invalidate()
+                }
+                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                    zoom(direction: zoomType)
+                })
+            }
+        )
+    }
+    
     private func makeButton(type:ButtonType)-> some View {
+        
         Group {
             switch type {
             case .undo:
@@ -236,140 +324,18 @@ struct ArrowToolView: View {
                 .frame(width: 50, height: 50, alignment: .center)
                 .padding(20)
             case .left:
-                //MARK: - 왼쪽
-                Button {
-                    if isLongPressing {
-                        isLongPressing = false
-                        timer?.invalidate()
-                    }
-
-                    if isZoomMode {
-                        move(directipn: .left)
-                    } else {
-                        movePointer(direction: .left)
-                    }
-                } label: {
-                    makeImage(type: .left)
-                }
-                .frame(width: 50, height: 50, alignment: .center)
-                .simultaneousGesture(
-                    LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                        print("long press")
-                        self.isLongPressing = true
-                        //or fastforward has started to start the timer
-                        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                            if isZoomMode {
-                                move(directipn: .left)
-                            } else {
-                                movePointer(direction: .left)
-                            }
-                        })
-                    }
-                )
-                
+                makeArrowButton(direction: .left)
             case .up:
-                //MARK: - 위로
-                Button {
-                    if isLongPressing {
-                        isLongPressing = false
-                        timer?.invalidate()
-                    }
-
-                    if isZoomMode {
-                        move(directipn: .up)
-                    } else {
-                        movePointer(direction: .up)
-                    }
-                } label: {
-                    makeImage(type: .up)
-                }.frame(width: 50, height: 50, alignment: .center)
-                    .simultaneousGesture(
-                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                            print("long press")
-                            self.isLongPressing = true
-                            //or fastforward has started to start the timer
-                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                if isZoomMode {
-                                    move(directipn: .up)
-                                } else {
-                                    movePointer(direction: .up)
-                                }
-                            })
-                        }
-                    )
+                makeArrowButton(direction: .up)
             case .down:
-                //MARK: - 아래로
-                Button {
-                    if isLongPressing {
-                        isLongPressing = false
-                        timer?.invalidate()
-                    }
-                    if isZoomMode {
-                        move(directipn: .down)
-                    } else {
-                        movePointer(direction: .down)
-                    }
-                } label: {
-                    makeImage(type: .down)
-                }.frame(width: 50, height: 50, alignment: .center)
-                    .simultaneousGesture(
-                        LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                            print("long press")
-                            self.isLongPressing = true
-                            //or fastforward has started to start the timer
-                            self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                if isZoomMode {
-                                    move(directipn: .down)
-                                } else {
-                                    movePointer(direction: .down)
-                                }
-                            })
-                        }
-                    )
-
+                makeArrowButton(direction: .down)
             case .right:
-                //MARK: - 오른쪽
-                Button {
-                    if isLongPressing {
-                        isLongPressing = false
-                        timer?.invalidate()
-                    }
-                    if isZoomMode {
-                        move(directipn: .right)
-                    } else {
-                        movePointer(direction: .right)
-                    }
-                } label: {
-                    makeImage(type:.right)
-                }
-                .frame(width: 50, height: 50, alignment: .center)
-                .simultaneousGesture(
-                    LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                        print("long press")
-                        self.isLongPressing = true
-                        //or fastforward has started to start the timer
-                        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                            if isZoomMode {
-                                move(directipn: .right)
-                            } else {
-                                movePointer(direction: .right)
-                            }
-                        })
-                    }
-                )
+                makeArrowButton(direction: .right)
+                
             case .zoomIn:
-                Button {
-                    move(directipn: .zoomIn)
-                } label : {
-                    makeImage(type: .zoomIn)
-                }
+                makeZoomButton(zoomType: .zoomIn)
             case .zoomOut:
-                Button {
-                    move(directipn: .zoomOut)
-                } label : {
-                    makeImage(type: .zoomOut)
-                }
-
+                makeZoomButton(zoomType: .zoomOut)
             }
         }
     }
