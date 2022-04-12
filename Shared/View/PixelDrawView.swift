@@ -53,7 +53,11 @@ struct PixelDrawView: View {
     }
     
     enum AlertType {
+        /** 새로 그리기*/
         case clear
+        /** 겔러리 소유 제한으로 새로그리기 안됨 */
+        case limitOverClear
+        /** 삭제하기*/
         case delete
     }
     let googleAd = GoogleAd()
@@ -392,6 +396,14 @@ struct PixelDrawView: View {
         
         .alert(isPresented: $isShowAlert)  {
             switch alertType {
+            case .limitOverClear:
+                return Alert(title: Text("limitOverClear title"),
+                             message: Text("limitOverClear message"),
+                             primaryButton: .default(
+                                Text("limitOverClear confirm"), action : {
+                                    isShowInAppPurches = true
+                                }
+                             ), secondaryButton: .cancel())
             case .clear:
                 return Alert(title: Text.clear_alert_title,
                              message: Text.clear_alert_message,

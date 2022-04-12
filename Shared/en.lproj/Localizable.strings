@@ -89,3 +89,7 @@
 "canvas size" = "canvas size";
 "new canvas view title" = "new canvas";
 "new canvas confirm button title" = "confirm";
+
+"limitOverClear title" = "limit Excess";
+"limitOverClear message" = "The number of pictures saved in the gallery has exceeded the limit.\nUp to 20 pictures can be saved.";
+"limitOverClear confirm" = "confirm";

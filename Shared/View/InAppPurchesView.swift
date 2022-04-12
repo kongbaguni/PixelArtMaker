@@ -14,6 +14,8 @@ struct InAppPurchesView: View {
     }
     let inappPurchase = InAppPurchase()
 
+    let dim = DimLoadingViewController()
+    
     @State var purches:[InAppPurchaseModel] = []
     @State var discount:[Float] = []
     @State var isLoading = false
@@ -35,7 +37,9 @@ struct InAppPurchesView: View {
             
             ForEach(purches, id:\.self) { model in
                 Button {
+                    dim.show()
                     inappPurchase.buyProduct(productId: model.id) { isSucess in
+                        dim.hide()
                         self.isSubscribe = InAppPurchaseModel.isSubscribe
                     }
                 } label: {
@@ -93,7 +97,9 @@ struct InAppPurchesView: View {
             
             if isSubscribe == false {
                 Button {
+                    dim.show()
                     inappPurchase.restorePurchases { isSucess in
+                        dim.hide()
                         if isSucess {
                             if InAppPurchaseModel.isSubscribe {
                                 alertType = .구입복원_구매내역있음

@@ -34,6 +34,7 @@
 		1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
 		8DB0B9FD2803E1F900C2B0FF /* GridItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */; };
+		8DB0B9FF28056CC300C2B0FF /* DimLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */; };
 		8DF55C4327FD498300D68EB1 /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */; };
 		8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */; };
 		8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */; };
@@ -131,6 +132,7 @@
 		28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixelArtMaker__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GridItem+Extensions.swift"; sourceTree = "<group>"; };
+		8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimLoadingViewController.swift; sourceTree = "<group>"; };
 		8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		8DF55C5027FD74B800D68EB1 /* ArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtListView.swift; sourceTree = "<group>"; };
 		8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninButton.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				C356363927FAC29200B2609A /* InAppPurches.swift */,
 				C356363727FA7C2100B2609A /* Consts.swift */,
 				C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */,
+				8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */,
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
 				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
 				C3EDBF2B27F9412100BBEC01 /* Toast.swift */,
@@ -592,6 +595,7 @@
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
 				C3011F5727F050CD001B12AC /* SharedStageModel.swift in Sources */,
 				C3EDBF2C27F9412100BBEC01 /* Toast.swift in Sources */,
+				8DB0B9FF28056CC300C2B0FF /* DimLoadingViewController.swift in Sources */,
 				C3EDBF2327F87FE500BBEC01 /* ProfileModel.swift in Sources */,
 				C38C1B9E280071F300350176 /* SidebarMenuView.swift in Sources */,
 				C38C1BA028017C5300350176 /* TempModel.swift in Sources */,

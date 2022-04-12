@@ -131,6 +131,9 @@ struct NewCanvasView: View {
                             .frame(width: 320, height: 100, alignment: .center)
                             .padding(.top,10)
                             .padding(.bottom,10)
+                    } else {
+                        Spacer()
+                            .frame(height:50)
                     }
                     makeButton()
                         .padding(.bottom,10)

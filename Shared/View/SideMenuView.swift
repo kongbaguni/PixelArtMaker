@@ -85,6 +85,14 @@ struct SideMenuView: View {
                     }
                     
                     Button {
+                        if InAppPurchaseModel.isSubscribe == false {
+                            if MyStageModel.stageCount >= Consts.free_myGalleryLimit {
+                                alertType = .limitOverClear
+                                isShowAlert = true
+                                return
+                            }
+                        }
+
                         alertType = .clear
                         isShowAlert = true
                     } label: {

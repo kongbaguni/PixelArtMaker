@@ -33,4 +33,10 @@ struct Consts {
         16,24,32,36,48,56,64,72,80,88
     ]
     
+    /** 무료모드에서 겔러리 생성 제한 */
+    static let free_myGalleryLimit = 20
+    /** 무료모드에서 레이어 생성 제한*/
+    static let free_layerLimit = 2    
+    /** 구독모드에서 레이어 생성 제한*/
+    static let plus_layerLimit = 5
 }

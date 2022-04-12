@@ -29,6 +29,10 @@ class MyStageModel : Object {
     var threadSafeModel:ThreadSafeModel {
         return .init(documentId: documentId, imageURL: URL(string: imageURL), updateDt: updateDt, shareDocumentId: shareDocumentId)
     }
+    
+    static var stageCount:Int {
+        return try! Realm().objects(MyStageModel.self).count 
+    }
 }
 
 
