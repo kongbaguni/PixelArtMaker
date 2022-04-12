@@ -70,7 +70,7 @@ struct ArrowToolView: View {
         case .down:
             pointer.y += 1
             let heightLimit = StageManager.shared.canvasSize.height
-            if pointer.y > heightLimit {
+            if pointer.y > heightLimit - 1  {
                 pointer.y = heightLimit
                 timerReset()
             }
@@ -84,7 +84,7 @@ struct ArrowToolView: View {
         case .right:
             pointer.x += 1
             let widthLimit = StageManager.shared.canvasSize.width
-            if pointer.x > widthLimit {
+            if pointer.x > widthLimit - 1{
                 pointer.x = widthLimit
                 timerReset()
             }
