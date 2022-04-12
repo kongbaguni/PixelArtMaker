@@ -20,86 +20,135 @@ fileprivate func getW(name:String,idx:Int)->CGFloat {
 
 struct ColorPresetView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    struct RowData : Hashable {
+        public static func == (lhs: RowData, rhs: RowData) -> Bool {
+            return lhs.title == rhs.title && lhs.colors == rhs.colors
+        }
+        let title:String?
+        let colors:[Color]?
+        let indexPath:IndexPath?
+    }
+    
+    let datas:[RowData]
+    @State var selectedData:RowData? = nil
+    
     private var colorPresetNames:[String] {
         Color.colorPresetNames
     }
     
-    @State var colorPresetNameIdx:Int = 0
+    private var colors:[[[Color]]] {
+        colorPresetNames.map { key in
+            let arr = Color.presetColors[key]
+            return arr ?? []
+        }
+    }
 
-    var body: some View {
-
-        VStack {
-            Picker(selection:$colorPresetNameIdx, label:Text("preset")) {
-                ForEach(0..<colorPresetNames.count, id:\.self) { idx in
-                    Text(colorPresetNames[idx])
+    private var selectedIndexPath:IndexPath? {
+        for (section, list) in colors.enumerated() {
+            for (row, colors) in list.enumerated() {
+                if colors == StageManager.shared.stage?.paletteColors {
+                    let result = IndexPath(row: row, section: section)
+                    print("selection : \(result)" )
+                    return result
                 }
             }
         }
-        ScrollViewReader { proxy in
-            List {
-                let key = colorPresetNames[colorPresetNameIdx]
-                if let arr = Color.presetColors[key] {
-                    ForEach(0..<arr.count, id:\.self) { i in
-                        Button {
-                            UserDefaults.standard.lastColorPresetRowSelectionIndex = i
-                            StageManager.shared.stage?.paletteColors = arr[i]
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            HStack {
-                                ForEach(0..<arr[i].count, id:\.self) { i2 in
-                                    Text(" ")
-                                        .frame(width: getW(name:key,idx:i),
-                                               height: 50,
-                                               alignment: .center)
-                                        .background(arr[i][i2])
-                                    
-                                }
+        let result = UserDefaults.standard.lastColorPresetIndexPath
+        if result.row > 0 {
+            return result
+        }
+
+        print("selection none")
+        return nil
+    }
+    
+    private func getId(indexPath:IndexPath)->Int {
+        var id = 0
+        for i in 0..<indexPath.section {
+            if i == indexPath.section {
+                continue
+            }
+            id += colors[i].count + 1
+        }
+        id += indexPath.row + 1
+        return id
+    }
+    
+    private var selectedId:Int? {
+        if let idx = selectedIndexPath {
+            return getId(indexPath: idx)
+        }
+        return nil
+    }
+    
+    
+    private func makeColorsView(key:String,colors:[Color], indexPath:IndexPath)-> some View  {
+        HStack {
+            Text("\(indexPath.row + 1)")
+            
+            ForEach(0..<colors.count, id:\.self) { i in
+                Text(" ")
+                    .frame(width: getW(name:key,idx:i),
+                           height: 50,
+                           alignment: .center)
+                    .background(colors[i])
+            }
+        }
+        .padding(5)
+        .background(indexPath == selectedData?.indexPath ? Color.K_boldText : Color.clear)
+        .cornerRadius(10)
+    }
+    
+    private var fullList : some View {
+        ScrollView {
+            LazyVStack {
+                ForEach(datas, id:\.self) { data in
+                    if let key = data.title {
+                        if data.indexPath == nil {
+                            Text(key)
+                                .font(.headline)
+                                .foregroundColor(Color.K_boldText)
+                        }
+                        if let colors = data.colors, let indexPath = data.indexPath {
+                            Button {
+                                StageManager.shared.stage?.paletteColors = colors
+                                UserDefaults.standard.lastColorPresetIndexPath = indexPath
+                                presentationMode.wrappedValue.dismiss()
+                                
+                            } label : {
+                                makeColorsView(key:key,colors: colors, indexPath: indexPath)
                             }
                         }
                     }
                 }
-            }.onAppear {
-                colorPresetNameIdx = UserDefaults.standard.lastColorPresetSelectionIndex
-                DispatchQueue.main.async {
-                    proxy.scrollTo(UserDefaults.standard.lastColorPresetRowSelectionIndex, anchor: .top)
-                }
-            }.onDisappear {
-                UserDefaults.standard.lastColorPresetSelectionIndex = colorPresetNameIdx
             }
         }
+    }
         
-//        List {
-//            ForEach(0..<Color.presetColors.count, id:\.self) { idx in
-//                let key = colorPresetNames[idx]
-//                if let arr = Color.presetColors[key] {
-//                    Section(header:Text(key)) {
-//                        ForEach(0..<arr.count, id:\.self) { i in
-//                            Button {
-//                                StageManager.shared.stage?.paletteColors = arr[i]
-//                                presentationMode.wrappedValue.dismiss()
-//                            } label: {
-//                                HStack {
-//                                    ForEach(0..<arr[i].count, id:\.self) { i2 in
-//                                        Text(" ")
-//                                            .frame(width: getW(name:key,idx:i),
-//                                                   height: 50,
-//                                                   alignment: .center)
-//                                            .background(arr[i][i2])
-//
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                    }
-//                }
-//
-//            }
-//        }
-//        .navigationTitle(Text.menu_color_select_title)
-//        .onAppear {
-//
-//        }
+    init() {
+        var data:[RowData] = []
+        for (section,key) in Color.colorPresetNames.enumerated() {
+            data.append(.init(title: key, colors: nil, indexPath: nil))
+            for (row,colors) in (Color.presetColors[key] ?? []).enumerated() {
+                data.append(.init(title: key, colors: colors, indexPath: .init(row: row, section: section)))
+            }
+        }
+        self.datas = data
+        
+    }
+    
+    var body: some View {
+        GeometryReader { geomentry in
+            ScrollViewReader { proxy in
+                fullList.onAppear {
+                    if let idx = selectedId {
+                        selectedData = datas[idx]
+                        proxy.scrollTo(datas[idx], anchor: .center)
+                    }
+                }
+            }.frame(width: geomentry.size.width, height: geomentry.size.height)
+        }
+        .navigationTitle(Text.menu_color_select_title)
     }
 }
 

@@ -204,9 +204,8 @@ class StageModel {
             "colors":getColorStrings(colorArray: layers.map({ model in
                 return  model.colors
             })),
-            "pallete_colors":paletteColors.map({ color in
-                return color.string
-            }),
+            "pallete_colors_idx_row":UserDefaults.standard.lastColorPresetIndexPath.row,
+            "pallete_colors_idx_section":UserDefaults.standard.lastColorPresetIndexPath.section,
             "canvas_width":canvasSize.width,
             "canvas_height":canvasSize.height,
             "background_color":backgroundColor.string,
@@ -271,10 +270,16 @@ class StageModel {
                     model.selectLayer(index: idx)
                 }
 
-                if let p = json["pallete_colors"] as? [String] {
-                    model.paletteColors = p.map({ str in
-                        return Color(string: str)
-                    })
+                if let color = Color.lastSelectColors {
+                    model.paletteColors = color
+                }
+                else {
+                    if let row = json["pallete_colors_idx_row"] as? Int,
+                       let section = json["pallete_colors_idx_section"] as? Int {
+                        if let colors = Color.getColorsFromPreset(indexPath: .init(row: row, section: section)) {
+                            model.paletteColors = colors
+                        }
+                    }
                 }
                 var layers:[LayerModel] = []
                 let blendModes = json["bland_modes"] as? [Int32]

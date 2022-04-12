@@ -25,17 +25,12 @@ extension Color {
     }
     
     static var lastSelectColors:[Color]? {
-        let a = UserDefaults.standard.lastColorPresetSelectionIndex
-        let b = UserDefaults.standard.lastColorPresetRowSelectionIndex            
-        let key = colorPresetNames[a]
-        if let list = presetColors[key] {
-            if list.count < b {
-                if let el = list.randomElement() {
-                    UserDefaults.standard.lastColorPresetRowSelectionIndex = list.firstIndex(of: el) ?? 0
-                    return el
-                }
+        let idx = UserDefaults.standard.lastColorPresetIndexPath
+        let key = colorPresetNames[idx.section]
+        if let colors = presetColors[key] {
+            if idx.row < colors.count {
+                return colors[idx.row]
             }
-            return list[b]
         }
         return nil
     }
@@ -45,6 +40,18 @@ extension Color {
             return result.key
         }
         return keys.sorted()
+    }
+    
+    static func getColorsFromPreset(indexPath:IndexPath)->[Color]? {
+        if indexPath.section < colorPresetNames.count {
+            let key = colorPresetNames[indexPath.section]
+            if let list = presetColors[key] {
+                if indexPath.row < list.count {
+                    return list[indexPath.row]
+                }
+            }            
+        }        
+        return nil
     }
     
     static let presetColors:[String:[[Color]]] =

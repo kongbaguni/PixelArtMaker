@@ -7,6 +7,18 @@
 
 import SwiftUI
 extension UserDefaults {
+    var lastColorPresetIndexPath:IndexPath {
+        set {
+            lastColorPresetSelectionIndex = newValue.section
+            lastColorPresetRowSelectionIndex = newValue.row
+        }
+        get {
+            let section = lastColorPresetSelectionIndex
+            let row = lastColorPresetRowSelectionIndex
+            return .init(row: row, section: section)
+        }
+    }
+    
     var lastColorPresetSelectionIndex:Int {
         set {
             set(newValue, forKey: "lastColorPresetSelectionIndex")
