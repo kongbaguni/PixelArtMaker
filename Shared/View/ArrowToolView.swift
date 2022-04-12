@@ -11,7 +11,7 @@ extension Notification.Name {
 }
 
 struct ArrowToolView: View {
-    @Binding var zoomMode:PixelDrawView.ZoomMode
+    @Binding var isZoomMode:Bool
     @Binding var toastMessage:String
     @Binding var isShowToast:Bool
     @Binding var isLongPressing:Bool
@@ -158,13 +158,17 @@ struct ArrowToolView: View {
                     }
                 } label: {
                     VStack {
-                        Image(systemName:"arrow.uturn.backward.circle").imageScale(.large)
+                        Image(systemName:"arrow.uturn.backward.circle")
+                            .imageScale(.large)
+                            .foregroundColor(.gray)
                         if redoCount + undoCount > 0 {
                             ProgressView(value: CGFloat(undoCount) / CGFloat(redoCount + undoCount) )
                                 .frame(width: 50, height: 5, alignment: .center)
+                                .foregroundColor(.gray)
                         } else {
                             ProgressView(value: 0)
                                 .frame(width: 50, height: 5, alignment: .center)
+                                .foregroundColor(.gray)
                         }
                     }
                 }
@@ -182,12 +186,15 @@ struct ArrowToolView: View {
                 } label: {
                     VStack {
                         Image(systemName:"arrow.uturn.forward.circle").imageScale(.large)
+                            .foregroundColor(.gray)
                         if redoCount + undoCount > 0 {
                             ProgressView(value: CGFloat(redoCount) / CGFloat(redoCount + undoCount) )
                                 .frame(width: 50, height: 5, alignment: .center)
+                                .foregroundColor(.gray)
                         } else {
                             ProgressView(value: 0)
                                 .frame(width: 50, height: 5, alignment: .center)
+                                .foregroundColor(.gray)
                             
                         }
                     }
@@ -197,25 +204,22 @@ struct ArrowToolView: View {
             case .left:
                 //MARK: - 왼쪽
                 Button {
-                    switch zoomMode {
-                    case .none:
+                    if isZoomMode {
+                        move(directipn: .left)
+                    } else {
                         if isLongPressing {
                             isLongPressing = false
                             timer?.invalidate()
                         }
                         pointer = .init(x: pointer.x - 1, y: pointer.y)
-                        
-                    case .zoom:
-                        move(directipn: .left)
                     }
-                    
                 } label: {
                     makeImage(type: .left)
                 }
                 .frame(width: 50, height: 50, alignment: .center)
                 .simultaneousGesture(
                     LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                        if zoomMode != .none {
+                        if !isZoomMode {
                             return
                         }
                         print("long press")
@@ -230,23 +234,21 @@ struct ArrowToolView: View {
             case .up:
                 //MARK: - 위로
                 Button {
-                    switch zoomMode {
-                    case .none:
+                    if isZoomMode {
+                        move(directipn: .up)
+                    } else {
                         if isLongPressing {
                             isLongPressing = false
                             timer?.invalidate()
                         }
                         pointer = .init(x: pointer.x, y: pointer.y - 1)
-                        
-                    case .zoom:
-                        move(directipn: .up)
                     }
                 } label: {
                     makeImage(type: .up)
                 }.frame(width: 50, height: 50, alignment: .center)
                     .simultaneousGesture(
                         LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                            if zoomMode != .none {
+                            if !isZoomMode {
                                 return
                             }
                             print("long press")
@@ -260,23 +262,21 @@ struct ArrowToolView: View {
             case .down:
                 //MARK: - 아래로
                 Button {
-                    switch zoomMode {
-                    case .none:
+                    if isZoomMode {
+                        move(directipn: .down)
+                    } else {
                         if isLongPressing {
                             isLongPressing = false
                             timer?.invalidate()
                         }
                         pointer = .init(x: pointer.x, y: pointer.y + 1)
-                        
-                    case .zoom:
-                        move(directipn: .down)
                     }
                 } label: {
                     makeImage(type: .down)
                 }.frame(width: 50, height: 50, alignment: .center)
                     .simultaneousGesture(
                         LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                            if zoomMode != .none {
+                            if !isZoomMode {
                                 return
                             }
                             print("long press")
@@ -291,15 +291,14 @@ struct ArrowToolView: View {
             case .right:
                 //MARK: - 오른쪽
                 Button {
-                    switch zoomMode {
-                    case .none:
+                    if isZoomMode {
+                        move(directipn: .right)
+                    } else {
                         if isLongPressing {
                             isLongPressing = false
                             timer?.invalidate()
                         }
                         pointer = .init(x: pointer.x + 1, y: pointer.y)
-                    case .zoom:
-                        move(directipn: .right)
                     }
                 } label: {
                     makeImage(type:.right)
@@ -307,7 +306,7 @@ struct ArrowToolView: View {
                 .frame(width: 50, height: 50, alignment: .center)
                 .simultaneousGesture(
                     LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                        if zoomMode != .none {
+                        if isZoomMode {
                             return
                         }
                         print("long press")
@@ -339,7 +338,7 @@ struct ArrowToolView: View {
         HStack(alignment:.center) {
             Spacer()
             Group{
-                if zoomMode == .none {
+                if !isZoomMode {
                     //MARK: - undo
                     makeButton(type: .undo)
                 }
@@ -358,7 +357,7 @@ struct ArrowToolView: View {
                 }
                 makeButton(type: .right)
                 
-                if zoomMode == .none {
+                if !isZoomMode {
                     makeButton(type: .redo)
                 }
             }

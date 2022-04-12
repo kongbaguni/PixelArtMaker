@@ -119,12 +119,8 @@ struct PixelDrawView: View {
             }
         }
     }
-    enum ZoomMode {
-        case none
-        case zoom
-    }
     
-    @State var zoomMode:ZoomMode = .none
+    @State var isZoomMode:Bool = false 
     @State var zoomScale = 0
     @State var zoomOffset:(x:Int,y:Int) = (x:0,y:0)
     var zoomFrame:(width:Int,height:Int) {
@@ -184,7 +180,6 @@ struct PixelDrawView: View {
                    screenWidth: screenWidth,
                    backgroundColor: backgroundColor,
                    layers: layers,
-                   zoomMode: zoomMode,
                    zoomFrame: zoomFrame,
                    zoomOffset: zoomOffset
         )
@@ -218,7 +213,7 @@ struct PixelDrawView: View {
     
     func makeDrawingToolView()->DrawingToolView {
         return DrawingToolView(
-            zoomMode: $zoomMode,
+            isZoomMode: $isZoomMode,
             colors: $colors,
             forgroundColor: $forgroundColor,
             undoCount: $undoCount,
@@ -231,7 +226,7 @@ struct PixelDrawView: View {
     }
     
     func makeArrowToolView()->ArrowToolView {
-        return ArrowToolView(zoomMode: $zoomMode,
+        return ArrowToolView(isZoomMode: $isZoomMode,
                       toastMessage: $toastMessage,
                       isShowToast: $isShowToast,
                       isLongPressing: $isLongPressing,
@@ -243,6 +238,19 @@ struct PixelDrawView: View {
                       isShowMenu: isShowMenu,
                       redoCount: redoCount,
                       undoCount: undoCount)
+    }
+    
+    private func makeShowMenuPreviewImage(size:CGFloat)-> some View {
+        (previewImage ?? Image.imagePlaceHolder)
+            .resizable()
+                .frame(width: size, height: size, alignment: .center)
+                .padding(20)
+                .onTapGesture {
+                    withAnimation(.easeInOut) {
+                        isShowMenu = false
+                    }
+                }
+        
     }
     
     var body: some View {
@@ -287,16 +295,25 @@ struct PixelDrawView: View {
                     }
 
                     VStack {
-                        makeCanvasView(screenWidth: geomentry.size.width)
-                        Spacer()
+                        if isShowMenu {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                makeShowMenuPreviewImage(size:geomentry.size.width - 240)
+                            }
+                            Spacer()
+                        } else {
+                            makeCanvasView(screenWidth: geomentry.size.width)
+                            Spacer()
+                        }
                     }
                     VStack(alignment: .leading, spacing: 0) {
                         Spacer()
                         Group {
-                            if isShowMenu == false {
+                            if !isShowMenu {
                                 makeLayerToolView()
                                 
-                                if zoomMode == .none {
+                                if !isZoomMode {
                                     makePalleteView()
                                 }
                                 
@@ -323,15 +340,21 @@ struct PixelDrawView: View {
                     HStack {
                         if isShowMenu {
                             Spacer()
+                            VStack {
+                                Spacer()
+                                makeShowMenuPreviewImage(size:geomentry.size.height - 20)
+                                Spacer()
+                            }
+                        } else {
+                            makeCanvasView(screenWidth: geomentry.size.height)
                         }
-                        makeCanvasView(screenWidth: geomentry.size.height)
                         
                         VStack {
                             if isShowMenu == false {
                                 makeLayerToolView()
                                     .frame(width:geomentry.size.width - geomentry.size.height)
                                 
-                                if zoomMode == .none {
+                                if !isZoomMode {
                                     makePalleteView()
                                         .frame(width:geomentry.size.width - geomentry.size.height)
                                 }
@@ -362,6 +385,7 @@ struct PixelDrawView: View {
                     
                 } label : {
                     Image(systemName: "line.3.horizontal")
+                        .foregroundColor(.gray)
                 }
             }
             

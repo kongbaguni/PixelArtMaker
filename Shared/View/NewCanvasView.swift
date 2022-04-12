@@ -71,7 +71,9 @@ struct NewCanvasView: View {
                 
                 SimplePaleteView(color: $backgroundColor, paletteColors: Color.lastSelectColors ?? [])
                 NavigationLink(destination: ColorPresetView()) {
-                    Image(systemName: "ellipsis").imageScale(.large)
+                    Image(systemName: "ellipsis")
+                        .imageScale(.large)
+                        .foregroundColor(.gray)
                 }
             }
         }

@@ -20,7 +20,6 @@ struct CanvasView: View {
     let screenWidth:CGFloat
     let backgroundColor:Color
     let layers:[LayerModel]
-    let zoomMode:PixelDrawView.ZoomMode
     let zoomFrame:(width:Int,height:Int)
     let zoomOffset:(x:Int,y:Int)
     

@@ -92,6 +92,7 @@ struct PaletteView: View {
                 } label : {
                     Image(systemName: "ellipsis")
                         .imageScale(.large)
+                        .foregroundColor(.gray)
                 }
             }.padding(5)
         }

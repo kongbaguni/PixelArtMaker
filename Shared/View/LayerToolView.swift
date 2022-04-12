@@ -79,6 +79,7 @@ struct LayerToolView: View {
                 } label: {
                     Image(systemName: "plus.circle").imageScale(.large)
                         .opacity(isLoading ? 0.2 : 1.0)
+                        .foregroundColor(.gray)
                 }
                 .tint(.blue)
             }
@@ -94,6 +95,7 @@ struct LayerToolView: View {
         } label: {
             Image(systemName: "eye").imageScale(.large)
                 .opacity(isShowSelectLayerOnly ? 1.0 : 0.2)
+                .foregroundColor(.gray)
         }
         
     }
@@ -104,6 +106,7 @@ struct LayerToolView: View {
             LayerEditView(googleAd: googleAd)
         }, label: {
             Image(systemName: "gear").imageScale(.large)
+                .foregroundColor(.gray)
         })
     }
     var body: some View {
