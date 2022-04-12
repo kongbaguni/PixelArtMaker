@@ -29,12 +29,16 @@ struct Consts {
     }
     
     
-    static let canvasSizes:[CGFloat] = [
-        16,24,32,36,48,56,64,72,80,88
-    ]
+    static var canvasSizes:[CGFloat] {
+        if InAppPurchaseModel.isSubscribe {
+            return [16,24,32,36,48,56,64,72,80,88]
+        } else {
+            return [16,36,64]
+        }
+    }
     
     /** 무료모드에서 겔러리 생성 제한 */
-    static let free_myGalleryLimit = 20
+    static let free_myGalleryLimit = 50
     /** 무료모드에서 레이어 생성 제한*/
     static let free_layerLimit = 2    
     /** 구독모드에서 레이어 생성 제한*/

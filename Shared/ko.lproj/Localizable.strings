@@ -97,5 +97,5 @@
 
 
 "limitOverClear title" = "한도 초과";
-"limitOverClear message" = "겔러리에 저장된 그림의 수가 한도를 초과했습니다.\n20개까지 저장 가능합니다.";
+"limitOverClear message" = "겔러리에 저장된 그림의 수가 한도를 초과했습니다.\n50개까지 저장 가능합니다.";
 "limitOverClear confirm" = "확인";
