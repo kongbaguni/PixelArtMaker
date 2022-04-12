@@ -84,27 +84,35 @@ struct ArrowToolView: View {
             zoomScale += 1
             if zoomScale > zoomLimit {
                 zoomScale = zoomLimit
+                return
             }
+            move(directipn: .right)
+            move(directipn: .down)
         case .zoomOut:
             zoomScale -= 1
             if zoomScale < 0 {
                 zoomScale = 0
             }
-            if zoomOffset.x > 2 {
-                zoomOffset.x -= 2
-            }
-            else if zoomOffset.x > 0 {
-                zoomOffset.x -= 1
-            }
-            
-            if zoomOffset.y > 2 {
-                zoomOffset.y -= 2
-            }
-            else if zoomOffset.y > 0 {
-                zoomOffset.y -= 1
-            }
-            break
+            move(directipn: .up)
+            move(directipn: .left)
         }
+        
+        var frameSize:(width:Int,height:Int) {
+            let size = StageManager.shared.canvasSize
+            let ow = Int(size.width)
+            let oh = Int(size.height)
+            return (width:ow - zoomScale * 2, height:oh - zoomScale * 2)
+        }
+        
+        
+        while zoomOffset.x + frameSize.width > Int(StageManager.shared.canvasSize.width) {
+            zoomOffset.x -= 1
+        }
+        
+        while zoomOffset.y + frameSize.height > Int(StageManager.shared.canvasSize.height) {
+            zoomOffset.y -= 1
+        }
+        
         
         NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
             "offset":zoomOffset,
@@ -198,15 +206,12 @@ struct ArrowToolView: View {
                         pointer = .init(x: pointer.x - 1, y: pointer.y)
                         
                     case .zoom:
-                        break
-                    case .offset:
                         move(directipn: .left)
                     }
                     
                 } label: {
                     makeImage(type: .left)
                 }
-                .opacity(zoomMode == .zoom ? 0.2 : 1.0)
                 .frame(width: 50, height: 50, alignment: .center)
                 .simultaneousGesture(
                     LongPressGesture(minimumDuration: 0.2).onEnded { _ in
@@ -234,8 +239,6 @@ struct ArrowToolView: View {
                         pointer = .init(x: pointer.x, y: pointer.y - 1)
                         
                     case .zoom:
-                        move(directipn: .zoomIn)
-                    case .offset:
                         move(directipn: .up)
                     }
                 } label: {
@@ -266,8 +269,6 @@ struct ArrowToolView: View {
                         pointer = .init(x: pointer.x, y: pointer.y + 1)
                         
                     case .zoom:
-                        move(directipn: .zoomOut)
-                    case .offset:
                         move(directipn: .down)
                     }
                 } label: {
@@ -298,14 +299,11 @@ struct ArrowToolView: View {
                         }
                         pointer = .init(x: pointer.x + 1, y: pointer.y)
                     case .zoom:
-                        break
-                    case .offset:
                         move(directipn: .right)
                     }
                 } label: {
                     makeImage(type:.right)
                 }
-                .opacity(zoomMode == .zoom ? 0.2 : 1.0 )
                 .frame(width: 50, height: 50, alignment: .center)
                 .simultaneousGesture(
                     LongPressGesture(minimumDuration: 0.2).onEnded { _ in
@@ -344,6 +342,12 @@ struct ArrowToolView: View {
                 if zoomMode == .none {
                     //MARK: - undo
                     makeButton(type: .undo)
+                }
+                else {
+                    VStack {
+                        makeButton(type: .zoomIn)
+                        makeButton(type: .zoomOut)
+                    }
                 }
                 
                 makeButton(type: .left)

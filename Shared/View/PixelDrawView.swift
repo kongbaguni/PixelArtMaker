@@ -122,8 +122,8 @@ struct PixelDrawView: View {
     enum ZoomMode {
         case none
         case zoom
-        case offset
     }
+    
     @State var zoomMode:ZoomMode = .none
     @State var zoomScale = 0
     @State var zoomOffset:(x:Int,y:Int) = (x:0,y:0)

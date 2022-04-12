@@ -39,14 +39,6 @@ struct CanvasView: View {
 
     var body: some View {
         ZStack(alignment: .center) {
-            if zoomMode != .none {
-                Text("\(zoomFrame.width) * \(zoomFrame.height) x:\(zoomOffset.x) y:\(zoomOffset.y)")
-                    .padding(5)
-                    .background(.blue)
-                    .zIndex(10)
-                    .cornerRadius(10)
-            }
-
             Canvas { context, size in
                 func draw() {
                     let w = size.width / CGFloat(zoomFrame.width)

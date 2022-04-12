@@ -165,20 +165,6 @@ struct DrawingToolView: View {
                         .imageScale(zoomMode == .none ? .small : .large)
                         .padding(zoomMode == .none ? 0 : 5)
                 }
-                Button {
-                    withAnimation {
-                        if zoomMode != .offset {
-                            zoomMode = .offset
-                        } else {
-                            zoomMode = .none
-                        }
-                    }
-                } label : {
-                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle")
-                        .opacity(zoomMode == .offset ? 1.0 : 0.2)
-                        .imageScale(zoomMode == .none ? .small : .large)
-                        .padding(zoomMode == .none ? 0 : 5)
-                }
                 
                 if zoomMode == .none {
                     Group {
