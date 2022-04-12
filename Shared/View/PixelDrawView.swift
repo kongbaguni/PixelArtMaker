@@ -194,9 +194,8 @@ struct PixelDrawView: View {
                              googleAd: googleAd,
                              layerCount: StageManager.shared.stage?.layers.count ?? 0,
                              isShowInAppPurches: $isShowInAppPurches,
-                             offset: zoomOffset,
-                             frame: zoomFrame
-        )
+                             offset: $zoomOffset,
+                             zoomScale: $zoomScale)
     }
     
     func makePalleteView()->PaletteView {
@@ -379,7 +378,7 @@ struct PixelDrawView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button {
-                    withAnimation {
+                    withAnimation(.easeInOut) {
                         isShowMenu.toggle()
                     }
                     

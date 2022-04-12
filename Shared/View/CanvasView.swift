@@ -135,7 +135,7 @@ struct CanvasView: View {
             .gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
                 print(value.location)
                 if isShowMenu {
-                    withAnimation {
+                    withAnimation(.easeInOut) {
                         isShowMenu = false
                     }
                     return

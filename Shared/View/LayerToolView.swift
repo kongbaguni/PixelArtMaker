@@ -19,8 +19,13 @@ struct LayerToolView: View {
     @State var isLoading = false
     @Binding var isShowInAppPurches:Bool
     
-    let offset:(x:Int,y:Int)
-    let frame:(width:Int,height:Int)
+    @Binding var offset:(x:Int,y:Int)
+    @Binding var zoomScale:Int
+    var frame:(width:Int,height:Int) {
+        let size = StageManager.shared.canvasSize
+        return (width: Int(size.width) - zoomScale * 2, height: Int(size.height) - zoomScale * 2)
+    }
+    
     @State var rangeImage:Image? = nil
     
     //MARK: - 미리보기
@@ -30,7 +35,13 @@ struct LayerToolView: View {
                 img.resizable().frame(width: 64, height: 64, alignment: .center)
             }
             if let img = rangeImage {
-                img.resizable().frame(width: 64, height: 64, alignment: .center).blendMode(BlendMode.difference)
+                Button {
+                    offset = (x:0,y:0)
+                    zoomScale = 0
+                    loadRangeImage()
+                } label : {
+                    img.resizable().frame(width: 64, height: 64, alignment: .center).blendMode(BlendMode.difference)
+                }
             }
         }
     }
@@ -129,17 +140,21 @@ struct LayerToolView: View {
                 layerCount = StageManager.shared.stage?.layers.count ?? 0
             }
             
-            rangeImage = Image(offset: offset, frame: frame, size: StageManager.shared.canvasSize, backgroundColor: .black, AreaLineColor: .yellow)
+            loadRangeImage()
             NotificationCenter.default.addObserver(forName: .zoomOffsetDidChanged, object: nil, queue: nil) { noti in
                 if let a = noti.userInfo?["offset"] as? (x:Int, y:Int),
-                    let b = noti.userInfo?["frame"] as? (width:Int, height:Int) {
-                    rangeImage = Image(offset: a, frame: b, size: StageManager.shared.canvasSize, backgroundColor: .black, AreaLineColor: .yellow)
+                    let b = noti.userInfo?["scale"] as? Int {
+                    offset = a
+                    zoomScale = b
+                    loadRangeImage()
                 }
             }
         }
-
     }
     
+    func loadRangeImage() {
+        rangeImage = Image(offset: offset, frame: frame, size: StageManager.shared.canvasSize, backgroundColor: .black, AreaLineColor: .yellow)
+    }
   
 }
 

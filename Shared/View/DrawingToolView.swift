@@ -160,7 +160,7 @@ struct DrawingToolView: View {
             switch type {
             case .돋보기:
                 Button {
-                    withAnimation {
+                    withAnimation(.easeInOut) {
                         isZoomMode.toggle()
                     }
                 } label : {

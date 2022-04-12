@@ -47,6 +47,40 @@ struct ArrowToolView: View {
         case zoomOut
     }
     
+    private enum PointerDirection {
+        case up
+        case down
+        case left
+        case right
+    }
+    
+    private func movePointer(direction:PointerDirection) {
+        switch direction {
+        case .up:
+            pointer.y -= 1
+            if pointer.y < 0 {
+                pointer.y = 0
+            }
+        case .down:
+            pointer.y += 1
+            let heightLimit = StageManager.shared.canvasSize.height
+            if pointer.y > heightLimit {
+                pointer.y = heightLimit
+            }
+        case .left:
+            pointer.x -= 1
+            if pointer.x < 0 {
+                pointer.x = 0
+            }
+            
+        case .right:
+            pointer.x += 1
+            let widthLimit = StageManager.shared.canvasSize.width
+            if pointer.x > widthLimit {
+                pointer.x = widthLimit
+            }
+        }
+    }
     
     private func move(directipn:MoveOffsetDirection) {
         switch directipn {
@@ -116,7 +150,7 @@ struct ArrowToolView: View {
         
         NotificationCenter.default.post(name: .zoomOffsetDidChanged, object: nil, userInfo: [
             "offset":zoomOffset,
-            "frame":zoomFrame
+            "scale":zoomScale
         ])
 
     }
@@ -204,14 +238,15 @@ struct ArrowToolView: View {
             case .left:
                 //MARK: - 왼쪽
                 Button {
+                    if isLongPressing {
+                        isLongPressing = false
+                        timer?.invalidate()
+                    }
+
                     if isZoomMode {
                         move(directipn: .left)
                     } else {
-                        if isLongPressing {
-                            isLongPressing = false
-                            timer?.invalidate()
-                        }
-                        pointer = .init(x: pointer.x - 1, y: pointer.y)
+                        movePointer(direction: .left)
                     }
                 } label: {
                     makeImage(type: .left)
@@ -219,14 +254,15 @@ struct ArrowToolView: View {
                 .frame(width: 50, height: 50, alignment: .center)
                 .simultaneousGesture(
                     LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                        if !isZoomMode {
-                            return
-                        }
                         print("long press")
                         self.isLongPressing = true
                         //or fastforward has started to start the timer
                         self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                            pointer = .init(x: pointer.x - 1, y: pointer.y)
+                            if isZoomMode {
+                                move(directipn: .left)
+                            } else {
+                                movePointer(direction: .left)
+                            }
                         })
                     }
                 )
@@ -234,56 +270,59 @@ struct ArrowToolView: View {
             case .up:
                 //MARK: - 위로
                 Button {
+                    if isLongPressing {
+                        isLongPressing = false
+                        timer?.invalidate()
+                    }
+
                     if isZoomMode {
                         move(directipn: .up)
                     } else {
-                        if isLongPressing {
-                            isLongPressing = false
-                            timer?.invalidate()
-                        }
-                        pointer = .init(x: pointer.x, y: pointer.y - 1)
+                        movePointer(direction: .up)
                     }
                 } label: {
                     makeImage(type: .up)
                 }.frame(width: 50, height: 50, alignment: .center)
                     .simultaneousGesture(
                         LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                            if !isZoomMode {
-                                return
-                            }
                             print("long press")
                             self.isLongPressing = true
                             //or fastforward has started to start the timer
                             self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                pointer = .init(x: pointer.x, y: pointer.y - 1)
+                                if isZoomMode {
+                                    move(directipn: .up)
+                                } else {
+                                    movePointer(direction: .up)
+                                }
                             })
                         }
                     )
             case .down:
                 //MARK: - 아래로
                 Button {
+                    if isLongPressing {
+                        isLongPressing = false
+                        timer?.invalidate()
+                    }
                     if isZoomMode {
                         move(directipn: .down)
                     } else {
-                        if isLongPressing {
-                            isLongPressing = false
-                            timer?.invalidate()
-                        }
-                        pointer = .init(x: pointer.x, y: pointer.y + 1)
+                        movePointer(direction: .down)
                     }
                 } label: {
                     makeImage(type: .down)
                 }.frame(width: 50, height: 50, alignment: .center)
                     .simultaneousGesture(
                         LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                            if !isZoomMode {
-                                return
-                            }
                             print("long press")
                             self.isLongPressing = true
                             //or fastforward has started to start the timer
                             self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                                pointer = .init(x: pointer.x, y: pointer.y + 1)
+                                if isZoomMode {
+                                    move(directipn: .down)
+                                } else {
+                                    movePointer(direction: .down)
+                                }
                             })
                         }
                     )
@@ -291,14 +330,14 @@ struct ArrowToolView: View {
             case .right:
                 //MARK: - 오른쪽
                 Button {
+                    if isLongPressing {
+                        isLongPressing = false
+                        timer?.invalidate()
+                    }
                     if isZoomMode {
                         move(directipn: .right)
                     } else {
-                        if isLongPressing {
-                            isLongPressing = false
-                            timer?.invalidate()
-                        }
-                        pointer = .init(x: pointer.x + 1, y: pointer.y)
+                        movePointer(direction: .right)
                     }
                 } label: {
                     makeImage(type:.right)
@@ -306,14 +345,15 @@ struct ArrowToolView: View {
                 .frame(width: 50, height: 50, alignment: .center)
                 .simultaneousGesture(
                     LongPressGesture(minimumDuration: 0.2).onEnded { _ in
-                        if isZoomMode {
-                            return
-                        }
                         print("long press")
                         self.isLongPressing = true
                         //or fastforward has started to start the timer
                         self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                            pointer = .init(x: pointer.x + 1, y: pointer.y)
+                            if isZoomMode {
+                                move(directipn: .right)
+                            } else {
+                                movePointer(direction: .right)
+                            }
                         })
                     }
                 )
