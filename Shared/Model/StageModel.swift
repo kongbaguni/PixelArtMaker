@@ -71,6 +71,7 @@ class StageModel {
     func selectLayer(index:Int) {
         if index < layers.count {
             _selectedLayerIndex = index
+            NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         }
     }
     
