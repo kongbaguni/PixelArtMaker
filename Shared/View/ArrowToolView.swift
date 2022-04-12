@@ -27,6 +27,9 @@ struct ArrowToolView: View {
     var zoomLimit:Int {
         (Int(StageManager.shared.canvasSize.width)/2) - 8
     }
+    var isZoomFrameFit:Bool {
+        zoomScale == 0 && zoomOffset == (x:0,y:0)
+    }
     
     private enum ButtonType : Int {
         case up
@@ -354,14 +357,16 @@ struct ArrowToolView: View {
                         makeButton(type: .zoomOut)
                     }
                 }
+                Group {
+                    makeButton(type: .left)
+                    
+                    VStack {
+                        makeButton(type: .up)
+                        makeButton(type: .down)
+                    }
+                    makeButton(type: .right)
+                }.opacity(isZoomFrameFit && isZoomMode ? 0.2 : 1.0)
                 
-                makeButton(type: .left)
-                
-                VStack {
-                    makeButton(type: .up)
-                    makeButton(type: .down)
-                }
-                makeButton(type: .right)
                 
                 if !isZoomMode {
                     makeButton(type: .redo)
