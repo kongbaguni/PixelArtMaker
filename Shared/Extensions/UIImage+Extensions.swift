@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 import SwiftUI
 
-extension UIImage {    
+extension UIImage {
+    /** 이미지 줌 영역 표시 위한 이미지 만들기*/
     public convenience init?(offset:(x:Int,y:Int),frame:(width:Int,height:Int), size:CGSize, backgroundColor:UIColor, AreaLineColor:UIColor) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
 
@@ -31,30 +32,42 @@ extension UIImage {
         self.init(cgImage:cgImage)
     }
     
+    // 새 켄버스의  미리보기 이미지 만들기
     public convenience init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        
-        let ci = backgroundColor.ciColor
-        
-        if ci.red + ci.green + ci.blue < 1.0 {
-            UIColor.white.setFill()
-        } else {
-            UIColor.black.setFill()
-        }
-        
+                
         UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
 
+        let w = size.width / CGFloat(pixelSize.width)
+        let h = size.height / CGFloat(pixelSize.height)
+
+        if backgroundColor.ciColor.alpha < 1.0 {
+            for y in 0..<pixelSize.height {
+                for x in 0..<pixelSize.width {
+                    let isGray = ((y % 2) + x) % 2 == 0
+                    if isGray {
+                        UIColor(white: 0.8, alpha: 1.0).setFill()
+                    } else {
+                        UIColor.white.setFill()
+                    }
+                    let rect:CGRect = .init(x: CGFloat(x) * w, y: CGFloat(y) * h, width: w, height: h)
+                    UIRectFill(rect)
+                }
+            }
+        }
+        
+        backgroundColor.uiColor.setFill()
+        UIRectFillUsingBlendMode(.init(origin: .zero, size: size), .normal)
+        
         for y in 0..<pixelSize.height {
             for x in 0..<pixelSize.height {
-                let color:UIColor = backgroundColor.uiColor
+                let color:UIColor = .yellow
                 color.setFill()
-                let w = size.width / CGFloat(pixelSize.width)
-                let h = size.height / CGFloat(pixelSize.height)
-                let rect:CGRect = .init(x: CGFloat(x) * w + 0.5,
-                                        y: CGFloat(y) * h + 0.5,
-                                        width: w - 1,
-                                        height: h - 1)
-                UIRectFillUsingBlendMode(rect, .normal)
+                let rect:CGRect = .init(x: CGFloat(x) * w,
+                                        y: CGFloat(y) * h,
+                                        width: w,
+                                        height: h)
+                UIRectFrameUsingBlendMode(rect, .normal)
             }
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
