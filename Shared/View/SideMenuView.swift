@@ -16,7 +16,7 @@ struct SideMenuView: View {
     @Binding var isShowSaveView:Bool
     @Binding var isShowLoadView:Bool
     @Binding var isShowShareListView:Bool
-    
+    @Binding var isShowSettingView:Bool
     
     var body: some View {
         List {
@@ -109,16 +109,10 @@ struct SideMenuView: View {
                 
             }
             
-            if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-                HStack {
-                    Text("version : ")
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
-                    Text(appVersion)
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
-                    
-                }
+            Button {
+                isShowSettingView = true
+            } label : {
+                SidebarMenuView(image: Image(systemName:"gear"), text: Text("Setting"))
             }
             
         }

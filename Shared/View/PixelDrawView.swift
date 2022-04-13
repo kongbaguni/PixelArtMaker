@@ -87,6 +87,7 @@ struct PixelDrawView: View {
     @State var isShowProfileView = false
     @State var isShowNewCanvasView = false
     @State var isShowInAppPurches = false
+    @State var isShowSettingView = false
     
     @State var isShowAlert = false
     @State var alertType:AlertType = .clear
@@ -162,13 +163,15 @@ struct PixelDrawView: View {
     
     func makeSideMenuView(geomentryWidth:CGFloat)->SideMenuView {
         return SideMenuView(isShowSigninView: $isShowSigninView,
-                     alertType: $alertType,
-                     isShowAlert: $isShowAlert,
-                     isShowProfileView: $isShowProfileView,
-                     isShowInAppPurches: $isShowInAppPurches,
-                     isShowSaveView: $isShowSaveView,
-                     isShowLoadView: $isShowLoadView,
-                     isShowShareListView: $isShowShareListView)
+                            alertType: $alertType,
+                            isShowAlert: $isShowAlert,
+                            isShowProfileView: $isShowProfileView,
+                            isShowInAppPurches: $isShowInAppPurches,
+                            isShowSaveView: $isShowSaveView,
+                            isShowLoadView: $isShowLoadView,
+                            isShowShareListView: $isShowShareListView,
+                            isShowSettingView: $isShowSettingView
+        )
 
     }
     
@@ -279,6 +282,9 @@ struct PixelDrawView: View {
                     
                 }
                 NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
+                    
+                }
+                NavigationLink(destination: SettingView(), isActive: $isShowSettingView) {
                     
                 }
                 if let id = AuthManager.shared.userId {

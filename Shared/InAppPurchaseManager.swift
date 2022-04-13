@@ -8,8 +8,9 @@
 
 import Foundation
 import SwiftyStoreKit
+import RealmSwift
 
-struct InAppPurchase {
+struct InAppPurchaseManager {    
     let productIdSet:Set<String> = ["weeklyPlusMode","monthlyPlusMode","3monthPlusMode","6monthPlusMode","yearlyPlusMode"]
     
     let title:[String:String] = [
@@ -73,12 +74,14 @@ struct InAppPurchase {
                             }
                             UserDefaults.standard.lastInAppPurchaseExpireDate = expiryDate
                             InAppPurchaseModel.set(productId: id, expireDt: expiryDate)
+                            
                         default:
                             print("구독 복원 없음 \(id) purchased ")
                             InAppPurchaseModel.set(productId: id,  expireDt: nil)
                             
                         }
                     }
+                    printStatus()
                     complete(true)
                     
                 case .error(let error):
@@ -108,13 +111,14 @@ struct InAppPurchase {
                 if purchase.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(purchase.transaction)
                 }
-                
-                let pi = purchase.originalPurchaseDate.timeIntervalSince1970
+                let now = Date()
+                let pi = now.timeIntervalSince1970
                 let expire = Date(timeIntervalSince1970: pi + (time[productId] ?? 0))
 
                 InAppPurchaseModel.set(productId: productId,
-                                       purchaseDt: purchase.originalPurchaseDate,
+                                       purchaseDt: now,
                                        expireDt: expire)
+                printStatus()
                 complete(true)
 
             case .error(let error):
@@ -138,4 +142,18 @@ struct InAppPurchase {
         }
     }
     
+    func printStatus() {
+        let realm = try! Realm()
+        print("구독 갱신 결과 ============================")
+        for model in realm.objects(InAppPurchaseModel.self) {
+            print("""
+"
+-------------------
+구독 id: \(model.id)
+\(model.title) \(model.desc) \(model.price)
+구입일 : \(model.purchaseDate.formatted(date: .long, time: .standard))
+만료 : \(model.expireDate.formatted(date: .long, time: .standard))
+""")
+        }
+    }
 }

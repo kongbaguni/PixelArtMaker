@@ -62,4 +62,13 @@ extension UserDefaults {
             return nil
         }        
     }
+    
+    var paintRange:Int {
+        set {
+            set(newValue, forKey: "paintRange")
+        }
+        get {
+            integer(forKey: "paintRange")
+        }
+    }
 }

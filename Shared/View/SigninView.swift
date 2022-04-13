@@ -11,6 +11,12 @@ import FirebaseAuth
 
 struct SigninView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    let inappPurchase = InAppPurchaseManager()
+    private func restoreInappPurchase() {
+        inappPurchase.getProductInfo {
+            inappPurchase.printStatus()
+        }
+    }
     
     var body: some View {
         VStack {
@@ -52,6 +58,7 @@ struct SigninView: View {
                         AuthManager.shared.startSignInWithAppleFlow { loginSucess in
                             if loginSucess {
                                 ProfileModel.downloadProfile { error in
+                                    restoreInappPurchase()
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             }
@@ -66,6 +73,7 @@ struct SigninView: View {
                         AuthManager.shared.startSignInWithGoogleId { loginSucess in
                             if loginSucess {
                                 ProfileModel.downloadProfile { error in
+                                    restoreInappPurchase()
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             }

@@ -20,6 +20,17 @@ extension Color {
         UIColor(red: ciColor.red, green: ciColor.green, blue: ciColor.blue, alpha: ciColor.alpha)
     }
     
+    /** 컬러의 차이값을 구한다.*/
+    func compare(color:Color)->Int {
+        let s = ciColor
+        let t = color.ciColor
+        let r = abs(s.red - t.red)
+        let g = abs(s.green - t.green)
+        let b = abs(s.blue - t.blue)
+        let o = abs(s.alpha - t.alpha)
+        return Int((r + g + b + o) * 1020)
+    }
+    
     static var randomColor:Color {
         return .init(rgb: (Int.random(in: 0...255), Int.random(in: 0...255), Int.random(in: 0...255)))
     }
@@ -49,7 +60,7 @@ extension Color {
                 if indexPath.row < list.count {
                     return list[indexPath.row]
                 }
-            }            
+            }
         }        
         return nil
     }

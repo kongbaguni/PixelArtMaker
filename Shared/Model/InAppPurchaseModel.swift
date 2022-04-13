@@ -36,7 +36,7 @@ extension InAppPurchaseModel {
     }
     
     static func make(result:RetrieveResults) {
-        let purch = InAppPurchase()
+        let purch = InAppPurchaseManager()
         let realm = try! Realm()
         realm.beginWrite()
         for product in result.retrievedProducts {
@@ -58,6 +58,7 @@ extension InAppPurchaseModel {
             "purchaseDate":purchaseDt,
             "expireDate":expireDt            
         ]
+        print("set data \(data)")
         let realm = try! Realm()
         realm.beginWrite()
         realm.create(InAppPurchaseModel.self, value: data, update: .modified)
@@ -112,4 +113,5 @@ extension InAppPurchaseModel {
 
         return list.last == self
     }
+    
 }

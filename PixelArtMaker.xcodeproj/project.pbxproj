@@ -35,6 +35,7 @@
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
 		8DB0B9FD2803E1F900C2B0FF /* GridItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */; };
 		8DB0B9FF28056CC300C2B0FF /* DimLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */; };
+		8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA0028065A8200C2B0FF /* SettingView.swift */; };
 		8DF55C4327FD498300D68EB1 /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */; };
 		8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */; };
 		8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */; };
@@ -62,7 +63,7 @@
 		C356363427F9AE7400B2609A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = C356363327F9AE7400B2609A /* SideMenu */; };
 		C356363627F9D9A800B2609A /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363527F9D9A800B2609A /* SortType.swift */; };
 		C356363827FA7C2200B2609A /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363727FA7C2100B2609A /* Consts.swift */; };
-		C356363A27FAC29400B2609A /* InAppPurches.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363927FAC29200B2609A /* InAppPurches.swift */; };
+		C356363A27FAC29400B2609A /* InAppPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363927FAC29200B2609A /* InAppPurchaseManager.swift */; };
 		C356363D27FAC2F700B2609A /* SwiftyStoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = C356363C27FAC2F700B2609A /* SwiftyStoreKit */; };
 		C356363F27FAC41C00B2609A /* InAppPurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363E27FAC41C00B2609A /* InAppPurchaseModel.swift */; };
 		C356364127FAC4AE00B2609A /* Float+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356364027FAC4AE00B2609A /* Float+Extensions.swift */; };
@@ -134,6 +135,7 @@
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GridItem+Extensions.swift"; sourceTree = "<group>"; };
 		8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimLoadingViewController.swift; sourceTree = "<group>"; };
+		8DB0BA0028065A8200C2B0FF /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		8DF55C5027FD74B800D68EB1 /* ArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtListView.swift; sourceTree = "<group>"; };
 		8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninButton.swift; sourceTree = "<group>"; };
@@ -155,7 +157,7 @@
 		C356362E27F976E600B2609A /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		C356363527F9D9A800B2609A /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
 		C356363727FA7C2100B2609A /* Consts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
-		C356363927FAC29200B2609A /* InAppPurches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurches.swift; sourceTree = "<group>"; };
+		C356363927FAC29200B2609A /* InAppPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseManager.swift; sourceTree = "<group>"; };
 		C356363E27FAC41C00B2609A /* InAppPurchaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseModel.swift; sourceTree = "<group>"; };
 		C356364027FAC4AE00B2609A /* Float+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Extensions.swift"; sourceTree = "<group>"; };
 		C356364427FAC73A00B2609A /* InAppPurchesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchesView.swift; sourceTree = "<group>"; };
@@ -253,7 +255,8 @@
 			children = (
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
-				C356363927FAC29200B2609A /* InAppPurches.swift */,
+				8DB0BA0028065A8200C2B0FF /* SettingView.swift */,
+				C356363927FAC29200B2609A /* InAppPurchaseManager.swift */,
 				C356363727FA7C2100B2609A /* Consts.swift */,
 				C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */,
 				8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */,
@@ -591,7 +594,7 @@
 				C38C1BA42801A44700350176 /* PaletteView.swift in Sources */,
 				C38C1BAC2802F26600350176 /* ArrowToolView.swift in Sources */,
 				1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,
-				C356363A27FAC29400B2609A /* InAppPurches.swift in Sources */,
+				C356363A27FAC29400B2609A /* InAppPurchaseManager.swift in Sources */,
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
 				8DF55C5127FD74B800D68EB1 /* ArtListView.swift in Sources */,
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
@@ -612,6 +615,7 @@
 				8DB0B9FD2803E1F900C2B0FF /* GridItem+Extensions.swift in Sources */,
 				C3DBA08E27ECB25600FE8392 /* UIApplication+Extensions.swift in Sources */,
 				C3011F5927F05675001B12AC /* PublicShareListView.swift in Sources */,
+				8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */,
 				1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */,
 				1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */,
 				1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,

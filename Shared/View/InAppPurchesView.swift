@@ -12,7 +12,7 @@ struct InAppPurchesView: View {
         case 구입복원_구매내역없음
         case 구입복원_구매내역있음
     }
-    let inappPurchase = InAppPurchase()
+    let inappPurchase = InAppPurchaseManager()
 
     let dim = DimLoadingViewController()
     

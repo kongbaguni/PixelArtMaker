@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import GoogleMobileAds
 import SwiftyStoreKit
+import RealmSwift
 
 struct ContentView: View {
     init() {
@@ -20,7 +21,8 @@ struct ContentView: View {
             print("google ad status : \(status.adapterStatusesByClassName)")
         }
         
-      
+
+        InAppPurchaseManager().printStatus()
     }
     
     var body: some View {
