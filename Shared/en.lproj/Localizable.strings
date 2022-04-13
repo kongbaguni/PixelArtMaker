@@ -47,6 +47,7 @@
 "update shared" = "update shared";
 "public shared list" = "public shared list";
 "empty public shard list message" = "There are no pictures shared.";
+"empty like list message" = "You do not have any likes.";
 
 "currentId" = "current id";
 "sharedId" = "shared id";

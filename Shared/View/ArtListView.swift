@@ -43,9 +43,9 @@ struct ArtListView: View {
                 Sort.getText(type: type)
             }
         }.onChange(of: sortIndex) { newValue in
-            ids = ArtListView.reloadFromLocalDb(sort:sort)
+            ids = ArtListView.reloadFromLocalDb(uid:uid,sort:sort)
             isAnimate = true
-            ArtListView.getListFromFirestore(sort:sort) { ids, error in
+            ArtListView.getListFromFirestore(uid:uid,sort:sort) { ids, error in
                 isAnimate = false
                 self.ids = ids
             }
@@ -91,11 +91,7 @@ struct ArtListView: View {
         }
     }
     
-    static func getListFromFirestore(sort:Sort.SortType,complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
-        guard let uid = AuthManager.shared.userId else {
-            complete([],nil)
-            return
-        }
+    static func getListFromFirestore(uid:String,sort:Sort.SortType,complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
         var ids:[String] = []
         Firestore.firestore().collection("public")
             .whereField("uid", isEqualTo: uid)
@@ -111,14 +107,11 @@ struct ArtListView: View {
                 }
                 try! realm.commitWrite()
                 print(error?.localizedDescription ?? "성공")
-                complete(ArtListView.reloadFromLocalDb(sort: sort), error)
+                complete(ArtListView.reloadFromLocalDb(uid:uid,sort: sort), error)
             }
     }
     /** 내가 공개한 작품의 목록을 로컬DB에서 읽어온다.*/
-    static func reloadFromLocalDb(sort:Sort.SortType)->[String] {
-        guard let uid = AuthManager.shared.userId else {
-            return []
-        }
+    static func reloadFromLocalDb(uid:String,sort:Sort.SortType)->[String] {
         let db = try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false)
 
         var result:Results<SharedStageModel>? = nil
@@ -167,7 +160,7 @@ struct ArtListView: View {
         .navigationTitle(Text(profile?.nickname ?? "unknown people"))
         .animation(.easeInOut, value: isAnimate)
         .onAppear {
-            ArtListView.getListFromFirestore(sort:sort) { ids, error in
+            ArtListView.getListFromFirestore(uid:uid,sort:sort) { ids, error in
                 if let err = error {
                     toastMessage = err.localizedDescription
                     isShowToast = true

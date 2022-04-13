@@ -184,8 +184,8 @@ struct ProfileView: View {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
                 self.loadData()
             }
-            sharedIds = ArtListView.reloadFromLocalDb(sort: sort)
-            ArtListView.getListFromFirestore(sort: sort) { ids, error in
+            sharedIds = ArtListView.reloadFromLocalDb(uid:uid,sort: sort)
+            ArtListView.getListFromFirestore(uid:uid,sort: sort) { ids, error in
                 self.sharedIds = ids
             }
             

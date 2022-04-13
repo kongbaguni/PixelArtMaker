@@ -72,14 +72,25 @@ struct LikeArtListView: View {
     
 
     var body: some View {
-        LazyVGrid(columns: gridItems, spacing:20) {
-            ForEach(ids, id:\.self) { id in
-                makeLikeView(id: id)
-            }
-        }.onAppear {
-            loadFromLocalDb()
-            getListFromFirebase { error in
-                loadFromLocalDb()
+        Group {
+            if ids.count > 0 {
+                LazyVGrid(columns: gridItems, spacing:20) {
+                    ForEach(ids, id:\.self) { id in
+                        makeLikeView(id: id)
+                    }
+                }.onAppear {
+                    loadFromLocalDb()
+                    getListFromFirebase { error in
+                        loadFromLocalDb()
+                    }
+                }
+            } else {
+                HStack {
+                    Spacer()
+                    Text("empty like list message")
+                        .padding(30)
+                    Spacer()
+                }
             }
         }
     }
