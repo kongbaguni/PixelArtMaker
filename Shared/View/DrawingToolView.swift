@@ -65,7 +65,7 @@ struct DrawingToolView: View {
                 if next.x < 0 || next.y < 0 || next.y >= colors.count || next.x >= colors[0].count {
                     continue
                 }
-                if cc.compare(color:colors[next.y][next.x]) < UserDefaults.standard.paintRange {
+                if cc.compare(color:colors[next.y][next.x]) <= UserDefaults.standard.paintRange {
                     result.insert(next)
                 }
             }
@@ -113,7 +113,7 @@ struct DrawingToolView: View {
         let cc = colors[idx.y][idx.x]
         for (i,list) in colors.enumerated() {
             for (r,color) in list.enumerated() {
-                if color.compare(color: cc) < UserDefaults.standard.paintRange {
+                if color.compare(color: cc) <= UserDefaults.standard.paintRange {
                     result.insert(.init(x: r, y: i))
                 }
             }
