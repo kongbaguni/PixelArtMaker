@@ -97,3 +97,5 @@
 "signout title" = "Sign out";
 "signout message" = "Even if you log out now, the data you are working on will not be lost and will be restored the next time you log in.";
 "signout confirm" = "Sign out";
+
+"openSourceLicense" = "open source license";

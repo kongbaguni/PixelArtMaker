@@ -108,3 +108,6 @@
 "signout title" = "로그아웃 합니다";
 "signout message" = "지금 로그아웃을 해도 작업중인 데이터는 사라지지 않고 다음 로그인 할 때 복구 됩니다.";
 "signout confirm" = "로그아웃 하기";
+
+"App Infomation" = "앱 정보";
+"openSourceLicense" = "오픈소스 라이센스";

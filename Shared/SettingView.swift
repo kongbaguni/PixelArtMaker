@@ -38,10 +38,36 @@ struct SettingView: View {
         }
     }
     
+    func makeWebViewLink(url:URL, title:Text) -> some View {
+        NavigationLink {
+            WebView(url: url)
+                .navigationBarTitle(title)
+        } label: {
+            title
+        }
+    }
+    
     var body: some View {
         List {
-            makeTextFiled(label:Text("paint range"), placeholder: "", value: $paintRange, keyboardType: .numberPad)
-            version
+            Section(header:Text("Setting")) {
+                makeTextFiled(label:Text("paint range"), placeholder: "", value: $paintRange, keyboardType: .numberPad)
+            }
+            
+            Section(header:Text("App Infomation")) {
+                if let url = Bundle.main.url(forResource: "HTML/term", withExtension: "html") {
+                    makeWebViewLink(url: url, title: Text("term"))
+                }
+                
+                if let url = Bundle.main.url(forResource: "HTML/privacyPolicy", withExtension: "html") {
+                    makeWebViewLink(url: url, title: Text("privacyPolicy"))
+                }
+                
+                if let url = Bundle.main.url(forResource: "HTML/openSourceLicense", withExtension: "html") {
+                    makeWebViewLink(url: url, title: Text("openSourceLicense"))
+                }
+                version
+            }
+
         }
         .onAppear {
             paintRange = "\(UserDefaults.standard.paintRange)"

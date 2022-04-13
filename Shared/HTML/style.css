@@ -25,6 +25,10 @@ article {
     overflow:hidden;
 }
 
+article > p > a > img {
+    width:200px;
+}
+
 article p, article h3, article ul, article ol {
     margin:5px;
 }
