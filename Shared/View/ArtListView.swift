@@ -35,11 +35,7 @@ struct ArtListView: View {
         self.uid = uid
         self.width = width
     }
-    
-    private func getWidth(width:CGFloat, length:Int)->CGFloat {
-        return (width - 40.0) / CGFloat(length)
-    }
-    
+        
     private func makePickerView()-> some View {
         Picker(selection:$sortIndex, label:Text("sort")) {
             ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
@@ -47,11 +43,16 @@ struct ArtListView: View {
                 Sort.getText(type: type)
             }
         }.onChange(of: sortIndex) { newValue in
-            ids = reloadFromLocalDb()
+            ids = ArtListView.reloadFromLocalDb(sort:sort)
+            isAnimate = true
+            ArtListView.getListFromFirestore(sort:sort) { ids, error in
+                isAnimate = false
+                self.ids = ids
+            }
         }
     }
     
-    private func makeListView(gridItems:[GridItem], width:CGFloat)-> some View {
+    static func makeListView(ids:[String], sort:Sort.SortType ,gridItems:[GridItem], itemSize:CGSize)-> some View {
         LazyVGrid(columns: gridItems, spacing:20) {
             ForEach(ids, id:\.self) { id in
                 if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
@@ -63,9 +64,7 @@ struct ArtListView: View {
                             WebImage(url: model.imageURLvalue)
                                 .placeholder(.imagePlaceHolder)
                                 .resizable()
-                                .frame(width: getWidth(width:width, length: gridItems.count),
-                                       height: getWidth(width:width, length: gridItems.count),
-                                       alignment: .center)
+                                .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
                             
                             switch sort {
                             case .like:
@@ -90,8 +89,13 @@ struct ArtListView: View {
         }
     }
     
-    private func getListFromFirestore(complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
-        collection
+    static func getListFromFirestore(sort:Sort.SortType,complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
+        guard let uid = AuthManager.shared.userId else {
+            complete([],nil)
+            return
+        }
+        var ids:[String] = []
+        Firestore.firestore().collection("public")
             .whereField("uid", isEqualTo: uid)
             .getDocuments { snapShot, error in
                 let realm = try! Realm()
@@ -105,11 +109,14 @@ struct ArtListView: View {
                 }
                 try! realm.commitWrite()
                 print(error?.localizedDescription ?? "성공")
-                complete(reloadFromLocalDb(), error)
+                complete(ArtListView.reloadFromLocalDb(sort: sort), error)
             }
     }
-    
-    func reloadFromLocalDb()->[String] {
+    /** 내가 공개한 작품의 목록을 로컬DB에서 읽어온다.*/
+    static func reloadFromLocalDb(sort:Sort.SortType)->[String] {
+        guard let uid = AuthManager.shared.userId else {
+            return []
+        }
         let db = try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false)
 
         var result:Results<SharedStageModel>? = nil
@@ -124,10 +131,6 @@ struct ArtListView: View {
         let ids = (result?.reversed() ?? []).map({ model in
             return model.id
         })
-        isAnimate = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
-            isAnimate = false
-        }
         return ids
     }
     
@@ -136,10 +139,23 @@ struct ArtListView: View {
             ScrollView {
                 makePickerView()
                 if geomentry.size.width > geomentry.size.height {
-                    makeListView(gridItems:GridItem.makeGridItems(length: 5, width: geomentry.size.width - 40), width: width ?? geomentry.size.width)
+                    ArtListView.makeListView(
+                        ids:ids,
+                        sort:sort,
+                        gridItems: GridItem.makeGridItems(length: 5, width: geomentry.size.width - 40),
+                        itemSize: .init(width: ((width ?? geomentry.size.width) - 40) / 5,
+                                        height: ((width ?? geomentry.size.width) - 40) / 5 + 10)
+                    )
+                    
                     
                 } else {
-                    makeListView(gridItems: GridItem.makeGridItems(length: 3, width: geomentry.size.width - 40), width: width ?? geomentry.size.width)
+                    ArtListView.makeListView(
+                        ids:ids,
+                        sort:sort,
+                        gridItems: GridItem.makeGridItems(length: 3, width: geomentry.size.width - 40),
+                        itemSize: .init(width: ((width ?? geomentry.size.width) - 40) / 3,
+                                        height: ((width ?? geomentry.size.width) - 40) / 3 + 10)
+                    )
                 }
                 
             }
@@ -149,7 +165,7 @@ struct ArtListView: View {
         .navigationTitle(Text(profile?.nickname ?? "unknown people"))
         .animation(.easeInOut, value: isAnimate)
         .onAppear {
-            getListFromFirestore { ids, error in
+            ArtListView.getListFromFirestore(sort:sort) { ids, error in
                 if let err = error {
                     toastMessage = err.localizedDescription
                     isShowToast = true

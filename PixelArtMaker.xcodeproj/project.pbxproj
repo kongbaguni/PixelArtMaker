@@ -36,6 +36,8 @@
 		8DB0B9FD2803E1F900C2B0FF /* GridItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */; };
 		8DB0B9FF28056CC300C2B0FF /* DimLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */; };
 		8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA0028065A8200C2B0FF /* SettingView.swift */; };
+		8DB0BA032806A12100C2B0FF /* LikeArtListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */; };
+		8DB0BA052806AFFB00C2B0FF /* LikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */; };
 		8DF55C4327FD498300D68EB1 /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */; };
 		8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */; };
 		8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */; };
@@ -136,6 +138,8 @@
 		8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GridItem+Extensions.swift"; sourceTree = "<group>"; };
 		8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimLoadingViewController.swift; sourceTree = "<group>"; };
 		8DB0BA0028065A8200C2B0FF /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeArtListView.swift; sourceTree = "<group>"; };
+		8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeModel.swift; sourceTree = "<group>"; };
 		8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		8DF55C5027FD74B800D68EB1 /* ArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtListView.swift; sourceTree = "<group>"; };
 		8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninButton.swift; sourceTree = "<group>"; };
@@ -319,6 +323,7 @@
 				C3EDBF2227F87FE500BBEC01 /* ProfileModel.swift */,
 				C3011F5627F050CD001B12AC /* SharedStageModel.swift */,
 				C356363E27FAC41C00B2609A /* InAppPurchaseModel.swift */,
+				8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 				C38C1B9D280071F300350176 /* SidebarMenuView.swift */,
 				C38C1BA52802CECA00350176 /* CanvasView.swift */,
 				C38C1BA72802D6D600350176 /* SideMenuView.swift */,
+				8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -583,6 +589,7 @@
 				1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */,
 				1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
 				C3EDBF2A27F892B700BBEC01 /* LabelTextView.swift in Sources */,
+				8DB0BA052806AFFB00C2B0FF /* LikeModel.swift in Sources */,
 				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
 				C356364127FAC4AE00B2609A /* Float+Extensions.swift in Sources */,
 				C356362F27F976E600B2609A /* Share.swift in Sources */,
@@ -597,6 +604,7 @@
 				C356363A27FAC29400B2609A /* InAppPurchaseManager.swift in Sources */,
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
 				8DF55C5127FD74B800D68EB1 /* ArtListView.swift in Sources */,
+				8DB0BA032806A12100C2B0FF /* LikeArtListView.swift in Sources */,
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
 				C38C1BB028059D7F00350176 /* CGSize+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,

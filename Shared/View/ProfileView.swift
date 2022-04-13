@@ -9,14 +9,12 @@ import SwiftUI
 import SDWebImageSwiftUI
 import RealmSwift
 
-
-
 struct ProfileView: View {
     let uid:String
     let haveArtList:Bool
     let editabel:Bool
     let landScape:Bool?
-
+    
     init(uid:String, haveArtList:Bool, editable:Bool = false, landScape:Bool? = nil) {
         self.uid = uid
         self.haveArtList = haveArtList
@@ -27,16 +25,23 @@ struct ProfileView: View {
     @State var nickname:String = ""
     @State var imageURL:URL? = nil
     @State var email:String = ""
-
+    @State var sortSelect = 0
+    var sortList:[Sort.SortType] = Sort.SortTypeForPublicGallery
+    var sort:Sort.SortType {
+        sortList[sortSelect]
+    }
+    
+    @State var sharedIds:[String] = []
+    
     private func makeProfileImageView(size:CGFloat)-> some View {
         VStack {
             if let url = imageURL {
-                 WebImage(url: url)
+                WebImage(url: url)
                     .placeholder(.profilePlaceHolder)
                     .resizable()
                     .frame(width: size, height: size, alignment: .center)
             } else {
-                 Image.profilePlaceHolder
+                Image.profilePlaceHolder
                     .resizable()
                     .frame(width: size, height: size, alignment: .center)
             }
@@ -87,7 +92,7 @@ struct ProfileView: View {
             }
             
         }
-
+        
     }
     private func makeProfileView(isLandscape:Bool)-> some View {
         VStack {
@@ -108,22 +113,54 @@ struct ProfileView: View {
         }
     }
     
+    private func makeGridItems(length:Int, screenWidth:CGFloat)->[GridItem] {
+        let item = GridItem(.fixed((screenWidth - 20) / CGFloat(length)))
+        var result:[GridItem] = []
+        for _ in 0..<length {
+            result.append(item)
+        }
+        return result
+    }
+    
+    private func makeItemSize(length:Int, screenWidth:CGFloat) -> CGSize {
+        let width = (screenWidth - 20.0) / CGFloat(length)
+        return .init(width: width, height: width + 10)
+    }
+    
     var body: some View {
         GeometryReader { geomentry in
             if haveArtList {
                 if geomentry.size.height > geomentry.size.width {
-                    VStack {
+                    ScrollView {
                         makeProfileView(isLandscape: false)
-                        ArtListView(uid: uid, width: geomentry.size.width)
+                        Section(header:Text("profile view public arts")) {
+                            ArtListView.makeListView(ids: sharedIds, sort: sort,
+                                                     gridItems: makeGridItems(length: 4, screenWidth: geomentry.size.width),
+                                                     itemSize: makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                        }
+                        Section(header:Text("profile view like arts")) {
+                            LikeArtListView(uid: uid, gridItems: makeGridItems(length: 4, screenWidth: geomentry.size.width),
+                                            itemSize: makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                        }
+                        
                     }
                 }
                 else {
                     HStack {
                         makeProfileView(isLandscape: true)
                             .frame(width:250)
-                        ArtListView(uid: uid,
-                                    width : geomentry.size.width - 250)
-                        .frame(width: geomentry.size.width - 250)
+                        ScrollView {
+                            Section(header:Text("profile view public arts")) {
+                                ArtListView.makeListView(ids: sharedIds, sort: sort,
+                                                         gridItems: makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
+                                                         itemSize: makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                            }
+                            Section(header:Text("profile view like arts")) {
+                                LikeArtListView(uid: uid, gridItems: makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
+                                                itemSize: makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                            }
+                            
+                        }
                     }
                 }
             }
@@ -132,12 +169,17 @@ struct ProfileView: View {
                     makeProfileView(isLandscape: landScape == true)
                 }
             }
-        }
+        }        
         .padding(10)
         .onAppear {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
                 self.loadData()
             }
+            sharedIds = ArtListView.reloadFromLocalDb(sort: sort)
+            ArtListView.getListFromFirestore(sort: sort) { ids, error in
+                self.sharedIds = ids
+            }
+            
             loadData()
             if uid.isEmpty == false {
                 ProfileModel.findBy(uid: uid) { error in

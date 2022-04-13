@@ -10,7 +10,6 @@ import RealmSwift
 import UIKit
 import FirebaseFirestore
 
-
 class SharedStageModel : Object {
     struct ThreadSafeModel {
         let id:String
@@ -89,14 +88,16 @@ fileprivate var myLikeCollection: CollectionReference? {
 
 extension SharedStageModel {
     private func updateMyLikeList(isLike:Bool, complete:@escaping(_ error:Error?)->Void) {
-        guard let collection = myLikeCollection else {
+        guard let collection = myLikeCollection, let uid = AuthManager.shared.userId else {
             complete(nil)
             return
         }
         let id = self.id
         let data:[String:Any] = [
             "id" : id,
-            "imageURL" : imageUrl
+            "uid" : uid,
+            "imageURL" : imageUrl,
+            "updateDt" : Date().timeIntervalSince1970
         ]
         
         collection.whereField("id", isEqualTo: self.id).getDocuments { snapshot, error in
@@ -112,6 +113,12 @@ extension SharedStageModel {
                     return
                 } // 있으니까 지운다. (좋아요 취소함)
                 collection.document(id).delete { error in
+                    let realm = try! Realm()
+                    if let model = realm.object(ofType: LikeModel.self, forPrimaryKey: "\(uid),\(id)") {
+                        realm.beginWrite()
+                        realm.delete(model)
+                        try! realm.commitWrite()
+                    }
                     complete(error)
                 }
 
