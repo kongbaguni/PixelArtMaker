@@ -12,9 +12,9 @@ fileprivate let transparancyStyleColors:[(a:UIColor,b:UIColor)] = [
     (a:UIColor(white: 0.8,alpha: 1), b:UIColor(white: 0.6, alpha: 1)),
     (a:UIColor(white: 0.6,alpha: 1), b:UIColor(white: 0.3, alpha: 1)),
     (a:UIColor(white: 0.3,alpha: 1), b:UIColor(white: 0.1, alpha: 1)),
-    (a:.init(red: 0.3, green: 0.6, blue: 0.9, alpha: 1.0), b: .init(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
-    (a:.init(red: 0.6, green: 0.3, blue: 0.9, alpha: 1.0), b: .init(red: 0.2, green: 0.1, blue: 0.3, alpha: 1.0)),
-    (a:.init(red: 0.6, green: 0.9, blue: 0.3, alpha: 1.0), b: .init(red: 0.2, green: 0.3, blue: 0.1, alpha: 1.0)),
+    (a:.init(red: 0.3, green: 0.4, blue: 0.5, alpha: 1.0), b: .init(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
+    (a:.init(red: 0.4, green: 0.3, blue: 0.5, alpha: 1.0), b: .init(red: 0.2, green: 0.1, blue: 0.3, alpha: 1.0)),
+    (a:.init(red: 0.4, green: 0.5, blue: 0.3, alpha: 1.0), b: .init(red: 0.2, green: 0.3, blue: 0.1, alpha: 1.0)),
 ]
 
 struct SettingView: View {
