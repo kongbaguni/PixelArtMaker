@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SideMenuView: View {
+    let googleAd = GoogleAd()
+    
     @Binding var isShowMenu:Bool
     @Binding var isShowSigninView:Bool
     @Binding var alertType:PixelDrawView.AlertType
@@ -99,6 +101,18 @@ struct SideMenuView: View {
         }
     }
     
+    var shareBtnViewAtSignOut : some View {
+        makeBtn(image: Image(systemName: "square.and.arrow.up"), text: Text("share")) {
+            googleAd.showAd { isSucess in
+                if isSucess {
+                    if let image = StageManager.shared.stage?.makeImageDataValue(size: StageManager.shared.canvasSize) {
+                        share(items: [image])
+                    }
+                }
+            }
+        }
+    }
+    
     var body: some View {
         List {
             if !isSignIn {
@@ -116,6 +130,9 @@ struct SideMenuView: View {
                 if StageManager.shared.stage?.documentId != nil {
                     deleteBtnView
                 }
+            }
+            if !isSignIn {
+                shareBtnViewAtSignOut
             }
             clearBtnView
             Spacer()

@@ -43,10 +43,8 @@ class StageManager {
     
     var lastSaveTempTime:Date? = nil
     func saveTemp(documentId:String? = nil, isOnlineUpdate:Bool = false, complete:@escaping(_ error:Error?)->Void) {
-        guard let uid = AuthManager.shared.userId else {
-            complete(nil)
-            return
-        }
+        let uid = AuthManager.shared.userId ?? "guest"
+
         if isOnlineUpdate {
             if let time = lastSaveTempTime {
                 if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 && isOnlineUpdate {
@@ -69,7 +67,7 @@ class StageManager {
             if let id = documentId ?? StageManager.shared.stage?.documentId {
                 data["documentId"] = id
             }
-            if isOnlineUpdate {
+            if isOnlineUpdate && uid != "guest" {
                 let collection = fireStore.collection("temp")
                 collection.document(uid).setData(data, merge: true) { error in
                     print(error?.localizedDescription ?? "성공")
@@ -94,11 +92,8 @@ class StageManager {
     }
     
     func loadTemp(isOnlineDownload:Bool = false  ,complete:@escaping(_ error:Error?)->Void) {
-        guard let uid = AuthManager.shared.userId else {
-            complete(nil)
-            return
-        }
-        if isOnlineDownload == false {
+        let uid = AuthManager.shared.userId ?? "guest"
+        if isOnlineDownload == false || uid == "guest" {
             if let model = try! Realm().object(ofType: TempModel.self, forPrimaryKey: uid) {
                 if let stage = StageModel.makeModel(base64EncodedString: model.data, documentId: model.documentId.isEmpty ? nil : model.documentId) {
                     self.stage = stage
@@ -109,6 +104,10 @@ class StageManager {
                     return
                 }
             }
+        }
+        
+        if uid == "guest" {
+            return
         }
         
         DispatchQueue.global().async {[self] in
