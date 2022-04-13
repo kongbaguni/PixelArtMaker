@@ -95,8 +95,15 @@ struct LikeArtListFullView: View {
     var body: some View {
         GeometryReader { geomentry in
             ScrollView {
-                LikeArtListView(uid: uid, gridItems: makeGridItems(length: 3, screenWidth: geomentry.size.width),
-                                itemSize: makeItemSize(length: 3, screenWidth: geomentry.size.width))
+                if geomentry.size.width < geomentry.size.height {
+                    LikeArtListView(uid: uid, gridItems: makeGridItems(length: 3, screenWidth: geomentry.size.width),
+                                    itemSize: makeItemSize(length: 3, screenWidth: geomentry.size.width))
+                }
+                else {
+                    LikeArtListView(uid: uid, gridItems: makeGridItems(length: 5, screenWidth: geomentry.size.width),
+                                    itemSize: makeItemSize(length: 5, screenWidth: geomentry.size.width))
+
+                }
                 
             }
         }
