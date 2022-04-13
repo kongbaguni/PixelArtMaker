@@ -124,12 +124,14 @@ struct CanvasView: View {
                 }
                 
                 func draw() {
-                    if backgroundColor.ciColor.alpha < 1.0 {
+                    if backgroundColor.ciColor.alpha < 1.0 || isShowSelectLayerOnly {
                         drawTransperBg()
                     }
-                    context.fill(.init(roundedRect: .init(origin:.zero, size:size),
-                                       cornerSize: .zero),
-                                 with: .color(backgroundColor))
+                    if isShowSelectLayerOnly == false {
+                        context.fill(.init(roundedRect: .init(origin:.zero, size:size),
+                                           cornerSize: .zero),
+                                     with: .color(backgroundColor))
+                    }
                     drawImage()
                     drawGridLine()
                     drawPointer()
