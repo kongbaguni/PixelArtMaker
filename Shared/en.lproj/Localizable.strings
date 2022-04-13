@@ -93,3 +93,7 @@
 "limitOverClear title" = "limit Excess";
 "limitOverClear message" = "The number of pictures saved in the gallery has exceeded the limit.\nUp to 50 pictures can be saved.";
 "limitOverClear confirm" = "confirm";
+
+"signout title" = "Sign out";
+"signout message" = "Even if you log out now, the data you are working on will not be lost and will be restored the next time you log in.";
+"signout confirm" = "Sign out";

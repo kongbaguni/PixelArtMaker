@@ -81,26 +81,33 @@ struct NewCanvasView: View {
     
     private func makeButton() -> some View {
         Button {
-            StageManager.shared.deleteTemp { errorA in
+            if AuthManager.shared.isSignined == false {
                 StageManager.shared.initStage(canvasSize:canvasSize)
                 StageManager.shared.stage?.backgroundColor = backgroundColor
                 NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
-                if let err = errorA {
-                    toastMessage = err.localizedDescription
-                    isToast = true
-                    return
-                }
+                presentationMode.wrappedValue.dismiss()
 
-                
-                StageManager.shared.saveTemp { errorB in
-                    if let err = errorB {
+            } else {
+                StageManager.shared.deleteTemp { errorA in
+                    StageManager.shared.initStage(canvasSize:canvasSize)
+                    StageManager.shared.stage?.backgroundColor = backgroundColor
+                    NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
+                    if let err = errorA {
                         toastMessage = err.localizedDescription
                         isToast = true
                         return
                     }
-                    presentationMode.wrappedValue.dismiss()
+                    
+                    
+                    StageManager.shared.saveTemp { errorB in
+                        if let err = errorB {
+                            toastMessage = err.localizedDescription
+                            isToast = true
+                            return
+                        }
+                        presentationMode.wrappedValue.dismiss()
+                    }                    
                 }
-                
             }
             
         } label: {

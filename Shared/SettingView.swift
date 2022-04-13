@@ -15,7 +15,10 @@ struct SettingView: View {
         Group {
             if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                 HStack {
-                    Text("version : ")
+                    Text("version")
+                        .foregroundColor(.gray)
+                        .font(.subheadline)
+                    Text(" : ")
                         .foregroundColor(.gray)
                         .font(.subheadline)
                     Text(appVersion)
@@ -28,16 +31,16 @@ struct SettingView: View {
     }
     
 
-    func makeTextFiled(title:String, value:Binding<String>, keyboardType:UIKeyboardType) -> some View {
+    func makeTextFiled(label:Text, placeholder:String, value:Binding<String>, keyboardType:UIKeyboardType) -> some View {
         HStack {
-            Text(title)
-            TextField(title, text: value).keyboardType(keyboardType).textFieldStyle(.roundedBorder)
+            label
+            TextField(placeholder, text: value).keyboardType(keyboardType).textFieldStyle(.roundedBorder)
         }
     }
     
     var body: some View {
         List {
-            makeTextFiled(title: "paint range", value: $paintRange, keyboardType: .numberPad)
+            makeTextFiled(label:Text("paint range"), placeholder: "", value: $paintRange, keyboardType: .numberPad)
             version
         }
         .onAppear {

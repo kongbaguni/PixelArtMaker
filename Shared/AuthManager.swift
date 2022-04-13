@@ -15,6 +15,7 @@ import RealmSwift
 
 extension Notification.Name {
     static let authDidSucessed = Notification.Name("authDidSucessed_observer")
+    static let signoutDidSucessed = Notification.Name("signoutDidSucessed_observer")
 }
 class AuthManager : NSObject {
     static let shared = AuthManager()
@@ -123,6 +124,7 @@ class AuthManager : NSObject {
                     return
                 }
                 StageManager.shared.loadTemp(isOnlineDownload: true) { error in
+                    NotificationCenter.default.post(name: .authDidSucessed, object: nil)
                     complete(true)
                 }
                 
@@ -157,7 +159,7 @@ class AuthManager : NSObject {
             complete(true)
         }
     }
-    
+    //MARK: - 로그아웃
     func signout() {
         StageManager.shared.saveTemp(isOnlineUpdate: true) { [self] error in
             do {
@@ -171,6 +173,8 @@ class AuthManager : NSObject {
                     realm.deleteAll()
                 }
                 NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
+                NotificationCenter.default.post(name: .signoutDidSucessed, object: nil)
+
             } catch {
                 print(error.localizedDescription)
             }

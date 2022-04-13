@@ -99,3 +99,12 @@
 "limitOverClear title" = "한도 초과";
 "limitOverClear message" = "겔러리에 저장된 그림의 수가 한도를 초과했습니다.\n50개까지 저장 가능합니다.";
 "limitOverClear confirm" = "확인";
+
+"Setting" = "설정";
+"paint range" = "페인트 범위";
+"version" = "앱 버전";
+
+
+"signout title" = "로그아웃 합니다";
+"signout message" = "지금 로그아웃을 해도 작업중인 데이터는 사라지지 않고 다음 로그인 할 때 복구 됩니다.";
+"signout confirm" = "로그아웃 하기";

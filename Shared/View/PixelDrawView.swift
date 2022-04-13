@@ -59,6 +59,8 @@ struct PixelDrawView: View {
         case limitOverClear
         /** 삭제하기*/
         case delete
+        /** 로그아웃 확인*/
+        case signout
     }
     let googleAd = GoogleAd()
     
@@ -162,15 +164,17 @@ struct PixelDrawView: View {
     }
     
     func makeSideMenuView(geomentryWidth:CGFloat)->SideMenuView {
-        return SideMenuView(isShowSigninView: $isShowSigninView,
-                            alertType: $alertType,
-                            isShowAlert: $isShowAlert,
-                            isShowProfileView: $isShowProfileView,
-                            isShowInAppPurches: $isShowInAppPurches,
-                            isShowSaveView: $isShowSaveView,
-                            isShowLoadView: $isShowLoadView,
-                            isShowShareListView: $isShowShareListView,
-                            isShowSettingView: $isShowSettingView
+        return SideMenuView(
+            isShowMenu: $isShowMenu,
+            isShowSigninView: $isShowSigninView,
+            alertType: $alertType,
+            isShowAlert: $isShowAlert,
+            isShowProfileView: $isShowProfileView,
+            isShowInAppPurches: $isShowInAppPurches,
+            isShowSaveView: $isShowSaveView,
+            isShowLoadView: $isShowLoadView,
+            isShowShareListView: $isShowShareListView,
+            isShowSettingView: $isShowSettingView
         )
 
     }
@@ -402,6 +406,14 @@ struct PixelDrawView: View {
         
         .alert(isPresented: $isShowAlert)  {
             switch alertType {
+            case .signout:
+                return Alert(title: Text("signout title"),
+                             message: Text("signout message"),
+                             primaryButton: .default(
+                                Text("signout confirm"), action : {
+                                    AuthManager.shared.signout()
+                                }
+                             ), secondaryButton: .cancel())
             case .limitOverClear:
                 return Alert(title: Text("limitOverClear title"),
                              message: Text("limitOverClear message"),
