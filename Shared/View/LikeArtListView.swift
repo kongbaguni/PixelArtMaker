@@ -78,11 +78,6 @@ struct LikeArtListView: View {
                     ForEach(ids, id:\.self) { id in
                         makeLikeView(id: id)
                     }
-                }.onAppear {
-                    loadFromLocalDb()
-                    getListFromFirebase { error in
-                        loadFromLocalDb()
-                    }
                 }
             } else {
                 HStack {
@@ -91,6 +86,11 @@ struct LikeArtListView: View {
                         .padding(30)
                     Spacer()
                 }
+            }
+        }.onAppear {
+            loadFromLocalDb()
+            getListFromFirebase { error in
+                loadFromLocalDb()
             }
         }
     }
