@@ -9,23 +9,6 @@ import SwiftUI
 import RealmSwift
 import GoogleMobileAds
 
-fileprivate var sharedId:String? {
-    if let id = StageManager.shared.stage?.documentId {
-        if let model = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id) {
-            return model.shareDocumentId.isEmpty ? nil : model.shareDocumentId
-        }
-    }
-    return nil
-}
-
-fileprivate var updateDateTimeFromDb:Date? {
-    if let id = StageManager.shared.stage?.documentId {
-        if let model = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id) {
-            return model.updateDt
-        }
-    }
-    return nil
-}
 
 struct SaveView: View {
     let googleAd = GoogleAd()
@@ -33,6 +16,10 @@ struct SaveView: View {
     let dim = DimLoadingViewController()
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    @State var id:String? = nil
+    @State var sharedId:String? = nil
+    @State var updateDateTimeFromDb:Date? = nil
     @State var isShowToast = false
     @State var toastMessage = ""
     @State var colors:[[[Color]]] = []
@@ -40,6 +27,30 @@ struct SaveView: View {
     @State var title:String = ""
     @State var previewImage:Image? = nil
     @State var shareImageDatas:[Data] = []
+    
+    func updateId() {
+        self.id = StageManager.shared.stage?.documentId
+        var id:String? {
+            if let id = StageManager.shared.stage?.documentId {
+                if let model = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id) {
+                    return model.shareDocumentId.isEmpty ? nil : model.shareDocumentId
+                }
+            }
+            return nil
+        }
+        sharedId = id
+
+        var updateDate:Date? {
+            if let id = StageManager.shared.stage?.documentId {
+                if let model = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id) {
+                    return model.updateDt
+                }
+            }
+            return nil
+        }
+        updateDateTimeFromDb = updateDate
+    }
+
     private func makePreviewImageView(width:CGFloat)-> some View {
         (previewImage ?? Image.imagePlaceHolder)
             .resizable().frame(width: width - 10, height: width - 10 , alignment: .center)
@@ -47,7 +58,7 @@ struct SaveView: View {
     
     private func makeButtonList()-> some View {
         Group {
-            if let id = StageManager.shared.stage?.documentId {
+            if let id = self.id {
                 HStack {
                     Text("currentId")
                     TagView(Text(id))
@@ -86,12 +97,14 @@ struct SaveView: View {
                                         dim.hide()
                                         isShowToast = errorA != nil || errorB != nil
                                         toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
+                                        updateId()
                                         if errorA == nil && errorB == nil  {
 //                                            presentationMode.wrappedValue.dismiss()
                                         }
                                     }
                                     return
                                 }
+                                updateId()
                                 dim.hide()
 //                                presentationMode.wrappedValue.dismiss()
                             })
@@ -108,6 +121,7 @@ struct SaveView: View {
                         googleAd.showAd { isSucess in
                             StageManager.shared.save(asNewForce: true, complete: { error in
                                 dim.hide()
+                                updateId()
                                 toastMessage = error?.localizedDescription ?? ""
                                 isShowToast = error != nil
                                 if error == nil  {
@@ -148,7 +162,7 @@ struct SaveView: View {
                                     dim.hide()
                                     toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                     isShowToast = errorA != nil || errorB != nil
-                                    
+                                    updateId()
                                     if errorA == nil && errorB == nil {
 //                                        presentationMode.wrappedValue.dismiss()
                                     }
@@ -208,6 +222,7 @@ struct SaveView: View {
         }
         .navigationTitle(Text("save"))
         .onAppear {
+            updateId()
             if let stage = StageManager.shared.stage {
                 self.colors = stage.layers.map({ model in
                     return model.colors

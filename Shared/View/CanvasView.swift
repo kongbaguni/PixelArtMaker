@@ -44,7 +44,8 @@ struct CanvasView: View {
                 func drawTransperBg() {
                     let bsize = zoomFrame.width
                     let boxSize:CGSize = size / bsize
-                    
+                    let transparencyColor = UserDefaults.standard.transparencyColor 
+
                     for x in 0...bsize {
                         for y in 0...bsize {
                             let rect = CGRect(origin: .init(x: CGFloat(x) * boxSize.width, y: CGFloat(y) * boxSize.height),
@@ -52,7 +53,11 @@ struct CanvasView: View {
                             
                             let isGray = ((y % 2) + x) % 2 == 0
                             context.fill(.init(roundedRect: rect, cornerSize: .zero),
-                                         with: .color(isGray ? Color(white: 0.8) : .white ))
+                                         with: .color(isGray
+                                                      ? Color(uiColor: transparencyColor.a)
+                                                      : Color(uiColor: transparencyColor.b)
+                                                     )
+                            )
                             
                         }
                     }

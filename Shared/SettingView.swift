@@ -6,10 +6,34 @@
 //
 
 import SwiftUI
+fileprivate let transparancyStyleColors:[(a:UIColor,b:UIColor)] = [
+    (a:UIColor(white: 1,alpha: 1), b:UIColor(white: 0.8, alpha: 1)),
+    (a:UIColor(white: 0.9,alpha: 1), b:UIColor(white: 0.7, alpha: 1)),
+    (a:UIColor(white: 0.8,alpha: 1), b:UIColor(white: 0.6, alpha: 1)),
+    (a:UIColor(white: 0.6,alpha: 1), b:UIColor(white: 0.3, alpha: 1)),
+    (a:UIColor(white: 0.3,alpha: 1), b:UIColor(white: 0.1, alpha: 1)),
+    (a:.init(red: 0.3, green: 0.6, blue: 0.9, alpha: 1.0), b: .init(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
+    (a:.init(red: 0.6, green: 0.3, blue: 0.9, alpha: 1.0), b: .init(red: 0.2, green: 0.1, blue: 0.3, alpha: 1.0)),
+    (a:.init(red: 0.6, green: 0.9, blue: 0.3, alpha: 1.0), b: .init(red: 0.2, green: 0.3, blue: 0.1, alpha: 1.0)),
+]
 
 struct SettingView: View {
-  
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     @State var paintRange:String = "0"
+    
+    @State var transparancySelection = 0
+    let transparancyImages:[Image]
+    
+    init() {
+        var timages:[Image] = []
+        for color in transparancyStyleColors {
+            if let image = UIImage(pixelSize: (width: 5, height: 5), backgroundColor: .clear, size: CGSize(width: 200, height: 200), transparencyColor: color) {
+                timages.append(Image(uiImage: image))
+            }
+        }
+        transparancyImages = timages
+    }
     
     var version : some View {
         Group {
@@ -47,10 +71,43 @@ struct SettingView: View {
         }
     }
     
+    
+    func makeTransparencyStylePicker() -> some View {
+        VStack {
+            HStack {
+                Text("transparancy style").font(.headline)
+                Spacer()
+            }
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(0..<transparancyImages.count, id:\.self) { idx in
+                        Button {
+                            transparancySelection = idx
+                        } label : {
+                            VStack {
+                                transparancyImages[idx]
+                                    .resizable()
+                                    .frame(width: 30, height: 30, alignment: .center)
+                                Text(" ")
+                                    .frame(width: 20, height: 5, alignment: .center)
+                                    .padding(5)
+                                    .background(transparancySelection == idx ? Color.K_boldText : .clear)
+                                    .cornerRadius(10)
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    
     var body: some View {
         List {
             Section(header:Text("Setting")) {
                 makeTextFiled(label:Text("paint range"), placeholder: "", value: $paintRange, keyboardType: .numberPad)
+                
+                makeTransparencyStylePicker()
             }
             
             Section(header:Text("App Infomation")) {
@@ -69,11 +126,23 @@ struct SettingView: View {
             }
 
         }
+        .toolbar {
+            Button {
+                UserDefaults.standard.paintRange = NSString(string: paintRange).integerValue
+
+                UserDefaults.standard.transparencyColor = transparancyStyleColors[transparancySelection]
+                UserDefaults.standard.transparencyIndex = transparancySelection
+                
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                Text("save")
+            }
+            
+        }
+        .navigationTitle(Text("Setting"))
         .onAppear {
             paintRange = "\(UserDefaults.standard.paintRange)"
-        }
-        .onDisappear {
-            UserDefaults.standard.paintRange = NSString(string: paintRange).integerValue
+            transparancySelection = UserDefaults.standard.transparencyIndex
         }
     }
 }

@@ -33,7 +33,9 @@ extension UIImage {
     }
     
     // 새 켄버스의  미리보기 이미지 만들기
-    public convenience init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize) {
+    public convenience init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize, transparencyColor:(a:UIColor,b:UIColor)? = nil) {
+        let tColor = transparencyColor ?? UserDefaults.standard.transparencyColor
+        
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
                 
         UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
@@ -46,9 +48,9 @@ extension UIImage {
                 for x in 0..<pixelSize.width {
                     let isGray = ((y % 2) + x) % 2 == 0
                     if isGray {
-                        UIColor(white: 0.8, alpha: 1.0).setFill()
+                        tColor.a.setFill()
                     } else {
-                        UIColor.white.setFill()
+                        tColor.b.setFill()
                     }
                     let rect:CGRect = .init(x: CGFloat(x) * w, y: CGFloat(y) * h, width: w, height: h)
                     UIRectFill(rect)
