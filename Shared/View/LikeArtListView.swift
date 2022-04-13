@@ -59,9 +59,11 @@ struct LikeArtListView: View {
                 PixelArtDetailView(id: getModel(id: id).documentId, showProfile: true)
             } label: {
                 if let url = URL(string: getModel(id: id).imageURL) {
-                    WebImage(url:url)
-                        .resizable()
-                        .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                    if itemSize.width > 0 && itemSize.height > 0 {
+                        WebImage(url:url)
+                            .resizable()
+                            .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                    }
                 }
             }
         }
@@ -78,6 +80,24 @@ struct LikeArtListView: View {
             loadFromLocalDb()
             getListFromFirebase { error in
                 loadFromLocalDb()
+            }
+        }
+    }
+}
+
+
+
+
+
+struct LikeArtListFullView: View {
+    
+    let uid:String
+    var body: some View {
+        GeometryReader { geomentry in
+            ScrollView {
+                LikeArtListView(uid: uid, gridItems: makeGridItems(length: 3, screenWidth: geomentry.size.width),
+                                itemSize: makeItemSize(length: 3, screenWidth: geomentry.size.width))
+                
             }
         }
     }

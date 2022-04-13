@@ -8,6 +8,19 @@
 import SwiftUI
 import SDWebImageSwiftUI
 import RealmSwift
+func makeGridItems(length:Int, screenWidth:CGFloat)->[GridItem] {
+    let item = GridItem(.fixed((screenWidth - 20) / CGFloat(length)))
+    var result:[GridItem] = []
+    for _ in 0..<length {
+        result.append(item)
+    }
+    return result
+}
+
+func makeItemSize(length:Int, screenWidth:CGFloat) -> CGSize {
+    let width = (screenWidth - 20.0) / CGFloat(length)
+    return .init(width: width, height: width + 10)
+}
 
 struct ProfileView: View {
     let uid:String
@@ -87,8 +100,16 @@ struct ProfileView: View {
                             .font(.system(size: 10, weight: .heavy, design: .serif))
                         
                     }
+                    NavigationLink(destination: LikeArtListFullView(uid: uid)) {
+                        Text("like art list")
+                            .padding(5)
+                            .font(.system(size: 10, weight: .heavy, design: .serif))
+                        
+                    }
+
                     Spacer()
                 }
+                
             }
             
         }
@@ -113,19 +134,7 @@ struct ProfileView: View {
         }
     }
     
-    private func makeGridItems(length:Int, screenWidth:CGFloat)->[GridItem] {
-        let item = GridItem(.fixed((screenWidth - 20) / CGFloat(length)))
-        var result:[GridItem] = []
-        for _ in 0..<length {
-            result.append(item)
-        }
-        return result
-    }
     
-    private func makeItemSize(length:Int, screenWidth:CGFloat) -> CGSize {
-        let width = (screenWidth - 20.0) / CGFloat(length)
-        return .init(width: width, height: width + 10)
-    }
     
     var body: some View {
         GeometryReader { geomentry in
@@ -169,7 +178,7 @@ struct ProfileView: View {
                     makeProfileView(isLandscape: landScape == true)
                 }
             }
-        }        
+        }
         .padding(10)
         .onAppear {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in

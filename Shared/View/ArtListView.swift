@@ -61,10 +61,12 @@ struct ArtListView: View {
                         PixelArtDetailView(id: id, showProfile: false)
                     }, label: {
                         VStack {
-                            WebImage(url: model.imageURLvalue)
-                                .placeholder(.imagePlaceHolder)
-                                .resizable()
-                                .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                            if itemSize.width > 0 && itemSize.height > 0 {
+                                WebImage(url: model.imageURLvalue)
+                                    .placeholder(.imagePlaceHolder)
+                                    .resizable()
+                                    .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                            }
                             
                             switch sort {
                             case .like:
