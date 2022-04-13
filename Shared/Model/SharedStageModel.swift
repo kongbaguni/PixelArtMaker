@@ -79,7 +79,56 @@ class SharedStageModel : Object {
 
 fileprivate var collection = Firestore.firestore().collection("public")
 
+fileprivate var myLikeCollection: CollectionReference? {
+    if let uid = AuthManager.shared.userId {
+        let collecion = Firestore.firestore().collection("pixelarts").document(uid).collection("like")
+        return collecion
+    }
+    return nil
+}
+
 extension SharedStageModel {
+    private func updateMyLikeList(isLike:Bool, complete:@escaping(_ error:Error?)->Void) {
+        guard let collection = myLikeCollection else {
+            complete(nil)
+            return
+        }
+        let id = self.id
+        let data:[String:Any] = [
+            "id" : id,
+            "imageURL" : imageUrl
+        ]
+        
+        collection.whereField("id", isEqualTo: self.id).getDocuments { snapshot, error in
+            if let err = error {
+                complete(err)
+                return
+            }
+                
+            if snapshot?.documents.count ?? 0 > 0 {
+                //좋아요 있다
+                if isLike {
+                    complete(nil)
+                    return
+                } // 있으니까 지운다. (좋아요 취소함)
+                collection.document(id).delete { error in
+                    complete(error)
+                }
+
+            } else {
+                //좋아요 없다
+                if isLike == false {
+                    complete(nil)
+                    return
+                } // 없으니까 만든다 (좋아요 추가함)
+                collection.document(id).setData(data) { error in
+                    complete(error)
+                }
+            }
+        }
+        
+    }
+    
     func likeToggle(complete:@escaping(_ isLike:Bool, _ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
             return
@@ -118,8 +167,10 @@ extension SharedStageModel {
                 realm.create(SharedStageModel.self, value: updateData, update: .modified)
                 try! realm.commitWrite()
                 
-                collection.document(id).updateData(updateData) { error in
-                    complete(result ,error)
+                collection.document(id).updateData(updateData) { errorA in
+                    self.updateMyLikeList(isLike: result) { errorB in
+                        complete(result ,errorA ?? errorB)
+                    }
                 }
             }
         }
