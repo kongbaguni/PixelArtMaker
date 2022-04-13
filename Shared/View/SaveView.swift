@@ -30,26 +30,21 @@ fileprivate var updateDateTimeFromDb:Date? {
 struct SaveView: View {
     let googleAd = GoogleAd()
     let bannerView = GADBannerView(adSize: GADAdSizeLargeBanner)
+    let dim = DimLoadingViewController()
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var isShowToast = false
     @State var toastMessage = ""
-    @State var isLoading = false
     @State var colors:[[[Color]]] = []
     @State var backgroundColor:Color = .white
     @State var title:String = ""
     @State var previewImage:Image? = nil
     @State var shareImageDatas:[Data] = []
     private func makePreviewImageView(width:CGFloat)-> some View {
-        ZStack {
-            if let img = previewImage {
-                img.resizable().frame(width: width - 10, height: width - 10 , alignment: .center)
-                    .opacity(isLoading ? 0.5 : 1.0)
-            }
-            ActivityIndicator(isAnimating: $isLoading, style: .large)
-                .frame(width: 200, height: 200, alignment: .center)
-        }
+        (previewImage ?? Image.imagePlaceHolder)
+            .resizable().frame(width: width - 10, height: width - 10 , alignment: .center)
     }
+    
     private func makeButtonList()-> some View {
         Group {
             if let id = StageManager.shared.stage?.documentId {
@@ -83,12 +78,12 @@ struct SaveView: View {
                 //MARK: 기존 파일에 저장
                 if StageManager.shared.stage?.documentId != nil && StageManager.shared.stage?.isMyPicture == true {
                     Button {
-                        isLoading = true
+                        dim.show()
                         googleAd.showAd { isSucess in
                             StageManager.shared.save(asNewForce: false, complete: {errorA in
                                 if sharedId != nil {
                                     StageManager.shared.sharePublic { errorB in
-                                        isLoading = false
+                                        dim.hide()
                                         isShowToast = errorA != nil || errorB != nil
                                         toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                         if errorA == nil && errorB == nil  {
@@ -97,7 +92,7 @@ struct SaveView: View {
                                     }
                                     return
                                 }
-                                isLoading = false
+                                dim.hide()
 //                                presentationMode.wrappedValue.dismiss()
                             })
                         }
@@ -109,11 +104,10 @@ struct SaveView: View {
                 //MARK: 새 파일로 저장
                 if StageManager.shared.stage?.documentId == nil || InAppPurchaseModel.isSubscribe {
                     Button {
-                        isLoading = true
+                        dim.show()
                         googleAd.showAd { isSucess in
                             StageManager.shared.save(asNewForce: true, complete: { error in
-                                
-                                isLoading = false
+                                dim.hide()
                                 toastMessage = error?.localizedDescription ?? ""
                                 isShowToast = error != nil
                                 if error == nil  {
@@ -147,11 +141,11 @@ struct SaveView: View {
             if StageManager.shared.stage?.documentId != nil && sharedId == nil && AuthManager.shared.auth.currentUser?.isAnonymous == false {
                 HStack {
                     Button {
-                        isLoading = true
+                        dim.show()
                         googleAd.showAd { isSucess in
                             StageManager.shared.save(asNewForce: false) { errorA in
                                 StageManager.shared.sharePublic { errorB in
-                                    isLoading = false
+                                    dim.hide()
                                     toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                     isShowToast = errorA != nil || errorB != nil
                                     
