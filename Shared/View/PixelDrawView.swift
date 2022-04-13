@@ -355,7 +355,7 @@ struct PixelDrawView: View {
                             Spacer()
                             VStack {
                                 Spacer()
-                                makeShowMenuPreviewImage(size:geomentry.size.height - 20)
+                                makeShowMenuPreviewImage(size:geomentry.size.height - 100)
                                 Spacer()
                             }
                         } else {
