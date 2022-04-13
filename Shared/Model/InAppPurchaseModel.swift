@@ -51,11 +51,12 @@ extension InAppPurchaseModel {
         }
         try! realm.commitWrite()
     }
-    
-    static func set(productId:String, purchaseDt:Date) {
+        
+    static func set(productId:String, purchaseDt:Date, expireDt:Date) {
         let data:[String:Any] = [
             "id":productId,
-            "purchaseDate":purchaseDt
+            "purchaseDate":purchaseDt,
+            "expireDate":expireDt            
         ]
         let realm = try! Realm()
         realm.beginWrite()

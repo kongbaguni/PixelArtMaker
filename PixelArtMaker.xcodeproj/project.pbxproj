@@ -77,6 +77,7 @@
 		C38C1BAA2802EC5800350176 /* DrawingToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BA92802EC5800350176 /* DrawingToolView.swift */; };
 		C38C1BAC2802F26600350176 /* ArrowToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BAB2802F26600350176 /* ArrowToolView.swift */; };
 		C38C1BAE2803027100350176 /* LayerToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BAD2803027100350176 /* LayerToolView.swift */; };
+		C38C1BB028059D7F00350176 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C1BAF28059D7E00350176 /* CGSize+Extensions.swift */; };
 		C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3D087F727DB3053003F886E /* FirebaseAnalytics */; };
 		C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D087F927DB31DA003F886E /* GoogleService-Info.plist */; };
 		C3D087FD27DB3509003F886E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D087FC27DB3509003F886E /* SigninView.swift */; };
@@ -169,6 +170,7 @@
 		C38C1BA92802EC5800350176 /* DrawingToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingToolView.swift; sourceTree = "<group>"; };
 		C38C1BAB2802F26600350176 /* ArrowToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowToolView.swift; sourceTree = "<group>"; };
 		C38C1BAD2803027100350176 /* LayerToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerToolView.swift; sourceTree = "<group>"; };
+		C38C1BAF28059D7E00350176 /* CGSize+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		C3D087F927DB31DA003F886E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C3D087FC27DB3509003F886E /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		C3DBA08227EC5F8900FE8392 /* MyStageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStageModel.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				C3EDBF1E27F6B06C00BBEC01 /* View+Extensions.swift */,
 				C356364027FAC4AE00B2609A /* Float+Extensions.swift */,
 				8DB0B9FC2803E1F900C2B0FF /* GridItem+Extensions.swift */,
+				C38C1BAF28059D7E00350176 /* CGSize+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */,
 				8DF55C5127FD74B800D68EB1 /* ArtListView.swift in Sources */,
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
+				C38C1BB028059D7F00350176 /* CGSize+Extensions.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
 				C3011F5727F050CD001B12AC /* SharedStageModel.swift in Sources */,
 				C3EDBF2C27F9412100BBEC01 /* Toast.swift in Sources */,

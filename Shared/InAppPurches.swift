@@ -20,6 +20,13 @@ struct InAppPurchase {
         "yearlyPlusMode":"1년"
     ]
     
+    let time:[String:TimeInterval] = [
+        "weeklyPlusMode":604800,
+        "monthlyPlusMode":2678400,
+        "3monthPlusMode":8035200,
+        "6monthPlusMode":16070400,
+        "yearlyPlusMode":31536000
+    ]
     let desc:[String:String] = [
         "weeklyADBonus":"1주일간 광고 없이 모든 기능을 사용합니다.",
         "monthlyADBonus":"한달동안 광고 없이 모든 기능을 사용합니다.",
@@ -98,11 +105,17 @@ struct InAppPurchase {
             switch result {
             case .success(let purchase):
                 print("Purchase Success: \(purchase.productId)")
-                
-                InAppPurchaseModel.set(productId: productId, purchaseDt: purchase.originalPurchaseDate)
-                restorePurchases { isSucess in
-                    complete(true)
+                if purchase.needsFinishTransaction {
+                    SwiftyStoreKit.finishTransaction(purchase.transaction)
                 }
+                
+                let pi = purchase.originalPurchaseDate.timeIntervalSince1970
+                let expire = Date(timeIntervalSince1970: pi + (time[productId] ?? 0))
+
+                InAppPurchaseModel.set(productId: productId,
+                                       purchaseDt: purchase.originalPurchaseDate,
+                                       expireDt: expire)
+                complete(true)
 
             case .error(let error):
                 switch error.code {
