@@ -146,16 +146,17 @@ struct CanvasView: View {
                         draw()
                     }
                     else {
-                        for i in 1...30 {
-                            let a = CGFloat(i * 10)
-                            let b = a * 2
-                            let r = CGFloat(35 - i)
-                            context.stroke(Path(roundedRect: .init(x: a, y: a,
-                                                                   width: size.width - b,
-                                                                   height: size.height - b),
-                                                cornerSize: .init(width: r, height: r)),
-                                           with: .color(.randomColor))
-                        }
+                        drawTransperBg()
+//                        for i in 1...30 {
+//                            let a = CGFloat(i * 10)
+//                            let b = a * 2
+//                            let r = CGFloat(35 - i)
+//                            context.stroke(Path(roundedRect: .init(x: a, y: a,
+//                                                                   width: size.width - b,
+//                                                                   height: size.height - b),
+//                                                cornerSize: .init(width: r, height: r)),
+//                                           with: .color(.randomColor))
+//                        }
                     }
                 } else {
                     draw()

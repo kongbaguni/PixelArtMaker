@@ -38,6 +38,7 @@
 		8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA0028065A8200C2B0FF /* SettingView.swift */; };
 		8DB0BA032806A12100C2B0FF /* LikeArtListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */; };
 		8DB0BA052806AFFB00C2B0FF /* LikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */; };
+		8DB0BA072807AF3400C2B0FF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB0BA062807AF3400C2B0FF /* Launch Screen.storyboard */; };
 		8DF55C4327FD498300D68EB1 /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */; };
 		8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */; };
 		8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C4727FD49FF00D68EB1 /* FirebaseStorageCombine-Community */; };
@@ -140,6 +141,7 @@
 		8DB0BA0028065A8200C2B0FF /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeArtListView.swift; sourceTree = "<group>"; };
 		8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeModel.swift; sourceTree = "<group>"; };
+		8DB0BA062807AF3400C2B0FF /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		8DF55C5027FD74B800D68EB1 /* ArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtListView.swift; sourceTree = "<group>"; };
 		8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninButton.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 				1B28C3AF27BE100F003F8312 /* Assets.xcassets */,
 				C320338927C3895E0019B546 /* Colors.xcassets */,
 				8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */,
+				8DB0BA062807AF3400C2B0FF /* Launch Screen.storyboard */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DB0BA072807AF3400C2B0FF /* Launch Screen.storyboard in Resources */,
 				C320338A27C3895E0019B546 /* Colors.xcassets in Resources */,
 				C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */,
 				1B28C3D927BE100F003F8312 /* Assets.xcassets in Resources */,
@@ -800,6 +804,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -837,6 +842,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
