@@ -83,36 +83,41 @@ class PathFinder {
         }
                         
         func find(serchVecs : [Point], array:[Point]? = nil , pointer:Point) {
-            count += 1
-            if count > (canvasSize.width * canvasSize.height) {
-                print("break!")
-                return
-            }
+            
             for vec in serchVecs {
                 var result:[Point] = array ?? [pointer]
                 let np = pointer + vec
                 result.append(np)
                 if np == b {
-                    findFinish = true
+                    count -= 1
                     self.paths.append(result)
-                    print("----------------- path find \(paths.count)")
+                    print("----------------- path find \(paths.count) result: \(result.count) count: \(count)")
+                    if count <= 0 && path.count > 0 {
+                        findFinish = true
+
+//                        complete(paths.randomElement())
+                        let result = paths.sorted { a, b in
+                            a.count < b.count
+                        }.first
+                        complete(result)
+                    }
                     continue
                 }
                 if a.x < b.x && np.x > b.x
                     || a.x > b.x && np.x < b.x
                     || a.y < b.y && np.y > b.y
-                    || a.y > b.y && np.y < b.y {
+                    || a.y > b.y && np.y < b.y
+                    || np.x < 0
+                    || np.y < 0
+                    || np.x >= canvasSize.width
+                    || np.y >= canvasSize.height
+                {
+                    count -= 1
                     continue
                 }
                 
-                if
-                    result.count < canvasSize.width + canvasSize.height &&
-                        np.x > 0 && np.y > 0 && np.x < canvasSize.width && np.y < canvasSize.height
-                        && findFinish == false
-                {
-                    find(serchVecs: serchVecs, array: result, pointer: np)
-                }
-                
+                count += 1
+                find(serchVecs: serchVecs.shuffled(), array: result, pointer: np)
             }
         }
         
@@ -146,13 +151,13 @@ class PathFinder {
             case []:
                 return [a]
             case [.up,.right]:
-                find(serchVecs: [Point(x: 0, y: -1),Point(x: 1, y: 0),Point(x: 1, y: -1)], array: nil, pointer: a)
+                find(serchVecs: [Point(x: 1, y: -1),Point(x: 0, y: -1),Point(x: 1, y: 0)], array: nil, pointer: a)
             case [.down, .right]:
-                find(serchVecs: [Point(x: 0, y: 1),Point(x: 1, y: 0),Point(x: 1, y: 1)], array: nil, pointer: a)
+                find(serchVecs: [Point(x: 1, y: 1),Point(x: 0, y: 1),Point(x: 1, y: 0)], array: nil, pointer: a)
             case [.up, .left]:
-                find(serchVecs: [Point(x: 0, y: -1),Point(x: -1, y: 0),Point(x: -1, y: -1)], array: nil, pointer: a)
+                find(serchVecs: [Point(x: -1, y: -1),Point(x: 0, y: -1),Point(x: -1, y: 0)], array: nil, pointer: a)
             case [.down, .left]:
-                find(serchVecs: [Point(x: 0, y: 1),Point(x: -1, y: 0),Point(x: -1, y: 1)], array: nil, pointer: a)
+                find(serchVecs: [Point(x: -1, y: 1),Point(x: 0, y: 1),Point(x: -1, y: 0)], array: nil, pointer: a)
             default:
                 break
             }
@@ -160,20 +165,8 @@ class PathFinder {
 
         }
         
-        DispatchQueue.global().async { [weak self] in
-            if let result = findPath(vec: checkVec) {
-                DispatchQueue.main.async {
-                    complete(result)
-                }
-                return
-            }
-                    
-            let result = self?.paths.sorted { a, b in
-                a.count < b.count
-            }.first
-            DispatchQueue.main.async {
-                complete(result)
-            }
+        if let result = findPath(vec: checkVec) {
+            complete(result)
         }
     }
 }
