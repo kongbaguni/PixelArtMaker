@@ -229,12 +229,13 @@ struct DrawingToolView: View {
                     } else {
                         //TODO : 드로잉 로직 개발할것
                         
-                        PathFinder(cgSize: StageManager.shared.canvasSize).findPathWithCGPoint(a: drawBegainPointer!, b: pointer) { result in
-                            for point in result ?? [] {
-                                colors[point.y][point.x] = forgroundColor
-                            }
-                            refreshStage()
+                        let result = PathFinder.findLine(startCGPoint: drawBegainPointer!, endCGPoint: pointer)
+                        
+                        for point in result {
+                            colors[point.y][point.x] = forgroundColor
                         }
+                        refreshStage()
+                    
                         withAnimation(.easeInOut) {
                             drawBegainPointer = nil
                         }
@@ -242,7 +243,7 @@ struct DrawingToolView: View {
                 }
             case .박스선:
                 makeImageButton(systemName: "square") {
-                    let arr = PathFinder(cgSize: StageManager.shared.canvasSize).findSquare(a: drawBegainPointer!, b: pointer)
+                    let arr = PathFinder.findSquare(a: drawBegainPointer!, b: pointer)
                     for point in arr {
                         colors[point.y][point.x] = forgroundColor
                     }
@@ -254,7 +255,7 @@ struct DrawingToolView: View {
                 }
             case .박스채우기:
                 makeImageButton(systemName: "square.fill") {
-                    let arr = PathFinder(cgSize: StageManager.shared.canvasSize).findSquare(a: drawBegainPointer!, b: pointer, isFill: true)
+                    let arr = PathFinder.findSquare(a: drawBegainPointer!, b: pointer, isFill: true)
                     for point in arr {
                         colors[point.y][point.x] = forgroundColor
                     }

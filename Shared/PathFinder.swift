@@ -14,7 +14,7 @@ fileprivate extension CGPoint {
     }
 }
 
-class PathFinder {
+struct PathFinder {
     struct Point : Hashable{
         let x:Int
         let y:Int
@@ -34,146 +34,58 @@ class PathFinder {
         }
         
     }
-    let canvasSize:(width:Int,height:Int)
-    init(canvasSize:(width:Int,height:Int)) {
-        self.canvasSize = canvasSize
-    }
-    
-    init(cgSize:CGSize) {
-        self.canvasSize = (width:Int(cgSize.width), height: Int(cgSize.height))
-    }
-    
-    var paths:[[Point]] = []
-    
-    func findPathWithCGPoint(a:CGPoint,b:CGPoint,complete:@escaping(_ result:[Point]?)->Void) {
-        let na = Point(x: Int(a.x), y: Int(a.y))
-        let nb = Point(x: Int(b.x), y: Int(b.y))
-        findPath(a: na, b: nb) { result in
-            complete(result)
-        }
-    }
-    
-    func findPath(a:Point,b:Point, complete:@escaping(_ result:[Point]?)->Void) {
-        if a.x >= canvasSize.width ||
-            a.y >= canvasSize.height ||
-            b.x >= canvasSize.width ||
-            b.y >= canvasSize.height ||
-            a.x < 0 ||
-            a.y < 0 ||
-            b.x < 0 ||
-            b.y < 0 {
-            complete(nil)
-            return
-        }
-            
-        enum Vec {
-            case up
-            case down
-            case left
-            case right
-        }
         
-        var checkVec:Set<Vec> {
-            if a == b {
-                return []
-            }
-            var result:Set<Vec> = []
-            if a.x < b.x {
-                result.insert(.right)
-            }
-            if a.x > b.x  {
-                result.insert(.left)
-            }
-            if a.y < b.y {
-                result.insert(.down)
-            }
-            if a.y > b.y {
-                result.insert(.up)
-            }
-            return result
-        }
-                        
-        func find(serchVecs : [Point], array:[Point]? = nil , pointer:Point) {
-         
-            var result:[Point] = array ?? []
-            let nextPoints = serchVecs.map { point in
-                return point + pointer
-            }
-            let distances = nextPoints.map { point in
-                return point.distance(b)
-            }
-            let s = distances.sorted().first!
-            let idx = distances.firstIndex(of: s)!
-            
-            let np = nextPoints[idx]
-            print(" distances:\(distances) s:\(s) idx: \(idx)")
+    static func findLine(startCGPoint:CGPoint, endCGPoint:CGPoint)->Set<Point> {
+        return findLine(startPosition: startCGPoint.pointValue, endPosition: endCGPoint.pointValue)
+    }
+    
+    static func findLine(startPosition:Point, endPosition:Point)->Set<Point> {
+        var result = Set<Point>()
+        let width = abs(endPosition.x - startPosition.x)
+        let height = abs(endPosition.y - startPosition.y)
+        let Yfactor = endPosition.y < startPosition.y ? -1 : 1;
+        let Xfactor = endPosition.x < startPosition.x ? -1 : 1;
 
-            if np.x < 0 || np.x >= canvasSize.width || np.y < 0 || np.y >= canvasSize.height {
-                print("!!!!!\(np)")
-                return
-            }
-            result.append(np)
-            if np == b || s == 0{
-                print("complete")
-                paths.append(result)
-                complete(result)
-                return
-            }
-            find(serchVecs: serchVecs, array: result, pointer: np)
+        // 넓이가 높이보다 큰경우는 1,4,5,8 분면
+        if width > height {
+            var y = startPosition.y
+            var det = (2 * height) - width; // 점화식
             
-        }
-        
-        func findPath(vec:Set<Vec>)->[Point]? {
-            switch vec {
-            case [.up]:
-                var result:[Point] = []
-                for i in b.y...a.y {
-                    result.append(.init(x: a.x, y: i))
+            var x = startPosition.x
+            while x != endPosition.x {
+                x += Xfactor
+                //판별
+                if (det < 0) {
+                    det += 2 * height
                 }
-                paths.append(result)
-                return result
-            case [.down]:
-                var result:[Point] = []
-                for i in a.y...b.y {
-                    result.append(.init(x: a.x, y: i))
+                else {
+                    y += Yfactor
+                    det += (2 * height - 2 * width)
                 }
-                return result
-            case [.left]:
-                var result:[Point] = []
-                for i in b.x...a.x {
-                    result.append(.init(x: i, y: a.y))
-                }
-                return result
-            case [.right]:
-                var result:[Point] = []
-                for i in a.x...b.x {
-                    result.append(.init(x: i, y: a.y))
-                }
-                return result
-            case []:
-                return [a]
-            case [.up,.right]:
-                find(serchVecs: [Point(x: 1, y: -1),Point(x: 0, y: -1),Point(x: 1, y: 0)], array: nil, pointer: a)
-            case [.down, .right]:
-                find(serchVecs: [Point(x: 1, y: 1),Point(x: 0, y: 1),Point(x: 1, y: 0)], array: nil, pointer: a)
-            case [.up, .left]:
-                find(serchVecs: [Point(x: -1, y: -1),Point(x: 0, y: -1),Point(x: -1, y: 0)], array: nil, pointer: a)
-            case [.down, .left]:
-                find(serchVecs: [Point(x: -1, y: 1),Point(x: 0, y: 1),Point(x: -1, y: 0)], array: nil, pointer: a)
-            default:
-                break
+                
+                result.insert(.init(x: x, y: y))
             }
-            return nil
-
         }
-        
-        if let result = findPath(vec: checkVec) {
-            complete(result)
+        else {
+            var x = startPosition.x
+            var det2 = (2 * width) - height; // 점화식
+            var y = startPosition.y
+            while y != endPosition.y {
+                y += Yfactor
+                if (det2 < 0) {
+                    det2 += 2 * width
+                }
+                else {
+                    x += Xfactor
+                    det2 += (2 * width - 2 * height)
+                }
+                result.insert(.init(x: x, y: y))
+            }
         }
+        return result
     }
     
-    
-    func findSquare(a:CGPoint, b:CGPoint, isFill:Bool = false)->Set<Point> {
+    static func findSquare(a:CGPoint, b:CGPoint, isFill:Bool = false)->Set<Point> {
         let a = a.pointValue
         let b = b.pointValue
         var result = Set<Point>()
