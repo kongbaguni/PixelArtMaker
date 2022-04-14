@@ -57,20 +57,22 @@ struct LikeArtListView: View {
         ids = result.reversed()
     }
     
-    private func getModel(id:String)->LikeModel {
-        return try! Realm().object(ofType: LikeModel.self, forPrimaryKey: id)!
+    private func getModel(id:String)->LikeModel? {
+        return try! Realm().object(ofType: LikeModel.self, forPrimaryKey: id)
     }
     
     private func makeLikeView(id:String)-> some View {
         VStack {        
-            NavigationLink {
-                PixelArtDetailView(id: getModel(id: id).documentId, showProfile: true)
-            } label: {
-                if let url = URL(string: getModel(id: id).imageURL) {
-                    if itemSize.width > 0 && itemSize.height > 0 {
-                        WebImage(url:url)
-                            .resizable()
-                            .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+            if let model = getModel(id: id) {
+                NavigationLink {
+                    PixelArtDetailView(id: model.documentId, showProfile: true)
+                } label: {
+                    if let url = URL(string: model.imageURL) {
+                        if itemSize.width > 0 && itemSize.height > 0 {
+                            WebImage(url:url)
+                                .resizable()
+                                .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                        }
                     }
                 }
             }
@@ -91,6 +93,8 @@ struct LikeArtListView: View {
                 HStack {
                     Spacer()
                     Text("empty like list message")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
                         .padding(30)
                     Spacer()
                 }

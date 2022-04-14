@@ -128,7 +128,7 @@ struct ProfileView: View {
     var body: some View {
         GeometryReader { geomentry in
             if haveArtList {
-                if geomentry.size.height > geomentry.size.width {
+                if geomentry.size.height > geomentry.size.width || geomentry.size.width < 400{
                     ScrollView {
                         makeProfileView(isLandscape: false)
                         Section(header:Text("profile view public arts")) {
