@@ -66,9 +66,10 @@ struct DrawingToolView: View {
                 if next.x < 0 || next.y < 0 || next.y >= colors.count || next.x >= colors[0].count {
                     continue
                 }
-                if cc.compare(color:colors[next.y][next.x]) <= UserDefaults.standard.paintRange {
+                
+                if cc.compare(color:colors[next.y][next.x]) <= UserDefaults.standard.paintRange || cc == colors[next.y][next.x] {
                     result.insert(next)
-                }
+                } 
             }
             return result
         }
@@ -203,7 +204,7 @@ struct DrawingToolView: View {
                 }
             case .페인트1:
                 makeImageButton(imageName:"paint") {
-                    draw(target: pointer, color: forgroundColor)
+                    paint(target: pointer, color: forgroundColor)
                 }
             case .페인트2:
                 makeImageButton(imageName:"paint2") {
