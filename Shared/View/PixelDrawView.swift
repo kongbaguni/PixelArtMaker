@@ -110,23 +110,8 @@ struct PixelDrawView: View {
         }
     }
     
-    @State var pointer:CGPoint = .zero {
-        didSet {
-            if pointer.x < 0 {
-                pointer.x = 0
-            }
-            if pointer.y < 0 {
-                pointer.y = 0
-            }
-            if pointer.x >= pixelSize.width {
-                pointer.x = pixelSize.width - 1
-            }
-            if pointer.y >= pixelSize.height {
-                pointer.y = pixelSize.height - 1
-            }
-        }
-    }
-    
+    @State var pointer:CGPoint = .zero
+    @State var drawBegainPointer:CGPoint? = nil 
     @State var isZoomMode:Bool = false 
     @State var zoomScale = 0
     @State var zoomOffset:(x:Int,y:Int) = (x:0,y:0)
@@ -181,18 +166,19 @@ struct PixelDrawView: View {
     
     func makeCanvasView(screenWidth:CGFloat)->CanvasView {
         return CanvasView(pointer: $pointer,
-                   isShowMenu: $isShowMenu,
-                   isLoadingAnimated: $isLoadingAnimated,
-                   isLongPressing: $isLongPressing,
-                   timer: $timer,
-                   colors: colors,
-                   isLoadingDataFin: isLoadingDataFin,
-                   isShowSelectLayerOnly: isShowSelectLayerOnly,
-                   screenWidth: screenWidth,
-                   backgroundColor: backgroundColor,
-                   layers: layers,
-                   zoomFrame: zoomFrame,
-                   zoomOffset: zoomOffset
+                          isShowMenu: $isShowMenu,
+                          isLoadingAnimated: $isLoadingAnimated,
+                          isLongPressing: $isLongPressing,
+                          timer: $timer,
+                          colors: colors,
+                          isLoadingDataFin: isLoadingDataFin,
+                          isShowSelectLayerOnly: isShowSelectLayerOnly,
+                          screenWidth: screenWidth,
+                          backgroundColor: backgroundColor,
+                          layers: layers,
+                          zoomFrame: zoomFrame,
+                          zoomOffset: zoomOffset,
+                          drawBegainPointer: drawBegainPointer
         )
     }
     
@@ -231,6 +217,7 @@ struct PixelDrawView: View {
             toastMessage: $toastMessage,
             isShowToast: $isShowToast,
             previewImage: $previewImage,
+            drawBegainPointer: $drawBegainPointer,
             pointer: pointer,
             backgroundColor: backgroundColor)
     }
@@ -292,14 +279,13 @@ struct PixelDrawView: View {
                     
                 }
                 if let id = AuthManager.shared.userId {
-                    NavigationLink(destination: ProfileView(uid: id, haveArtList: true, editable: true), isActive: $isShowProfileView) {
+                    NavigationLink(
+                        destination : ProfileView(uid: id, haveArtList: true, editable: true).navigationBarTitle(Text("Profile")),
+                        isActive : $isShowProfileView) {
                         
                     }
                 }
             }
-            
-                
-            
             
             if geomentry.size.height > geomentry.size.width {
                 ZStack(alignment: .leading) {

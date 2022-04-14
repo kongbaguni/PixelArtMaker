@@ -22,7 +22,8 @@ struct CanvasView: View {
     let layers:[LayerModel]
     let zoomFrame:(width:Int,height:Int)
     let zoomOffset:(x:Int,y:Int)
-    
+    let drawBegainPointer:CGPoint?
+
     private var pw:CGFloat {
         return screenWidth / CGFloat(zoomFrame.width)
     }
@@ -85,6 +86,13 @@ struct CanvasView: View {
                         x: (pointer.x - CGFloat(zoomOffset.x)) * w,
                         y: (pointer.y - CGFloat(zoomOffset.y)) * w,
                         width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer), lineWidth: 2)
+                    
+                    if let p = drawBegainPointer {
+                        context.stroke(Path(roundedRect: .init(
+                            x: (p.x - CGFloat(zoomOffset.x)) * w,
+                            y: (p.y - CGFloat(zoomOffset.y)) * w,
+                            width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer2), lineWidth: 3)                        
+                    }
 
                 }
                 
@@ -146,16 +154,17 @@ struct CanvasView: View {
                         draw()
                     }
                     else {
-                        for i in 1...30 {
-                            let a = CGFloat(i * 10)
-                            let b = a * 2
-                            let r = CGFloat(35 - i)
-                            context.stroke(Path(roundedRect: .init(x: a, y: a,
-                                                                   width: size.width - b,
-                                                                   height: size.height - b),
-                                                cornerSize: .init(width: r, height: r)),
-                                           with: .color(.randomColor))
-                        }
+                        drawTransperBg()
+//                        for i in 1...30 {
+//                            let a = CGFloat(i * 10)
+//                            let b = a * 2
+//                            let r = CGFloat(35 - i)
+//                            context.stroke(Path(roundedRect: .init(x: a, y: a,
+//                                                                   width: size.width - b,
+//                                                                   height: size.height - b),
+//                                                cornerSize: .init(width: r, height: r)),
+//                                           with: .color(.randomColor))
+//                        }
                     }
                 } else {
                     draw()

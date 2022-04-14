@@ -93,22 +93,27 @@ struct ArtListView: View {
     
     static func getListFromFirestore(uid:String,sort:Sort.SortType,complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
         var ids:[String] = []
-        Firestore.firestore().collection("public")
-            .whereField("uid", isEqualTo: uid)
-            .getDocuments { snapShot, error in
-                let realm = try! Realm()
-                realm.beginWrite()
-                for doc in snapShot?.documents ?? [] {
-                    let data = doc.data()
-                    if let id = data["id"] as? String {
-                        ids.append(id)
-                        realm.create(SharedStageModel.self, value: data, update: .modified)
-                    }
+        let lastSyncDt = try! Realm().objects(SharedStageModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt").last?.updateDt
+
+        var query = Firestore.firestore().collection("public").whereField("uid", isEqualTo: uid)
+        
+        if let time = lastSyncDt {
+            query = query.whereField("updateDt", isGreaterThan: time)
+        }
+        query.getDocuments { snapshot, error in
+            let realm = try! Realm()
+            realm.beginWrite()
+            for doc in snapshot?.documents ?? [] {
+                let data = doc.data()
+                if let id = data["id"] as? String {
+                    ids.append(id)
+                    realm.create(SharedStageModel.self, value: data, update: .modified)
                 }
-                try! realm.commitWrite()
-                print(error?.localizedDescription ?? "성공")
-                complete(ArtListView.reloadFromLocalDb(uid:uid,sort: sort), error)
             }
+            try! realm.commitWrite()
+            print(error?.localizedDescription ?? "성공")
+            complete(ArtListView.reloadFromLocalDb(uid:uid,sort: sort), error)
+        }
     }
     /** 내가 공개한 작품의 목록을 로컬DB에서 읽어온다.*/
     static func reloadFromLocalDb(uid:String,sort:Sort.SortType)->[String] {
@@ -137,9 +142,8 @@ struct ArtListView: View {
                     ArtListView.makeListView(
                         ids:ids,
                         sort:sort,
-                        gridItems: GridItem.makeGridItems(length: 5, width: geomentry.size.width - 40),
-                        itemSize: .init(width: ((width ?? geomentry.size.width) - 40) / 5,
-                                        height: ((width ?? geomentry.size.width) - 40) / 5 + 10)
+                        gridItems: Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width, padding:20),
+                        itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width, padding:20)
                     )
                     
                     
@@ -147,9 +151,8 @@ struct ArtListView: View {
                     ArtListView.makeListView(
                         ids:ids,
                         sort:sort,
-                        gridItems: GridItem.makeGridItems(length: 3, width: geomentry.size.width - 40),
-                        itemSize: .init(width: ((width ?? geomentry.size.width) - 40) / 3,
-                                        height: ((width ?? geomentry.size.width) - 40) / 3 + 10)
+                        gridItems: Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width, padding: 20),
+                        itemSize:Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width, padding:20)
                     )
                 }
                 

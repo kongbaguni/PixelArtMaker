@@ -22,13 +22,12 @@ struct LikeArtListView: View {
     }
     
     func getListFromFirebase(complete:@escaping(_ error:Error?)->Void) {
-        collection.getDocuments { snapshot, error in
+        func writeLocalDb(snapshot:QuerySnapshot?) {
             if let snapShot = snapshot {
                 let realm = try! Realm()
                 realm.beginWrite()
                 for document in snapShot.documents {
                     var data = document.data()
-                    print(data)
                     if let did = data["id"] as? String {
                         data["id"] = "\(uid),\(did)"
                     }
@@ -36,33 +35,44 @@ struct LikeArtListView: View {
                 }
                 try! realm.commitWrite()
             }
-            complete(error)
+        }
+        
+        if let lastSync = try! Realm().objects(LikeModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt").last?.updateDt {
+            collection.whereField("updateDt", isGreaterThan: lastSync).getDocuments { snapshot, error in
+                writeLocalDb(snapshot: snapshot)
+                complete(error)
+            }
+        } else {
+            collection.getDocuments { snapshot, error in
+                writeLocalDb(snapshot: snapshot)
+                complete(error)
+            }
         }
     }
 
     private func loadFromLocalDb() {
-        let result = try! Realm().objects(LikeModel.self).filter("uid = %@", uid).sorted(byKeyPath: "updateDt", ascending: true).map({ model in
+        let result = try! Realm().objects(LikeModel.self).filter("uid = %@ && imageURL != %@", uid, "").sorted(byKeyPath: "updateDt", ascending: true).map({ model in
             return model.id
         })
         ids = result.reversed()
-        print(ids)
-        
     }
     
-    private func getModel(id:String)->LikeModel {
-        return try! Realm().object(ofType: LikeModel.self, forPrimaryKey: id)!
+    private func getModel(id:String)->LikeModel? {
+        return try! Realm().object(ofType: LikeModel.self, forPrimaryKey: id)
     }
     
     private func makeLikeView(id:String)-> some View {
         VStack {        
-            NavigationLink {
-                PixelArtDetailView(id: getModel(id: id).documentId, showProfile: true)
-            } label: {
-                if let url = URL(string: getModel(id: id).imageURL) {
-                    if itemSize.width > 0 && itemSize.height > 0 {
-                        WebImage(url:url)
-                            .resizable()
-                            .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+            if let model = getModel(id: id) {
+                NavigationLink {
+                    PixelArtDetailView(id: model.documentId, showProfile: true)
+                } label: {
+                    if let url = URL(string: model.imageURL) {
+                        if itemSize.width > 0 && itemSize.height > 0 {
+                            WebImage(url:url)
+                                .resizable()
+                                .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                        }
                     }
                 }
             }
@@ -83,6 +93,8 @@ struct LikeArtListView: View {
                 HStack {
                     Spacer()
                     Text("empty like list message")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
                         .padding(30)
                     Spacer()
                 }
@@ -107,12 +119,12 @@ struct LikeArtListFullView: View {
         GeometryReader { geomentry in
             ScrollView {
                 if geomentry.size.width < geomentry.size.height {
-                    LikeArtListView(uid: uid, gridItems: makeGridItems(length: 3, screenWidth: geomentry.size.width),
-                                    itemSize: makeItemSize(length: 3, screenWidth: geomentry.size.width))
+                    LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width),
+                                    itemSize: Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width))
                 }
                 else {
-                    LikeArtListView(uid: uid, gridItems: makeGridItems(length: 5, screenWidth: geomentry.size.width),
-                                    itemSize: makeItemSize(length: 5, screenWidth: geomentry.size.width))
+                    LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width),
+                                    itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width))
 
                 }
                 

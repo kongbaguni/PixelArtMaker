@@ -50,7 +50,6 @@ extension ProfileModel {
     static func findBy(uid:String, complete:@escaping(_ error:Error?)->Void) {
         collection.document(uid).getDocument { snapShot, error in
             if let data = snapShot?.data() {
-                print("find profile id \(uid) data \(data)")
                 let realm = try! Realm()
                 try! realm.write {
                     realm.create(ProfileModel.self, value: data, update: .all)

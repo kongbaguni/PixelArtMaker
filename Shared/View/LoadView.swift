@@ -27,7 +27,9 @@ struct LoadView: View {
                 Sort.getText(type: type)
             }
         }.onChange(of: sortIndex) { newValue in
-            load(animate: true)
+            withAnimation(.easeInOut) {
+                load(animate: true)
+            }
         }
     }
     
@@ -95,7 +97,7 @@ struct LoadView: View {
         }
         .opacity(loadingStart ? 0.5 : 1.0)
         .padding(.horizontal)
-        .animation(.easeInOut, value: loadingStart)
+//        .animation(.easeInOut, value: loadingStart)
 
     }
     
@@ -128,8 +130,8 @@ struct LoadView: View {
                     makeListView(gridItems:
                                     loadingStart && stages.count == 1 ? [.init(.fixed(geomentry.size.width))]
                                  : geomentry.size.width < geomentry.size.height
-                                 ? GridItem.makeGridItems(length: 2, width: geomentry.size.width - 40)
-                                 : GridItem.makeGridItems(length: 4, width: geomentry.size.width - 40)
+                                 ? Utill.makeGridItems(length: 2, screenWidth: geomentry.size.width, padding:20)
+                                 : Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width, padding:20)
                                  ,width:geomentry.size.width
                     )
                 }

@@ -131,8 +131,8 @@ struct PublicShareListView: View {
                         }
                         makeListView(gridItems:
                                         geomentry.size.width > geomentry.size.height
-                                     ? GridItem.makeGridItems(length: 5, width: geomentry.size.width - 10)
-                                     : GridItem.makeGridItems(length: 3, width: geomentry.size.width - 10)
+                                     ? Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width, padding:5)
+                                     : Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width, padding:5)
                                      ,width: geomentry.size.width
                         )
                     }

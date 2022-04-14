@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pencil" translatesAutoresizingMaskIntoConstraints="NO" id="juj-hZ-EJJ">
+                                <rect key="frame" x="122" y="368" width="170" height="170"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="170" id="HaT-tr-On5"/>
+                                    <constraint firstAttribute="height" constant="170" id="cvN-x5-sqW"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paint" translatesAutoresizingMaskIntoConstraints="NO" id="ttA-Tb-o9b">
+                                <rect key="frame" x="157" y="248" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="7P1-Uw-Lpt"/>
+                                    <constraint firstAttribute="height" constant="100" id="ca5-bd-KU3"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eraser" translatesAutoresizingMaskIntoConstraints="NO" id="TMe-0u-Ipx">
+                                <rect key="frame" x="157" y="558" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="gM6-jR-TyM"/>
+                                    <constraint firstAttribute="width" constant="100" id="l8W-Tz-gP1"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="spoid" translatesAutoresizingMaskIntoConstraints="NO" id="vlT-AI-oTb">
+                                <rect key="frame" x="172" y="678" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="1di-cy-GIT"/>
+                                    <constraint firstAttribute="height" constant="70" id="in4-gu-tu9"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paint2" translatesAutoresizingMaskIntoConstraints="NO" id="AiW-Np-Swy">
+                                <rect key="frame" x="172" y="158" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="ZJH-p2-zJH"/>
+                                    <constraint firstAttribute="width" constant="70" id="vzO-IP-TQC"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                        <color key="backgroundColor" name="background"/>
+                        <constraints>
+                            <constraint firstItem="vlT-AI-oTb" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="2ia-bh-gwq"/>
+                            <constraint firstItem="vlT-AI-oTb" firstAttribute="top" secondItem="TMe-0u-Ipx" secondAttribute="bottom" constant="20" id="4c1-l6-kSm"/>
+                            <constraint firstItem="ttA-Tb-o9b" firstAttribute="top" secondItem="AiW-Np-Swy" secondAttribute="bottom" constant="20" id="Bsm-z7-IUO"/>
+                            <constraint firstItem="ttA-Tb-o9b" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="GPh-b4-EdN"/>
+                            <constraint firstItem="TMe-0u-Ipx" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="Q9f-0u-9hF"/>
+                            <constraint firstItem="juj-hZ-EJJ" firstAttribute="top" secondItem="ttA-Tb-o9b" secondAttribute="bottom" constant="20" id="UOk-QY-Uy7"/>
+                            <constraint firstItem="TMe-0u-Ipx" firstAttribute="top" secondItem="juj-hZ-EJJ" secondAttribute="bottom" constant="20" id="fhk-dn-kAi"/>
+                            <constraint firstItem="juj-hZ-EJJ" firstAttribute="centerY" secondItem="Bcu-3y-fUS" secondAttribute="centerY" id="iQt-gu-ryZ"/>
+                            <constraint firstItem="AiW-Np-Swy" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="nEi-qj-PFg"/>
+                            <constraint firstItem="juj-hZ-EJJ" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="zKY-P9-rkb"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="eraser" width="106.66666412353516" height="106.66666412353516"/>
+        <image name="paint" width="106.66666412353516" height="106.66666412353516"/>
+        <image name="paint2" width="106.66666412353516" height="106.66666412353516"/>
+        <image name="pencil" width="106.66666412353516" height="106.66666412353516"/>
+        <image name="spoid" width="106.66666412353516" height="106.66666412353516"/>
+        <namedColor name="background">
+            <color red="0.80000001192092896" green="0.80000001192092896" blue="0.60000002384185791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
