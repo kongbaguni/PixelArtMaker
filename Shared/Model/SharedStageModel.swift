@@ -93,7 +93,7 @@ extension SharedStageModel {
             return
         }
         let id = self.id
-        let data:[String:Any] = [
+        var data:[String:Any] = [
             "id" : id,
             "uid" : uid,
             "imageURL" : imageUrl,
@@ -105,30 +105,31 @@ extension SharedStageModel {
                 complete(err)
                 return
             }
-                
-            if snapshot?.documents.count ?? 0 > 0 {
-                //좋아요 있다
-                if isLike {
-                    complete(nil)
-                    return
-                } // 있으니까 지운다. (좋아요 취소함)
-                collection.document(id).delete { error in
-                    let realm = try! Realm()
-                    if let model = realm.object(ofType: LikeModel.self, forPrimaryKey: "\(uid),\(id)") {
-                        realm.beginWrite()
-                        realm.delete(model)
-                        try! realm.commitWrite()
-                    }
-                    complete(error)
-                }
-
-            } else {
+                            
+            if snapshot?.documents.count ?? 0 == 0 || (snapshot?.documents.first?.data()["deleted"] as? Bool) == true {
                 //좋아요 없다
                 if isLike == false {
                     complete(nil)
                     return
                 } // 없으니까 만든다 (좋아요 추가함)
                 collection.document(id).setData(data) { error in
+                    complete(error)
+                }
+            } else {
+                if isLike {
+                    complete(nil)
+                    return
+                } // 있으니까 지운다. (좋아요 취소함)
+                data["deleted"] = true
+                data["imageURL"] = ""
+                
+                collection.document(id).setData(data) { error in
+                    let realm = try! Realm()
+                    if let model = realm.object(ofType: LikeModel.self, forPrimaryKey: "\(uid),\(id)") {
+                        realm.beginWrite()
+                        realm.delete(model)
+                        try! realm.commitWrite()
+                    }
                     complete(error)
                 }
             }

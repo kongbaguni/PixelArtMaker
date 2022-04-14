@@ -22,13 +22,12 @@ struct LikeArtListView: View {
     }
     
     func getListFromFirebase(complete:@escaping(_ error:Error?)->Void) {
-        collection.getDocuments { snapshot, error in
+        func writeLocalDb(snapshot:QuerySnapshot?) {
             if let snapShot = snapshot {
                 let realm = try! Realm()
                 realm.beginWrite()
                 for document in snapShot.documents {
                     var data = document.data()
-                    print(data)
                     if let did = data["id"] as? String {
                         data["id"] = "\(uid),\(did)"
                     }
@@ -36,17 +35,26 @@ struct LikeArtListView: View {
                 }
                 try! realm.commitWrite()
             }
-            complete(error)
+        }
+        
+        if let lastSync = try! Realm().objects(LikeModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt").last?.updateDt {
+            collection.whereField("updateDt", isGreaterThan: lastSync).getDocuments { snapshot, error in
+                writeLocalDb(snapshot: snapshot)
+                complete(error)
+            }
+        } else {
+            collection.getDocuments { snapshot, error in
+                writeLocalDb(snapshot: snapshot)
+                complete(error)
+            }
         }
     }
 
     private func loadFromLocalDb() {
-        let result = try! Realm().objects(LikeModel.self).filter("uid = %@", uid).sorted(byKeyPath: "updateDt", ascending: false).map({ model in
+        let result = try! Realm().objects(LikeModel.self).filter("uid = %@ && imageURL != %@", uid, "").sorted(byKeyPath: "updateDt", ascending: false).map({ model in
             return model.id
         })
         ids = result.reversed()
-        print(ids)
-        
     }
     
     private func getModel(id:String)->LikeModel {
