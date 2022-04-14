@@ -97,7 +97,9 @@ extension UIImage {
                         let w = size.width / CGFloat(colors.count)
                         let h = size.height / CGFloat(list.count)
                         let rect = CGRect(x: CGFloat(x) * w , y: CGFloat(y) * h  , width: w, height: h)
-                        UIRectFillUsingBlendMode(rect, blendModes.reversed()[i])
+                        if i < blendModes.count {
+                            UIRectFillUsingBlendMode(rect, blendModes.reversed()[i])
+                        }
                     }
                 }
             }

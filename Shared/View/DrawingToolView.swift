@@ -157,10 +157,13 @@ struct DrawingToolView: View {
         case 스포이드
         /** 포인트 투 포인트 드로잉 도구*/
         case 드로잉
+        case 박스선
+        case 박스채우기
         case 취소
     }
     
-    private func makeImageButton(_ imageName:String,action:@escaping()->Void) -> some View {
+    
+    private func makeImageButton(imageName:String,action:@escaping()->Void) -> some View {
         Button {
             action()
         } label : {
@@ -170,47 +173,54 @@ struct DrawingToolView: View {
         }.frame(width: 50, height: 50, alignment: .center)
     }
     
+    private func makeImageButton(systemName:String,action:@escaping()->Void) -> some View {
+        Button {
+            action()
+        } label : {
+            Image(systemName: systemName)
+                .resizable()
+                .imageScale(.large)
+                .frame(width: 40, height: 40, alignment: .center)
+                .foregroundColor(.gray)
+        }
+
+    }
+    
+    
     private func makeButton(type:ButtonType)-> some View {
         Group {
             switch type {
             case .돋보기:
-                Button {
+                makeImageButton(systemName: isZoomMode ? "xmark.circle" : "plus.magnifyingglass") {
                     withAnimation(.easeInOut) {
                         isZoomMode.toggle()
                     }
-                } label : {
-                    Image(systemName: "plus.magnifyingglass")
-                        .resizable()
-                        .opacity(isZoomMode ? 1.0 : 0.2)
-                        .imageScale(.large)
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .padding(isZoomMode ? 10 : 0)
-                        .foregroundColor(.gray)
                 }
+
             case .연필:
-                makeImageButton("pencil") {
+                makeImageButton(imageName:"pencil") {
                     draw(target: pointer, color: forgroundColor)
                 }
             case .페인트1:
-                makeImageButton("paint") {
+                makeImageButton(imageName:"paint") {
                     draw(target: pointer, color: forgroundColor)
                 }
             case .페인트2:
-                makeImageButton("paint2") {
+                makeImageButton(imageName:"paint2") {
                     changeColor(target: pointer, color: forgroundColor)
                 }
             case .지우개:
-                makeImageButton("eraser") {
+                makeImageButton(imageName:"eraser") {
                     draw(target: pointer, color: .clear)
                 }
             case .스포이드:
-                makeImageButton("spoid") {
+                makeImageButton(imageName:"spoid") {
                     if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
                         forgroundColor = color
                     }
                 }
             case .드로잉:
-                makeImageButton("pencil") {
+                makeImageButton(systemName:"line.diagonal") {
                     if drawBegainPointer == nil {
                         withAnimation(.easeInOut) {
                             drawBegainPointer = pointer
@@ -230,8 +240,32 @@ struct DrawingToolView: View {
                         }
                     }
                 }
+            case .박스선:
+                makeImageButton(systemName: "square") {
+                    let arr = PathFinder(cgSize: StageManager.shared.canvasSize).findSquare(a: drawBegainPointer!, b: pointer)
+                    for point in arr {
+                        colors[point.y][point.x] = forgroundColor
+                    }
+                    refreshStage()
+                    withAnimation(.easeInOut) {
+                        drawBegainPointer = nil
+                    }
+
+                }
+            case .박스채우기:
+                makeImageButton(systemName: "square.fill") {
+                    let arr = PathFinder(cgSize: StageManager.shared.canvasSize).findSquare(a: drawBegainPointer!, b: pointer, isFill: true)
+                    for point in arr {
+                        colors[point.y][point.x] = forgroundColor
+                    }
+                    refreshStage()
+                    withAnimation(.easeInOut) {
+                        drawBegainPointer = nil
+                    }
+                }
+
             case .취소:
-                makeImageButton("arrow_left") {
+                makeImageButton(systemName:"xmark.circle") {
                     withAnimation(.easeInOut) {
                         drawBegainPointer = nil
                     }
@@ -240,8 +274,8 @@ struct DrawingToolView: View {
         }
     }
     
-    private let normalToolTypes:[ButtonType] = [.돋보기, .연필, .페인트1, .페인트2, .지우개, .스포이드, .드로잉]
-    private let drawingToolTypes:[ButtonType] = [.취소, .드로잉]
+    private let normalToolTypes:[ButtonType] = [.돋보기, .드로잉, .연필, .페인트1, .페인트2, .지우개, .스포이드]
+    private let drawingToolTypes:[ButtonType] = [.취소, .돋보기, .드로잉, .박스선, .박스채우기]
 
     var body: some View {
         Group {

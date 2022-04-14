@@ -8,8 +8,14 @@
 import Foundation
 import UIKit
 
+fileprivate extension CGPoint {
+    var pointValue:PathFinder.Point {
+        return .init(x: Int(x), y: Int(y))
+    }
+}
+
 class PathFinder {
-    struct Point {
+    struct Point : Hashable{
         let x:Int
         let y:Int
         
@@ -20,6 +26,13 @@ class PathFinder {
         public static func + (lhs: Point, rhs: Point) -> Point {
             return .init(x:lhs.x + rhs.x, y:lhs.y + rhs.y)
         }
+        
+        func distance(_ to:Point)->Int {
+            let w = abs(x - to.x)
+            let h = abs(y - to.y)
+            return  w + h
+        }
+        
     }
     let canvasSize:(width:Int,height:Int)
     init(canvasSize:(width:Int,height:Int)) {
@@ -31,8 +44,6 @@ class PathFinder {
     }
     
     var paths:[[Point]] = []
-    var count = 0
-    var findFinish:Bool = false
     
     func findPathWithCGPoint(a:CGPoint,b:CGPoint,complete:@escaping(_ result:[Point]?)->Void) {
         let na = Point(x: Int(a.x), y: Int(a.y))
@@ -83,42 +94,33 @@ class PathFinder {
         }
                         
         func find(serchVecs : [Point], array:[Point]? = nil , pointer:Point) {
-            
-            for vec in serchVecs {
-                var result:[Point] = array ?? [pointer]
-                let np = pointer + vec
-                result.append(np)
-                if np == b {
-                    count -= 1
-                    self.paths.append(result)
-                    print("----------------- path find \(paths.count) result: \(result.count) count: \(count)")
-                    if count <= 0 && path.count > 0 {
-                        findFinish = true
-
-//                        complete(paths.randomElement())
-                        let result = paths.sorted { a, b in
-                            a.count < b.count
-                        }.first
-                        complete(result)
-                    }
-                    continue
-                }
-                if a.x < b.x && np.x > b.x
-                    || a.x > b.x && np.x < b.x
-                    || a.y < b.y && np.y > b.y
-                    || a.y > b.y && np.y < b.y
-                    || np.x < 0
-                    || np.y < 0
-                    || np.x >= canvasSize.width
-                    || np.y >= canvasSize.height
-                {
-                    count -= 1
-                    continue
-                }
-                
-                count += 1
-                find(serchVecs: serchVecs.shuffled(), array: result, pointer: np)
+         
+            var result:[Point] = array ?? []
+            let nextPoints = serchVecs.map { point in
+                return point + pointer
             }
+            let distances = nextPoints.map { point in
+                return point.distance(b)
+            }
+            let s = distances.sorted().first!
+            let idx = distances.firstIndex(of: s)!
+            
+            let np = nextPoints[idx]
+            print(" distances:\(distances) s:\(s) idx: \(idx)")
+
+            if np.x < 0 || np.x >= canvasSize.width || np.y < 0 || np.y >= canvasSize.height {
+                print("!!!!!\(np)")
+                return
+            }
+            result.append(np)
+            if np == b || s == 0{
+                print("complete")
+                paths.append(result)
+                complete(result)
+                return
+            }
+            find(serchVecs: serchVecs, array: result, pointer: np)
+            
         }
         
         func findPath(vec:Set<Vec>)->[Point]? {
@@ -168,5 +170,35 @@ class PathFinder {
         if let result = findPath(vec: checkVec) {
             complete(result)
         }
+    }
+    
+    
+    func findSquare(a:CGPoint, b:CGPoint, isFill:Bool = false)->Set<Point> {
+        let a = a.pointValue
+        let b = b.pointValue
+        var result = Set<Point>()
+        
+        let rangex = a.x < b.x ? a.x...b.x : b.x...a.x
+        let rangey = a.y < b.y ? a.y...b.y : b.y...a.y
+
+        if isFill {
+            for x in rangex {
+                for y in rangey {
+                    result.insert(.init(x: x, y: y))
+                }
+            }
+        }
+        else {
+            for x in rangex {
+                result.insert(.init(x: x, y: a.y))
+                result.insert(.init(x: x, y: b.y))
+            }
+            for y in rangey {
+                result.insert(.init(x: a.x, y: y))
+                result.insert(.init(x: b.x, y: y))
+            }
+        }
+        
+        return result
     }
 }
