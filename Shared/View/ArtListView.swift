@@ -142,9 +142,8 @@ struct ArtListView: View {
                     ArtListView.makeListView(
                         ids:ids,
                         sort:sort,
-                        gridItems: GridItem.makeGridItems(length: 5, width: geomentry.size.width - 40),
-                        itemSize: .init(width: ((width ?? geomentry.size.width) - 40) / 5,
-                                        height: ((width ?? geomentry.size.width) - 40) / 5 + 10)
+                        gridItems: Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width, padding:20),
+                        itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width, padding:20)
                     )
                     
                     
@@ -152,9 +151,8 @@ struct ArtListView: View {
                     ArtListView.makeListView(
                         ids:ids,
                         sort:sort,
-                        gridItems: GridItem.makeGridItems(length: 3, width: geomentry.size.width - 40),
-                        itemSize: .init(width: ((width ?? geomentry.size.width) - 40) / 3,
-                                        height: ((width ?? geomentry.size.width) - 40) / 3 + 10)
+                        gridItems: Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width, padding: 20),
+                        itemSize:Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width, padding:20)
                     )
                 }
                 

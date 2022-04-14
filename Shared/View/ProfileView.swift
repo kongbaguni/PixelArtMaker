@@ -8,21 +8,9 @@
 import SwiftUI
 import SDWebImageSwiftUI
 import RealmSwift
-func makeGridItems(length:Int, screenWidth:CGFloat)->[GridItem] {
-    let item = GridItem(.fixed((screenWidth - 20) / CGFloat(length)))
-    var result:[GridItem] = []
-    for _ in 0..<length {
-        result.append(item)
-    }
-    return result
-}
-
-func makeItemSize(length:Int, screenWidth:CGFloat) -> CGSize {
-    let width = (screenWidth - 20.0) / CGFloat(length)
-    return .init(width: width, height: width + 10)
-}
-
 struct ProfileView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     let uid:String
     let haveArtList:Bool
     let editabel:Bool
@@ -34,7 +22,8 @@ struct ProfileView: View {
         self.editabel = editable
         self.landScape = landScape
     }
-    
+    @State var toastMessage:String = ""
+    @State var isToast = false
     @State var nickname:String = ""
     @State var imageURL:URL? = nil
     @State var email:String = ""
@@ -144,12 +133,12 @@ struct ProfileView: View {
                         makeProfileView(isLandscape: false)
                         Section(header:Text("profile view public arts")) {
                             ArtListView.makeListView(ids: sharedIds, sort: sort,
-                                                     gridItems: makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                                     itemSize: makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                                                     gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
+                                                     itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
                         }
                         Section(header:Text("profile view like arts")) {
-                            LikeArtListView(uid: uid, gridItems: makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                            itemSize: makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                            LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
+                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
                         }
                         
                     }
@@ -161,12 +150,12 @@ struct ProfileView: View {
                         ScrollView {
                             Section(header:Text("profile view public arts")) {
                                 ArtListView.makeListView(ids: sharedIds, sort: sort,
-                                                         gridItems: makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                         itemSize: makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                                                         gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
+                                                         itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
                             }
                             Section(header:Text("profile view like arts")) {
-                                LikeArtListView(uid: uid, gridItems: makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                itemSize: makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                                LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
+                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
                             }
                             
                         }
@@ -196,13 +185,25 @@ struct ProfileView: View {
                 }
             }
         }
-        .onDisappear {
+        .toolbar {
             if editabel {
-                ProfileModel.updateProfile(nickname: nickname) { error in
-                    
+                Button {
+                    ProfileModel.updateProfile(nickname: nickname) { error in
+                        if error == nil {
+                            presentationMode.wrappedValue.dismiss()
+                        } else {
+                            toastMessage = error!.localizedDescription
+                            isToast = true
+                            
+                        }
+                    }
+                } label : {
+                    Text("save")
                 }
+                
             }
         }
+        .toast(message: toastMessage, isShowing: $isToast, duration:4)
         
     }
     

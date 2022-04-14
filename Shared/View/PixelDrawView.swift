@@ -110,23 +110,7 @@ struct PixelDrawView: View {
         }
     }
     
-    @State var pointer:CGPoint = .zero {
-        didSet {
-            if pointer.x < 0 {
-                pointer.x = 0
-            }
-            if pointer.y < 0 {
-                pointer.y = 0
-            }
-            if pointer.x >= pixelSize.width {
-                pointer.x = pixelSize.width - 1
-            }
-            if pointer.y >= pixelSize.height {
-                pointer.y = pixelSize.height - 1
-            }
-        }
-    }
-    
+    @State var pointer:CGPoint = .zero    
     @State var isZoomMode:Bool = false 
     @State var zoomScale = 0
     @State var zoomOffset:(x:Int,y:Int) = (x:0,y:0)
@@ -292,14 +276,13 @@ struct PixelDrawView: View {
                     
                 }
                 if let id = AuthManager.shared.userId {
-                    NavigationLink(destination: ProfileView(uid: id, haveArtList: true, editable: true), isActive: $isShowProfileView) {
+                    NavigationLink(
+                        destination : ProfileView(uid: id, haveArtList: true, editable: true).navigationBarTitle(Text("Profile")),
+                        isActive : $isShowProfileView) {
                         
                     }
                 }
             }
-            
-                
-            
             
             if geomentry.size.height > geomentry.size.width {
                 ZStack(alignment: .leading) {

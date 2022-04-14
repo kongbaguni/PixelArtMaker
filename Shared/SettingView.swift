@@ -22,7 +22,7 @@ struct SettingView: View {
 
     @State var paintRange:String = "0"
     
-    @State var transparancySelection = 0
+    @State var transparancySelection:Int? = nil
     let transparancyImages:[Image]
     
     init() {
@@ -130,8 +130,8 @@ struct SettingView: View {
             Button {
                 UserDefaults.standard.paintRange = NSString(string: paintRange).integerValue
 
-                UserDefaults.standard.transparencyColor = transparancyStyleColors[transparancySelection]
-                UserDefaults.standard.transparencyIndex = transparancySelection
+                UserDefaults.standard.transparencyColor = transparancyStyleColors[transparancySelection ?? 0]
+                UserDefaults.standard.transparencyIndex = transparancySelection ?? 0
                 
                 presentationMode.wrappedValue.dismiss()
             } label: {
