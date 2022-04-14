@@ -32,6 +32,7 @@ struct DrawingToolView: View {
     @Binding var toastMessage:String
     @Binding var isShowToast:Bool
     @Binding var previewImage:Image?
+    @Binding var drawBegainPointer:CGPoint?
     let pointer:CGPoint
     let backgroundColor:Color
     
@@ -154,7 +155,21 @@ struct DrawingToolView: View {
         case 페인트2
         case 지우개
         case 스포이드
+        /** 포인트 투 포인트 드로잉 도구*/
+        case 드로잉
+        case 취소
     }
+    
+    private func makeImageButton(_ imageName:String,action:@escaping()->Void) -> some View {
+        Button {
+            action()
+        } label : {
+            Image(imageName)
+                .resizable()
+                .frame(width: 50, height: 50, alignment: .center)
+        }.frame(width: 50, height: 50, alignment: .center)
+    }
+    
     private func makeButton(type:ButtonType)-> some View {
         Group {
             switch type {
@@ -173,64 +188,61 @@ struct DrawingToolView: View {
                         .foregroundColor(.gray)
                 }
             case .연필:
-                Button {
-                } label : {
-                    Image("pencil")
-                        .resizable()
-                        .frame(width: 50, height: 50, alignment: .center)
-                    
-                }.frame(width: 50, height: 50, alignment: .center)
-                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                        draw(target: pointer, color: forgroundColor)
-                    }))
+                makeImageButton("pencil") {
+                    draw(target: pointer, color: forgroundColor)
+                }
             case .페인트1:
-                Button {
-                } label : {
-                    Image("paint")
-                        .resizable()
-                        .frame(width: 50, height: 50, alignment: .center)
-                }.frame(width: 50, height: 50, alignment: .center)
-                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                        paint(target: pointer, color: forgroundColor)
-                    }))
+                makeImageButton("paint") {
+                    draw(target: pointer, color: forgroundColor)
+                }
             case .페인트2:
-                Button {
-                } label : {
-                    Image("paint2")
-                        .resizable()
-                        .frame(width: 50, height: 50, alignment: .center)
-                }.frame(width: 50, height: 50, alignment: .center)
-                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                        changeColor(target: pointer, color: forgroundColor)
-                    }))
+                makeImageButton("paint2") {
+                    changeColor(target: pointer, color: forgroundColor)
+                }
             case .지우개:
-                Button {
-                } label : {
-                    Image("eraser")
-                        .resizable()
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .background(.clear)
-                }.frame(width: 50, height: 50, alignment: .center)
-                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                        draw(target: pointer, color: .clear)
-                    }))
+                makeImageButton("eraser") {
+                    draw(target: pointer, color: .clear)
+                }
             case .스포이드:
-                Button {
-                } label : {
-                    Image("spoid")
-                        .resizable()
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .background(.clear)
-                }.frame(width: 50, height: 50, alignment: .center)
-                    .simultaneousGesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onChanged({ value in
-                        if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
-                            forgroundColor = color
+                makeImageButton("spoid") {
+                    if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
+                        forgroundColor = color
+                    }
+                }
+            case .드로잉:
+                makeImageButton("pencil") {
+                    if drawBegainPointer == nil {
+                        withAnimation(.easeInOut) {
+                            drawBegainPointer = pointer
                         }
-                    }))
+                        
+                    } else {
+                        //TODO : 드로잉 로직 개발할것
+                        
+                        PathFinder(cgSize: StageManager.shared.canvasSize).findPathWithCGPoint(a: drawBegainPointer!, b: pointer) { result in
+                            for point in result ?? [] {
+                                colors[point.y][point.x] = forgroundColor
+                            }
+                            refreshStage()
+                        }
+                        withAnimation(.easeInOut) {
+                            drawBegainPointer = nil
+                        }
+                    }
+                }
+            case .취소:
+                makeImageButton("arrow_left") {
+                    withAnimation(.easeInOut) {
+                        drawBegainPointer = nil
+                    }
+                }
             }
         }
     }
     
+    private let normalToolTypes:[ButtonType] = [.돋보기, .연필, .페인트1, .페인트2, .지우개, .스포이드, .드로잉]
+    private let drawingToolTypes:[ButtonType] = [.취소, .드로잉]
+
     var body: some View {
         Group {
             if isZoomMode {
@@ -243,7 +255,7 @@ struct DrawingToolView: View {
             } else {
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(ButtonType.allCases, id:\.self) { type in
+                        ForEach(drawBegainPointer == nil ? normalToolTypes : drawingToolTypes, id:\.self) { type in
                             makeButton(type: type)
                         }
                     }

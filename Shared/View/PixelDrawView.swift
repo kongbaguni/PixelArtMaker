@@ -110,7 +110,8 @@ struct PixelDrawView: View {
         }
     }
     
-    @State var pointer:CGPoint = .zero    
+    @State var pointer:CGPoint = .zero
+    @State var drawBegainPointer:CGPoint? = nil 
     @State var isZoomMode:Bool = false 
     @State var zoomScale = 0
     @State var zoomOffset:(x:Int,y:Int) = (x:0,y:0)
@@ -165,18 +166,19 @@ struct PixelDrawView: View {
     
     func makeCanvasView(screenWidth:CGFloat)->CanvasView {
         return CanvasView(pointer: $pointer,
-                   isShowMenu: $isShowMenu,
-                   isLoadingAnimated: $isLoadingAnimated,
-                   isLongPressing: $isLongPressing,
-                   timer: $timer,
-                   colors: colors,
-                   isLoadingDataFin: isLoadingDataFin,
-                   isShowSelectLayerOnly: isShowSelectLayerOnly,
-                   screenWidth: screenWidth,
-                   backgroundColor: backgroundColor,
-                   layers: layers,
-                   zoomFrame: zoomFrame,
-                   zoomOffset: zoomOffset
+                          isShowMenu: $isShowMenu,
+                          isLoadingAnimated: $isLoadingAnimated,
+                          isLongPressing: $isLongPressing,
+                          timer: $timer,
+                          colors: colors,
+                          isLoadingDataFin: isLoadingDataFin,
+                          isShowSelectLayerOnly: isShowSelectLayerOnly,
+                          screenWidth: screenWidth,
+                          backgroundColor: backgroundColor,
+                          layers: layers,
+                          zoomFrame: zoomFrame,
+                          zoomOffset: zoomOffset,
+                          drawBegainPointer: drawBegainPointer
         )
     }
     
@@ -215,6 +217,7 @@ struct PixelDrawView: View {
             toastMessage: $toastMessage,
             isShowToast: $isShowToast,
             previewImage: $previewImage,
+            drawBegainPointer: $drawBegainPointer,
             pointer: pointer,
             backgroundColor: backgroundColor)
     }

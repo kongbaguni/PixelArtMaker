@@ -33,6 +33,7 @@
 		1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25D27E3288E007A73CB /* SaveView.swift */; };
 		1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
+		8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9128080BCB00565A3C /* PathFinder.swift */; };
 		8DB0B9FF28056CC300C2B0FF /* DimLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */; };
 		8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA0028065A8200C2B0FF /* SettingView.swift */; };
 		8DB0BA032806A12100C2B0FF /* LikeArtListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */; };
@@ -136,6 +137,7 @@
 		1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPresetView.swift; sourceTree = "<group>"; };
 		28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixelArtMaker__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		8D49FC9128080BCB00565A3C /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimLoadingViewController.swift; sourceTree = "<group>"; };
 		8DB0BA0028065A8200C2B0FF /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeArtListView.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
 				8DB0BA082807BA5100C2B0FF /* Utill.swift */,
+				8D49FC9128080BCB00565A3C /* PathFinder.swift */,
 				8DB0BA0028065A8200C2B0FF /* SettingView.swift */,
 				C356363927FAC29200B2609A /* InAppPurchaseManager.swift */,
 				C356363727FA7C2100B2609A /* Consts.swift */,
@@ -582,6 +585,7 @@
 				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
 				1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */,
 				C356364527FAC73A00B2609A /* InAppPurchesView.swift in Sources */,
+				8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
 				C356363627F9D9A800B2609A /* SortType.swift in Sources */,

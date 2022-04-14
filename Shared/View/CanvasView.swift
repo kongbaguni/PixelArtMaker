@@ -22,7 +22,8 @@ struct CanvasView: View {
     let layers:[LayerModel]
     let zoomFrame:(width:Int,height:Int)
     let zoomOffset:(x:Int,y:Int)
-    
+    let drawBegainPointer:CGPoint?
+
     private var pw:CGFloat {
         return screenWidth / CGFloat(zoomFrame.width)
     }
@@ -85,6 +86,13 @@ struct CanvasView: View {
                         x: (pointer.x - CGFloat(zoomOffset.x)) * w,
                         y: (pointer.y - CGFloat(zoomOffset.y)) * w,
                         width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer), lineWidth: 2)
+                    
+                    if let p = drawBegainPointer {
+                        context.stroke(Path(roundedRect: .init(
+                            x: (p.x - CGFloat(zoomOffset.x)) * w,
+                            y: (p.y - CGFloat(zoomOffset.y)) * w,
+                            width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer2), lineWidth: 3)                        
+                    }
 
                 }
                 
