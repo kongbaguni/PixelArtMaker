@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import ImagePickerView
 import PhotosUI
 
 fileprivate let transparancyStyleColors:[(a:UIColor,b:UIColor)] = [

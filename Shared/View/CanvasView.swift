@@ -38,6 +38,15 @@ struct CanvasView: View {
         return (x,y)
     }
 
+    private func getTracingFrame(imageSize:CGSize)->CGRect {
+        let canvasSize = StageManager.shared.canvasSize
+        let asize = imageSize / canvasSize
+
+        return .init(x: CGFloat(zoomOffset.x) * asize.width ,
+                     y: CGFloat(zoomOffset.y) * asize.height,
+                     width: CGFloat(zoomFrame.width) * asize.width,
+                     height: CGFloat(zoomFrame.height) * asize.height )
+    }
     var body: some View {
         ZStack(alignment: .center) {
             Canvas { context, size in
@@ -204,12 +213,9 @@ struct CanvasView: View {
                     timer?.invalidate()
                 }
             }))
-            if let data = tracingImage {
-                //TODO: 줌 모드에서 트레이싱 일단 비활성화...
-                if zoomFrame.width == Int(StageManager.shared.canvasSize.width)
-                    && isShowSelectLayerOnly == false 
-                {
-                    Image(uiImage: data.image)
+            if isShowSelectLayerOnly == false {
+                if let data = tracingImage {
+                    Image(uiImage: data.image.sd_croppedImage(with: getTracingFrame(imageSize: data.image.size))!)
                         .resizable()
                         .blendMode(.normal)
                         .opacity(data.opacity)
