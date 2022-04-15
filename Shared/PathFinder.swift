@@ -52,6 +52,8 @@ struct PathFinder {
     
     static func findLine(startPosition:Point, endPosition:Point)->Set<Point> {
         var result = Set<Point>()
+        result.insert(startPosition)
+        result.insert(endPosition)
         let width = abs(endPosition.x - startPosition.x)
         let height = abs(endPosition.y - startPosition.y)
         let Yfactor = endPosition.y < startPosition.y ? -1 : 1;
