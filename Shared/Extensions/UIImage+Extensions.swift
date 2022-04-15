@@ -139,4 +139,18 @@ extension UIImage {
         }
         return self
     }
+    
+    // 세로 이미지 회전 문제로 인한 함수
+
+    var fixOrientationImage: UIImage {
+        if (imageOrientation == .up) {
+            return self
+        }
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        self.draw(in: rect)
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return normalizedImage
+    }
 }

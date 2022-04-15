@@ -38,6 +38,7 @@ struct SettingView: View {
 
     @State var isShowSheets = false
     @State var photoPickerImages:[UIImage] = []
+    @State var tracingImageOpacity:CGFloat = 0.5
     @Binding var tracingImageData:PixelDrawView.TracingImageData?
     
     
@@ -134,10 +135,23 @@ struct SettingView: View {
                         Image(uiImage: img)
                             .resizable()
                             .frame(width: 40, height: 40, alignment: .center)
+                            .opacity(tracingImageOpacity)
                     }
                     else {
                         Text("tracing image select").font(.subheadline).foregroundColor(.gray)
                     }
+                }
+                
+                if photoPickerImages.count > 0 {
+                    Slider(value: $tracingImageOpacity, in: 0...1) {
+                        
+                    } minimumValueLabel: {
+                        Text("0%")
+                    } maximumValueLabel: {
+                        Text("100%")
+                    
+                    }
+
                 }
                 Spacer()
 
@@ -178,8 +192,10 @@ struct SettingView: View {
                 UserDefaults.standard.transparencyColor = transparancyStyleColors[transparancySelection ?? 0]
                 UserDefaults.standard.transparencyIndex = transparancySelection ?? 0
                 if let image = photoPickerImages.first {
-                    let simg = image.squareImage
-                    let data = PixelDrawView.TracingImageData(image: simg, opacity: 0.5)
+                    let simg = image.fixOrientationImage.squareImage
+                    print(tracingImageOpacity)
+                    
+                    let data = PixelDrawView.TracingImageData(image: simg, opacity: tracingImageOpacity)
                     tracingImageData = data
                     TracingImageModel.save(imageData: data)
                     
@@ -200,6 +216,7 @@ struct SettingView: View {
             transparancySelection = UserDefaults.standard.transparencyIndex
             if let data = tracingImageData {
                 photoPickerImages.append(data.image)
+                tracingImageOpacity = data.opacity
             }            
         }
         .sheet(isPresented: $isShowSheets) {

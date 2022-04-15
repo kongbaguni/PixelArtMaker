@@ -19,10 +19,10 @@ extension TracingImageModel {
         let uid = AuthManager.shared.userId ?? "guest"
         let data:[String:AnyHashable] = [
             "uid" : uid,
-            "data" : imageData.image.pngData()!,
-            "opacity" : Float(imageData.opacity)
+            "data" : imageData.image.jpegData(compressionQuality: 0.5)!,
+            "opacity" : imageData.opacity
         ]
-        
+        print(data)
         let realm = try! Realm()
         realm.beginWrite()
         realm.create(TracingImageModel.self, value: data, update: .all)
