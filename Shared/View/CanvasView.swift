@@ -13,11 +13,11 @@ struct CanvasView: View {
     @Binding var isLoadingAnimated:Bool
     @Binding var isLongPressing:Bool
     @Binding var timer: Timer?
-    
     let colors:[[Color]]
     let isLoadingDataFin:Bool
     let isShowSelectLayerOnly:Bool
     let screenWidth:CGFloat
+    let forgroundColor : Color
     let backgroundColor:Color
     let layers:[LayerModel]
     let zoomFrame:(width:Int,height:Int)
@@ -80,23 +80,37 @@ struct CanvasView: View {
                 }
                 
                 func drawPointer() {
-                    context.blendMode = .difference
-                    
-                    context.stroke(Path(roundedRect: .init(
-                        x: (pointer.x - CGFloat(zoomOffset.x)) * w,
-                        y: (pointer.y - CGFloat(zoomOffset.y)) * w,
-                        width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer), lineWidth: 2)
                     
                     if let p = drawBegainPointer {
+                        for point in PathFinder.findLine(startCGPoint: p, endCGPoint: pointer) {
+                            let cp = point.cgpoint
+                            if cp.x == pointer.x && cp.y == pointer.y {
+                                continue
+                            }
+                            let path = Path(roundedRect: .init(
+                                x: (cp.x - CGFloat(zoomOffset.x)) * w,
+                                y: (cp.y - CGFloat(zoomOffset.y)) * w,
+                                width: pw, height: pw),cornerRadius: 0)
+                                            
+                            context.blendMode = .normal
+                            context.fill(path, with: .color(forgroundColor))
+                            context.blendMode = .difference
+                            context.stroke(path, with:.color(.k_pointer2), lineWidth:2)
+
+                        }
+                        context.blendMode = .difference
                         context.stroke(Path(roundedRect: .init(
                             x: (p.x - CGFloat(zoomOffset.x)) * w,
                             y: (p.y - CGFloat(zoomOffset.y)) * w,
                             width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer2), lineWidth: 4)
-                        context.fill(Path(roundedRect: .init(
-                            x: (p.x - CGFloat(zoomOffset.x)) * w,
-                            y: (p.y - CGFloat(zoomOffset.y)) * w,
-                            width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer2))
+                        
                     }
+
+                    context.blendMode = .difference
+                    context.stroke(Path(roundedRect: .init(
+                        x: (pointer.x - CGFloat(zoomOffset.x)) * w,
+                        y: (pointer.y - CGFloat(zoomOffset.y)) * w,
+                        width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer), lineWidth: 4)
 
                 }
                 

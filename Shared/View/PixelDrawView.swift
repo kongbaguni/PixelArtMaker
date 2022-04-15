@@ -67,7 +67,7 @@ struct PixelDrawView: View {
     @State var isShowMenu = false
     @State var previewImage:Image? = nil
     @State var isLoadingAnimated = true
-    @State var isLoadingDataFin = false
+    @State var isLoadingDataFin = true
     @State var isLoadedColorPreset = false
     @State var colorSelectMode:PaletteView.ColorSelectMode = .foreground
     
@@ -174,6 +174,7 @@ struct PixelDrawView: View {
                           isLoadingDataFin: isLoadingDataFin,
                           isShowSelectLayerOnly: isShowSelectLayerOnly,
                           screenWidth: screenWidth,
+                          forgroundColor: forgroundColor,
                           backgroundColor: backgroundColor,
                           layers: layers,
                           zoomFrame: zoomFrame,
