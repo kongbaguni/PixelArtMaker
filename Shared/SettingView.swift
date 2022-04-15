@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import ImagePickerView
+import PhotosUI
+
 fileprivate let transparancyStyleColors:[(a:UIColor,b:UIColor)] = [
     (a:UIColor(white: 1,alpha: 1), b:UIColor(white: 0.8, alpha: 1)),
     (a:UIColor(white: 0.9,alpha: 1), b:UIColor(white: 0.7, alpha: 1)),
@@ -17,23 +20,26 @@ fileprivate let transparancyStyleColors:[(a:UIColor,b:UIColor)] = [
     (a:.init(red: 0.4, green: 0.5, blue: 0.3, alpha: 1.0), b: .init(red: 0.2, green: 0.3, blue: 0.1, alpha: 1.0)),
 ]
 
+fileprivate var transparancyImages:[Image] {
+    var timages:[Image] = []
+    for color in transparancyStyleColors {
+        if let image = UIImage(pixelSize: (width: 5, height: 5), backgroundColor: .clear, size: CGSize(width: 200, height: 200), transparencyColor: color) {
+            timages.append(Image(uiImage: image))
+        }
+    }
+    return timages
+}
+
 struct SettingView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @State var paintRange:String = "0"
-    
     @State var transparancySelection:Int? = nil
-    let transparancyImages:[Image]
+
+    @State var isShowSheets = false
+    @State var photoPickerImages:[UIImage] = []
+    @Binding var tracingImageData:PixelDrawView.TracingImageData?
     
-    init() {
-        var timages:[Image] = []
-        for color in transparancyStyleColors {
-            if let image = UIImage(pixelSize: (width: 5, height: 5), backgroundColor: .clear, size: CGSize(width: 200, height: 200), transparencyColor: color) {
-                timages.append(Image(uiImage: image))
-            }
-        }
-        transparancyImages = timages
-    }
     
     var version : some View {
         Group {
@@ -102,12 +108,51 @@ struct SettingView: View {
         }
     }
     
+    func makeTracingImageSelecter() -> some View {
+        VStack {
+            HStack {
+                Text("tracing image setting").font(.headline)
+                Spacer()
+            }
+            HStack {
+                Button {
+                    if photoPickerImages.count > 0 {
+                        photoPickerImages = []
+                    } else {
+                        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                            switch status {
+                            case .authorized:
+                                isShowSheets = true
+                            default:
+                                break
+                            }
+                        }
+                    }
+                    
+                } label : {
+                    if let img = photoPickerImages.first {
+                        Image(uiImage: img)
+                            .resizable()
+                            .frame(width: 40, height: 40, alignment: .center)
+                    }
+                    else {
+                        Text("tracing image select").font(.subheadline).foregroundColor(.gray)
+                    }
+                }
+                Spacer()
+
+            }
+        }
+    }
+    
     var body: some View {
         List {
             Section(header:Text("Setting")) {
                 makeTextFiled(label:Text("paint range"), placeholder: "", value: $paintRange, keyboardType: .numberPad)
                 
                 makeTransparencyStylePicker()
+                
+                makeTracingImageSelecter()
             }
             
             Section(header:Text("App Infomation")) {
@@ -132,6 +177,11 @@ struct SettingView: View {
 
                 UserDefaults.standard.transparencyColor = transparancyStyleColors[transparancySelection ?? 0]
                 UserDefaults.standard.transparencyIndex = transparancySelection ?? 0
+                if let image = photoPickerImages.first {
+                    tracingImageData = .init(image: image, opacity: 0.5, blendMode: .normal)
+                } else {
+                    tracingImageData = nil
+                }
                 
                 presentationMode.wrappedValue.dismiss()
             } label: {
@@ -143,12 +193,13 @@ struct SettingView: View {
         .onAppear {
             paintRange = "\(UserDefaults.standard.paintRange)"
             transparancySelection = UserDefaults.standard.transparencyIndex
+            if let data = tracingImageData {
+                photoPickerImages.append(data.image)
+            }
+        }
+        .sheet(isPresented: $isShowSheets) {
+            PhotoPicker(images: $photoPickerImages)
         }
     }
 }
 
-struct SettingView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingView()
-    }
-}

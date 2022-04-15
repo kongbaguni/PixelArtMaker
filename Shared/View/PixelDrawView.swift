@@ -62,6 +62,13 @@ struct PixelDrawView: View {
         /** 로그아웃 확인*/
         case signout
     }
+    
+    struct TracingImageData {
+        let image:UIImage
+        let opacity:CGFloat
+        let blendMode:BlendMode
+    }
+    
     let googleAd = GoogleAd()
     
     @State var isShowMenu = false
@@ -72,7 +79,7 @@ struct PixelDrawView: View {
     @State var colorSelectMode:PaletteView.ColorSelectMode = .foreground
     
     @State var isShowSelectLayerOnly = false
-    @State var colors:[[Color]]
+    @State var colors:[[Color]] = []
     @State var undoCount = 0
     @State var redoCount = 0
     
@@ -115,6 +122,8 @@ struct PixelDrawView: View {
     @State var isZoomMode:Bool = false 
     @State var zoomScale = 0
     @State var zoomOffset:(x:Int,y:Int) = (x:0,y:0)
+    @State var tracingImage:TracingImageData? = nil
+    
     var zoomFrame:(width:Int,height:Int) {
         let size:CGSize = StageManager.shared.stage?.canvasSize ?? .zero
         return (width:Int(size.width) - zoomScale * 2, height: Int(size.height) - zoomScale * 2)
@@ -145,7 +154,6 @@ struct PixelDrawView: View {
         }
         let stage = StageManager.shared.stage!
         colors = stage.selectedLayer.colors
-        
     }
     
     func makeSideMenuView(geomentryWidth:CGFloat)->SideMenuView {
@@ -179,7 +187,8 @@ struct PixelDrawView: View {
                           layers: layers,
                           zoomFrame: zoomFrame,
                           zoomOffset: zoomOffset,
-                          drawBegainPointer: drawBegainPointer
+                          drawBegainPointer: drawBegainPointer,
+                          tracingImage: tracingImage
         )
     }
     
@@ -276,7 +285,7 @@ struct PixelDrawView: View {
                 NavigationLink(destination: PublicShareListView(), isActive: $isShowShareListView) {
                     
                 }
-                NavigationLink(destination: SettingView(), isActive: $isShowSettingView) {
+                NavigationLink(destination: SettingView(tracingImageData: $tracingImage), isActive: $isShowSettingView) {
                     
                 }
                 if let id = AuthManager.shared.userId {

@@ -23,6 +23,7 @@ struct CanvasView: View {
     let zoomFrame:(width:Int,height:Int)
     let zoomOffset:(x:Int,y:Int)
     let drawBegainPointer:CGPoint?
+    let tracingImage:PixelDrawView.TracingImageData?
 
     private var pw:CGFloat {
         return screenWidth / CGFloat(zoomFrame.width)
@@ -203,6 +204,19 @@ struct CanvasView: View {
                     timer?.invalidate()
                 }
             }))
+            if let data = tracingImage {
+                //TODO: 줌 모드에서 트레이싱 일단 비활성화...
+                if zoomFrame.width == Int(StageManager.shared.canvasSize.width) {
+                    Image(uiImage: data.image)
+                        .resizable()
+                        .blendMode(data.blendMode)
+                        .opacity(data.opacity)
+                        .frame(width: screenWidth,
+                               height: screenWidth, alignment: .center)
+                }
+                    
+            }
+
             if isLoadingDataFin == false {
                 ActivityIndicator(isAnimating: $isLoadingAnimated, style: .large)
                 
