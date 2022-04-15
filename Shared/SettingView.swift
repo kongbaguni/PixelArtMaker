@@ -178,7 +178,8 @@ struct SettingView: View {
                 UserDefaults.standard.transparencyColor = transparancyStyleColors[transparancySelection ?? 0]
                 UserDefaults.standard.transparencyIndex = transparancySelection ?? 0
                 if let image = photoPickerImages.first {
-                    tracingImageData = .init(image: image, opacity: 0.5, blendMode: .normal)
+                    
+                    tracingImageData = .init(image: image.squareImage, opacity: 0.5, blendMode: .normal)
                 } else {
                     tracingImageData = nil
                 }

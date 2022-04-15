@@ -120,4 +120,23 @@ extension UIImage {
         }
         self.init()
     }
+    
+    
+    var squareImage:UIImage {
+        if size.width > size.height {
+            let offsetx = (size.width - size.height) / 2
+            let rect = CGRect(x: offsetx, y: 0, width: size.height, height: size.height)
+            if let image = cgImage?.cropping(to: rect) {
+                return UIImage(cgImage: image)
+            }
+        }
+        else if size.width < size.height {
+            let offsety = (size.height - size.width) / 2
+            let rect = CGRect(x: 0, y: offsety, width: size.width, height: size.width)
+            if let image = cgImage?.cropping(to: rect) {
+                return UIImage(cgImage: image)
+            }
+        }
+        return self
+    }
 }
