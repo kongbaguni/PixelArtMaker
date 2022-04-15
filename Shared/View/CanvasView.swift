@@ -209,7 +209,7 @@ struct CanvasView: View {
                 if zoomFrame.width == Int(StageManager.shared.canvasSize.width) {
                     Image(uiImage: data.image)
                         .resizable()
-                        .blendMode(data.blendMode)
+                        .blendMode(.normal)
                         .opacity(data.opacity)
                         .frame(width: screenWidth,
                                height: screenWidth, alignment: .center)

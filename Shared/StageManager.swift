@@ -300,7 +300,7 @@ class StageManager {
                     }
                     if let sid = data.0["shared_document_id"] as? String {
                         ddata["shareDocumentId"] = sid
-                    }
+                    }                    
                     
                     let model = realm.create(MyStageModel.self, value: ddata, update: .modified)
                     result.append(model)

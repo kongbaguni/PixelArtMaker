@@ -178,10 +178,14 @@ struct SettingView: View {
                 UserDefaults.standard.transparencyColor = transparancyStyleColors[transparancySelection ?? 0]
                 UserDefaults.standard.transparencyIndex = transparancySelection ?? 0
                 if let image = photoPickerImages.first {
+                    let simg = image.squareImage
+                    let data = PixelDrawView.TracingImageData(image: simg, opacity: 0.5)
+                    tracingImageData = data
+                    TracingImageModel.save(imageData: data)
                     
-                    tracingImageData = .init(image: image.squareImage, opacity: 0.5, blendMode: .normal)
                 } else {
                     tracingImageData = nil
+                    TracingImageModel.delete()
                 }
                 
                 presentationMode.wrappedValue.dismiss()
@@ -196,7 +200,7 @@ struct SettingView: View {
             transparancySelection = UserDefaults.standard.transparencyIndex
             if let data = tracingImageData {
                 photoPickerImages.append(data.image)
-            }
+            }            
         }
         .sheet(isPresented: $isShowSheets) {
             PhotoPicker(images: $photoPickerImages)

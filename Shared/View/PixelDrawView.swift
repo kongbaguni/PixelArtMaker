@@ -66,7 +66,6 @@ struct PixelDrawView: View {
     struct TracingImageData {
         let image:UIImage
         let opacity:CGFloat
-        let blendMode:BlendMode
     }
     
     let googleAd = GoogleAd()
@@ -485,6 +484,10 @@ struct PixelDrawView: View {
             NotificationCenter.default.addObserver(forName: .layerDataRefresh, object: nil, queue: nil) { noti in
                 load()
             }
+            if let data = TracingImageModel.myTracingImageData {
+                tracingImage = data
+            }
+
             
         }
         
