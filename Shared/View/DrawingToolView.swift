@@ -160,6 +160,7 @@ struct DrawingToolView: View {
         case 드로잉
         case 박스선
         case 박스채우기
+        case 동그라미
         case 취소
     }
     
@@ -228,48 +229,21 @@ struct DrawingToolView: View {
                         }
                         
                     } else {
-                        //TODO : 드로잉 로직 개발할것
-                        
-                        let result = PathFinder.findLine(startCGPoint: drawBegainPointer!, endCGPoint: pointer)
-                        
-                        for point in result {
-                            if point.isIn(size: StageManager.shared.canvasSize) {
-                                colors[point.y][point.x] = forgroundColor
-                            }
-                        }
-                        refreshStage()
-                    
-                        withAnimation(.easeInOut) {
-                            drawBegainPointer = nil
-                        }
+                        draw(points: PathFinder.findLine(startCGPoint: drawBegainPointer!, endCGPoint: pointer))
                     }
                 }
             case .박스선:
                 makeImageButton(systemName: "square") {
-                    let arr = PathFinder.findSquare(a: drawBegainPointer!, b: pointer)
-                    for point in arr {
-                        if point.isIn(size: StageManager.shared.canvasSize) {
-                            colors[point.y][point.x] = forgroundColor
-                        }
-                    }
-                    refreshStage()
-                    withAnimation(.easeInOut) {
-                        drawBegainPointer = nil
-                    }
-
+                    draw(points: PathFinder.findSquare(a: drawBegainPointer!, b: pointer))
                 }
             case .박스채우기:
                 makeImageButton(systemName: "square.fill") {
-                    let arr = PathFinder.findSquare(a: drawBegainPointer!, b: pointer, isFill: true)
-                    for point in arr {
-                        if point.isIn(size: StageManager.shared.canvasSize) {
-                            colors[point.y][point.x] = forgroundColor
-                        }
-                    }
-                    refreshStage()
-                    withAnimation(.easeInOut) {
-                        drawBegainPointer = nil
-                    }
+                    draw(points: PathFinder.findSquare(a: drawBegainPointer!, b: pointer, isFill: true))
+                }
+                
+            case .동그라미:
+                makeImageButton(systemName: "circle") {
+                    draw(points: PathFinder.findCircle(center: drawBegainPointer!, end: pointer))
                 }
 
             case .취소:
@@ -282,8 +256,20 @@ struct DrawingToolView: View {
         }
     }
     
+    private func draw(points:Set<PathFinder.Point>) {
+        for point in points {
+            if point.isIn(size: StageManager.shared.canvasSize) {
+                colors[point.y][point.x] = forgroundColor
+            }
+        }
+        refreshStage()
+        withAnimation(.easeInOut) {
+            drawBegainPointer = nil
+        }
+    }
+    
     private let normalToolTypes:[ButtonType] = [.돋보기, .드로잉, .연필, .페인트1, .페인트2, .지우개, .스포이드]
-    private let drawingToolTypes:[ButtonType] = [.취소, .돋보기, .드로잉, .박스선, .박스채우기]
+    private let drawingToolTypes:[ButtonType] = [.취소, .돋보기, .드로잉, .동그라미, .박스선, .박스채우기]
 
     var body: some View {
         Group {

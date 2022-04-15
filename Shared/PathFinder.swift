@@ -124,4 +124,52 @@ struct PathFinder {
         
         return result
     }
+    
+    
+    
+    static func findCircle(center:CGPoint, end:CGPoint)->Set<Point> {
+        var result = Set<Point>()
+        let _iCenterX = Int(center.x)
+        let _iCenterY = Int(center.y)
+        let _iEndX = Int(end.x)
+        let _iEndY = Int(end.y)
+        let iDeltaX = _iEndX - _iCenterX
+        let iDeltaY = _iEndY - _iCenterY
+        
+        
+        let sum = (iDeltaX * iDeltaX) + (iDeltaY * iDeltaY)
+        let iRadius = Int(sqrt(Double(sum)))
+        
+        var iX = 0
+        var iY = iRadius
+        var iD = 1 - iRadius                 // 결정변수를 int로 변환
+        var iDeltaE = 3                     // E가 선택됐을 때 증분값
+        var iDeltaSE = -2 * iRadius + 5     // SE가 선탣됐을 때 증분값
+     
+        result.insert(center.pointValue + Point(x: iX, y: iY))
+        
+        // 12시 방향에서 시작해서 시계방향으로 회전한다고 했을 때
+        // 45도를 지나면 y값이 x값보다 작아지는걸 이용
+        while (iY > iX) {
+            // E 선택
+            if (iD < 0)
+            {
+                iD += iDeltaE
+                iDeltaE += 2
+                iDeltaSE += 2
+            }
+            // SE 선택
+            else
+            {
+                iD += iDeltaSE
+                iDeltaE += 2
+                iDeltaSE += 4
+                iY -= 1;
+            }
+            iX += 1;
+     
+            result.insert(center.pointValue + Point(x: iX, y: iY))
+        }        
+        return result
+    }
 }
