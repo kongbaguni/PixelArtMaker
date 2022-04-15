@@ -206,7 +206,9 @@ struct CanvasView: View {
             }))
             if let data = tracingImage {
                 //TODO: 줌 모드에서 트레이싱 일단 비활성화...
-                if zoomFrame.width == Int(StageManager.shared.canvasSize.width) {
+                if zoomFrame.width == Int(StageManager.shared.canvasSize.width)
+                    && isShowSelectLayerOnly == false 
+                {
                     Image(uiImage: data.image)
                         .resizable()
                         .blendMode(.normal)
