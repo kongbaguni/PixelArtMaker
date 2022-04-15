@@ -233,7 +233,9 @@ struct DrawingToolView: View {
                         let result = PathFinder.findLine(startCGPoint: drawBegainPointer!, endCGPoint: pointer)
                         
                         for point in result {
-                            colors[point.y][point.x] = forgroundColor
+                            if point.isIn(size: StageManager.shared.canvasSize) {
+                                colors[point.y][point.x] = forgroundColor
+                            }
                         }
                         refreshStage()
                     
@@ -246,7 +248,9 @@ struct DrawingToolView: View {
                 makeImageButton(systemName: "square") {
                     let arr = PathFinder.findSquare(a: drawBegainPointer!, b: pointer)
                     for point in arr {
-                        colors[point.y][point.x] = forgroundColor
+                        if point.isIn(size: StageManager.shared.canvasSize) {
+                            colors[point.y][point.x] = forgroundColor
+                        }
                     }
                     refreshStage()
                     withAnimation(.easeInOut) {
@@ -258,7 +262,9 @@ struct DrawingToolView: View {
                 makeImageButton(systemName: "square.fill") {
                     let arr = PathFinder.findSquare(a: drawBegainPointer!, b: pointer, isFill: true)
                     for point in arr {
-                        colors[point.y][point.x] = forgroundColor
+                        if point.isIn(size: StageManager.shared.canvasSize) {
+                            colors[point.y][point.x] = forgroundColor
+                        }
                     }
                     refreshStage()
                     withAnimation(.easeInOut) {

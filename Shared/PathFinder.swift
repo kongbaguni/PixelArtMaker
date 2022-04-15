@@ -33,6 +33,17 @@ struct PathFinder {
             return  w + h
         }
         
+        var cgpoint:CGPoint {
+            return .init(x: x, y: y)
+        }
+        
+        func isIn(size:CGSize)->Bool {
+            let p = cgpoint
+            if p.x < 0 || p.y < 0 || p.x >= size.width || p.y >= size.width {
+                return false
+            }
+            return true
+        }
     }
         
     static func findLine(startCGPoint:CGPoint, endCGPoint:CGPoint)->Set<Point> {
