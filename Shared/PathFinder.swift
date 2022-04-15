@@ -129,47 +129,29 @@ struct PathFinder {
     
     static func findCircle(center:CGPoint, end:CGPoint)->Set<Point> {
         var result = Set<Point>()
-        let _iCenterX = Int(center.x)
-        let _iCenterY = Int(center.y)
         let _iEndX = Int(end.x)
         let _iEndY = Int(end.y)
+        let _iCenterX = Int(center.x)
+        let _iCenterY = Int(center.y)
+        
+        var iX:Int = 0
+        var iY:Int = 0
+        
         let iDeltaX = _iEndX - _iCenterX
         let iDeltaY = _iEndY - _iCenterY
-        
-        
-        let sum = (iDeltaX * iDeltaX) + (iDeltaY * iDeltaY)
-        let iRadius = Int(sqrt(Double(sum)))
-        
-        var iX = 0
-        var iY = iRadius
-        var iD = 1 - iRadius                 // 결정변수를 int로 변환
-        var iDeltaE = 3                     // E가 선택됐을 때 증분값
-        var iDeltaSE = -2 * iRadius + 5     // SE가 선탣됐을 때 증분값
-     
-        result.insert(center.pointValue + Point(x: iX, y: iY))
-        
-        // 12시 방향에서 시작해서 시계방향으로 회전한다고 했을 때
-        // 45도를 지나면 y값이 x값보다 작아지는걸 이용
-        while (iY > iX) {
-            // E 선택
-            if (iD < 0)
-            {
-                iD += iDeltaE
-                iDeltaE += 2
-                iDeltaSE += 2
-            }
-            // SE 선택
-            else
-            {
-                iD += iDeltaSE
-                iDeltaE += 2
-                iDeltaSE += 4
-                iY -= 1;
-            }
-            iX += 1;
-     
-            result.insert(center.pointValue + Point(x: iX, y: iY))
-        }        
+        let iRadius = sqrt(Double((iDeltaX * iDeltaX) + (iDeltaY * iDeltaY)))
+        let iDegree:Double = .pi / 180;
+         
+        // 360까지만 돌면 원의 지름이 커질수록 빈틈이 많아짐
+        // 루프 횟수를 늘리는 것으로 어느정도 해결가능
+        // 이대 iDegree 값도 수정 (ex. 3600 => iDegree = M_PI / 1800)
+        var iTheta:Double = 0
+        while iTheta <= 360 {
+            iTheta += 1
+            iX = _iCenterX + Int(iRadius * cos(iTheta * iDegree))
+            iY = _iCenterY + Int(iRadius * sin(iTheta * iDegree))
+            result.insert( Point(x: iX, y: iY))
+        }
         return result
     }
 }
