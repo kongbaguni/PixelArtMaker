@@ -11,6 +11,8 @@ import SwiftUI
 struct Consts {
     static var sizes:[CGSize] {
         var result:[CGSize]  = []
+        result.append(StageManager.shared.canvasSize / 3)
+        result.append(StageManager.shared.canvasSize)
         for i in 1...5 {
             result.append(StageManager.shared.canvasSize * CGFloat(i * 3)) 
             

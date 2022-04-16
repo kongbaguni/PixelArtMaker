@@ -232,17 +232,12 @@ struct SaveView: View {
                 stage.getImage(size: Consts.previewImageSize) { image in
                     previewImage = image
                 }
-                if InAppPurchaseModel.isSubscribe {
-                    shareImageDatas.removeAll()
-                    for size in Consts.sizes {
-                        if let data = stage.makeImageDataValue(size: size) {
-                            shareImageDatas.append(data)
-                        }
-                    }
-                }
-                else {
-                    if let data = stage.makeImageDataValue(size: Consts.previewImageSize) {
-                        shareImageDatas = [data]
+                shareImageDatas.removeAll()
+                for size in InAppPurchaseModel.isSubscribe
+                        ? Consts.sizes
+                        : [Consts.sizes[0],Consts.sizes[1],Consts.sizes[2]] {
+                    if let data = stage.makeImageDataValue(size: size) {
+                        shareImageDatas.append(data)
                     }
                 }
             }
