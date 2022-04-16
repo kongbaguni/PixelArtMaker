@@ -22,6 +22,7 @@ struct PaletteView: View {
     let paletteColors:[Color]
     @Binding var isShowColorPresetView:Bool
     
+    @State var isLock:Bool = false
     func makeFgBgSelectView() -> some View {
         VStack {
             Button {
@@ -74,27 +75,47 @@ struct PaletteView: View {
             }
         }
     }
+    
+    func makeLockButton() -> some View {
+        Button {
+            withAnimation(.easeInOut) {
+                isLock.toggle()
+                UserDefaults.standard.colorPaletteIsLock = isLock
+            }
+        } label : {
+            Image(systemName: isLock ? "lock" : "lock.open")
+                .imageScale(.large)
+                .foregroundColor(.gray)
+        }
+    }
+    
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
                 makeFgBgSelectView()
-                makeColorPicker()
-                
-                switch colorSelectMode {
-                case .foreground:
-                    SimplePaleteView(color: $forgroundColor, paletteColors: paletteColors)
-                case .background:
-                    SimplePaleteView(color: $backgroundColor, paletteColors: paletteColors)
+                if isLock == false {
+                    makeColorPicker()
+                    switch colorSelectMode {
+                    case .foreground:
+                        SimplePaleteView(color: $forgroundColor, paletteColors: paletteColors)
+                    case .background:
+                        SimplePaleteView(color: $backgroundColor, paletteColors: paletteColors)
+                    }
+                    
+                    Button {
+                        isShowColorPresetView = true
+                    } label : {
+                        Image(systemName: "ellipsis")
+                            .imageScale(.large)
+                            .foregroundColor(.gray)
+                    }
                 }
                 
-                Button {
-                    isShowColorPresetView = true
-                } label : {
-                    Image(systemName: "ellipsis")
-                        .imageScale(.large)
-                        .foregroundColor(.gray)
-                }
+                makeLockButton()
             }.padding(5)
+        }
+        .onAppear {
+            isLock = UserDefaults.standard.colorPaletteIsLock
         }
     }
 }

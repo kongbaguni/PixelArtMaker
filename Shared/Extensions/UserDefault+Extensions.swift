@@ -119,5 +119,13 @@ extension UserDefaults {
         }
     }
     
-    
+
+    var colorPaletteIsLock:Bool {
+        set {
+            set(newValue, forKey: "colorPalleteIsLock")
+        }
+        get {
+            bool(forKey: "colorPalleteIsLock")
+        }
+    }
 }
