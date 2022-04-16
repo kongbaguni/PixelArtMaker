@@ -142,12 +142,12 @@ struct SettingView: View {
                 }
                 
                 if photoPickerImages.count > 0 {
-                    Slider(value: $tracingImageOpacity, in: 0...1) {
+                    Slider(value: $tracingImageOpacity, in: 0...0.5) {
                         
                     } minimumValueLabel: {
                         Text("0%")
                     } maximumValueLabel: {
-                        Text("100%")
+                        Text("50%")
                     
                     }
 
@@ -191,12 +191,16 @@ struct SettingView: View {
                 UserDefaults.standard.transparencyColor = transparancyStyleColors[transparancySelection ?? 0]
                 UserDefaults.standard.transparencyIndex = transparancySelection ?? 0
                 if let image = photoPickerImages.first {
-                    let simg = image.fixOrientationImage.squareImage
-                    print(tracingImageOpacity)
-                    
-                    let data = PixelDrawView.TracingImageData(image: simg, opacity: tracingImageOpacity)
-                    tracingImageData = data
-                    TracingImageModel.save(imageData: data)
+                    if let simg = image.fixOrientationImage.sd_resizedImage(
+                        with: CGSize(width: StageManager.shared.canvasSize.width * 3,
+                                     height: StageManager.shared.canvasSize.height * 3),
+                        scaleMode: .aspectFill) {
+                        print(tracingImageOpacity)
+                        
+                        let data = PixelDrawView.TracingImageData(image: simg, opacity: tracingImageOpacity)
+                        tracingImageData = data
+                        TracingImageModel.save(imageData: data)
+                    }
                     
                 } else {
                     tracingImageData = nil
