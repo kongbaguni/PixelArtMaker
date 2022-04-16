@@ -9,15 +9,14 @@ import Foundation
 import SwiftUI
 
 struct Consts {
-    static let sizes:[CGSize] = [
-        .init(width: 64, height: 64),
-        .init(width: 160, height: 160),
-        .init(width: 320, height: 320),
-        .init(width: 480, height: 480),
-        .init(width: 800, height: 800),
-        .init(width: 960, height: 960),
-        .init(width: 1280, height: 1280)
-    ]
+    static var sizes:[CGSize] {
+        var result:[CGSize]  = []
+        for i in 1...5 {
+            result.append(StageManager.shared.canvasSize * CGFloat(i * 3)) 
+            
+        }
+        return result
+    }
     static var sizeTitles:[Text] {
         return sizes.map { size in
             return Text("\(Int(size.width * 3)) * \(Int(size.width * 3))")

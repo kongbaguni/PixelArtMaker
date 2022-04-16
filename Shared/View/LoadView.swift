@@ -67,7 +67,7 @@ struct LoadView: View {
                 } label : {
                     VStack {
                         WebImage(url: stage.imageURL)
-                            .placeholder(.imagePlaceHolder)
+                            .placeholder(.imagePlaceHolder.resizable())
                             .resizable().frame(width: loadingStart && stages.count == 1 ? getWidth(width: width, number: 1)
                                                : getWidth(width: width, number: gridItems.count),
                                                height: loadingStart  && stages.count == 1  ? getWidth(width: width, number: 1) : getWidth(width: width, number: gridItems.count),

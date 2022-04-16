@@ -39,7 +39,7 @@ struct ProfileView: View {
         VStack {
             if let url = imageURL {
                 WebImage(url: url)
-                    .placeholder(.profilePlaceHolder)
+                    .placeholder(.profilePlaceHolder.resizable())
                     .resizable()
                     .frame(width: size, height: size, alignment: .center)
             } else {

@@ -67,9 +67,14 @@ struct LikeArtListView: View {
                 NavigationLink {
                     PixelArtDetailView(id: model.documentId, showProfile: true)
                 } label: {
-                    if let url = URL(string: model.imageURL) {
-                        if itemSize.width > 0 && itemSize.height > 0 {
+                    if itemSize.width > 0 && itemSize.height > 0 {
+                        if let url = URL(string: model.imageURL) {
                             WebImage(url:url)
+                                .placeholder(.imagePlaceHolder.resizable())
+                                .resizable()
+                                .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                        } else {
+                            Image.imagePlaceHolder
                                 .resizable()
                                 .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
                         }
