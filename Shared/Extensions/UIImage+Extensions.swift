@@ -32,7 +32,7 @@ extension UIImage {
         self.init(cgImage:cgImage)
     }
     
-    // 새 켄버스의  미리보기 이미지 만들기
+    /**  새 켄버스의  미리보기 이미지 만들기 */
     public convenience init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize, transparencyColor:(a:UIColor,b:UIColor)? = nil) {
         let tColor = transparencyColor ?? UserDefaults.standard.transparencyColor
         

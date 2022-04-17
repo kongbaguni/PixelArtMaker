@@ -25,26 +25,35 @@ struct PaletteView: View {
     @State var isLock:Bool = false
     func makeFgBgSelectView() -> some View {
         VStack {
-            Button {
-                if isShowMenu {
-                    return
+            ZStack {
+                if let img = Image(pixelSize: (4, 2), backgroundColor: .clear, size: .init(width: 400, height: 200)) {
+                    img.resizable().frame(width: 28, height: 15, alignment: .center)
                 }
-                colorSelectMode = .foreground
-            } label: {
-                Text("").frame(width: 28, height: 15, alignment: .center)
-                    .background(forgroundColor)
-            }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
-            
-            Button {
-                if isShowMenu {
-                    return
-                }
-                
-                colorSelectMode = .background
-            } label: {
-                Text("").frame(width: 28, height: 15, alignment: .center)
-                    .background(backgroundColor)
-            }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
+                Button {
+                    if isShowMenu {
+                        return
+                    }
+                    colorSelectMode = .foreground
+                } label: {
+                    Text("").frame(width: 28, height: 15, alignment: .center)
+                        .background(forgroundColor)
+                }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
+            }
+            ZStack {
+                if let img = Image(pixelSize: (4, 2), backgroundColor: .clear, size: .init(width: 400, height: 200)) {
+                    img.resizable().frame(width: 28, height: 15, alignment: .center)
+                }                
+                Button {
+                    if isShowMenu {
+                        return
+                    }
+                    
+                    colorSelectMode = .background
+                } label: {
+                    Text("").frame(width: 28, height: 15, alignment: .center)
+                        .background(backgroundColor)
+                }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
+            }
         }
     }
     

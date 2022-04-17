@@ -222,8 +222,10 @@ struct DrawingToolView: View {
                 }
             case .스포이드:
                 makeImageButton(imageName:"spoid") {
-                    if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
-                        forgroundColor = color
+                    if StageManager.shared.canvasSize.isOut(cgPoint: pointer) == false {
+                        if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
+                            forgroundColor = color
+                        }
                     }
                 }
             case .드로잉:

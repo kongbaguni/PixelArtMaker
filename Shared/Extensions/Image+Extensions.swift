@@ -16,7 +16,7 @@ extension Image {
         let image = UIImage(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor, size: size)!
         self.init(uiImage: image)
     }
-    
+    /** 새 켄버스의 미리보기 이미지 만들기 배경색 투명일 경우 체크무늬 이미지 */
     public init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize) {
         let image = UIImage(pixelSize: pixelSize, backgroundColor: backgroundColor, size: size)!
         self.init(uiImage: image)
