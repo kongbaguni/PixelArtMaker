@@ -94,9 +94,9 @@ struct CanvasView: View {
                     if let p = drawBegainPointer {
                         for point in PathFinder.findLine(startCGPoint: p, endCGPoint: pointer) {
                             let cp = point.cgpoint
-                            if cp.x == pointer.x && cp.y == pointer.y {
-                                continue
-                            }
+//                            if cp.x == pointer.x && cp.y == pointer.y {
+//                                continue
+//                            }
                             let path = Path(roundedRect: .init(
                                 x: (cp.x - CGFloat(zoomOffset.x)) * w,
                                 y: (cp.y - CGFloat(zoomOffset.y)) * w,

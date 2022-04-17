@@ -50,6 +50,9 @@ struct DrawingToolView: View {
     func paint(target:CGPoint, color:Color) {
         let idx:Point = .init(point: target)
         /** 최초 선택 컬러*/
+        if StageManager.shared.canvasSize.isOut(cgPoint: target) {
+            return
+        }
         let cc = colors[idx.y][idx.x]
         
         func getNextIdxs(idx:Point)->Set<Point> {

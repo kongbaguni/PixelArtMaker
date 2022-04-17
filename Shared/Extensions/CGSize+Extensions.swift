@@ -21,4 +21,9 @@ extension CGSize {
         return .init(width: lhs.width * rhs, height: lhs.height * rhs)
     }
     
+    
+    func isOut(cgPoint:CGPoint)->Bool {
+        return cgPoint.x < 0 || cgPoint.y < 0 || cgPoint.x >= width || cgPoint.y >= height
+    }
+
 }
