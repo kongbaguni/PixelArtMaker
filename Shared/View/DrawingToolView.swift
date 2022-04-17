@@ -27,14 +27,15 @@ struct DrawingToolView: View {
     @Binding var isZoomMode:Bool
     @Binding var colors:[[Color]]
     @Binding var forgroundColor:Color
+    @Binding var backgroundColor:Color
     @Binding var undoCount:Int
     @Binding var redoCount:Int
     @Binding var toastMessage:String
     @Binding var isShowToast:Bool
     @Binding var previewImage:Image?
     @Binding var drawBegainPointer:CGPoint?
+    let colorSelectMode:PaletteView.ColorSelectMode
     let pointer:CGPoint
-    let backgroundColor:Color
     @State var isMiniDrawingMode:Bool = UserDefaults.standard.isMiniDrawingMode
     
     func erase(target:CGPoint) {
@@ -224,7 +225,12 @@ struct DrawingToolView: View {
                 makeImageButton(imageName:"spoid") {
                     if StageManager.shared.canvasSize.isOut(cgPoint: pointer) == false {
                         if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
-                            forgroundColor = color
+                            switch colorSelectMode {
+                            case .foreground:
+                                forgroundColor = color
+                            case .background:
+                                backgroundColor = color
+                            }
                         }
                     }
                 }

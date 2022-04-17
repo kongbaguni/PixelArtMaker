@@ -23,38 +23,52 @@ struct PaletteView: View {
     @Binding var isShowColorPresetView:Bool
     
     @State var isLock:Bool = false
-    func makeFgBgSelectView() -> some View {
-        VStack {
+    
+    func makeColorView(selectMode:ColorSelectMode, action:@escaping()->Void) -> some View   {
+        Button {
+            if isShowMenu {
+                return
+            }
+            action()
+        } label: {
             ZStack {
-                if let img = Image(pixelSize: (4, 2), backgroundColor: .clear, size: .init(width: 400, height: 200)) {
-                    img.resizable().frame(width: 28, height: 15, alignment: .center)
+                if (selectMode == .background ? backgroundColor : forgroundColor).ciColor.alpha < 1 {
+                    if let img = Image(pixelSize: (4, 4), backgroundColor: .clear, size: .init(width: 400, height: 200)) {
+                        img.resizable()
+                    }
                 }
-                Button {
-                    if isShowMenu {
-                        return
+                if let img = UIImage(color: selectMode == .background ? backgroundColor : forgroundColor,
+                                     size: .init(width: 30, height: 30)) {
+                    Image(uiImage: img)
+                        .resizable()
+                        .frame(width: 30, height: 30, alignment: .center)
+                        
+                }
+            }.frame(width: 30, height: 30, alignment: .center)
+        }.border(Color.white, width: colorSelectMode == selectMode ? 2 : 0)
+    }
+    
+    func makeFgBgSelectView() -> some View {
+        ZStack {
+            HStack {
+                VStack {
+                    makeColorView(selectMode: .foreground) {
+                        colorSelectMode = .foreground
                     }
-                    colorSelectMode = .foreground
-                } label: {
-                    Text("").frame(width: 28, height: 15, alignment: .center)
-                        .background(forgroundColor)
-                }.border(Color.white, width: colorSelectMode == .foreground ? 2 : 0)
-            }
-            ZStack {
-                if let img = Image(pixelSize: (4, 2), backgroundColor: .clear, size: .init(width: 400, height: 200)) {
-                    img.resizable().frame(width: 28, height: 15, alignment: .center)
-                }                
-                Button {
-                    if isShowMenu {
-                        return
+                    Spacer()
+                }
+                Spacer()
+            }.zIndex(colorSelectMode == .foreground ? 1 : 0)
+            HStack {
+                Spacer()
+                VStack {
+                    Spacer()
+                    makeColorView(selectMode: .background) {
+                        colorSelectMode = .background
                     }
-                    
-                    colorSelectMode = .background
-                } label: {
-                    Text("").frame(width: 28, height: 15, alignment: .center)
-                        .background(backgroundColor)
-                }.border(Color.white, width: colorSelectMode == .background ? 2 : 0)
-            }
-        }
+                }
+            }.zIndex(colorSelectMode == .background ? 1 : 0)
+        }.frame(width: 50, height: 40, alignment: .center)
     }
     
     func makeColorPicker() -> some View {

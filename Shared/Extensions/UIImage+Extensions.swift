@@ -10,6 +10,20 @@ import UIKit
 import SwiftUI
 
 extension UIImage {
+    
+    /**  컬러값으로 이미지 만들기 */
+    public convenience init?(color:Color, size:CGSize) {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        color.uiColor.setFill()
+        UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        guard let cgImage = image?.cgImage else {
+            return nil
+        }
+        self.init(cgImage:cgImage)
+    }
+    
     /** 이미지 줌 영역 표시 위한 이미지 만들기*/
     public convenience init?(offset:(x:Int,y:Int),frame:(width:Int,height:Int), size:CGSize, backgroundColor:UIColor, AreaLineColor:UIColor) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)

@@ -221,14 +221,17 @@ struct PixelDrawView: View {
             isZoomMode: $isZoomMode,
             colors: $colors,
             forgroundColor: $forgroundColor,
+            backgroundColor: $backgroundColor,
             undoCount: $undoCount,
             redoCount: $redoCount,
             toastMessage: $toastMessage,
             isShowToast: $isShowToast,
             previewImage: $previewImage,
             drawBegainPointer: $drawBegainPointer,
-            pointer: pointer,
-            backgroundColor: backgroundColor)
+            colorSelectMode: colorSelectMode,
+            pointer: pointer
+            
+        )
     }
     
     func makeArrowToolView()->ArrowToolView {
