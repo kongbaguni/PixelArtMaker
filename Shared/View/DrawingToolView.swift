@@ -35,7 +35,7 @@ struct DrawingToolView: View {
     @Binding var drawBegainPointer:CGPoint?
     let pointer:CGPoint
     let backgroundColor:Color
-    
+    @State var isMiniDrawingMode:Bool = UserDefaults.standard.isMiniDrawingMode
     
     func erase(target:CGPoint) {
         let idx:(Int,Int) = (Int(target.x), Int(target.y))
@@ -162,6 +162,7 @@ struct DrawingToolView: View {
         case 박스채우기
         case 동그라미
         case 취소
+        case 미니토글
     }
     
     
@@ -182,7 +183,8 @@ struct DrawingToolView: View {
             Image(systemName: systemName)
                 .resizable()
                 .imageScale(.large)
-                .frame(width: 40, height: 40, alignment: .center)
+                .frame(width: 30, height: 30, alignment: .center)
+                .padding(10)
                 .foregroundColor(.gray)
         }
 
@@ -252,7 +254,15 @@ struct DrawingToolView: View {
                         drawBegainPointer = nil
                     }
                 }
+            case .미니토글:
+                makeImageButton(systemName: isMiniDrawingMode ? "chevron.forward" : "chevron.backward") {
+                    withAnimation(.easeInOut) {
+                        isMiniDrawingMode.toggle()
+                        UserDefaults.standard.isMiniDrawingMode = isMiniDrawingMode
+                    }
+                }
             }
+        
         }
     }
     
@@ -267,8 +277,8 @@ struct DrawingToolView: View {
             drawBegainPointer = nil
         }
     }
-    
-    private let normalToolTypes:[ButtonType] = [.돋보기, .드로잉, .연필, .페인트1, .페인트2, .지우개, .스포이드]
+    private let miniToolTypes:[ButtonType] = [.돋보기, .드로잉, .연필, .지우개, .스포이드, .미니토글]
+    private let normalToolTypes:[ButtonType] = [.돋보기, .드로잉, .연필, .페인트1, .페인트2, .지우개, .스포이드, .미니토글]
     private let drawingToolTypes:[ButtonType] = [.취소, .돋보기, .드로잉, .동그라미, .박스선, .박스채우기]
 
     var body: some View {
@@ -283,7 +293,9 @@ struct DrawingToolView: View {
             } else {
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(drawBegainPointer == nil ? normalToolTypes : drawingToolTypes, id:\.self) { type in
+                        ForEach(drawBegainPointer == nil
+                                ? isMiniDrawingMode ? miniToolTypes : normalToolTypes
+                                : drawingToolTypes, id:\.self) { type in
                             makeButton(type: type)
                         }
                     }

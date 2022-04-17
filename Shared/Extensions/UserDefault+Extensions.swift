@@ -128,4 +128,13 @@ extension UserDefaults {
             bool(forKey: "colorPalleteIsLock")
         }
     }
+    
+    var isMiniDrawingMode:Bool {
+        set {
+            set(newValue, forKey: "isMiniDrawingMode")
+        }
+        get {
+            bool(forKey: "isMiniDrawingMode")
+        }
+    }
 }

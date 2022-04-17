@@ -333,7 +333,9 @@ struct PixelDrawView: View {
                                     }
                                 }
                             }
-                        }.background(Color.k_dim)
+                        }
+                        .frame(width:geomentry.size.width)
+                        .background(Color.k_dim)
                     }
                     
                     .opacity(isShowMenu ? 0.2 : 1.0)
