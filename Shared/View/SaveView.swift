@@ -53,7 +53,7 @@ struct SaveView: View {
 
     private func makePreviewImageView(width:CGFloat)-> some View {
         (previewImage ?? Image.imagePlaceHolder)
-            .resizable().frame(width: width - 10, height: width - 10 , alignment: .center)
+            .resizable().frame(width: width - 20, height: width - 20 , alignment: .center)
     }
     
     private func makeButtonList()-> some View {

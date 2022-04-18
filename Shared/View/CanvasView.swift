@@ -207,7 +207,11 @@ struct CanvasView: View {
                     return
                 }
                 let idx = getIndex(location: value.location)
-                pointer = .init(x: idx.0, y: idx.1)
+                let newPoint = CGPoint(x: idx.0, y: idx.1)
+                
+                if StageManager.shared.canvasSize.isOut(cgPoint: newPoint) == false {
+                    pointer = newPoint
+                }
                 if isLongPressing {
                     isLongPressing = false
                     timer?.invalidate()

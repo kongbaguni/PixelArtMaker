@@ -19,6 +19,21 @@ struct PathFinder {
         let x:Int
         let y:Int
         
+        init(point:CGPoint) {
+            self.x = Int(point.x)
+            self.y = Int(point.y)
+        }
+        
+        init(x:Int, y:Int) {
+            self.x = x
+            self.y = y
+        }
+        
+        init(_ value:(Int,Int)) {
+            self.x = value.0
+            self.y = value.1
+        }
+        
         public static func == (lhs: Point, rhs: Point) -> Bool {
             return lhs.x == rhs.x && lhs.y == rhs.y
         }

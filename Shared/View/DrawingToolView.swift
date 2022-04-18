@@ -8,21 +8,6 @@
 import SwiftUI
 
 struct DrawingToolView: View {
-    struct Point : Hashable {
-        public static func == (lhs: Point, rhs: Point) -> Bool {
-            return lhs.x == rhs.x && lhs.y == rhs.y
-        }
-        init(point:CGPoint) {
-            self.x = Int(point.x)
-            self.y = Int(point.y)
-        }
-        init(x:Int, y:Int) {
-            self.x = x
-            self.y = y
-        }
-        let x:Int
-        let y:Int
-    }
     
     @Binding var isZoomMode:Bool
     @Binding var colors:[[Color]]
@@ -49,15 +34,15 @@ struct DrawingToolView: View {
     
     
     func paint(target:CGPoint, color:Color) {
-        let idx:Point = .init(point: target)
+        let idx:PathFinder.Point = .init(point: target)
         /** 최초 선택 컬러*/
         if StageManager.shared.canvasSize.isOut(cgPoint: target) {
             return
         }
         let cc = colors[idx.y][idx.x]
         
-        func getNextIdxs(idx:Point)->Set<Point> {
-            var nextIdxs:[Point] {
+        func getNextIdxs(idx:PathFinder.Point)->Set<PathFinder.Point> {
+            var nextIdxs:[PathFinder.Point] {
                 return [
                     .init(x: idx.x, y: idx.y+1),
                     .init(x: idx.x, y: idx.y-1),
@@ -65,7 +50,7 @@ struct DrawingToolView: View {
                     .init(x: idx.x-1, y: idx.y),
                 ]
             }
-            var result = Set<Point>()
+            var result = Set<PathFinder.Point>()
             for next in nextIdxs {
                 if next.x < 0 || next.y < 0 || next.y >= colors.count || next.x >= colors[0].count {
                     continue
@@ -104,18 +89,19 @@ struct DrawingToolView: View {
     }
     
     func draw(idx:(Int,Int), color:Color) {
-        if idx.0 < colors.count && idx.0 >= 0 {
-            if idx.1 < colors[idx.0].count && idx.1 >= 0 {
-                colors[idx.1][idx.0] = color
-            }
+        if PathFinder.Point(x: idx.0, y: idx.1).isIn(size: StageManager.shared.canvasSize) {
+            colors[idx.1][idx.0] = color
         }
         refreshStage()
     }
     
     func changeColor(target:CGPoint, color:Color) {
-        let idx:Point = .init(point: target)
+        if StageManager.shared.canvasSize.isOut(cgPoint: target) {
+            return
+        }
+        let idx:PathFinder.Point = .init(point: target)
         /** 최초 선택 컬러*/
-        var result = Set<Point>()
+        var result = Set<PathFinder.Point>()
         let cc = colors[idx.y][idx.x]
         for (i,list) in colors.enumerated() {
             for (r,color) in list.enumerated() {
@@ -131,7 +117,19 @@ struct DrawingToolView: View {
         refreshStage()
     }
     
-    
+    func spoid(target:CGPoint) {
+        if StageManager.shared.canvasSize.isOut(cgPoint: pointer) == false {
+            let idx = PathFinder.Point(point: pointer)
+            if let color = StageManager.shared.stage?.selectedLayer.colors[idx.y][idx.x] {
+                switch colorSelectMode {
+                case .foreground:
+                    forgroundColor = color
+                case .background:
+                    backgroundColor = color
+                }
+            }
+        }
+    }
     
     private func refreshStage() {
         StageManager.shared.stage?.change(colors: colors)
@@ -223,16 +221,7 @@ struct DrawingToolView: View {
                 }
             case .스포이드:
                 makeImageButton(imageName:"spoid") {
-                    if StageManager.shared.canvasSize.isOut(cgPoint: pointer) == false {
-                        if let color = StageManager.shared.stage?.selectedLayer.colors[Int(pointer.y)][Int(pointer.x)] {
-                            switch colorSelectMode {
-                            case .foreground:
-                                forgroundColor = color
-                            case .background:
-                                backgroundColor = color
-                            }
-                        }
-                    }
+                    spoid(target: pointer)
                 }
             case .드로잉:
                 makeImageButton(systemName:"line.diagonal") {
