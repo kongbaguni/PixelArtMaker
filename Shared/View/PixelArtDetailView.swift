@@ -135,7 +135,7 @@ struct PixelArtDetailView: View {
                             makeProfileView(landScape: false).frame(height:120)
                             makeImageView(imageSize: geomentry.size.width - 20)
                             makeInfomationView().frame(width: geomentry.size.width - 20)
-                            makeButtonsView()
+                            makeButtonsView().padding(10)
                         }
                     } else {
                         HStack {
@@ -143,10 +143,11 @@ struct PixelArtDetailView: View {
                                 makeProfileView(landScape: true).frame(width:200)
                             }
                             ScrollView {
-                                makeImageView(imageSize: isShowProfile ? 200 : 400)
+                                makeImageView(imageSize: isShowProfile ? 250 : 450)
                             }
                             ScrollView {
-                                makeInfomationView().frame(width:geomentry.size.width - 420)
+                                makeInfomationView()
+                                    .frame(width:geomentry.size.width > 470 ? geomentry.size.width - 470 : 100)
                                     .padding(.top, 10)
                                 makeButtonsView()
                             }
