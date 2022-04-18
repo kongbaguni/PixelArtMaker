@@ -52,7 +52,8 @@ class SharedStageModel : Object {
     
     var likeUserIdsSet:Set<String> {
         let arr = likeUids.components(separatedBy: ",")
-        let set = Set<String>(arr)
+        var set = Set<String>(arr)
+        set.remove("")
         return set
     }
     

@@ -57,7 +57,7 @@ struct SigninView: View {
                     .onTapGesture {
                         AuthManager.shared.startSignInWithAppleFlow { loginSucess in
                             if loginSucess {
-                                ProfileModel.downloadProfile { error in
+                                ProfileModel.downloadProfile (isCreateDefaultProfile: true) { error in
                                     restoreInappPurchase()
                                     presentationMode.wrappedValue.dismiss()
                                 }
@@ -72,7 +72,7 @@ struct SigninView: View {
                     .onTapGesture {
                         AuthManager.shared.startSignInWithGoogleId { loginSucess in
                             if loginSucess {
-                                ProfileModel.downloadProfile { error in
+                                ProfileModel.downloadProfile (isCreateDefaultProfile: true) { error in
                                     restoreInappPurchase()
                                     presentationMode.wrappedValue.dismiss()
                                 }

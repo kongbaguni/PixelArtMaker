@@ -36,6 +36,7 @@
 		8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9128080BCB00565A3C /* PathFinder.swift */; };
 		8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC982809410400565A3C /* PhotoPicker.swift */; };
 		8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9A280959CD00565A3C /* TracingImageModel.swift */; };
+		8DABAF16280CF95C001E7619 /* LikePeopleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */; };
 		8DB0B9FF28056CC300C2B0FF /* DimLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */; };
 		8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA0028065A8200C2B0FF /* SettingView.swift */; };
 		8DB0BA032806A12100C2B0FF /* LikeArtListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */; };
@@ -142,6 +143,7 @@
 		8D49FC9128080BCB00565A3C /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		8D49FC982809410400565A3C /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8D49FC9A280959CD00565A3C /* TracingImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingImageModel.swift; sourceTree = "<group>"; };
+		8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikePeopleListView.swift; sourceTree = "<group>"; };
 		8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimLoadingViewController.swift; sourceTree = "<group>"; };
 		8DB0BA0028065A8200C2B0FF /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeArtListView.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				C38C1BA72802D6D600350176 /* SideMenuView.swift */,
 				8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */,
 				8D49FC982809410400565A3C /* PhotoPicker.swift */,
+				8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				1BE77B5227E9BC7800A36F8E /* Image+Extensions.swift in Sources */,
 				C356362D27F9712500B2609A /* PixelArtDetailView.swift in Sources */,
 				8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */,
+				8DABAF16280CF95C001E7619 /* LikePeopleListView.swift in Sources */,
 				C3011F5527F0495C001B12AC /* TagView.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
 				1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */,

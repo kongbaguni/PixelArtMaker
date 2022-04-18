@@ -18,6 +18,7 @@ class ProfileModel: Object {
     @Persisted var nickname:String = ""
     @Persisted var profileURL:String = ""
     @Persisted var email:String = ""
+    @Persisted var updateDt:TimeInterval = 0
 }
 
 fileprivate let collection = Firestore.firestore().collection("profile")
@@ -26,11 +27,12 @@ fileprivate func createDefaultProfile(complete:@escaping(_ isSucess:Bool)->Void)
         complete(false)
         return
     }
-    let data:[String:String] = [
+    let data:[String:AnyHashable] = [
         "uid":uid,
         "email":AuthManager.shared.auth.currentUser?.email ?? "",
         "nickname":AuthManager.shared.auth.currentUser?.displayName ?? AuthManager.shared.auth.currentUser?.email ?? "",
-        "profileURL":AuthManager.shared.auth.currentUser?.photoURL?.absoluteString ?? ""
+        "profileURL":AuthManager.shared.auth.currentUser?.photoURL?.absoluteString ?? "",
+        "updateDt":Date().timeIntervalSince1970
     ]
     collection.document(uid).setData(data) { error in
         print(error?.localizedDescription ?? "성공")
@@ -68,23 +70,23 @@ extension ProfileModel {
         return nil
     }
     
-    static func downloadProfile(complete:@escaping(_ error:Error?)->Void) {
-        guard let uid = AuthManager.shared.userId else {
+    static func downloadProfile(uid:String? = AuthManager.shared.userId, isCreateDefaultProfile:Bool,complete:@escaping(_ error:Error?)->Void) {
+        guard let uid = uid else {
             complete(nil)
             return
         }
         
         collection.document(uid).getDocument { snapShot, error in
-            if error == nil && snapShot?.data() == nil {
+            if error == nil && snapShot?.data() == nil && isCreateDefaultProfile {
                 createDefaultProfile { isSucess in
-                    downloadProfile(complete: complete)
+                    downloadProfile(isCreateDefaultProfile:false ,complete: complete)
                 }
                 return
             }
             if let data = snapShot?.data() {
                 let realm = try! Realm()
                 try! realm.write {
-                    realm.create(ProfileModel.self, value: data, update: .all)
+                    realm.create(ProfileModel.self, value: data, update: .modified)
                 }
                 DispatchQueue.main.async {
                     complete(error)
@@ -111,9 +113,10 @@ extension ProfileModel {
             complete(nil)
             return
         }
-        var data:[String:String] = [
+        var data:[String:AnyHashable] = [
             "uid":uid,
-            "nickname":nickname
+            "nickname":nickname,
+            "updateDt":Date().timeIntervalSince1970
         ]
         
         if let url = profileURL {
@@ -140,9 +143,10 @@ extension ProfileModel {
             return
         }
 
-        let data:[String:String] = [
+        let data:[String:AnyHashable] = [
             "uid":uid,
             "profileURL":photoURL,
+            "updateDt":Date().timeIntervalSince1970
         ]
         collection.document(uid).updateData(data) { error in
             if error == nil {

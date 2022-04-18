@@ -81,6 +81,26 @@ struct PixelArtDetailView: View {
                 HStack {
                     Image(isMyLike ? "heart_red" : "heart_gray")
                     Text(likeCount.formatted(.number))
+                    
+                    if let m = model {
+                        if m.likeUserIdsSet.count > 0 {
+                            
+//                            NavigationLink {
+//                                LikePeopleListView(uids:m.likeUserIdsSet.sorted())
+//                                    .navigationTitle( Text("like list"))
+//                            } label: {
+//                                Text("like list")
+//                            }
+                        } else {
+                            Text("like list")
+                        }
+                    }
+
+                }
+            }
+            if let m = model {
+                if m.likeUserIdsSet.count > 0 {
+                    LikePeopleShortListView(uids:m.likeUserIdsSet.sorted())
                 }
             }
             if let m = tmodel {
