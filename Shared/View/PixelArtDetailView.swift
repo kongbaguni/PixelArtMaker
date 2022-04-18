@@ -128,7 +128,7 @@ struct PixelArtDetailView: View {
                         ScrollView {
                             makeProfileView(landScape: false).frame(height:120)
                             makeImageView(imageSize: geomentry.size.width - 20)
-                            makeInfomationView()
+                            makeInfomationView().frame(width: geomentry.size.width - 20)
                             makeButtonsView()
                         }
                     } else {

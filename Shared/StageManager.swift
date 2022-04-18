@@ -80,9 +80,9 @@ class StageManager {
             } else {
                 data["uid"] = uid
                 let realm = try! Realm()
-                realm.beginWrite()
-                realm.create(TempModel.self, value: data, update: .modified)
-                try! realm.commitWrite()
+                try! realm.write {
+                    realm.create(TempModel.self, value: data, update: .modified)
+                }
                 DispatchQueue.main.async {
                     complete(nil)
                 }

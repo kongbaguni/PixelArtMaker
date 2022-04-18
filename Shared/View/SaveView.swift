@@ -28,6 +28,8 @@ struct SaveView: View {
     @State var previewImage:Image? = nil
     @State var shareImageDatas:[Data] = []
     
+    @State var isShowActionSheet = false
+    @State var isPreseneted = false
     func updateId() {
         self.id = StageManager.shared.stage?.documentId
         var id:String? {
@@ -56,6 +58,21 @@ struct SaveView: View {
             .resizable().frame(width: width - 20, height: width - 20 , alignment: .center)
     }
     
+    private var actionSheetButtonsForShareItems:[ActionSheet.Button] {
+        var buttons:[ActionSheet.Button] = []
+        for img in shareImageDatas {
+            let id = shareImageDatas.firstIndex(of: img)
+            let btn:ActionSheet.Button = .default(Consts.sizeTitles[id!]) {
+                googleAd.showAd { isSucess in
+                    if isSucess {
+                        share(items: [img])
+                    }
+                }
+            }
+            buttons.append(btn)
+        }
+        return buttons
+    }
     private func makeButtonList()-> some View {
         Group {
             if let id = self.id {
@@ -137,19 +154,24 @@ struct SaveView: View {
                 
             }
             
-            ForEach(shareImageDatas, id:\.self) { img in
-                let id = shareImageDatas.firstIndex(of: img)
-                Button {
-                    googleAd.showAd { isSucess in
-                        if isSucess {
-                            share(items: [img])
-                        }
-                    }
-                } label: {
-                    OrangeTextView(image: Image(systemName: "square.and.arrow.up"), boldText: Text("share"), text: Consts.sizeTitles[id!])
-                }
-
+            Button {
+                isShowActionSheet = true
+            } label : {
+                OrangeTextView(image: Image(systemName: "square.and.arrow.up"), boldText: nil, text: Text("share"))
             }
+//            ForEach(shareImageDatas, id:\.self) { img in
+//                let id = shareImageDatas.firstIndex(of: img)
+//                Button {
+//                    googleAd.showAd { isSucess in
+//                        if isSucess {
+//                            share(items: [img])
+//                        }
+//                    }
+//                } label: {
+//                    OrangeTextView(image: Image(systemName: "square.and.arrow.up"), boldText: Text("share"), text: Consts.sizeTitles[id!])
+//                }
+//
+//            }
             
 
             if StageManager.shared.stage?.documentId != nil && sharedId == nil && AuthManager.shared.auth.currentUser?.isAnonymous == false {
@@ -218,7 +240,9 @@ struct SaveView: View {
                     }
                 }
             }
-
+        }
+        .actionSheet(isPresented: $isShowActionSheet) {
+            ActionSheet(title: Text("share"), message: Text("share image desc"), buttons: actionSheetButtonsForShareItems)            
         }
         .navigationTitle(Text("save"))
         .onAppear {
