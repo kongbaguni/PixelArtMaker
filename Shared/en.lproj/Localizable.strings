@@ -111,3 +111,8 @@
 "share image desc" = "Choose the size of the image you want to shㅌare";
 
 "like list" = "like";
+
+"delete reply" = "delete";
+"reply delete title" = "delete reply";
+"reply delete message" = "Do you want to delete your comment?";
+"reply delete confirm" = "delete";

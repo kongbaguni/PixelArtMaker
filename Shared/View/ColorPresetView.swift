@@ -143,7 +143,7 @@ struct ColorPresetView: View {
                 fullList.onAppear {
                     if let idx = selectedId {
                         selectedData = datas[idx]
-                        proxy.scrollTo(datas[idx], anchor: .center)
+                        proxy.scrollTo(datas[idx], anchor: .center)                        
                     }
                 }
             }.frame(width: geomentry.size.width, height: geomentry.size.height)

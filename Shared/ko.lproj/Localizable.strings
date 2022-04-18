@@ -126,3 +126,8 @@
 "share image desc" = "공유할 이미지의 사이즈 선택";
 
 "like list" = "좋아요";
+
+"delete reply" = "삭제";
+"reply delete title" = "댓글 삭제";
+"reply delete message" = "댓글을 삭제합니다.";
+"reply delete confirm" = "확인";

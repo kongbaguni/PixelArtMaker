@@ -8,39 +8,69 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct LikePeopleView : View {
+struct SimplePeopleView : View {
     let uid:String
+    let isSmall:Bool
     @State var profileImageURL:URL? = nil
     @State var name:String? = nil
     var body: some View {
-        ZStack {
-            if let url = profileImageURL {
-               WebImage(url: url)
-                    .resizable()
+        Group {
+            if isSmall {
+                VStack {
+                    if let url = profileImageURL {
+                        WebImage(url: url)
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                    }
+                    if let name = name {
+                        Text(name)
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.k_normalText)
+                    }
+                }
             }
             else {
-                Image.profilePlaceHolder
-                    .resizable()
-            }
-            if let name = name {
-                VStack {
-                    Spacer()
-                    Text(name)
-                        .font(.subheadline)
-                        .padding(5)
-                        .background(Color.k_dim)
-                        .foregroundColor(.k_normalText)
-                        .cornerRadius(10)
-                        .padding(5)
+                ZStack {
+                    if let url = profileImageURL {
+                        WebImage(url: url)
+                            .resizable()
+                    }
+                    else {
+                        Image.profilePlaceHolder
+                            .resizable()
+                    }
+                    if !isSmall {
+                        if let name = name {
+                            VStack {
+                                Spacer()
+                                Text(name)
+                                    .font(.subheadline)
+                                    .padding(5)
+                                    .background(Color.k_dim)
+                                    .foregroundColor(.k_normalText)
+                                    .cornerRadius(10)
+                                    .padding(5)
+                            }
+                        }
+                    }
                 }
             }
         }.onAppear {
-            ProfileModel.downloadProfile(uid: uid, isCreateDefaultProfile: false) { error in
-                let model = ProfileModel.findBy(uid: uid)
-                profileImageURL = model?.profileImageURL
-                name = model?.nickname
+            if profileImageURL == nil {
+                ProfileModel.downloadProfile(uid: uid, isCreateDefaultProfile: false) { error in
+                    loadDataFromLocalDb()
+                }
             }
+            loadDataFromLocalDb()
         }
+    }
+    
+    private func loadDataFromLocalDb() {
+        if let model = ProfileModel.findBy(uid: uid) {
+            profileImageURL = model.profileImageURL
+            name = model.nickname
+        }
+
     }
 }
 
@@ -53,7 +83,7 @@ struct LikePeopleShortListView : View {
                     NavigationLink {
                         ProfileView(uid: uid, haveArtList: true, editable: false, landScape: nil)
                     } label: {
-                        LikePeopleView(uid: uid)
+                        SimplePeopleView(uid: uid, isSmall: false)
                             .frame(width: 100, height: 100, alignment: .center)
                     }
                 }

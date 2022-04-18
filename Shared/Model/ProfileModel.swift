@@ -75,26 +75,27 @@ extension ProfileModel {
             complete(nil)
             return
         }
-        
-        collection.document(uid).getDocument { snapShot, error in
-            if error == nil && snapShot?.data() == nil && isCreateDefaultProfile {
-                createDefaultProfile { isSucess in
-                    downloadProfile(isCreateDefaultProfile:false ,complete: complete)
+        DispatchQueue.global().async {
+            collection.document(uid).getDocument { snapShot, error in
+                if error == nil && snapShot?.data() == nil && isCreateDefaultProfile {
+                    createDefaultProfile { isSucess in
+                        downloadProfile(isCreateDefaultProfile:false ,complete: complete)
+                    }
+                    return
                 }
-                return
-            }
-            if let data = snapShot?.data() {
-                let realm = try! Realm()
-                try! realm.write {
-                    realm.create(ProfileModel.self, value: data, update: .modified)
+                if let data = snapShot?.data() {
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.create(ProfileModel.self, value: data, update: .modified)
+                        DispatchQueue.main.async {
+                            complete(error)
+                        }
+                    }
+                    return
                 }
                 DispatchQueue.main.async {
                     complete(error)
                 }
-                return
-            }
-            DispatchQueue.main.async {
-                complete(error)
             }
         }
     }

@@ -37,6 +37,8 @@
 		8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC982809410400565A3C /* PhotoPicker.swift */; };
 		8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9A280959CD00565A3C /* TracingImageModel.swift */; };
 		8DABAF16280CF95C001E7619 /* LikePeopleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */; };
+		8DABAF18280D2D33001E7619 /* ReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABAF17280D2D33001E7619 /* ReplyModel.swift */; };
+		8DABAF1A280D2E92001E7619 /* ReplyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABAF19280D2E92001E7619 /* ReplyManager.swift */; };
 		8DB0B9FF28056CC300C2B0FF /* DimLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */; };
 		8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA0028065A8200C2B0FF /* SettingView.swift */; };
 		8DB0BA032806A12100C2B0FF /* LikeArtListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */; };
@@ -144,6 +146,8 @@
 		8D49FC982809410400565A3C /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8D49FC9A280959CD00565A3C /* TracingImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingImageModel.swift; sourceTree = "<group>"; };
 		8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikePeopleListView.swift; sourceTree = "<group>"; };
+		8DABAF17280D2D33001E7619 /* ReplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyModel.swift; sourceTree = "<group>"; };
+		8DABAF19280D2E92001E7619 /* ReplyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyManager.swift; sourceTree = "<group>"; };
 		8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimLoadingViewController.swift; sourceTree = "<group>"; };
 		8DB0BA0028065A8200C2B0FF /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeArtListView.swift; sourceTree = "<group>"; };
@@ -269,6 +273,7 @@
 			children = (
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
+				8DABAF19280D2E92001E7619 /* ReplyManager.swift */,
 				8DB0BA082807BA5100C2B0FF /* Utill.swift */,
 				8D49FC9128080BCB00565A3C /* PathFinder.swift */,
 				8DB0BA0028065A8200C2B0FF /* SettingView.swift */,
@@ -338,6 +343,7 @@
 				C356363E27FAC41C00B2609A /* InAppPurchaseModel.swift */,
 				8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */,
 				8D49FC9A280959CD00565A3C /* TracingImageModel.swift */,
+				8DABAF17280D2D33001E7619 /* ReplyModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -618,6 +624,7 @@
 				C3DBA08327EC5F8900FE8392 /* MyStageModel.swift in Sources */,
 				C38C1BAA2802EC5800350176 /* DrawingToolView.swift in Sources */,
 				C356363827FA7C2200B2609A /* Consts.swift in Sources */,
+				8DABAF1A280D2E92001E7619 /* ReplyManager.swift in Sources */,
 				C38C1BA42801A44700350176 /* PaletteView.swift in Sources */,
 				C38C1BAC2802F26600350176 /* ArrowToolView.swift in Sources */,
 				1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,
@@ -644,6 +651,7 @@
 				C3011F5927F05675001B12AC /* PublicShareListView.swift in Sources */,
 				8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */,
 				1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */,
+				8DABAF18280D2D33001E7619 /* ReplyModel.swift in Sources */,
 				1BF1B24827E2C7AB007A73CB /* AuthManager.swift in Sources */,
 				1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */,
 				8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */,

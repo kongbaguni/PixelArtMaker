@@ -11,6 +11,9 @@ import SDWebImageSwiftUI
 import Alamofire
 
 struct PixelArtDetailView: View {
+    enum AlertType {
+        case 댓글삭제
+    }
     let pid:String
     var model:SharedStageModel? {
         return try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: pid)
@@ -25,6 +28,14 @@ struct PixelArtDetailView: View {
     let googleAd = GoogleAd()
     let isShowProfile:Bool
     let isForceUpdate:Bool
+    @State var isShowAlert = false
+    @State var alertType:AlertType? = nil
+    
+    @State var willDeleteReply:ReplyModel? = nil
+    
+    @State var replyText = ""
+    @State var replys:[ReplyModel] = []
+    @FocusState var isFocusedReplyInput
     
     init(id:String, showProfile:Bool, forceUpdate:Bool = false) {
         pid = id
@@ -126,33 +137,113 @@ struct PixelArtDetailView: View {
         }
     }
     
+    func makeReplyTextView(scrollViewPrxy:ScrollViewProxy) -> some View {
+        VStack {
+            HStack {
+                TextEditor(text: $replyText)
+                    .focused($isFocusedReplyInput)
+                    .border(Color.k_normalText, width: 1)
+                    .onHover { hover in
+                        print("hover : \(hover)")
+                    }
+                Button {
+                    guard let model = model else {
+                        return
+                    }
+                    let reply = ReplyModel(documentId: model.documentId, message: replyText)
+                    ReplyManager.shared.addReply(replyModel: reply) { error in
+                        if error == nil {
+                            isFocusedReplyInput = false
+                            replyText = ""
+                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                                withAnimation (.easeInOut){
+                                    replys.append(reply)
+                                }
+                            }
+                        }
+                        
+                    }
+                } label : {
+                    OrangeTextView(Text("reply"))
+                }
+            }
+        }
+    }
+    
+    func makeReplyListView() -> some View {
+        LazyVStack {
+            ForEach(replys, id:\.self) { reply in
+                HStack {
+                    VStack {
+                        Spacer()
+                        SimplePeopleView(uid: reply.uid, isSmall: true)
+                            .frame(width: 50, height: 50, alignment: .leading)
+                    }
+                    ZStack {
+                        Image("bubble")
+                        HStack {
+                            Text(reply.message).padding(10).padding(.leading,20)
+                            Spacer()
+                        }
+                    }
+                    VStack {
+                        Spacer()
+                        if reply.uid == AuthManager.shared.userId {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    alertType = .댓글삭제
+                                    isShowAlert = true
+                                    willDeleteReply = reply
+                                } label : {
+                                    Text("delete reply")
+                                }
+                            }
+                        }
+                        reply.updateDtText.font(.system(size: 10))
+                    }
+                    
+                    Spacer()
+                }
+            }
+        }
+    }
+    
     var body: some View {
         Group {
             if tmodel != nil {
                 GeometryReader { geomentry in
-                    if geomentry.size.width < geomentry.size.height {
-                        ScrollView {
-                            makeProfileView(landScape: false).frame(height:120)
-                            makeImageView(imageSize: geomentry.size.width - 20)
-                            makeInfomationView().frame(width: geomentry.size.width - 20)
-                            makeButtonsView().padding(10)
-                        }
-                    } else {
-                        HStack {
-                            if isShowProfile {
-                                makeProfileView(landScape: true).frame(width:200)
-                            }
-                            ScrollView {
-                                makeImageView(imageSize: isShowProfile ? 250 : 450)
-                            }
-                            ScrollView {
-                                makeInfomationView()
-                                    .frame(width:geomentry.size.width > 470 ? geomentry.size.width - 470 : 100)
-                                    .padding(.top, 10)
-                                makeButtonsView()
-                            }
-                        }
+                    ScrollViewReader { proxy in
                         
+                        if geomentry.size.width < geomentry.size.height || geomentry.size.width < 400 {
+                            ScrollView {
+                                makeProfileView(landScape: false).frame(height:120)
+                                makeImageView(imageSize: geomentry.size.width - 20)
+                                makeInfomationView().frame(width: geomentry.size.width - 20)
+                                makeButtonsView().padding(10)
+                                
+                                makeReplyListView()
+                                makeReplyTextView(scrollViewPrxy: proxy)
+                                
+                            }
+                        } else {
+                            HStack {
+                                if isShowProfile {
+                                    makeProfileView(landScape: true).frame(width:200)
+                                }
+                                ScrollView {
+                                    makeImageView(imageSize: isShowProfile ? 250 : 450)
+                                }
+                                ScrollView {
+                                    makeInfomationView()
+                                        .frame(width:geomentry.size.width > 470 ? geomentry.size.width - 470 : 100)
+                                        .padding(.top, 10)
+                                    makeButtonsView()
+                                    makeReplyListView()
+                                    makeReplyTextView(scrollViewPrxy: proxy)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -160,7 +251,35 @@ struct PixelArtDetailView: View {
                 Text("loading")
             }
         }
-
+        .alert(isPresented: $isShowAlert, content: {
+            switch alertType {
+            case .댓글삭제:
+                return Alert(title: Text("reply delete title"),
+                             message: Text("reply delete message"),
+                             primaryButton: .default(
+                                Text("reply delete confirm"), action : {
+                                    if let reply = willDeleteReply {
+                                        ReplyManager.shared.deleteReply(id: reply.id) { error in
+                                            if error == nil {
+                                                withAnimation(.easeInOut) {
+                                                    if let idx = replys.firstIndex(of: reply) {
+                                                        replys.remove(at: idx)
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                toastMessage = error!.localizedDescription
+                                                isShowToast = true
+                                            }
+                                        }
+                                    }
+                                }
+                             ), secondaryButton: .cancel())
+            default:
+                return Alert(title:Text(""))
+            }
+        })
+        
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .navigationTitle(Text(pid))
         .onAppear {
@@ -171,6 +290,11 @@ struct PixelArtDetailView: View {
                 }
             } else {
                 load()
+            }
+            if let id = model?.documentId {
+                ReplyManager.shared.getReplys(documentId: id) { result, error in
+                    replys = result
+                }
             }
         }
         
