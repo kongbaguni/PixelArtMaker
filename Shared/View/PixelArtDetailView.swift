@@ -81,21 +81,7 @@ struct PixelArtDetailView: View {
                 HStack {
                     Image(isMyLike ? "heart_red" : "heart_gray")
                     Text(likeCount.formatted(.number))
-                    
-                    if let m = model {
-                        if m.likeUserIdsSet.count > 0 {
-                            
-//                            NavigationLink {
-//                                LikePeopleListView(uids:m.likeUserIdsSet.sorted())
-//                                    .navigationTitle( Text("like list"))
-//                            } label: {
-//                                Text("like list")
-//                            }
-                        } else {
-                            Text("like list")
-                        }
-                    }
-
+                    Text("like list")
                 }
             }
             if let m = model {
@@ -153,10 +139,15 @@ struct PixelArtDetailView: View {
                         }
                     } else {
                         HStack {
-                            makeProfileView(landScape: true).frame(width:200)
+                            if isShowProfile {
+                                makeProfileView(landScape: true).frame(width:200)
+                            }
                             ScrollView {
-                                makeImageView(imageSize: geomentry.size.width - 220)
-                                makeInfomationView().frame(width:geomentry.size.width - 220)
+                                makeImageView(imageSize: isShowProfile ? 200 : 400)
+                            }
+                            ScrollView {
+                                makeInfomationView().frame(width:geomentry.size.width - 420)
+                                    .padding(.top, 10)
                                 makeButtonsView()
                             }
                         }

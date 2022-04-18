@@ -58,6 +58,6 @@ struct LikePeopleShortListView : View {
                     }
                 }
             }
-        }.padding(.leading,10).padding(.trailing,10)
+        }
     }
 }
