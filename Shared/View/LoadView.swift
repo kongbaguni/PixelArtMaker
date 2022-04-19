@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
-import GoogleMobileAds
 
 //import RealmSwift
 
@@ -21,7 +20,6 @@ struct LoadView: View {
     @State var loadingStart = false
     @State var sortIndex = 0
 
-    let bannerView = GADBannerView(adSize: GADAdSizeLargeBanner)
 
     private var pickerView : some View {
         Picker(selection:$sortIndex, label:Text("sort")) {
@@ -156,13 +154,7 @@ struct LoadView: View {
                 makePreviewLoadView()
             } else {
                 ScrollView {
-                    if InAppPurchaseModel.isSubscribe == false {
-                        GoogleAdBannerView(bannerView: bannerView)
-                            .frame(width: 320, height: 100, alignment: .center)
-                            .padding(.top,10)
-                            .padding(.bottom,10)
-                    }
-                    
+                    BannerAdView()                    
                     pickerView
                     makeListView(gridItems:
                                     loadingStart && stages.count == 1 ? [.init(.fixed(geomentry.size.width))]

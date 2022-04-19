@@ -12,7 +12,6 @@ import GoogleMobileAds
 
 struct SaveView: View {
     let googleAd = GoogleAd()
-    let bannerView = GADBannerView(adSize: GADAdSizeLargeBanner)
     let dim = DimLoadingViewController()
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -221,12 +220,7 @@ struct SaveView: View {
                     }
                     
                     makePreviewImageView(width: geomentry.size.width)
-                    if InAppPurchaseModel.isSubscribe == false {
-                        GoogleAdBannerView(bannerView: bannerView)
-                            .frame(width: 320, height: 100, alignment: .center)
-                            .padding(.top,10)
-                            .padding(.bottom,10)
-                    }
+                    BannerAdView()
 
                     makeButtonList()
                         .padding(.bottom,10)
@@ -240,12 +234,7 @@ struct SaveView: View {
                     }
                     ScrollView {
                         makePreviewImageView(width: geomentry.size.width - 250)
-                        if InAppPurchaseModel.isSubscribe == false {
-                            GoogleAdBannerView(bannerView: bannerView)
-                                .frame(width: 320, height: 100, alignment: .center)
-                                .padding(.top,10)
-                                .padding(.bottom,10)
-                        }
+                        BannerAdView()
                         makeButtonList()
                             .padding(.bottom,10)
                     }

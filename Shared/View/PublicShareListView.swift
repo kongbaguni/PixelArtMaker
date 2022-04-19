@@ -32,7 +32,7 @@ struct PublicShareListView: View {
     @State var isShowPictureDetail = false
     @State var sortIndex = 0
     @State var isLoading = false
-    
+
     var sortType:Sort.SortType {
         return Sort.SortTypeForPublicGallery[sortIndex]
     }
@@ -121,6 +121,8 @@ struct PublicShareListView: View {
                     
                 }
 
+                BannerAdView()
+                
                 if idlist.count == 0 {
                     Text("empty public shard list message")
                 }

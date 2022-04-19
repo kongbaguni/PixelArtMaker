@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import GoogleMobileAds
 
 struct NewCanvasView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -17,7 +16,6 @@ struct NewCanvasView: View {
     @State var isToast = false
     @State var toastMessage = ""
     @State var image:Image? = nil
-    let bannerView = GADBannerView(adSize: GADAdSizeLargeBanner)
     
     var canvasSize:CGSize {
         let w = Consts.canvasSizes[selection]
@@ -134,10 +132,7 @@ struct NewCanvasView: View {
                     
                     makeInfomationView()
                     if InAppPurchaseModel.isSubscribe == false {
-                        GoogleAdBannerView(bannerView: bannerView)
-                            .frame(width: 320, height: 100, alignment: .center)
-                            .padding(.top,10)
-                            .padding(.bottom,10)
+                        BannerAdView()
                     } else {
                         Spacer()
                             .frame(height:50)
@@ -152,12 +147,7 @@ struct NewCanvasView: View {
                     Spacer()
                     ScrollView {
                         makeInfomationView()
-                        if InAppPurchaseModel.isSubscribe == false {
-                            GoogleAdBannerView(bannerView: bannerView)
-                                .frame(width: 320, height: 100, alignment: .center)
-                                .padding(.top,10)
-                                .padding(.bottom,10)
-                        }
+                        BannerAdView()
                         makeButton()
                             .padding(.bottom,10)
                     }

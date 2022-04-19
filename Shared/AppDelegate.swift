@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Firebase
-import GoogleMobileAds
 import GoogleSignIn
 //orientation 잠금위한 AppDelegate 
 class AppDelegate: NSObject, UIApplicationDelegate {
