@@ -1,14 +1,14 @@
 {
   "images" : [
     {
-      "filename" : "bubble_blue.png",
+      "filename" : "bubble.png",
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "bottom" : 10,
+          "bottom" : 8,
           "left" : 8,
-          "right" : 3,
-          "top" : 3
+          "right" : 2,
+          "top" : 2
         },
         "center" : {
           "height" : 1,
@@ -26,14 +26,14 @@
           "value" : "dark"
         }
       ],
-      "filename" : "bubble_blue_d.png",
+      "filename" : "bubble_d.png",
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "bottom" : 10,
+          "bottom" : 8,
           "left" : 8,
-          "right" : 3,
-          "top" : 3
+          "right" : 2,
+          "top" : 2
         },
         "center" : {
           "height" : 1,
@@ -45,14 +45,14 @@
       "scale" : "1x"
     },
     {
-      "filename" : "bubble_blue@2x.png",
+      "filename" : "bubble@2x.png",
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "bottom" : 30,
+          "bottom" : 24,
           "left" : 24,
-          "right" : 9,
-          "top" : 9
+          "right" : 6,
+          "top" : 6
         },
         "center" : {
           "height" : 1,
@@ -70,14 +70,14 @@
           "value" : "dark"
         }
       ],
-      "filename" : "bubble_blue_d@2x.png",
+      "filename" : "bubble_d@2x.png",
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "bottom" : 30,
+          "bottom" : 24,
           "left" : 24,
-          "right" : 9,
-          "top" : 9
+          "right" : 6,
+          "top" : 6
         },
         "center" : {
           "height" : 1,
@@ -89,14 +89,14 @@
       "scale" : "2x"
     },
     {
-      "filename" : "bubble_blue_light.png",
+      "filename" : "bubble@3x.png",
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "bottom" : 90,
-          "left" : 72,
-          "right" : 27,
-          "top" : 27
+          "bottom" : 48,
+          "left" : 48,
+          "right" : 12,
+          "top" : 12
         },
         "center" : {
           "height" : 1,
@@ -114,14 +114,14 @@
           "value" : "dark"
         }
       ],
-      "filename" : "bubble_blue_d@3x.png",
+      "filename" : "bubble_d@3x.png",
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "bottom" : 90,
-          "left" : 72,
-          "right" : 27,
-          "top" : 27
+          "bottom" : 48,
+          "left" : 48,
+          "right" : 12,
+          "top" : 12
         },
         "center" : {
           "height" : 1,

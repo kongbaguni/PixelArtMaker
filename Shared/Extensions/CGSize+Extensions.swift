@@ -27,7 +27,7 @@ extension CGSize {
     }
 
     static func getImageSizeForPreviewImage(padding:CGFloat)->CGSize {
-        let size = UIScreen.main.nativeBounds.size
+        let size = UIScreen.main.bounds.size
         if size.width > size.height {
             let s = size.height - padding * 2
             return .init(width: s, height:s )

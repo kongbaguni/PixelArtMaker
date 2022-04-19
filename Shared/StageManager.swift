@@ -66,6 +66,8 @@ class StageManager {
             ]
             if let id = documentId ?? StageManager.shared.stage?.documentId {
                 data["documentId"] = id
+            } else {
+                data["documentId"] = ""
             }
             if isOnlineUpdate && uid != "guest" {
                 let collection = fireStore.collection("temp")

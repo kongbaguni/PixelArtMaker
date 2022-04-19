@@ -182,45 +182,78 @@ struct PixelArtDetailView: View {
         }
     }
     
+    private func replyListProfileView(reply:ReplyModel)-> some View {
+        VStack {
+            Spacer()
+            NavigationLink {
+                ProfileView(uid: reply.uid, haveArtList: true)
+            } label: {
+                SimplePeopleView(uid: reply.uid, isSmall: true)
+                    .frame(width: 50, height: 50, alignment: .leading)
+            }
+        }
+    }
+    private func replyListReplyView(reply:ReplyModel) -> some View {
+        ZStack {
+            if reply.uid == AuthManager.shared.userId {
+                Image(reply.uid == model?.uid ? "bubble_purple" :"bubble")
+                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+            } else {
+                Image(reply.uid == model?.uid ? "bubble_purple" :"bubble")
+            }
+            HStack {
+                if reply.uid == AuthManager.shared.userId {
+                    Text(reply.message).padding(10).padding(.trailing,20)
+                } else {
+                    Text(reply.message).padding(10).padding(.leading,20)
+                }
+                Spacer()
+            }
+        }
+    }
+    
+    private func replyListUpdateDtView(reply:ReplyModel) ->  some View {
+        HStack {
+            if reply.uid == AuthManager.shared.userId {
+                Spacer()
+            }
+            reply.updateDtText.font(.system(size: 10))
+            if reply.uid == AuthManager.shared.userId {
+                Button {
+                    alertType = .댓글삭제
+                    isShowAlert = true
+                    willDeleteReply = reply
+                } label : {
+                    Text("delete reply")
+                }.padding(.trailing, 10)
+            }
+            if reply.uid != AuthManager.shared.userId {
+                Spacer()
+            }
+        }
+    }
+    
     func makeReplyListView() -> some View {
+      
         LazyVStack {
             ForEach(replys, id:\.self) { reply in
-                HStack {
-                    VStack {
-                        Spacer()
-                        NavigationLink {
-                            ProfileView(uid: reply.uid, haveArtList: true)
-                        } label: {
-                            SimplePeopleView(uid: reply.uid, isSmall: true)
-                                .frame(width: 50, height: 50, alignment: .leading)
-                        }
-
-                    }
-                    ZStack {
-                        Image(reply.uid == model?.uid ? "bubble_purple" :"bubble")
+                VStack {
+                    if reply.uid == AuthManager.shared.userId {
                         HStack {
-                            Text(reply.message).padding(10).padding(.leading,20)
+                            Spacer()
+                            replyListReplyView(reply: reply)
+                            replyListProfileView(reply: reply)
+                        }
+                        replyListUpdateDtView(reply: reply)
+                    } else {
+                        HStack {
+                            replyListProfileView(reply: reply)
+                            replyListReplyView(reply: reply)
                             Spacer()
                         }
-                    }
-                    VStack {
-                        Spacer()
-                        if reply.uid == AuthManager.shared.userId {
-                            HStack {
-                                Spacer()
-                                Button {
-                                    alertType = .댓글삭제
-                                    isShowAlert = true
-                                    willDeleteReply = reply
-                                } label : {
-                                    Text("delete reply")
-                                }
-                            }
-                        }
-                        reply.updateDtText.font(.system(size: 10))
+                        replyListUpdateDtView(reply: reply)
                     }
                     
-                    Spacer()
                 }
             }
         }
