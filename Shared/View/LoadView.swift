@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import GoogleMobileAds
 
 //import RealmSwift
 
@@ -19,7 +20,9 @@ struct LoadView: View {
 
     @State var loadingStart = false
     @State var sortIndex = 0
-    
+
+    let bannerView = GADBannerView(adSize: GADAdSizeLargeBanner)
+
     private var pickerView : some View {
         Picker(selection:$sortIndex, label:Text("sort")) {
             ForEach(0..<Sort.SortTypeForMyGellery.count, id:\.self) { idx in
@@ -68,9 +71,8 @@ struct LoadView: View {
                     VStack {
                         WebImage(url: stage.imageURL)
                             .placeholder(.imagePlaceHolder.resizable())
-                            .resizable().frame(width: loadingStart && stages.count == 1 ? getWidth(width: width, number: 1)
-                                               : getWidth(width: width, number: gridItems.count),
-                                               height: loadingStart  && stages.count == 1  ? getWidth(width: width, number: 1) : getWidth(width: width, number: gridItems.count),
+                            .resizable().frame(width: getWidth(width: width, number: gridItems.count),
+                                               height: getWidth(width: width, number: gridItems.count),
                                                alignment: .center)
                         HStack {
                             Text("id").font(.system(size: 10))
@@ -122,10 +124,45 @@ struct LoadView: View {
         }
     }
     
+    func makePreviewLoadView()-> some View {
+        ZStack {
+            VStack {
+                Spacer()
+                if let url = stages.first?.imageURL {
+                    HStack {
+                        Spacer()
+                        WebImage(url: url).resizable()
+                            .frame(width: CGSize.getImageSizeForPreviewImage(padding: 40).width,
+                                   height: CGSize.getImageSizeForPreviewImage(padding: 40).height,
+                                   alignment: .center)
+                            .opacity(0.3)
+                        Spacer()
+                    }
+                }
+                Spacer()
+            }
+            VStack {
+                ActivityIndicator(isAnimating: $loadingStart, style: .large)
+                if stages.count == 1 {
+                    Text("open start").padding(20)
+                }
+            }
+        }
+    }
+    
     var body: some View {
         GeometryReader { geomentry in
-            ZStack {
+            if loadingStart && stages.count == 1 {
+                makePreviewLoadView()
+            } else {
                 ScrollView {
+                    if InAppPurchaseModel.isSubscribe == false {
+                        GoogleAdBannerView(bannerView: bannerView)
+                            .frame(width: 320, height: 100, alignment: .center)
+                            .padding(.top,10)
+                            .padding(.bottom,10)
+                    }
+                    
                     pickerView
                     makeListView(gridItems:
                                     loadingStart && stages.count == 1 ? [.init(.fixed(geomentry.size.width))]
@@ -139,15 +176,9 @@ struct LoadView: View {
                 if stages.count == 0 {
                     Text(loadingStart ? "open start" : "empty gallery title").padding(20)
                 }
-                VStack {
-                    if loadingStart {
-                        ActivityIndicator(isAnimating: $loadingStart, style: .large)
-                        if stages.count == 1 {
-                            Text("open start").padding(20)
-                        }
-                    }
-                }
+               
             }
+            
         }
         .navigationBarTitle(Text("my gellery"))
         .onAppear {

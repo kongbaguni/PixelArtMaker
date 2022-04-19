@@ -13,9 +13,11 @@ struct Consts {
         var result:[CGSize]  = []
         result.append(StageManager.shared.canvasSize / 3)
         result.append(StageManager.shared.canvasSize)
+        result.append(StageManager.shared.canvasSize * 2)
+
+        
         for i in 1...5 {
-            result.append(StageManager.shared.canvasSize * CGFloat(i * 3)) 
-            
+            result.append(StageManager.shared.canvasSize * CGFloat(i * 3))
         }
         return result
     }

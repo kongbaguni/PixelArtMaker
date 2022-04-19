@@ -131,3 +131,4 @@
 "reply delete title" = "댓글 삭제";
 "reply delete message" = "댓글을 삭제합니다.";
 "reply delete confirm" = "확인";
+"write reply button title" = "댓글 등록";

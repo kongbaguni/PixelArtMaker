@@ -35,6 +35,7 @@ struct PixelArtDetailView: View {
     
     @State var replyText = ""
     @State var replys:[ReplyModel] = []
+    @Namespace var bottomID
     @FocusState var isFocusedReplyInput
     
     init(id:String, showProfile:Bool, forceUpdate:Bool = false) {
@@ -143,10 +144,19 @@ struct PixelArtDetailView: View {
                 TextEditor(text: $replyText)
                     .focused($isFocusedReplyInput)
                     .border(Color.k_normalText, width: 1)
-                    .onHover { hover in
-                        print("hover : \(hover)")
+                    .onChange(of: isFocusedReplyInput) { newValue in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                            withAnimation(.easeInOut) {
+                                scrollViewPrxy.scrollTo(bottomID, anchor: .bottom)
+                            }
+                        }
                     }
                 Button {
+                    if replyText.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "").isEmpty {
+                        replyText = ""
+                        return
+                    }
+                    replyText = replyText.trimmingCharacters(in: CharacterSet(charactersIn: " "))
                     guard let model = model else {
                         return
                     }
@@ -155,18 +165,20 @@ struct PixelArtDetailView: View {
                         if error == nil {
                             isFocusedReplyInput = false
                             replyText = ""
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                                 withAnimation (.easeInOut){
                                     replys.append(reply)
+                                    scrollViewPrxy.scrollTo(bottomID, anchor: .bottom)
                                 }
                             }
                         }
                         
                     }
                 } label : {
-                    OrangeTextView(Text("reply"))
+                    OrangeTextView(Text("write reply button title"))
                 }
             }
+            Spacer().frame(height:10).id(bottomID)
         }
     }
     
@@ -176,11 +188,16 @@ struct PixelArtDetailView: View {
                 HStack {
                     VStack {
                         Spacer()
-                        SimplePeopleView(uid: reply.uid, isSmall: true)
-                            .frame(width: 50, height: 50, alignment: .leading)
+                        NavigationLink {
+                            ProfileView(uid: reply.uid, haveArtList: true)
+                        } label: {
+                            SimplePeopleView(uid: reply.uid, isSmall: true)
+                                .frame(width: 50, height: 50, alignment: .leading)
+                        }
+
                     }
                     ZStack {
-                        Image("bubble")
+                        Image(reply.uid == model?.uid ? "bubble_purple" :"bubble")
                         HStack {
                             Text(reply.message).padding(10).padding(.leading,20)
                             Spacer()

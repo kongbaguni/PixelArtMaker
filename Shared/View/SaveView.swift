@@ -60,6 +60,16 @@ struct SaveView: View {
     
     private var actionSheetButtonsForShareItems:[ActionSheet.Button] {
         var buttons:[ActionSheet.Button] = []
+        
+        let btn:ActionSheet.Button = .default(Text("share")) {
+            googleAd.showAd { isSucess in
+                if isSucess {
+                    share(items: [shareImageDatas[0],shareImageDatas[1],shareImageDatas[2]])
+                }
+            }
+        }
+        buttons.append(btn)
+
         for img in shareImageDatas {
             let id = shareImageDatas.firstIndex(of: img)
             let btn:ActionSheet.Button = .default(Consts.sizeTitles[id!]) {
@@ -71,6 +81,7 @@ struct SaveView: View {
             }
             buttons.append(btn)
         }
+
         return buttons
     }
     private func makeButtonList()-> some View {
