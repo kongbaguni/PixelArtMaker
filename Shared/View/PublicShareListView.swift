@@ -54,6 +54,7 @@ struct PublicShareListView: View {
     
     private func makeListView(gridItems:[GridItem], width:CGFloat)->some View {
         ScrollView {
+            BannerAdView(sizeType: .GADAdSizeBanner,padding:.init(top: 20, left: 0, bottom: 20, right: 0))
             makePickerView()
             LazyVGrid(columns: gridItems, spacing:20) {
                 ForEach(idlist, id:\.self) { id in
@@ -120,8 +121,6 @@ struct PublicShareListView: View {
                 } label: {
                     
                 }
-
-                BannerAdView()
                 
                 if idlist.count == 0 {
                     Text("empty public shard list message")

@@ -154,7 +154,7 @@ struct LoadView: View {
                 makePreviewLoadView()
             } else {
                 ScrollView {
-                    BannerAdView()                    
+                    BannerAdView(sizeType: .GADAdSizeLargeBanner,padding:.init(top: 20, left: 0, bottom: 20, right: 0))
                     pickerView
                     makeListView(gridItems:
                                     loadingStart && stages.count == 1 ? [.init(.fixed(geomentry.size.width))]
