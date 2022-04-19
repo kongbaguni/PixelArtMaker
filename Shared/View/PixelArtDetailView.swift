@@ -244,7 +244,6 @@ struct PixelArtDetailView: View {
     }
     
     func makeReplyListView() -> some View {
-      
         LazyVStack {
             ForEach(replys, id:\.self) { reply in
                 VStack {
@@ -253,15 +252,19 @@ struct PixelArtDetailView: View {
                             Spacer()
                             replyListReplyView(reply: reply)
                             replyListProfileView(reply: reply)
+                                .padding(.trailing, 10)
                         }
                         replyListUpdateDtView(reply: reply)
+                            .padding(.trailing, 10)
                     } else {
                         HStack {
                             replyListProfileView(reply: reply)
+                                .padding(.leading, 10)
                             replyListReplyView(reply: reply)
                             Spacer()
                         }
                         replyListUpdateDtView(reply: reply)
+                            .padding(.leading, 10)
                     }
                     
                 }
