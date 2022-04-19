@@ -164,9 +164,9 @@ struct PixelArtDetailView: View {
                     ReplyManager.shared.addReply(replyModel: reply) { error in
                         if error == nil {
                             isFocusedReplyInput = false
-                            replyText = ""
                             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                                 withAnimation (.easeInOut){
+                                    replyText = ""
                                     replys.append(reply)
                                     scrollViewPrxy.scrollTo(bottomID, anchor: .bottom)
                                 }
@@ -177,7 +177,7 @@ struct PixelArtDetailView: View {
                 } label : {
                     OrangeTextView(Text("write reply button title"))
                 }
-            }
+            }.padding(.leading,10).padding(.trailing,10)
             Spacer().frame(height:10).id(bottomID)
         }
     }
