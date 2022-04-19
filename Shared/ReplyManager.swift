@@ -24,7 +24,7 @@ class ReplyManager {
     }
     
     func getReplys(documentId:String, complete:@escaping(_ result:[ReplyModel], _ error:Error?)->Void) {
-        collection.whereField("documentId", isEqualTo: documentId)
+        collection.order(by: "updateDt", descending: true).whereField("documentId", isEqualTo: documentId)
             .getDocuments { snapShot, error in
                 var result:[ReplyModel] = []
 
@@ -50,7 +50,8 @@ class ReplyManager {
     }
     
     func getReplys(uid:String, limit:Int, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
-        var query = collection.whereField("uid", isEqualTo: uid)
+        var query = collection.order(by: "updateDt", descending: true).whereField("uid", isEqualTo: uid)
+        
         if limit > 0 {
             query = query.limit(to: limit)
         }

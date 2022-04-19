@@ -12,6 +12,8 @@ import FirebaseAuth
 struct SigninView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     let inappPurchase = InAppPurchaseManager()
+    @State var isShowToast = false
+    @State var toastMessage = ""
     private func restoreInappPurchase() {
         inappPurchase.getProductInfo {
             inappPurchase.printStatus()
@@ -59,7 +61,11 @@ struct SigninView: View {
                             if loginSucess {
                                 ProfileModel.downloadProfile (isCreateDefaultProfile: true) { error in
                                     restoreInappPurchase()
-                                    presentationMode.wrappedValue.dismiss()
+                                    toastMessage = error?.localizedDescription ?? ""
+                                    isShowToast = error != nil
+                                    if error == nil {
+                                        presentationMode.wrappedValue.dismiss()
+                                    }
                                 }
                             }
                         }
@@ -74,7 +80,11 @@ struct SigninView: View {
                             if loginSucess {
                                 ProfileModel.downloadProfile (isCreateDefaultProfile: true) { error in
                                     restoreInappPurchase()
-                                    presentationMode.wrappedValue.dismiss()
+                                    toastMessage = error?.localizedDescription ?? ""
+                                    isShowToast = error != nil
+                                    if error == nil {
+                                        presentationMode.wrappedValue.dismiss()
+                                    }
                                 }
                             }
                         }
@@ -88,6 +98,8 @@ struct SigninView: View {
                     ProfileModel.updateProfile(nickname: user.displayName ?? "",
                                                profileURL: user.photoURL?.absoluteString ?? "",
                                                email: user.email ?? "" ) { error in
+                        toastMessage = error?.localizedDescription ?? ""
+                        isShowToast = error != nil
                         
                     }
                 }

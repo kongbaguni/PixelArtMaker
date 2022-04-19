@@ -108,6 +108,8 @@ struct PixelArtDetailView: View {
                     Button {
                         ProfileModel.findBy(uid: m.uid)?.updatePhoto(photoURL: m.imageURL.absoluteString, complete: { error in
                             isProfileImage = true
+                            toastMessage = error?.localizedDescription ?? ""
+                            isShowToast = error != nil
                         })
                     } label : {
                         OrangeTextView(image: Image(systemName: "person.crop.circle"), text: Text("Set as Profile Image"))
@@ -175,6 +177,8 @@ struct PixelArtDetailView: View {
                                 }
                             }
                         }
+                        toastMessage = error?.localizedDescription ?? ""
+                        isShowToast = error != nil 
                         
                     }
                 } label : {
@@ -357,6 +361,9 @@ struct PixelArtDetailView: View {
             if let id = model?.id {
                 ReplyManager.shared.getReplys(documentId: id) { result, error in
                     replys = result
+                    toastMessage = error?.localizedDescription ?? ""
+                    isShowToast = error != nil
+                        
                 }
             }
             

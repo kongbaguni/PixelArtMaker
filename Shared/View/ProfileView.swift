@@ -187,6 +187,9 @@ struct ProfileView: View {
             if uid.isEmpty == false {
                 ProfileModel.findBy(uid: uid) { error in
                     loadData()
+                    toastMessage = error?.localizedDescription ?? ""
+                    isToast = error != nil
+                    
                 }
             }
         }
@@ -199,7 +202,6 @@ struct ProfileView: View {
                         } else {
                             toastMessage = error!.localizedDescription
                             isToast = true
-                            
                         }
                     }
                 } label : {
