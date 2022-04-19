@@ -28,6 +28,7 @@ struct PixelArtDetailView: View {
     let googleAd = GoogleAd()
     let isShowProfile:Bool
     let isForceUpdate:Bool
+    let focusedReply:ReplyModel?
     @State var isShowAlert = false
     @State var alertType:AlertType? = nil
     
@@ -38,10 +39,11 @@ struct PixelArtDetailView: View {
     @Namespace var bottomID
     @FocusState var isFocusedReplyInput
     
-    init(id:String, showProfile:Bool, forceUpdate:Bool = false) {
+    init(id:String, showProfile:Bool, forceUpdate:Bool = false, focusedReply:ReplyModel? = nil ) {
         pid = id
         isShowProfile = showProfile
         isForceUpdate = forceUpdate
+        self.focusedReply = focusedReply
     }
     private func toggleLike() {
         model?.likeToggle(complete: {isMyLike, error in
@@ -160,7 +162,8 @@ struct PixelArtDetailView: View {
                     guard let model = model else {
                         return
                     }
-                    let reply = ReplyModel(documentId: model.documentId, message: replyText)
+                    
+                    let reply = ReplyModel(documentId: model.id, message: replyText, imageURL: model.imageUrl)
                     ReplyManager.shared.addReply(replyModel: reply) { error in
                         if error == nil {
                             isFocusedReplyInput = false
@@ -203,9 +206,16 @@ struct PixelArtDetailView: View {
             }
             HStack {
                 if reply.uid == AuthManager.shared.userId {
-                    Text(reply.message).padding(10).padding(.trailing,20)
+                    Text(reply.message)
+                        .padding(10)
+                        .padding(.trailing,20)
+                        .foregroundColor(focusedReply == reply ? .K_boldText : .k_normalText)
                 } else {
-                    Text(reply.message).padding(10).padding(.leading,20)
+                    Text(reply.message)
+                        .padding(10)
+                        .padding(.leading,20)
+                        .foregroundColor(focusedReply == reply ? .K_boldText : .k_normalText)
+
                 }
                 Spacer()
             }
@@ -341,11 +351,12 @@ struct PixelArtDetailView: View {
             } else {
                 load()
             }
-            if let id = model?.documentId {
+            if let id = model?.id {
                 ReplyManager.shared.getReplys(documentId: id) { result, error in
                     replys = result
                 }
             }
+            
         }
         
     }

@@ -23,6 +23,7 @@ class SharedStageModel : Object {
         let isMyLike:Bool
     }
     @Persisted(primaryKey: true) var id:String = ""
+    /** 원본의 아이디 불러오기 구현시 참조용.*/
     @Persisted var documentId:String = ""
     @Persisted var uid:String = ""
     @Persisted var email:String = ""

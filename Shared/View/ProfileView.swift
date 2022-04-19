@@ -140,7 +140,9 @@ struct ProfileView: View {
                             LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
                                             itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
                         }
-                        
+                        Section(header:Text("profile view replys")) {
+                            ReplyListView(uid: uid, limit: 20)
+                        }
                     }
                 }
                 else {
@@ -156,6 +158,9 @@ struct ProfileView: View {
                             Section(header:Text("profile view like arts")) {
                                 LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
                                                 itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                            }
+                            Section(header:Text("profile view replys")) {
+                                ReplyListView(uid: uid, limit: 20)
                             }
                             
                         }

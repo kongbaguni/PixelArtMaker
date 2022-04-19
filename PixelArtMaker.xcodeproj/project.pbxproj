@@ -34,6 +34,7 @@
 		1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
 		8D3BD982280E74CB0022ED89 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD981280E74CB0022ED89 /* BannerAdView.swift */; };
+		8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD983280E841F0022ED89 /* ReplyListView.swift */; };
 		8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9128080BCB00565A3C /* PathFinder.swift */; };
 		8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC982809410400565A3C /* PhotoPicker.swift */; };
 		8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9A280959CD00565A3C /* TracingImageModel.swift */; };
@@ -144,6 +145,7 @@
 		28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixelArtMaker__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		8D3BD981280E74CB0022ED89 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
+		8D3BD983280E841F0022ED89 /* ReplyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyListView.swift; sourceTree = "<group>"; };
 		8D49FC9128080BCB00565A3C /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		8D49FC982809410400565A3C /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8D49FC9A280959CD00565A3C /* TracingImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingImageModel.swift; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				8D49FC982809410400565A3C /* PhotoPicker.swift */,
 				8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */,
 				8D3BD981280E74CB0022ED89 /* BannerAdView.swift */,
+				8D3BD983280E841F0022ED89 /* ReplyListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -617,6 +620,7 @@
 				C3011F5527F0495C001B12AC /* TagView.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
 				1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */,
+				8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */,
 				1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
 				C3EDBF2A27F892B700BBEC01 /* LabelTextView.swift in Sources */,
 				8DB0BA052806AFFB00C2B0FF /* LikeModel.swift in Sources */,

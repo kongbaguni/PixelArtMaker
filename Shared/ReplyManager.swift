@@ -37,7 +37,9 @@ class ReplyManager {
                         
                     }
                 }
-                complete(result.reversed(),error)
+                complete(result.sorted(by: { a, b in
+                    a.updateDt < b.updateDt
+                }),error)
             }
     }
     
@@ -45,5 +47,28 @@ class ReplyManager {
         collection.document(id).delete { error in
             complete(error)
         }
+    }
+    
+    func getReplys(uid:String, limit:Int, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
+        var query = collection.whereField("uid", isEqualTo: uid)
+        if limit > 0 {
+            query = query.limit(to: limit)
+        }
+        query.getDocuments { snapShot, error in
+            var result:[ReplyModel] = []
+
+            if let documents = snapShot?.documents {
+                for doc in documents {
+                    let json = doc.data() as [String:AnyObject]
+                    if let model = ReplyModel.makeModel(json: json)  {
+                        result.append(model)
+                    }
+                    
+                }
+            }
+            complete(result.sorted(by: { a, b in
+                a.updateDt > b.updateDt
+            }),error)
+        }        
     }
 }

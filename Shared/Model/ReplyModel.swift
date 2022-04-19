@@ -21,12 +21,16 @@ struct ReplyModel : Codable, Hashable {
     let message:String
     /** 갱신일 */
     let updateDt:TimeInterval
-    init(documentId:String, message:String) {
+    /** 댓글 단 그림의 URL*/
+    let imageURL:String
+    
+    init(documentId:String, message:String, imageURL:String) {
         self.documentId = documentId
         self.message = message
         id = "\(AuthManager.shared.userId ?? "guest")_\(UUID().uuidString)_\(Date().timeIntervalSince1970)"
         uid = AuthManager.shared.userId ?? "guest"
         updateDt = Date().timeIntervalSince1970
+        self.imageURL = imageURL
     }
     
 }
@@ -51,5 +55,6 @@ extension ReplyModel {
         let date = Date(timeIntervalSince1970: updateDt)
         return Text(date.formatted(date: .numeric, time: .standard))
     }
+    
 }
 
