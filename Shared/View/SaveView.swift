@@ -60,10 +60,14 @@ struct SaveView: View {
     private var actionSheetButtonsForShareItems:[ActionSheet.Button] {
         var buttons:[ActionSheet.Button] = []
         
-        let btn:ActionSheet.Button = .default(Text("share")) {
+        let btn:ActionSheet.Button = .default(Text("all share select title")) {
             googleAd.showAd { isSucess in
                 if isSucess {
-                    share(items: [shareImageDatas[0],shareImageDatas[1],shareImageDatas[2]])
+                    if InAppPurchaseModel.isSubscribe {
+                        share(items: shareImageDatas)
+                    } else {
+                        share(items: [shareImageDatas[0],shareImageDatas[1],shareImageDatas[2]])
+                    }
                 }
             }
         }
@@ -81,6 +85,7 @@ struct SaveView: View {
             buttons.append(btn)
         }
 
+        buttons.append(.cancel())
         return buttons
     }
     private func makeButtonList()-> some View {

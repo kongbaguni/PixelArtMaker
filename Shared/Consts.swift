@@ -16,8 +16,8 @@ struct Consts {
         result.append(StageManager.shared.canvasSize * 2)
 
         
-        for i in 1...5 {
-            result.append(StageManager.shared.canvasSize * CGFloat(i * 3))
+        for i in 3...5 {
+            result.append(StageManager.shared.canvasSize * CGFloat(i))
         }
         return result
     }
