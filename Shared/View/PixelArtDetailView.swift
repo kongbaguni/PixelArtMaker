@@ -178,7 +178,7 @@ struct PixelArtDetailView: View {
                             }
                         }
                         toastMessage = error?.localizedDescription ?? ""
-                        isShowToast = error != nil 
+                        isShowToast = error != nil
                         
                     }
                 } label : {
@@ -359,11 +359,10 @@ struct PixelArtDetailView: View {
                 load()
             }
             if let id = model?.id {
-                ReplyManager.shared.getReplys(documentId: id) { result, error in
+                ReplyManager.shared.getReplys(documentId: id, limit:0) { result, error in
                     replys = result
                     toastMessage = error?.localizedDescription ?? ""
-                    isShowToast = error != nil
-                        
+                    isShowToast = error != nil                        
                 }
             }
             
