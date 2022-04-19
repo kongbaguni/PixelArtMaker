@@ -132,7 +132,7 @@ struct NewCanvasView: View {
                     
                     makeInfomationView()
                     if InAppPurchaseModel.isSubscribe == false {
-                        BannerAdView(sizeType: .GADAdSizeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
+                        BannerAdView(sizeType: .GADAdSizeLargeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
                     } else {
                         Spacer()
                             .frame(height:50)
@@ -147,7 +147,7 @@ struct NewCanvasView: View {
                     Spacer()
                     ScrollView {
                         makeInfomationView()
-                        BannerAdView(sizeType: .GADAdSizeBanner,padding:.init(top: 20, left: 0, bottom: 20, right: 0))
+                        BannerAdView(sizeType: .GADAdSizeLargeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
                         makeButton()
                             .padding(.bottom,10)
                     }

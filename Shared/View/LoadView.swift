@@ -152,25 +152,27 @@ struct LoadView: View {
         GeometryReader { geomentry in
             if loadingStart && stages.count == 1 {
                 makePreviewLoadView()
-            } else {
+            } else if geomentry.size.width < geomentry.size.height {
                 ScrollView {
-                    BannerAdView(sizeType: .GADAdSizeLargeBanner,padding:.init(top: 20, left: 0, bottom: 20, right: 0))
+                    BannerAdView(sizeType: .GADAdSizeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
                     pickerView
-                    makeListView(gridItems:
-                                    loadingStart && stages.count == 1 ? [.init(.fixed(geomentry.size.width))]
-                                 : geomentry.size.width < geomentry.size.height
-                                 ? Utill.makeGridItems(length: 2, screenWidth: geomentry.size.width, padding:20)
-                                 : Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width, padding:20)
-                                 ,width:geomentry.size.width
-                    )
+                    makeListView(gridItems:Utill.makeGridItems(length: 2, screenWidth: geomentry.size.width, padding:20)
+                                 ,width:geomentry.size.width)
                 }
-                
-                if stages.count == 0 {
-                    Text(loadingStart ? "open start" : "empty gallery title").padding(20)
+            }
+            else {
+                ScrollView {
+                    BannerAdView(sizeType: .GADAdSizeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
+                    pickerView
+                    makeListView(gridItems:  Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width, padding:20)
+                                 ,width:geomentry.size.width)
                 }
-               
             }
             
+            if stages.count == 0 {
+                Text(loadingStart ? "open start" : "empty gallery title").padding(20)
+            }
+                        
         }
         .navigationBarTitle(Text("my gellery"))
         .onAppear {
