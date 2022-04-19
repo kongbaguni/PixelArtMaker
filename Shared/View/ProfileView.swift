@@ -181,6 +181,8 @@ struct ProfileView: View {
             sharedIds = ArtListView.reloadFromLocalDb(uid:uid,sort: sort)
             ArtListView.getListFromFirestore(uid:uid,sort: sort) { ids, error in
                 self.sharedIds = ids
+                toastMessage = error?.localizedDescription ?? "" 
+                isToast = error != nil
             }
             
             loadData()

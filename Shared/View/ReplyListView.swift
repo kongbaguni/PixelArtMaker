@@ -12,7 +12,8 @@ struct ReplyListView: View {
     let uid:String
     let limit:Int
     @State var replys:[ReplyModel] = []
-    
+    @State var isToast = false
+    @State var toastMessage = ""
     var body: some View {
         LazyVStack {
             ForEach(replys, id:\.self) { reply in
@@ -48,8 +49,11 @@ struct ReplyListView: View {
             ReplyManager.shared.getReplys(uid: uid, limit: limit) { result, error in
                 withAnimation(.easeInOut) {
                     replys = result
-                }
+                    toastMessage = error?.localizedDescription ?? ""
+                    isToast = error != nil
+                }                
             }
         }
+        .toast(message: toastMessage, isShowing: $isToast, duration: 4)
     }
 }
