@@ -94,9 +94,6 @@ struct CanvasView: View {
                     if let p = drawBegainPointer {
                         for point in PathFinder.findLine(startCGPoint: p, endCGPoint: pointer) {
                             let cp = point.cgpoint
-//                            if cp.x == pointer.x && cp.y == pointer.y {
-//                                continue
-//                            }
                             let path = Path(roundedRect: .init(
                                 x: (cp.x - CGFloat(zoomOffset.x)) * w,
                                 y: (cp.y - CGFloat(zoomOffset.y)) * w,
@@ -147,7 +144,7 @@ struct CanvasView: View {
                                 if color != .clear {
                                     if isShowSelectLayerOnly {
                                         let isCurrent = layers.count - i - 1 == StageManager.shared.stage?.selectedLayerIndex
-                                        if isCurrent {
+                                        if isCurrent {                                            
                                             context.fill(.init(roundedRect: rect, cornerSize:.zero), with: .color(color))
                                         }
                                         

@@ -203,17 +203,22 @@ class StageModel {
     
     static func makeModel(base64EncodedString:String, documentId:String?)->StageModel? {
         func getColor(arr:[[[String]]])->[[[Color]]] {
-            var result:[[[Color]]] = []
-            for arr1 in arr {
-                var a:[[Color]] = []
-                for arr2 in arr1 {
-                    var b:[Color] = []
-                    for str in arr2 {
-                        b.append(Color(string: str))
+            
+            func makeColor(stringArr c:String)->Color {
+                let list = c.components(separatedBy: " ")
+                let r = NSString(string:list[0]).doubleValue
+                let g = NSString(string:list[1]).doubleValue
+                let b = NSString(string:list[2]).doubleValue
+                let a = NSString(string:list[3]).doubleValue
+                return Color(uiColor: UIColor(red: r, green: g, blue: b, alpha: a))
+            }
+            
+            let result = arr.map { a in
+                a.map { b in
+                    b.map { c in
+                        return makeColor(stringArr: c)
                     }
-                    a.append(b)
                 }
-                result.append(a)
             }
             return result
         }
