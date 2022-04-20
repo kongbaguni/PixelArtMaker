@@ -21,10 +21,19 @@ struct ReplyListView: View {
     @State var replys:[ReplyModel] = []
     @State var isToast = false
     @State var toastMessage = ""
+    @State var isLoading = false
+    
     var body: some View {
         LazyVStack {
-            if replys.count == 0 {
-                Text("empty reply list message").font(.subheadline).foregroundColor(Color.k_weakText)
+            if isLoading {
+                ActivityIndicator(isAnimating: $isLoading, style: .large)
+                    .frame(height:100)
+            }
+            else if replys.count == 0 {
+                Text("empty reply list message")
+                    .font(.subheadline)
+                    .foregroundColor(Color.k_weakText)
+                    .frame(height:100)
             }
             ForEach(replys, id:\.self) { reply in
                 HStack {
@@ -56,10 +65,12 @@ struct ReplyListView: View {
                 
             }
         }.onAppear {
+            isLoading = true
             switch listMode {
             case .내가_쓴_댓글:
                 ReplyManager.shared.getReplys(uid: uid, limit: limit) { result, error in
                     withAnimation(.easeInOut) {
+                        isLoading = false
                         replys = result
                         toastMessage = error?.localizedDescription ?? ""
                         isToast = error != nil
@@ -68,6 +79,7 @@ struct ReplyListView: View {
             case .내_게시글에_달린_댓글:
                 ReplyManager.shared.getReplysToMe(uid: uid, limit: limit) { result, error in
                     withAnimation(.easeInOut) {
+                        isLoading = false
                         replys = result
                         toastMessage = error?.localizedDescription ?? ""
                         isToast = error != nil
@@ -76,5 +88,17 @@ struct ReplyListView: View {
             }
         }
         .toast(message: toastMessage, isShowing: $isToast, duration: 4)
+    }
+}
+
+
+struct ReplyListFullView : View {
+    let uid:String
+    let listMode: ReplyListView.ListMode
+    
+    var body : some View {
+        ScrollView {
+            ReplyListView(uid: uid, limit: 0, listMode: listMode)
+        }
     }
 }

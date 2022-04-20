@@ -83,19 +83,33 @@ struct ProfileView: View {
             }
             if haveArtList == false {
                 HStack {
-                    NavigationLink(destination: ArtListView(uid: uid, width:nil)) {
+                    NavigationLink {
+                        ArtListView(uid: uid, width:nil)
+                            .navigationTitle(Text("art list"))
+                    } label: {
                         Text("art list")
                             .padding(5)
                             .font(.system(size: 10, weight: .heavy, design: .serif))
-                        
                     }
-                    NavigationLink(destination: LikeArtListFullView(uid: uid)) {
+
+                    NavigationLink  {
+                        LikeArtListFullView(uid: uid).navigationTitle(Text("like art list"))
+                        
+                    } label: {
                         Text("like art list")
                             .padding(5)
                             .font(.system(size: 10, weight: .heavy, design: .serif))
-                        
                     }
 
+
+                    NavigationLink {
+                        ReplyListFullView(uid: uid, listMode: .내가_쓴_댓글).navigationBarTitle("own replys")
+                    } label: {
+                        Text("own replys")
+                            .padding(5)
+                            .font(.system(size: 10, weight: .heavy, design: .serif))
+
+                    }
                     Spacer()
                 }
                 

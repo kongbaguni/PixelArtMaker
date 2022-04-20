@@ -136,3 +136,7 @@
 "all share select title" = "모든 사이즈 한번에 공유하기";
 "profile view replys to me" = "최근에 작성한 게시글에 달린 댓글";
 "empty reply list message" = "댓글이 없습니다.";
+
+"own replys" = "작성한 댓글들";
+"like art list" = "좋아요 한 그림들";
+"art list" = "공개한 그림들";
