@@ -67,6 +67,13 @@ class HistoryManager {
             }
             
             for change in changes {
+                if change.layerIndex >= colors.count {
+                    continue
+                }
+                if change.point.isIn(size: StageManager.shared.canvasSize) == false {
+                    continue
+                }
+                
                 colors[change.layerIndex][change.point.y][change.point.x] = isUndo
                 ? change.colorChnage.before
                 : change.colorChnage.after

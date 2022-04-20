@@ -23,6 +23,9 @@ struct ReplyListView: View {
     @State var toastMessage = ""
     var body: some View {
         LazyVStack {
+            if replys.count == 0 {
+                Text("empty reply list message").font(.subheadline).foregroundColor(Color.k_weakText)
+            }
             ForEach(replys, id:\.self) { reply in
                 HStack {
                     VStack {
@@ -69,7 +72,7 @@ struct ReplyListView: View {
                         toastMessage = error?.localizedDescription ?? ""
                         isToast = error != nil
                     }
-                }                
+                }
             }
         }
         .toast(message: toastMessage, isShowing: $isToast, duration: 4)

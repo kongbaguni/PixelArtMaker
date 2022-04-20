@@ -14,12 +14,10 @@ struct HistorySet: Codable {
     
     var jsonValue:String {
         do {
-            print("json ----------------------")
             let data = try JSONEncoder().encode(self)
             if let json = try JSONSerialization.jsonObject(with: data) as? [String:AnyObject] {
 
                 if let str = JSON(json).rawString() {
-                    print(str)
                     return str
                 }
             }
