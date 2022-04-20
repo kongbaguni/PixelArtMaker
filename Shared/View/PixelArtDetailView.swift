@@ -187,7 +187,18 @@ struct PixelArtDetailView: View {
                 } label : {
                     OrangeTextView(Text("write reply button title"))
                 }
-            }.padding(.leading,10).padding(.trailing,10)
+            }
+            .padding(.leading,10).padding(.trailing,10)
+            .onAppear {
+                if let reply = focusedReply {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                        withAnimation (.easeInOut){
+                            scrollViewPrxy.scrollTo(reply,anchor: .bottom)
+                        }
+                    }
+                }
+                
+            }
             Spacer().frame(height:10).id(bottomID)
         }
     }
@@ -279,48 +290,37 @@ struct PixelArtDetailView: View {
         }
     }
     
+    
     var body: some View {
         Group {
             if tmodel != nil {
                 GeometryReader { geomentry in
                     ScrollViewReader { proxy in
-                        Group {
-                            if geomentry.size.width < geomentry.size.height || geomentry.size.width < 400 {
+                        if geomentry.size.width < geomentry.size.height || geomentry.size.width < 400 {
+                            ScrollView {
+                                makeProfileView(landScape: false).frame(height:120)
+                                makeImageView(imageSize: geomentry.size.width - 20)
+                                makeInfomationView().frame(width: geomentry.size.width - 20)
+                                makeButtonsView().padding(10)
+                                
+                                makeReplyListView()
+                                makeReplyTextView(scrollViewPrxy: proxy)
+                            }
+                        } else {
+                            HStack {
+                                if isShowProfile {
+                                    makeProfileView(landScape: true).frame(width:200)
+                                }
                                 ScrollView {
-                                    makeProfileView(landScape: false).frame(height:120)
-                                    makeImageView(imageSize: geomentry.size.width - 20)
-                                    makeInfomationView().frame(width: geomentry.size.width - 20)
-                                    makeButtonsView().padding(10)
-                                    
+                                    makeImageView(imageSize: isShowProfile ? 250 : 450)
+                                }
+                                ScrollView {
+                                    makeInfomationView()
+                                        .frame(width:geomentry.size.width > 470 ? geomentry.size.width - 470 : 100)
+                                        .padding(.top, 10)
+                                    makeButtonsView()
                                     makeReplyListView()
                                     makeReplyTextView(scrollViewPrxy: proxy)
-                                    
-                                }
-                            } else {
-                                HStack {
-                                    if isShowProfile {
-                                        makeProfileView(landScape: true).frame(width:200)
-                                    }
-                                    ScrollView {
-                                        makeImageView(imageSize: isShowProfile ? 250 : 450)
-                                    }
-                                    ScrollView {
-                                        makeInfomationView()
-                                            .frame(width:geomentry.size.width > 470 ? geomentry.size.width - 470 : 100)
-                                            .padding(.top, 10)
-                                        makeButtonsView()
-                                        makeReplyListView()
-                                        makeReplyTextView(scrollViewPrxy: proxy)
-                                    }
-                                }
-                            }
-                        }
-                        .onAppear {
-                            if let reply = focusedReply {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
-                                    withAnimation(.easeInOut) {
-                                        proxy.scrollTo(reply,anchor: .bottom)
-                                    }
                                 }
                             }
                         }
