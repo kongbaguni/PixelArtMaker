@@ -35,6 +35,8 @@
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
 		8D3BD982280E74CB0022ED89 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD981280E74CB0022ED89 /* BannerAdView.swift */; };
 		8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD983280E841F0022ED89 /* ReplyListView.swift */; };
+		8D3BD9A1280F8F1B0022ED89 /* HIstoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */; };
+		8D3BD9A3280F8F320022ED89 /* HistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A2280F8F320022ED89 /* HistoryModel.swift */; };
 		8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9128080BCB00565A3C /* PathFinder.swift */; };
 		8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC982809410400565A3C /* PhotoPicker.swift */; };
 		8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9A280959CD00565A3C /* TracingImageModel.swift */; };
@@ -146,6 +148,8 @@
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		8D3BD981280E74CB0022ED89 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		8D3BD983280E841F0022ED89 /* ReplyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyListView.swift; sourceTree = "<group>"; };
+		8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIstoryManager.swift; sourceTree = "<group>"; };
+		8D3BD9A2280F8F320022ED89 /* HistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModel.swift; sourceTree = "<group>"; };
 		8D49FC9128080BCB00565A3C /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		8D49FC982809410400565A3C /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8D49FC9A280959CD00565A3C /* TracingImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingImageModel.swift; sourceTree = "<group>"; };
@@ -277,6 +281,7 @@
 			children = (
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
+				8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */,
 				8DABAF19280D2E92001E7619 /* ReplyManager.swift */,
 				8DB0BA082807BA5100C2B0FF /* Utill.swift */,
 				8D49FC9128080BCB00565A3C /* PathFinder.swift */,
@@ -338,6 +343,7 @@
 		1B28C3E927BE107D003F8312 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8D3BD9A2280F8F320022ED89 /* HistoryModel.swift */,
 				1B28C3EA27BE108F003F8312 /* LayerModel.swift */,
 				C38C1B9F28017C5300350176 /* TempModel.swift */,
 				1B28C3F327BF302B003F8312 /* StageModel.swift */,
@@ -641,7 +647,9 @@
 				8DF55C5127FD74B800D68EB1 /* ArtListView.swift in Sources */,
 				8DB0BA032806A12100C2B0FF /* LikeArtListView.swift in Sources */,
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
+				8D3BD9A3280F8F320022ED89 /* HistoryModel.swift in Sources */,
 				C38C1BB028059D7F00350176 /* CGSize+Extensions.swift in Sources */,
+				8D3BD9A1280F8F1B0022ED89 /* HIstoryManager.swift in Sources */,
 				1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */,
 				C3011F5727F050CD001B12AC /* SharedStageModel.swift in Sources */,
 				C3EDBF2C27F9412100BBEC01 /* Toast.swift in Sources */,
