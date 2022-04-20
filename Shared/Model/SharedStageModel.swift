@@ -139,10 +139,7 @@ extension SharedStageModel {
         
     }
     
-    func likeToggle(complete:@escaping(_ isLike:Bool, _ error:Error?)->Void) {
-        guard let uid = AuthManager.shared.userId else {
-            return
-        }
+    func likeUpdate(isMyLike:Bool ,likeUids:[String], complete:@escaping(_ error:Error?)->Void) {
         if id.isEmpty {
             return
         }
@@ -153,22 +150,13 @@ extension SharedStageModel {
 
                 let realm = try! Realm()
                 realm.beginWrite()
-                let model = realm.create(SharedStageModel.self, value: data, update: .modified)
+                realm.create(SharedStageModel.self, value: data, update: .modified)
                 try! realm.commitWrite()
-                var result = false
-                var likeSet:Set<String> = model.likeUserIdsSet
-                if model.isMyLike {
-                    likeSet.remove(uid)
-                    result = false
-                } else {
-                    likeSet.insert(uid)
-                    result = true
-                }
                 
                 let updateData:[String:AnyHashable] = [
                     "id":id,
-                    "likeUids" : likeSet.sorted().joined(separator: ","),
-                    "likeCount" : likeSet.filter({ str in
+                    "likeUids" : likeUids.joined(separator: ","),
+                    "likeCount" : likeUids.filter({ str in
                         return str.isEmpty == false
                     }).count
                 ]
@@ -178,8 +166,8 @@ extension SharedStageModel {
                 try! realm.commitWrite()
                 
                 collection.document(id).updateData(updateData) { errorA in
-                    self.updateMyLikeList(isLike: result) { errorB in
-                        complete(result ,errorA ?? errorB)
+                    self.updateMyLikeList(isLike: isMyLike) { errorB in
+                        complete(errorA ?? errorB)
                     }
                 }
             }

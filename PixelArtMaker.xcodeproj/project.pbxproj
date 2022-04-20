@@ -67,6 +67,7 @@
 		C3011F5727F050CD001B12AC /* SharedStageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F5627F050CD001B12AC /* SharedStageModel.swift */; };
 		C3011F5927F05675001B12AC /* PublicShareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F5827F05675001B12AC /* PublicShareListView.swift */; };
 		C3011F5B27F05750001B12AC /* OrangeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F5A27F05750001B12AC /* OrangeTextView.swift */; };
+		C303FB18281037C700E920D8 /* LikeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C303FB17281037C700E920D8 /* LikeManager.swift */; };
 		C320338827C3729B0019B546 /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338727C3729B0019B546 /* Text+Extensions.swift */; };
 		C320338A27C3895E0019B546 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C320338927C3895E0019B546 /* Colors.xcassets */; };
 		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
@@ -173,6 +174,7 @@
 		C3011F5627F050CD001B12AC /* SharedStageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStageModel.swift; sourceTree = "<group>"; };
 		C3011F5827F05675001B12AC /* PublicShareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicShareListView.swift; sourceTree = "<group>"; };
 		C3011F5A27F05750001B12AC /* OrangeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeTextView.swift; sourceTree = "<group>"; };
+		C303FB17281037C700E920D8 /* LikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeManager.swift; sourceTree = "<group>"; };
 		C320338727C3729B0019B546 /* Text+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extensions.swift"; sourceTree = "<group>"; };
 		C320338927C3895E0019B546 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		C320338B27C389AA0019B546 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
@@ -281,15 +283,16 @@
 			children = (
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
-				8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */,
-				8DABAF19280D2E92001E7619 /* ReplyManager.swift */,
+				8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */,
 				8DB0BA082807BA5100C2B0FF /* Utill.swift */,
 				8D49FC9128080BCB00565A3C /* PathFinder.swift */,
 				8DB0BA0028065A8200C2B0FF /* SettingView.swift */,
 				C356363927FAC29200B2609A /* InAppPurchaseManager.swift */,
 				C356363727FA7C2100B2609A /* Consts.swift */,
 				C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */,
-				8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */,
+				8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */,
+				8DABAF19280D2E92001E7619 /* ReplyManager.swift */,
+				C303FB17281037C700E920D8 /* LikeManager.swift */,
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
 				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
 				C3EDBF2B27F9412100BBEC01 /* Toast.swift */,
@@ -626,6 +629,7 @@
 				C3011F5527F0495C001B12AC /* TagView.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
 				1BF1B25B27E2F032007A73CB /* Stack.swift in Sources */,
+				C303FB18281037C700E920D8 /* LikeManager.swift in Sources */,
 				8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */,
 				1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
 				C3EDBF2A27F892B700BBEC01 /* LabelTextView.swift in Sources */,
@@ -835,7 +839,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "PixelArtMaker (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = QU9EPTU238;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -875,7 +879,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "PixelArtMaker (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = QU9EPTU238;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

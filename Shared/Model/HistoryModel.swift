@@ -99,7 +99,7 @@ struct LayerTotalColorInfomationModel : Codable, Hashable {
 
 struct ColorChangeModelWithLayerPoint :Codable, Hashable {
     public static func == (lhs:ColorChangeModelWithLayerPoint, rhs:ColorChangeModelWithLayerPoint) -> Bool {
-        return lhs.layerIndex == rhs.layerIndex && lhs.x == rhs.x && lhs.y == rhs.y
+        return lhs.layerIndex == rhs.layerIndex && lhs.x == rhs.x && lhs.y == rhs.y && lhs.colorChnage == rhs.colorChnage
     }
     let layerIndex:Int
     let x:Int

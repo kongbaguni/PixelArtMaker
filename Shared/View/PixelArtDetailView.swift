@@ -46,17 +46,20 @@ struct PixelArtDetailView: View {
         self.focusedReply = focusedReply
     }
     private func toggleLike() {
-        model?.likeToggle(complete: {isMyLike, error in
-            let newModel = model
-            if let err = error {
-                toastMessage = err.localizedDescription
-                isShowToast = true
-            } else {
-                self.isMyLike = isMyLike
-                self.likeCount = newModel?.likeCount ?? 0
-                print("like toggle : \(isMyLike)")
-            }
-        })
+        LikeManager().toggleLike(documentId: model!.id) { isLike, likeUids, error in
+            print("toggle like \(isLike), \(likeUids) \(likeUids.count)")
+            model?.likeUpdate(isMyLike: isLike, likeUids: likeUids, complete: { error in
+                if let err = error {
+                    toastMessage = err.localizedDescription
+                    isShowToast = true
+                } else {
+                    self.isMyLike = isLike
+                    self.likeCount = likeUids.count
+                    print("like toggle : \(isMyLike)")
+                }
+            })
+        }
+        
     }
     private func makeImageView(imageSize:CGFloat)->some View {
         VStack {
