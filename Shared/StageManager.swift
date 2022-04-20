@@ -253,7 +253,7 @@ class StageManager {
                     }
                     return
                 }
-                
+                HistoryManager.shared.clear()
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
                 stage = model
                 model?.createrId = uid
