@@ -22,7 +22,7 @@ class ReplyManager {
             complete(error)
         }
     }
-    
+    /** 게시글에 달린 댓글 목록*/
     func getReplys(documentId:String, limit:Int, complete:@escaping(_ result:[ReplyModel], _ error:Error?)->Void) {
         var query = collection.order(by: "updateDt", descending: true).whereField("documentId", isEqualTo: documentId)
         if limit > 0 {
@@ -52,6 +52,7 @@ class ReplyManager {
         }
     }
     
+    /** 내가 단 댓글 목록 */
     func getReplys(uid:String, limit:Int, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
         var query = collection.order(by: "updateDt", descending: true).whereField("uid", isEqualTo: uid)
         
@@ -74,5 +75,29 @@ class ReplyManager {
                 a.updateDt > b.updateDt
             }),error)
         }        
+    }
+    /** 내 게시글에 달린 댓글 목록*/
+    func getReplysToMe(uid:String, limit:Int,complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
+        var query = collection.order(by: "updateDt", descending: true).whereField("documentsUid", isEqualTo: uid)
+        if limit > 0 {
+            query = query.limit(to: limit)
+        }
+        query.getDocuments { snapShot, error in
+            var result:[ReplyModel] = []
+
+            if let documents = snapShot?.documents {
+                for doc in documents {
+                    let json = doc.data() as [String:AnyObject]
+                    if let model = ReplyModel.makeModel(json: json)  {
+                        result.append(model)
+                    }
+                    
+                }
+            }
+            complete(result.sorted(by: { a, b in
+                a.updateDt > b.updateDt
+            }),error)
+        }
+        
     }
 }

@@ -9,8 +9,15 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ReplyListView: View {
+    enum ListMode {
+        case 내가_쓴_댓글
+        case 내_게시글에_달린_댓글
+    }
+    
     let uid:String
     let limit:Int
+    let listMode:ListMode
+    
     @State var replys:[ReplyModel] = []
     @State var isToast = false
     @State var toastMessage = ""
@@ -46,11 +53,22 @@ struct ReplyListView: View {
                 
             }
         }.onAppear {
-            ReplyManager.shared.getReplys(uid: uid, limit: limit) { result, error in
-                withAnimation(.easeInOut) {
-                    replys = result
-                    toastMessage = error?.localizedDescription ?? ""
-                    isToast = error != nil
+            switch listMode {
+            case .내가_쓴_댓글:
+                ReplyManager.shared.getReplys(uid: uid, limit: limit) { result, error in
+                    withAnimation(.easeInOut) {
+                        replys = result
+                        toastMessage = error?.localizedDescription ?? ""
+                        isToast = error != nil
+                    }
+                }
+            case .내_게시글에_달린_댓글:
+                ReplyManager.shared.getReplysToMe(uid: uid, limit: limit) { result, error in
+                    withAnimation(.easeInOut) {
+                        replys = result
+                        toastMessage = error?.localizedDescription ?? ""
+                        isToast = error != nil
+                    }
                 }                
             }
         }

@@ -141,8 +141,12 @@ struct ProfileView: View {
                                             itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
                         }
                         Section(header:Text("profile view replys")) {
-                            ReplyListView(uid: uid, limit: 20)
+                            ReplyListView(uid: uid, limit: 20, listMode:.내가_쓴_댓글)
                         }
+                        Section(header:Text("profile view replys to me")) {
+                            ReplyListView(uid: uid, limit: 20, listMode:.내_게시글에_달린_댓글)
+                        }
+
                     }
                 }
                 else {
@@ -160,9 +164,13 @@ struct ProfileView: View {
                                                 itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
                             }
                             Section(header:Text("profile view replys")) {
-                                ReplyListView(uid: uid, limit: 20)
+                                ReplyListView(uid: uid, limit: 20, listMode:.내가_쓴_댓글)
                             }
                             
+                            Section(header:Text("profile view replys to me")) {
+                                ReplyListView(uid: uid, limit: 20, listMode:.내_게시글에_달린_댓글)
+                            }
+
                         }
                     }
                 }
@@ -181,7 +189,7 @@ struct ProfileView: View {
             sharedIds = ArtListView.reloadFromLocalDb(uid:uid,sort: sort)
             ArtListView.getListFromFirestore(uid:uid,sort: sort) { ids, error in
                 self.sharedIds = ids
-                toastMessage = error?.localizedDescription ?? "" 
+                toastMessage = error?.localizedDescription ?? ""
                 isToast = error != nil
             }
             

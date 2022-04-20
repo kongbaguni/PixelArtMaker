@@ -165,7 +165,10 @@ struct PixelArtDetailView: View {
                         return
                     }
                     
-                    let reply = ReplyModel(documentId: model.id, message: replyText, imageURL: model.imageUrl)
+                    let reply = ReplyModel(documentId: model.id,
+                                           documentsUid: model.uid,
+                                           message: replyText,
+                                           imageURL: model.imageUrl)
                     ReplyManager.shared.addReply(replyModel: reply) { error in
                         if error == nil {
                             isFocusedReplyInput = false
