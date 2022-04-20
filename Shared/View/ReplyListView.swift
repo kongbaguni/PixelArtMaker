@@ -26,14 +26,11 @@ struct ReplyListView: View {
     var body: some View {
         LazyVStack {
             if isLoading {
-                ActivityIndicator(isAnimating: $isLoading, style: .large)
-                    .frame(height:100)
             }
             else if replys.count == 0 {
                 Text("empty reply list message")
                     .font(.subheadline)
                     .foregroundColor(Color.k_weakText)
-                    .frame(height:100)
             }
             ForEach(replys, id:\.self) { reply in
                 HStack {
