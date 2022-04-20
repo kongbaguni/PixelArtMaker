@@ -34,6 +34,8 @@ struct DrawingToolView: View {
     
     
     func paint(target:CGPoint, color:Color) {
+        var changeSet = Set<ColorChangeModelWithLayerPoint>()
+        
         let idx:PathFinder.Point = .init(point: target)
         /** 최초 선택 컬러*/
         if StageManager.shared.canvasSize.isOut(cgPoint: target) {
@@ -76,10 +78,16 @@ struct DrawingToolView: View {
                 test = false
             }
         }
+        let layerIndex = StageManager.shared.stage!.selectedLayerIndex
+        let old = colors[idx.y][idx.x]
         colors[idx.y][idx.x] = color
+        changeSet.insert(.init(layerIndex: layerIndex, point: .init(x: idx.x, y: idx.y), change: .init(before: old, after: color)))
         for i in list {
+            let old = colors[i.y][i.x]
             colors[i.y][i.x] = color
+            changeSet.insert(.init(layerIndex: layerIndex, point: .init(x: i.x, y: i.y), change: .init(before: old, after: color)))
         }
+        HistoryManager.shared.addHistory(.init(colorChanges: changeSet))
         refreshStage()
     }
     
@@ -89,13 +97,22 @@ struct DrawingToolView: View {
     }
     
     func draw(idx:(Int,Int), color:Color) {
+        
         if PathFinder.Point(x: idx.0, y: idx.1).isIn(size: StageManager.shared.canvasSize) {
+            let before = colors[idx.1][idx.0]
             colors[idx.1][idx.0] = color
+            var set = Set<ColorChangeModelWithLayerPoint>()
+            set.insert(.init(layerIndex: StageManager.shared.stage!.selectedLayerIndex ,
+                                           point: .init(x: idx.0, y: idx.1), change: .init(before: before, after: color)))
+            HistoryManager.shared.addHistory(.init(colorChanges: set))
+            refreshStage()
         }
-        refreshStage()
+        
     }
     
     func changeColor(target:CGPoint, color:Color) {
+        var changeSet = Set<ColorChangeModelWithLayerPoint>()
+        
         if StageManager.shared.canvasSize.isOut(cgPoint: target) {
             return
         }
@@ -112,9 +129,15 @@ struct DrawingToolView: View {
         }
         
         for point in result {
+            let old = colors[point.y][point.x]
             colors[point.y][point.x] = color
+            changeSet.insert(.init(layerIndex: StageManager.shared.stage!.selectedLayerIndex,
+                                   point: point,
+                                   change: .init(before: old, after: color)))
         }
+        HistoryManager.shared.addHistory(.init(colorChanges: changeSet))
         refreshStage()
+
     }
     
     func spoid(target:CGPoint) {
@@ -135,10 +158,10 @@ struct DrawingToolView: View {
         StageManager.shared.stage?.change(colors: colors)
         StageManager.shared.stage?.backgroundColor = backgroundColor
         StageManager.shared.stage?.forgroundColor = forgroundColor
-        if let stage = StageManager.shared.stage {
-            undoCount = stage.history.count
-            redoCount = stage.redoHistory.count
-        }
+
+        undoCount = HistoryManager.shared.undoCount
+        redoCount = HistoryManager.shared.redoCount
+
         StageManager.shared.saveTemp { error in
             if let err = error {
                 toastMessage = err.localizedDescription
@@ -267,11 +290,18 @@ struct DrawingToolView: View {
     }
     
     private func draw(points:Set<PathFinder.Point>) {
+        var cset = Set<ColorChangeModelWithLayerPoint>()
+        
         for point in points {
             if point.isIn(size: StageManager.shared.canvasSize) {
+                let old = colors[point.y][point.x]
                 colors[point.y][point.x] = forgroundColor
+                cset.insert(.init(layerIndex: StageManager.shared.stage!.selectedLayerIndex,
+                                  point: point,
+                                  change: .init(before: old, after: forgroundColor)))
             }
         }
+        HistoryManager.shared.addHistory(.init(colorChanges: cset))
         refreshStage()
         withAnimation(.easeInOut) {
             drawBegainPointer = nil

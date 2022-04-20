@@ -30,8 +30,6 @@ class StageModel {
     var backgroundColor:Color = .white
     var layers:[LayerModel] 
 
-    var history = Stack<History>()
-    var redoHistory = Stack<History>()
     
     var title:String? = nil
     
@@ -39,7 +37,6 @@ class StageModel {
         layers = [
             LayerModel(size: canvasSize, blendMode: .normal)
         ]
-        history.setLimit(20)
         self.canvasSize = canvasSize
     }
     
@@ -77,69 +74,77 @@ class StageModel {
     
     func changeBgColor(color:Color)->Bool {
         if backgroundColor != color {
-            history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
+            HistoryManager.shared.addHistory(.init(backgroundColorChange: .init(before: backgroundColor, after: color)))
             backgroundColor = color
-            redoHistory.removeAll()
             return true
         }
         return false
     }
     
+    
+
     func change(colors:[[Color]]) {
         print("\(#function) layeridx : \(selectedLayerIndex)")
-        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
         let blendMode = layers[selectedLayerIndex].blendMode
         layers[selectedLayerIndex] = .init(colors: colors, id:"layer\(selectedLayerIndex)", blendMode:blendMode)
-        redoHistory.removeAll()
+    }
+    
+    func chnage(colorSet : Set<ColorChangeModelWithLayerPoint>) {
+        var newColors = layers.map { layer in
+            return layer.colors
+        }
+        for item in colorSet {
+            newColors[item.layerIndex][item.y][item.x] = item.colorChnage.after
+        }
+        for (idx,colors) in newColors.enumerated() {
+            layers[idx] = .init(colors: colors, id: layers[idx].id, blendMode: layers[idx].blendMode)
+        }
     }
     
     
-    func change(blendMode:CGBlendMode, layerIndex:Int) {
-        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex,backgroundColor: backgroundColor))
+    func change(blendMode:CGBlendMode, layerIndex:Int, needAddHistory:Bool = true) {
+        let before = layers[layerIndex].blendMode
+        if needAddHistory {
+            HistoryManager.shared.addHistory(.init(blendModeChanges: [.init(layerIndex: layerIndex, blendModeBefore: before, blendModeAfter: blendMode)]))
+        }
+        
         let layer = layers[layerIndex]
         if layer.blendMode != blendMode {
             layers[layerIndex] = .init(colors: layer.colors, id: layer.id, blendMode: blendMode)
             NotificationCenter.default.post(name: .layerblendModeDidChange, object: nil)
         }
-        redoHistory.removeAll()
     }
     
     func deleteLayer(idx:Int) {
-        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
+        let oldLayers = layers
         layers.remove(at: idx)
-        redoHistory.removeAll()
+        HistoryManager.shared.addHistory(.init(
+            layerTotalEdit:.init(before: .init(layers: oldLayers),
+                                 after: .init(layers: layers)))
+        )
     }
     
     func addLayer() {
-        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
-        layers.append(.init(size: canvasSize, blendMode: .normal))        
-        redoHistory.removeAll()
+        let oldLayers = layers
+        
+        layers.append(.init(size: canvasSize, blendMode: .normal))
+        
+        HistoryManager.shared.addHistory(.init(
+            layerTotalEdit:.init(before: .init(layers: oldLayers),
+                                 after: .init(layers: layers)))
+        )
     }
     
     func undo() {
-        print("s history: \(history.count) redo: \(redoHistory.count)")
-        if let data = history.pop() {
-            redoHistory.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
-            layers = data.layers
-            selectLayer(index: data.selectedLayerIndex)
-            backgroundColor = data.backgroundColor
+        if HistoryManager.shared.undo() {
             NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         }
-        print("e history: \(history.count) redo: \(redoHistory.count)")
-        print("---")
     }
     
     func redo() {
-        print("s history: \(history.count) redo: \(redoHistory.count)")
-        if let data = redoHistory.pop() {
-            history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
-            layers = data.layers
-            selectLayer(index: data.selectedLayerIndex)
-            backgroundColor = data.backgroundColor
+        if HistoryManager.shared.redo() {
             NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
         }
-        print("e history: \(history.count) redo: \(redoHistory.count)")
-        print("---")
     }
     
     var base64EncodedString:String {
@@ -158,46 +163,14 @@ class StageModel {
             }
             return colorStrings
         }
-        
-        func getHistoryStrings(history:[History])->(selection:[Int], colors:[[[[String]]]]){
-            let layerSelection = history.map { history in
-                return history.selectedLayerIndex
-            }
-            let layers = history.map { history in
-                return history.layers.map { layer in
-                    return layer.colors
-                }
-            }
-            let colors = layers.map { arr in
-                return getColorStrings(colorArray: arr)
-            }
+                
 
-            return (selection:layerSelection, colors:colors)
-        }
-        
-        let undo = getHistoryStrings(history: history.arrayValue)
-        let redo = getHistoryStrings(history: redoHistory.arrayValue)
+        let history = HistoryManager.shared.stringValue
              
         let blendModes = layers.map { model in
             return model.blendMode.rawValue
         }
         
-        let undoblendModes = history.arrayValue.map { history in
-            return history.layers.map { layer in
-                return layer.blendMode.rawValue
-            }
-        }
-        let redoblendModes = history.arrayValue.map { history in
-            return history.layers.map { layer in
-                return layer.blendMode.rawValue
-            }
-        }
-        let undoBackgroundColors = history.arrayValue.map { history in
-            return history.backgroundColor.string
-        }
-        let redoBackgroundColors = redoHistory.arrayValue.map { history in
-            return history.backgroundColor.string
-        }
         
         let dic:[String:AnyHashable] = [
             "title":title,
@@ -210,17 +183,9 @@ class StageModel {
             "canvas_height":canvasSize.height,
             "background_color":backgroundColor.string,
             "forground_color":forgroundColor.string,
-            
-            "undo_layer_selection":undo.selection,
-            "undo_layer_colors":undo.colors,
-            "redo_layer_selection":redo.selection,
-            "redo_layer_colors":redo.colors,
             "bland_modes":blendModes,
-            "undo_bland_modes":undoblendModes,
-            "redo_bland_modes":redoblendModes,
             "selected_layer_index":selectedLayerIndex,
-            "undo_background_colors":undoBackgroundColors,
-            "redo_background_colors":redoBackgroundColors,
+            "history":history,
         ]
         
         
@@ -283,9 +248,6 @@ class StageModel {
                 }
                 var layers:[LayerModel] = []
                 let blendModes = json["bland_modes"] as? [Int32]
-                let undoblendModes = json["undo_bland_modes"] as? [[Int32]]
-                let redoblendModes = json["redo_bland_modes"] as? [[Int32]]
-                
                 
                 if let colors = json["colors"] as? [[[String]]] {
                     let arr = getColor(arr: colors)
@@ -294,6 +256,10 @@ class StageModel {
                     }
                 }
                 model.layers = layers
+                
+                if let history = json["history"] as? String {
+                    HistoryManager.shared.set(jsonString: history)
+                }
                 
                 func make(indexs:[Int],list:[[[[String]]]], blendModes:[[Int32]], bgColors:[Color])->[History] {
                     var result:[History] = []
@@ -317,38 +283,8 @@ class StageModel {
                     }
                     return result
                 }
-                model.history.removeAll()
                 
                 
-                
-
-                if let ls = json["undo_layer_selection"] as? [Int],
-                   let cs = json["undo_layer_colors"] as? [[[[String]]]],
-                   let undoBgColors = json["undo_background_colors"] as? [String],
-                   let bl = undoblendModes {
-                    let bgc = undoBgColors.map { str in
-                        return Color(string: str)
-                    }
-                    for h in make(indexs: ls, list: cs, blendModes: bl, bgColors: bgc) {
-                        model.history.push(h)
-                    }
-                }
-
-                model.redoHistory.removeAll()
-                if let ls = json["redo_layer_selection"] as? [Int],
-                   let cs = json["redo_layer_colors"] as? [[[[String]]]],
-                   let redoBgColors = json["redo_background_colors"] as? [String],
-                   let bl = redoblendModes
-                {
-                    let bgc = redoBgColors.map { str in
-                        return Color(string: str)
-                    }
-
-                    for h in make(indexs: ls, list: cs, blendModes: bl, bgColors: bgc) {
-                        model.redoHistory.push(h)
-                    }
-                }
-
                 return model
             }
         } catch {
@@ -384,13 +320,14 @@ class StageModel {
         if layers.count >= 5 || idx < 0 || idx >= layers.count {
             return false
         }
+        let bLayers = layers
+        
         let cl = layers[idx]
-        history.push(.init(layers: layers, selectedLayerIndex: selectedLayerIndex, backgroundColor: backgroundColor))
         let newLayer:LayerModel = .init(colors: cl.colors, id: UUID().uuidString, blendMode: cl.blendMode)
         layers.insert(newLayer, at: idx)
         reArrangeLayers()
-        redoHistory.removeAll()
-
+        
+        HistoryManager.shared.addHistory(.init( layerTotalEdit: .init(before: .init(layers: bLayers), after: .init(layers: layers))))
         return true
     }
     

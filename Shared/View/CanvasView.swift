@@ -17,7 +17,7 @@ struct CanvasView: View {
     let isLoadingDataFin:Bool
     let isShowSelectLayerOnly:Bool
     let screenWidth:CGFloat
-    let forgroundColor : Color
+    let forgroundColor:Color
     let backgroundColor:Color
     let layers:[LayerModel]
     let zoomFrame:(width:Int,height:Int)

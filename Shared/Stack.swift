@@ -11,6 +11,14 @@ struct Stack<T> {
     
     private var stack: [T] = []
     
+    public init(array: [T]) {
+        stack = array
+    }
+    
+    public init() {
+        stack = []
+    }
+    
     public var count: Int {
         return stack.count
     }

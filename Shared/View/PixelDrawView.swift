@@ -110,8 +110,8 @@ struct PixelDrawView: View {
                 if let imgData = StageManager.shared.stage?.makeImageDataValue(size: Consts.previewImageSize) {
                     previewImage = Image(uiImage: UIImage(data: imgData)!)
                 }
-                undoCount = StageManager.shared.stage?.history.count ?? 0
-                redoCount = 0
+                undoCount = HistoryManager.shared.undoCount
+                redoCount = HistoryManager.shared.redoCount
             }
         }
     }
@@ -153,6 +153,7 @@ struct PixelDrawView: View {
         }
         let stage = StageManager.shared.stage!
         colors = stage.selectedLayer.colors
+               
     }
     
     func makeSideMenuView(geomentryWidth:CGFloat)->SideMenuView {
@@ -492,7 +493,14 @@ struct PixelDrawView: View {
             if let data = TracingImageModel.myTracingImageData {
                 tracingImage = data
             }
-
+            NotificationCenter.default.addObserver(forName: .historyDataDidChanged, object: nil, queue: nil) { noti in
+                if let count = noti.userInfo?["undoCount"] as? Int {
+                    undoCount = count
+                }
+                if let count = noti.userInfo?["redoCount"] as? Int {
+                    redoCount = count
+                }
+            }
             
         }
         
@@ -505,8 +513,8 @@ struct PixelDrawView: View {
             forgroundColor = stage.forgroundColor
             backgroundColor = stage.backgroundColor
             colors = stage.selectedLayer.colors
-            undoCount = stage.history.count
-            redoCount = stage.redoHistory.count
+            undoCount = HistoryManager.shared.undoCount
+            redoCount = HistoryManager.shared.redoCount
             paletteColors = stage.paletteColors
             stage.getImage(size: Consts.previewImageSize) { image in
                 previewImage = image

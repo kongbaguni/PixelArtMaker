@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 struct LayerModel : Hashable {
     public static func == (lhs: LayerModel, rhs: LayerModel) -> Bool {
-        return lhs.id == rhs.id && lhs.colors == rhs.colors
+        return lhs.id == rhs.id && lhs.colors == rhs.colors && lhs.blendMode == rhs.blendMode
     }
     
     let colors:[[Color]]

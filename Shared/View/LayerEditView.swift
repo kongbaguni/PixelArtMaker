@@ -13,6 +13,7 @@ struct LayerEditView: View {
     @State var isShowToast = false
     @State var toastMessage:String = ""
 
+    @State var oldLayers:[LayerModel] = []
     @State var layers:[LayerModel] = []
     @State var selection:[Bool] = []
     
@@ -82,7 +83,7 @@ struct LayerEditView: View {
                                     print(value)
                                     isRequestMakePreview = true
                                     if let new = CGBlendMode(rawValue: Int32(value)) {
-                                        StageManager.shared.stage?.change(blendMode: new , layerIndex: id)
+                                        StageManager.shared.stage?.change(blendMode: new , layerIndex: id, needAddHistory:false)
                                         StageManager.shared.stage?.getImage(size: Consts.previewImageSize, complete: { image in
                                             previewImage = image
                                             isRequestMakePreview = false
@@ -147,7 +148,6 @@ struct LayerEditView: View {
                             StageManager.shared.stage?.selectLayer(index: idx)
                         }
                     }
-                    
                     StageManager.shared.stage?.layers = layers
                     StageManager.shared.stage?.reArrangeLayers()
                     reload()
@@ -182,6 +182,14 @@ struct LayerEditView: View {
         .navigationTitle(.layer_edit_title)
         .onAppear {
             reload()
+            oldLayers = layers
+        }
+        .onDisappear {
+            if let newLayer = StageManager.shared.stage?.layers {
+                if oldLayers != newLayer {
+                    HistoryManager.shared.addHistory(.init( layerTotalEdit: .init(before: .init(layers: oldLayers), after: .init(layers:newLayer))))
+                }
+            }
         }
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         

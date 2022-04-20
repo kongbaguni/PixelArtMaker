@@ -90,8 +90,8 @@ struct PaletteView: View {
                 .onChange(of: backgroundColor) { newValue in
                     print("change backgroundColor : \(newValue.string)")
                     if StageManager.shared.stage?.changeBgColor(color: newValue) == true {
-                        undoCount = StageManager.shared.stage?.history.count ?? 0
-                        redoCount = 0
+                        undoCount = HistoryManager.shared.undoCount
+                        redoCount = HistoryManager.shared.redoCount
                     }
                 }
                 .frame(width: 50, height: 30, alignment: .center)

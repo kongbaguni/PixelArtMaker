@@ -6,13 +6,32 @@
 //
 
 import Foundation
+extension Notification.Name {
+    static let historyDataDidChanged = Notification.Name(rawValue: "historyDataDidChanged")
+}
 
 class HistoryManager {
+    init() {
+        undoStack.setLimit(50)
+        redoStack.setLimit(50)
+    }
+    
     static let shared = HistoryManager()
     
     private var undoStack = Stack<HistoryModel>()
     private var redoStack = Stack<HistoryModel>()
 
+    var stringValue:String {
+        return HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).jsonValue
+    }
+    
+    func set(jsonString:String) {
+        if let set = HistorySet.makeModel(string: jsonString) {
+            undoStack = set.undoStack
+            redoStack = set.redoStack
+        }
+    }
+    
     public var undoCount:Int {
         undoStack.count
     }
@@ -25,15 +44,22 @@ class HistoryManager {
         undoCount + redoCount
     }
     
-    public func addHistory(change:HistoryModel) {
-        undoStack.push(change)
-        redoStack.removeAll()
+    public func addHistory(_ change:HistoryModel) {
+        if change.isInvalid == false {
+            undoStack.push(change)
+            redoStack.removeAll()
+            NotificationCenter.default.post(name: .historyDataDidChanged, object: nil, userInfo: [
+                "undoCount":undoCount,
+                "redoCount":redoCount,
+                "totalCount":totalCount
+            ])
+        }
     }
     
-    private func historyPorcess(isUndo:Bool) {
+    private func historyPorcess(isUndo:Bool)->Bool {
         guard let stage = StageManager.shared.stage,
               let history = isUndo ? undoStack.pop() : redoStack.pop() else {
-            return
+            return false
         }
         if let changes = history.colorChanges {
             var colors = stage.layers.map { layer in
@@ -62,14 +88,19 @@ class HistoryManager {
         if let change = history.backgroundColorChange {
             StageManager.shared.stage?.backgroundColor = isUndo ? change.before : change.after
         }
+        if let change = history.layerTotalEdit {
+            let data = isUndo ? change.before : change.after
+            StageManager.shared.stage?.layers = data.layers
+        }
         isUndo ? redoStack.push(history) : undoStack.push(history)
+        return true
     }
     
-    public func undo() {
-        historyPorcess(isUndo: true)
+    public func undo()->Bool {
+        return historyPorcess(isUndo: true)
     }
     
-    public func redo() {
-       historyPorcess(isUndo: false)
+    public func redo()->Bool {
+        return historyPorcess(isUndo: false)
     }
 }
