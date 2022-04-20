@@ -293,7 +293,8 @@ struct PixelDrawView: View {
                 }
                 if let id = AuthManager.shared.userId {
                     NavigationLink(
-                        destination : ProfileView(uid: id, haveArtList: true, editable: true).navigationBarTitle(Text("Profile")),
+                        destination : ProfileView(uid: id, haveArtList: true, editable: true)
+                            .navigationBarTitle(Text("Profile")),
                         isActive : $isShowProfileView) {
                         
                     }

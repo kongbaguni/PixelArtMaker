@@ -208,6 +208,7 @@ struct PixelArtDetailView: View {
             Spacer()
             NavigationLink {
                 ProfileView(uid: reply.uid, haveArtList: true)
+                    .navigationTitle(Text(ProfileModel.findBy(uid: reply.uid)?.nickname ?? reply.uid))
             } label: {
                 SimplePeopleView(uid: reply.uid, isSmall: true)
                     .frame(width: 50, height: 50, alignment: .leading)

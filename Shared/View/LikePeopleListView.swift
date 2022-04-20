@@ -82,6 +82,7 @@ struct LikePeopleShortListView : View {
                 ForEach(uids,id:\.self) { uid in                    
                     NavigationLink {
                         ProfileView(uid: uid, haveArtList: true, editable: false, landScape: nil)
+                            .navigationTitle(Text(ProfileModel.findBy(uid: uid)?.nickname ?? uid))
                     } label: {
                         SimplePeopleView(uid: uid, isSmall: false)
                             .frame(width: 100, height: 100, alignment: .center)
