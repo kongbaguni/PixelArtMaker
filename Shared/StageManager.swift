@@ -38,7 +38,7 @@ class StageManager {
         }
         if let c = pc {
             stage?.paletteColors = c
-        }
+        }        
     }
     
     var lastSaveTempTime:Date? = nil

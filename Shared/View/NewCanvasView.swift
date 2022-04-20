@@ -80,6 +80,7 @@ struct NewCanvasView: View {
     private func makeButton() -> some View {
         Button {
             if AuthManager.shared.isSignined == false {
+                HistoryManager.shared.clear()
                 StageManager.shared.initStage(canvasSize:canvasSize)
                 StageManager.shared.stage?.backgroundColor = backgroundColor
                 NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
@@ -87,6 +88,7 @@ struct NewCanvasView: View {
 
             } else {
                 StageManager.shared.deleteTemp { errorA in
+                    HistoryManager.shared.clear()
                     StageManager.shared.initStage(canvasSize:canvasSize)
                     StageManager.shared.stage?.backgroundColor = backgroundColor
                     NotificationCenter.default.post(name: .layerDataRefresh, object: nil)

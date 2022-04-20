@@ -25,6 +25,11 @@ class HistoryManager {
         return HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).jsonValue
     }
     
+    func clear() {
+        undoStack.removeAll()
+        redoStack.removeAll()
+    }
+    
     func set(jsonString:String) {
         if let set = HistorySet.makeModel(string: jsonString) {
             undoStack = set.undoStack
