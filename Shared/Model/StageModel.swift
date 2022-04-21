@@ -165,7 +165,6 @@ class StageModel {
         }
                 
 
-        let history = HistoryManager.shared.stringValue
              
         let blendModes = layers.map { model in
             return model.blendMode.rawValue
@@ -185,7 +184,6 @@ class StageModel {
             "forground_color":forgroundColor.string,
             "bland_modes":blendModes,
             "selected_layer_index":selectedLayerIndex,
-            "history":history,
         ]
         
         
@@ -261,11 +259,7 @@ class StageModel {
                     }
                 }
                 model.layers = layers
-                
-                if let history = json["history"] as? String {
-                    HistoryManager.shared.set(jsonString: history)
-                }
-                
+                                
                 func make(indexs:[Int],list:[[[[String]]]], blendModes:[[Int32]], bgColors:[Color])->[History] {
                     var result:[History] = []
                     for (idx,strs) in list.enumerated() {

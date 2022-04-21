@@ -12,29 +12,29 @@ extension Notification.Name {
 
 class HistoryManager {
     init() {
-        undoStack.setLimit(50)
-        redoStack.setLimit(50)
+        undoStack.setLimit(40)
+        redoStack.setLimit(40)
     }
     
     static let shared = HistoryManager()
     
     private var undoStack = Stack<HistoryModel>()
     private var redoStack = Stack<HistoryModel>()
-
-    var stringValue:String {
-        return HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).jsonValue
-    }
     
     func clear() {
         undoStack.removeAll()
         redoStack.removeAll()
     }
     
-    func set(jsonString:String) {
-        if let set = HistorySet.makeModel(string: jsonString) {
+    func load() {
+        if let set = HistorySet.loadFromLocalDB() {
             undoStack = set.undoStack
             redoStack = set.redoStack
         }
+    }
+    
+    func save() {
+        HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).saveToLocalDB()
     }
     
     public var undoCount:Int {
@@ -59,6 +59,7 @@ class HistoryManager {
                 "totalCount":totalCount
             ])
         }
+        save()
     }
     
     private func historyPorcess(isUndo:Bool)->Bool {

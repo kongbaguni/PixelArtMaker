@@ -520,6 +520,9 @@ struct PixelDrawView: View {
             stage.getImage(size: Consts.previewImageSize) { image in
                 previewImage = image
             }
+            if HistoryManager.shared.undoCount == 0 {
+                HistoryManager.shared.load()
+            }
         }
         
         timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { [self] timer in

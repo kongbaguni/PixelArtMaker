@@ -28,7 +28,7 @@ struct Consts {
     }
     static var previewImageSize:CGSize {
         let s = StageManager.shared.stage?.canvasSize ?? sizes[0]
-        return .init(width: s.width * 3, height: s.height * 3)
+        return s
     }
     
     

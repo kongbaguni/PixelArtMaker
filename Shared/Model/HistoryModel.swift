@@ -1,6 +1,11 @@
 import Foundation
 import SwiftUI
-import SwiftyJSON
+import RealmSwift
+
+class HistoryBackupModel:Object {
+    @Persisted(primaryKey: true) var documentId:String = ""
+    @Persisted var data:Data?
+}
 
 struct HistorySet: Codable {
     let undo:[HistoryModel]
@@ -12,24 +17,32 @@ struct HistorySet: Codable {
         .init(array: redo)
     }
     
-    var jsonValue:String {
+    func saveToLocalDB() {
         do {
             let data = try JSONEncoder().encode(self)
-            if let json = try JSONSerialization.jsonObject(with: data) as? [String:AnyObject] {
-
-                if let str = JSON(json).rawString() {
-                    return str
-                }
+            let parm:[String:Any] = [
+                "documentId" : StageManager.shared.stage?.documentId ?? "none",
+                "data" : data
+            ]
+            let realm = try Realm()
+            try realm.write {
+                realm.create(HistoryBackupModel.self, value: parm, update: .all)
             }
         } catch {
             print(error.localizedDescription)
         }
-        return ""
     }
-        
-    static func makeModel(string:String)->HistorySet? {
-        if let data = try? JSON(parseJSON: string).rawData() {
-            return try? JSONDecoder().decode(HistorySet.self, from: data)
+    
+    static func loadFromLocalDB()->HistorySet? {
+        let did = StageManager.shared.stage?.documentId ?? "none"
+        do {
+            let realm = try Realm()
+            if let data = realm.object(ofType: HistoryBackupModel.self, forPrimaryKey: did)?.data {
+                let result = try JSONDecoder().decode(HistorySet.self, from: data)
+                return result
+            }
+        } catch {
+            print(error.localizedDescription)
         }
         return nil
     }
