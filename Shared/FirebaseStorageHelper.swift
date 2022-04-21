@@ -11,7 +11,6 @@ import SwiftUI
 import FirebaseStorage
 import FirebaseFirestore
 
-
 class FirebaseStorageHelper {
     static let shared = FirebaseStorageHelper()
     
@@ -20,6 +19,7 @@ class FirebaseStorageHelper {
         case png = "image/png"
         case jpeg = "image/jpeg"
     }
+    
     
     func uploadImage(url:URL, contentType:ContentType, uploadPath:String, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
         guard var data = try? Data(contentsOf: url) else {
@@ -53,8 +53,8 @@ class FirebaseStorageHelper {
             print(path)
             
             ref.downloadURL { (downloadUrl, err) in
-                if (downloadUrl != nil) {
-                    print(downloadUrl?.absoluteString ?? "없다")
+                if let url = downloadUrl {
+                    print(url)
                 }
                 complete(downloadUrl, nil)
             }

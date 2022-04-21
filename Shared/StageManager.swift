@@ -173,7 +173,7 @@ class StageManager {
             if asNewForce == false {
                 if let documentPath = self.stage?.documentId {
                     FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png,
-                                                            uploadPath: "previews",
+                                                            uploadPath: "shareImages",
                                                             id:documentPath
                                                             ) { downloadURL, error in
                         data["imageURL"] = downloadURL?.absoluteString ?? ""
@@ -202,7 +202,7 @@ class StageManager {
                     stage.documentId = documentId
                     
                     FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png,
-                                                            uploadPath: "previews",
+                                                            uploadPath: "shareImages",
                                                             id:documentId) {
                         downloadURL, error in
                         data["imageURL"] = downloadURL?.absoluteString ?? ""
@@ -409,11 +409,11 @@ class StageManager {
         }
     }
     
-    func sharePublic(complete:@escaping(_ error:Error?)->Void) {
+    func sharePublic( complete:@escaping(_ error:Error?)->Void) {
         guard let id = stage?.documentId,
-              let image = stage?.makeImageDataValue(size: Consts.previewImageSize),
               let uid = AuthManager.shared.userId,
-              let email = AuthManager.shared.auth.currentUser?.email
+              let email = AuthManager.shared.auth.currentUser?.email,
+              let imgURL = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id)?.imageURL
                 
         else {
             return
@@ -421,79 +421,69 @@ class StageManager {
         let collection = fireStore.collection("public")
         let now = Date().timeIntervalSince1970
         
-        FirebaseStorageHelper.shared.uploadData(data: image, contentType: .png,
-                                                uploadPath: "shareImages",
-                                                id:id
-                                                ) { downloadURL, error in
-            if let err = error {
-                complete(err)
-                return
-            }
-            var data:[String:AnyHashable] = [
-                "documentId":id ,
-                "imageUrl":downloadURL?.absoluteString ?? "",
-                "email":email,
-                "updateDt":now,
-                "uid":uid
-            ]
-            
-            func getSharedList(complete:@escaping(_ list:[String])->Void) {
-                collection.whereField("documentId", isEqualTo: id).getDocuments { snapShot, error in
-                    let ids = snapShot.map { snapShot in
-                        snapShot.documents.map {dsnap in
-                            return dsnap.documentID
-                        }
-                    }
-                    complete(ids ?? [])
-                }
-            }
-            
-            func save(finish:@escaping(_ targetId:String?)->Void) {
-                getSharedList { list in
-                    if list.count == 0 {
-                        data["regDt"] = now
-                        collection.addDocument(data: data) { error in
-                            collection.whereField("documentId", isEqualTo: id).getDocuments { snapShot, error in
-                                let ids = snapShot.map { snapShot in
-                                    snapShot.documents.map {dsnap in
-                                        return dsnap.documentID
-                                    }
-                                }
-                                finish(ids?.first)
-                            }
-                        }
-                    }
-                    else {
-                        collection.document(list.first!).updateData(data) { error in
-                            finish(list.first!)
-                        }
-                    }
-                }
-            }
-            
-            save(finish: {[self] shareId in
-                let now = Date()
-                let data:[String:AnyHashable] = [
-                    "shared_document_id":shareId!,
-                    "updateDt":now.timeIntervalSince1970
-                ]
-                fireStore.collection("pixelarts").document(uid).collection("data").document(id).updateData(data) { error in
-                    let udata:[String:AnyHashable] = [
-                        "documentId":id,
-                        "shareDocumentId":shareId,
-                        "updateDt":now
-                    ]
-                    let realm = try! Realm()
-                    try! realm.write {
-                        realm.create(MyStageModel.self, value: udata, update: .modified)
-                    }
-                    complete(error)
-                }
-            })
-        }
-
         
-       
+        var data:[String:AnyHashable] = [
+            "documentId":id ,
+            "imageUrl":imgURL,
+            "email":email,
+            "updateDt":now,
+            "uid":uid
+        ]
+        
+        func getSharedList(complete:@escaping(_ list:[String])->Void) {
+            collection.whereField("documentId", isEqualTo: id).getDocuments { snapShot, error in
+                let ids = snapShot.map { snapShot in
+                    snapShot.documents.map {dsnap in
+                        return dsnap.documentID
+                    }
+                }
+                complete(ids ?? [])
+            }
+        }
+        
+        func save(finish:@escaping(_ targetId:String?)->Void) {
+            getSharedList { list in
+                if list.count == 0 {
+                    data["regDt"] = now
+                    collection.addDocument(data: data) { error in
+                        collection.whereField("documentId", isEqualTo: id).getDocuments { snapShot, error in
+                            let ids = snapShot.map { snapShot in
+                                snapShot.documents.map {dsnap in
+                                    return dsnap.documentID
+                                }
+                            }
+                            finish(ids?.first)
+                        }
+                    }
+                }
+                else {
+                    collection.document(list.first!).updateData(data) { error in
+                        finish(list.first!)
+                    }
+                }
+            }
+        }
+        
+        save(finish: {[self] shareId in
+            let now = Date()
+            let data:[String:AnyHashable] = [
+                "shared_document_id":shareId!,
+                "updateDt":now.timeIntervalSince1970
+            ]
+            fireStore.collection("pixelarts").document(uid).collection("data").document(id).updateData(data) { error in
+                let udata:[String:AnyHashable] = [
+                    "documentId":id,
+                    "shareDocumentId":shareId,
+                    "updateDt":now
+                ]
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.create(MyStageModel.self, value: udata, update: .modified)
+                }
+                complete(error)
+            }
+        })
+
     }
     
     func loadSharedList(sort:Sort.SortType, limit:Int = 50, complete:@escaping(_ error:Error?)->Void){
