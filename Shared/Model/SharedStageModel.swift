@@ -51,18 +51,16 @@ class SharedStageModel : Object {
         Date().timeIntervalSince1970 - updateDt < 43200
     }
     
-    var likeUserIdsSet:Set<String> {
+    var likeUserIds:[String] {
         let arr = likeUids.components(separatedBy: ",")
-        var set = Set<String>(arr)
-        set.remove("")
-        return set
+        return arr
     }
     
     var isMyLike:Bool {
         guard let uid = AuthManager.shared.userId else {
             return false
         }
-        return likeUserIdsSet.firstIndex(of: uid) != nil
+        return likeUserIds.firstIndex(of: uid) != nil
     }
     
     var threadSafeModel:ThreadSafeModel {

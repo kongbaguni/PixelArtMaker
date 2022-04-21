@@ -102,8 +102,8 @@ struct PixelArtDetailView: View {
                 }
             }
             if let m = model {
-                if m.likeUserIdsSet.count > 0 {
-                    LikePeopleShortListView(uids:m.likeUserIdsSet.sorted())
+                if m.likeUserIds.count > 0 {
+                    LikePeopleShortListView(uids:m.likeUserIds)
                 }
             }
             if let m = tmodel {
