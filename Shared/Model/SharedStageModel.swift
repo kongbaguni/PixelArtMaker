@@ -53,7 +53,14 @@ class SharedStageModel : Object {
     
     var likeUserIds:[String] {
         let arr = likeUids.components(separatedBy: ",")
-        return arr
+        var result:[String] = []
+        for id in arr {
+            if id.isEmpty {
+                continue
+            }
+            result.append(id)
+        }
+        return result
     }
     
     var isMyLike:Bool {

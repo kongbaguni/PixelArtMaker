@@ -80,14 +80,12 @@ struct LikePeopleShortListView : View {
         ScrollView(.horizontal) {
             LazyHStack {
                 ForEach(uids,id:\.self) { uid in
-                    if uid.isEmpty == false {                        
-                        NavigationLink {
-                            ProfileView(uid: uid, haveArtList: true, editable: false, landScape: nil)
-                                .navigationTitle(Text(ProfileModel.findBy(uid: uid)?.nickname ?? uid))
-                        } label: {
-                            SimplePeopleView(uid: uid, isSmall: false)
-                                .frame(width: 100, height: 100, alignment: .center)
-                        }
+                    NavigationLink {
+                        ProfileView(uid: uid, haveArtList: true, editable: false, landScape: nil)
+                            .navigationTitle(Text(ProfileModel.findBy(uid: uid)?.nickname ?? uid))
+                    } label: {
+                        SimplePeopleView(uid: uid, isSmall: false)
+                            .frame(width: 100, height: 100, alignment: .center)
                     }
                 }
             }
