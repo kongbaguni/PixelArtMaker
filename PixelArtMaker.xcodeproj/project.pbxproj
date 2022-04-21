@@ -37,6 +37,8 @@
 		8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD983280E841F0022ED89 /* ReplyListView.swift */; };
 		8D3BD9A1280F8F1B0022ED89 /* HIstoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */; };
 		8D3BD9A3280F8F320022ED89 /* HistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A2280F8F320022ED89 /* HistoryModel.swift */; };
+		8D3BD9A528112B8E0022ED89 /* AppCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A428112B8E0022ED89 /* AppCheck.swift */; };
+		8D3BD9A828112BCA0022ED89 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8D3BD9A728112BCA0022ED89 /* FirebaseAppCheck */; };
 		8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9128080BCB00565A3C /* PathFinder.swift */; };
 		8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC982809410400565A3C /* PhotoPicker.swift */; };
 		8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9A280959CD00565A3C /* TracingImageModel.swift */; };
@@ -151,6 +153,7 @@
 		8D3BD983280E841F0022ED89 /* ReplyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyListView.swift; sourceTree = "<group>"; };
 		8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIstoryManager.swift; sourceTree = "<group>"; };
 		8D3BD9A2280F8F320022ED89 /* HistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModel.swift; sourceTree = "<group>"; };
+		8D3BD9A428112B8E0022ED89 /* AppCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCheck.swift; sourceTree = "<group>"; };
 		8D49FC9128080BCB00565A3C /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		8D49FC982809410400565A3C /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8D49FC9A280959CD00565A3C /* TracingImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingImageModel.swift; sourceTree = "<group>"; };
@@ -231,6 +234,7 @@
 				1BF1B25627E2CC28007A73CB /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				1BF1B24E27E2CC28007A73CB /* FirebaseAuthCombine-Community in Frameworks */,
 				1BF1B25427E2CC28007A73CB /* FirebaseFirestoreCombine-Community in Frameworks */,
+				8D3BD9A828112BCA0022ED89 /* FirebaseAppCheck in Frameworks */,
 				C3011F5127F039E1001B12AC /* Realm in Frameworks */,
 				C356363D27FAC2F700B2609A /* SwiftyStoreKit in Frameworks */,
 				1BF1B25227E2CC28007A73CB /* FirebaseFirestore in Frameworks */,
@@ -283,6 +287,7 @@
 			children = (
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
+				8D3BD9A428112B8E0022ED89 /* AppCheck.swift */,
 				8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */,
 				8DB0BA082807BA5100C2B0FF /* Utill.swift */,
 				8D49FC9128080BCB00565A3C /* PathFinder.swift */,
@@ -464,6 +469,7 @@
 				8DF55C4927FD49FF00D68EB1 /* FirebaseStorageSwift-Beta */,
 				8DF55C5527FE7E9C00D68EB1 /* Alamofire */,
 				8DF55C5A27FE9C8100D68EB1 /* SwiftyJSON */,
+				8D3BD9A728112BCA0022ED89 /* FirebaseAppCheck */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -528,6 +534,7 @@
 				8DF55C4427FD49FF00D68EB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8DF55C5427FE7E9B00D68EB1 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				8DF55C5927FE9C8100D68EB1 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				8D3BD9A628112BCA0022ED89 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -651,6 +658,7 @@
 				8DF55C5127FD74B800D68EB1 /* ArtListView.swift in Sources */,
 				8DB0BA032806A12100C2B0FF /* LikeArtListView.swift in Sources */,
 				1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */,
+				8D3BD9A528112B8E0022ED89 /* AppCheck.swift in Sources */,
 				8D3BD9A3280F8F320022ED89 /* HistoryModel.swift in Sources */,
 				C38C1BB028059D7F00350176 /* CGSize+Extensions.swift in Sources */,
 				8D3BD9A1280F8F1B0022ED89 /* HIstoryManager.swift in Sources */,
@@ -995,6 +1003,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		8D3BD9A628112BCA0022ED89 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		8DF55C4427FD49FF00D68EB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1112,6 +1128,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebasePerformance;
+		};
+		8D3BD9A728112BCA0022ED89 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
 		};
 		8DF55C4527FD49FF00D68EB1 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -73,10 +73,8 @@ class StageManager {
                 let collection = fireStore.collection("temp")
                 collection.document(uid).setData(data, merge: true) { error in
                     print(error?.localizedDescription ?? "성공")
-                    if error == nil {
-                        DispatchQueue.main.async {
-                            complete(error)
-                        }
+                    DispatchQueue.main.async {
+                        complete(error)
                     }
                 }
             } else {

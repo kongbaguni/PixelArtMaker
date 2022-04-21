@@ -20,7 +20,14 @@ struct ContentView: View {
             print("-------------------------------")
             print("google ad status : \(status.adapterStatusesByClassName)")
         }
-        
+
+        AppCheck.requestDeviceCheckToken()
+
+        AppCheck.requestDebugToken()
+
+        if #available(iOS 14.0, *) {
+            AppCheck.requestAppAttestToken()
+        }
 
         InAppPurchaseManager().printStatus()
     }
