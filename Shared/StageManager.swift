@@ -257,6 +257,7 @@ class StageManager {
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
                 stage = model
                 model?.createrId = uid
+                HistoryManager.shared.load()
                 DispatchQueue.main.async {
                     complete(model,error)
                 }

@@ -484,6 +484,9 @@ struct PixelDrawView: View {
                 }
             }
             load()
+            if HistoryManager.shared.undoCount == 0 {
+                HistoryManager.shared.load()
+            }
             NotificationCenter.default.addObserver(forName: .authDidSucessed, object: nil, queue: nil) { noti in
                 isLoadingDataFin = true
                 load()
@@ -519,9 +522,6 @@ struct PixelDrawView: View {
             paletteColors = stage.paletteColors
             stage.getImage(size: Consts.previewImageSize) { image in
                 previewImage = image
-            }
-            if HistoryManager.shared.undoCount == 0 {
-                HistoryManager.shared.load()
             }
         }
         

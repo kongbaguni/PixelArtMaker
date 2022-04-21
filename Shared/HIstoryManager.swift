@@ -30,6 +30,7 @@ class HistoryManager {
         if let set = HistorySet.loadFromLocalDB() {
             undoStack = set.undoStack
             redoStack = set.redoStack
+            notifyCount()
         }
     }
     
@@ -53,13 +54,17 @@ class HistoryManager {
         if change.isInvalid == false {
             undoStack.push(change)
             redoStack.removeAll()
-            NotificationCenter.default.post(name: .historyDataDidChanged, object: nil, userInfo: [
-                "undoCount":undoCount,
-                "redoCount":redoCount,
-                "totalCount":totalCount
-            ])
+            notifyCount()
         }
         save()
+    }
+    
+    private func notifyCount() {
+        NotificationCenter.default.post(name: .historyDataDidChanged, object: nil, userInfo: [
+            "undoCount":undoCount,
+            "redoCount":redoCount,
+            "totalCount":totalCount
+        ])
     }
     
     private func historyPorcess(isUndo:Bool)->Bool {
