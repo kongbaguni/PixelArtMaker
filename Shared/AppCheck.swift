@@ -9,7 +9,7 @@ import Foundation
 import FirebaseCore
 import FirebaseAppCheck
 
-struct AppCheck {
+struct AppCheckHelper {
     static func requestDeviceCheckToken() {
       guard let firebaseApp = FirebaseApp.app() else {
         return
@@ -66,5 +66,34 @@ struct AppCheck {
           print("App Attest error: \(error)")
         }
       }
+    }
+    
+    
+    static func check() {        
+        AppCheck.appCheck().token(forcingRefresh: false) { token, error in
+            guard error == nil else {
+                // Handle any errors if the token was not retrieved.
+                print("Unable to retrieve App Check token: \(error!)")
+                return
+            }
+            guard let token = token else {
+                print("Unable to retrieve App Check token.")
+                return
+            }
+
+            // Get the raw App Check token string.
+            let tokenString = token.token
+
+            // Include the App Check token with requests to your server.
+            let url = URL(string: "https://yourbackend.example.com/yourApiEndpoint")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.setValue(tokenString, forHTTPHeaderField: "X-Firebase-AppCheck")
+
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                // Handle response from your backend.
+            }
+            task.resume()
+        }
     }
 }

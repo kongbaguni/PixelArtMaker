@@ -10,9 +10,14 @@ import Firebase
 import GoogleMobileAds
 import SwiftyStoreKit
 import RealmSwift
+import FirebaseCore
+import FirebaseAppCheck
 
 struct ContentView: View {
     init() {
+        let providerFactory = AppCheckDebugProviderFactory()
+        AppCheck.setAppCheckProviderFactory(providerFactory)
+
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "22c15f150946f2ec1887fe3673eff404","028bacd3552b31072f19a617f0c8aef3" ]
         // Sample device ID
@@ -21,12 +26,12 @@ struct ContentView: View {
             print("google ad status : \(status.adapterStatusesByClassName)")
         }
 
-        AppCheck.requestDeviceCheckToken()
+        AppCheckHelper.requestDeviceCheckToken()
 
-        AppCheck.requestDebugToken()
+        AppCheckHelper.requestDebugToken()
 
         if #available(iOS 14.0, *) {
-            AppCheck.requestAppAttestToken()
+            AppCheckHelper.requestAppAttestToken()
         }
 
         InAppPurchaseManager().printStatus()
