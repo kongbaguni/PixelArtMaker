@@ -78,7 +78,15 @@ class ReplyManager {
     }
     /** 내 게시글에 달린 댓글 목록*/
     func getReplysToMe(uid:String, limit:Int,complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
-        var query = collection.order(by: "updateDt", descending: true).whereField("documentsUid", isEqualTo: uid)
+        guard let myUid = AuthManager.shared.userId else {
+            return
+        }
+        var query = collection
+            .order(by: "uid")
+            .whereField("uid", isNotEqualTo: myUid)
+            .order(by: "updateDt", descending: true)
+            .whereField("documentsUid", isEqualTo: uid)
+            
         if limit > 0 {
             query = query.limit(to: limit)
         }

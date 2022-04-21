@@ -12,8 +12,8 @@ extension Notification.Name {
 
 class HistoryManager {
     init() {
-        undoStack.setLimit(40)
-        redoStack.setLimit(40)
+        undoStack.setLimit(10)
+        redoStack.setLimit(10)
     }
     
     static let shared = HistoryManager()
