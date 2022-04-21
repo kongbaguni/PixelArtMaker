@@ -96,18 +96,9 @@ struct LayerEditView: View {
                                 presentationMode.wrappedValue.dismiss()
                                 
                             } label: {
-                                Canvas { context,size in
-                                    for (y, list) in layer.colors.enumerated() {
-                                        for (x,color) in list.enumerated() {
-                                            context.fill(.init(roundedRect: .init(x: CGFloat(x),
-                                                                                  y: CGFloat(y),
-                                                                                  width: 1,
-                                                                                  height: 1),
-                                                               cornerSize: .zero), with: .color(color))
-                                        }
-                                    }
-                                }.frame(width: CGFloat(layer.colors.first!.count),
-                                        height: CGFloat(layer.colors.count), alignment: .center)
+                                if let img = Image(totalColors: [layer.colors], blendModes: [.normal], backgroundColor: .clear, size: StageManager.shared.canvasSize) {
+                                    img.resizable().frame(width: 40, height: 40, alignment: .center)
+                                }
                             }
                         }
                         .swipeActions {

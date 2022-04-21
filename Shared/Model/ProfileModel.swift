@@ -18,6 +18,7 @@ class ProfileModel: Object {
     @Persisted var nickname:String = ""
     @Persisted var profileURL:String = ""
     @Persisted var email:String = ""
+    @Persisted var introduce:String = ""
     @Persisted var updateDt:TimeInterval = 0
 }
 
@@ -106,11 +107,11 @@ extension ProfileModel {
     }
     
     func updateProfile(complete:@escaping(_ error:Error?)->Void) {
-        ProfileModel.updateProfile(nickname: nickname, profileURL: profileURL, email: email, complete: complete)
+        ProfileModel.updateProfile(nickname: nickname, introduce: introduce, profileURL: profileURL, email: email, complete: complete)
     }
     
     
-    static func updateProfile(nickname:String, profileURL:String? = nil, email:String? = nil, complete:@escaping(_ error:Error?)->Void) {
+    static func updateProfile(nickname:String, introduce:String? = nil, profileURL:String? = nil, email:String? = nil, complete:@escaping(_ error:Error?)->Void) {
         if nickname.replacingOccurrences(of: " ", with: "").isEmpty == true {
             complete(nil)
             return
@@ -124,7 +125,9 @@ extension ProfileModel {
             "nickname":nickname,
             "updateDt":Date().timeIntervalSince1970
         ]
-        
+        if let txt = introduce {
+            data["introduce"] = txt
+        }
         if let url = profileURL {
             data["profileURL"] = url
         }

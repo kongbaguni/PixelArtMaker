@@ -25,6 +25,7 @@ struct ProfileView: View {
     @State var toastMessage:String = ""
     @State var isToast = false
     @State var nickname:String = ""
+    @State var introduce:String = ""
     @State var imageURL:URL? = nil
     @State var email:String = ""
     @State var sortSelect = 0
@@ -52,21 +53,21 @@ struct ProfileView: View {
     
     private func mkaeProfileInfomationView(isLandScape:Bool)-> some View {
         VStack {
-            HStack {
-                Text("email")
-                    .font(.system(size: 10, weight: .heavy, design: .serif))
-                    .padding(5)
-                Button {
-                    let urlstr = "mailto:\(email)"
-                    if let url = URL(string: urlstr) {
-                        UIApplication.shared.open(url)
-                    }
-                } label : {
-                    Text(email)
-                        .font(.system(size: 10, weight: .light, design: .serif))
-                }
-                Spacer()
-            }
+//            HStack {
+//                Text("email")
+//                    .font(.system(size: 10, weight: .heavy, design: .serif))
+//                    .padding(5)
+//                Button {
+//                    let urlstr = "mailto:\(email)"
+//                    if let url = URL(string: urlstr) {
+//                        UIApplication.shared.open(url)
+//                    }
+//                } label : {
+//                    Text(email)
+//                        .font(.system(size: 10, weight: .light, design: .serif))
+//                }
+//                Spacer()
+//            }
             HStack {
                 Text("name")
                     .font(.system(size: 10, weight: .heavy, design: .serif))
@@ -81,6 +82,21 @@ struct ProfileView: View {
                 }
                 Spacer()
             }
+            HStack {
+                Text("profile introduce title")
+                    .font(.system(size: 10, weight: .heavy, design: .serif))
+                    .padding(5)
+                if editabel {
+                    TextEditor(text: $introduce)
+                        .border(Color.k_weakText)
+                } else {
+                    Text(introduce)
+                        .font(.system(size: 10, weight: .light, design: .serif))
+                        .foregroundColor(.gray)
+                }
+                Spacer()
+            }
+            
             if haveArtList == false {
                 HStack {
                     NavigationLink {
@@ -114,7 +130,7 @@ struct ProfileView: View {
                 }
                 
             }
-            
+            Spacer()
         }
         
     }
@@ -220,7 +236,7 @@ struct ProfileView: View {
         .toolbar {
             if editabel {
                 Button {
-                    ProfileModel.updateProfile(nickname: nickname) { error in
+                    ProfileModel.updateProfile(nickname: nickname, introduce:introduce) { error in
                         if error == nil {
                             presentationMode.wrappedValue.dismiss()
                         } else {
@@ -243,6 +259,7 @@ struct ProfileView: View {
             return
         }
         nickname = user.nickname
+        introduce = user.introduce
         imageURL = URL(string: user.profileURL)
         email = user.email
         

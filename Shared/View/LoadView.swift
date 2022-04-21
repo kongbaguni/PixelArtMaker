@@ -20,7 +20,11 @@ struct LoadView: View {
     @State var loadingStart = false
     @State var sortIndex = 0
 
+    var sortType:Sort.SortType {
+        return Sort.SortTypeForMyGellery[sortIndex]
+    }
 
+    @State var isShowInAppPurch = false
     private var pickerView : some View {
         Picker(selection:$sortIndex, label:Text("sort")) {
             ForEach(0..<Sort.SortTypeForMyGellery.count, id:\.self) { idx in
@@ -44,12 +48,42 @@ struct LoadView: View {
             return (width - 40) / CGFloat(number)
         }
     }
-    
+    private func isOverLimit(stage:MyStageModel.ThreadSafeModel)->Bool {
+        if InAppPurchaseModel.isSubscribe {
+            return false
+        }
+        
+        if let index = stages.firstIndex(of: stage) {
+            switch sortType {
+            case .oldnet:
+                if stages.count - index > Consts.free_myGalleryLimit {
+                    return true
+                }
+            case .latestOrder:
+                if index >= Consts.free_myGalleryLimit {
+                    return true
+                }
+            default:
+                break
+            }
+        }
+        return false
+    }
     private func makeListView(gridItems:[GridItem], width:CGFloat) -> some View {
         
         LazyVGrid(columns: gridItems, spacing:20) {
+            NavigationLink(isActive: $isShowInAppPurch) {
+                InAppPurchesView()
+            } label: {
+                
+            }
             ForEach(stages, id: \.self) {stage in
                 Button {
+                    if isOverLimit(stage: stage) {
+                        isShowInAppPurch = true
+                        return
+                    }
+
                     if loadingStart == false {
                         loadingStart = true
                         stages = [stage]
@@ -91,6 +125,7 @@ struct LoadView: View {
                     }.frame(width: loadingStart && stages.count == 1 ? getWidth(width: width, number: 1) : getWidth(width: width, number: gridItems.count),
                             height: loadingStart && stages.count == 1 ? getWidth(width: width, number: 1) + 30 : getWidth(width: width, number: gridItems.count) + 30 ,
                             alignment: .center)
+                    .opacity(isOverLimit(stage: stage) ? 0.2 : 1.0)
                 }
                 
             }
@@ -108,7 +143,7 @@ struct LoadView: View {
                 loadingStart = false
             }
         }
-        switch Sort.SortType.allCases[sortIndex] {
+        switch sortType {
         case .latestOrder:
             stages = StageManager.shared.stagePreviews.sorted(byKeyPath: "updateDt", ascending: true).reversed().map({ model in
                 return model.threadSafeModel
