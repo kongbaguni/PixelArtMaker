@@ -150,7 +150,10 @@ struct SettingView: View {
                         Text("50%")
                     
                     }
-
+                    
+                    Image(systemName: "trash")
+                        .imageScale(.large)
+                        .foregroundColor(Color.gray)
                 }
                 Spacer()
 

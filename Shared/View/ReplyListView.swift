@@ -33,30 +33,36 @@ struct ReplyListView: View {
                     .foregroundColor(Color.k_weakText)
             }
             ForEach(replys, id:\.self) { reply in
-                HStack {
-                    VStack {
-                        NavigationLink {
-                            PixelArtDetailView(id: reply.documentId, showProfile: true, focusedReply: reply)
-                        } label: {
+                NavigationLink {
+                    PixelArtDetailView(id: reply.documentId, showProfile: true, focusedReply: reply)
+                } label: {
+                    HStack {
+                        VStack {
                             WebImage(url: URL(string:reply.imageURL))
                                 .placeholder(.imagePlaceHolder.resizable())
                                 .resizable()
                                 .frame(width: 50, height: 50, alignment: .center)
-                        }
-                        Spacer()
-                    }
-                    VStack {
-                        HStack {
-                            reply.updateDtText.font(.system(size: 10)).foregroundColor(.gray)
                             Spacer()
                         }
-                        HStack {
-                            Text(reply.message)
-                                .font(.subheadline)
-                                .foregroundColor(Color.k_normalText)
+                        VStack {
+                            HStack {
+                                reply.updateDtText.font(.system(size: 10)).foregroundColor(.gray)
+                                Spacer()
+                            }
+                            HStack {
+                                Text(reply.message)
+                                    .font(.subheadline)
+                                    .foregroundColor(Color.k_normalText)
+                                Spacer()
+                            }
                             Spacer()
                         }
-                        Spacer()
+                        if listMode == .내_게시글에_달린_댓글 {
+                            VStack {
+                                SimplePeopleView(uid: reply.uid, isSmall: true)
+                                Spacer()
+                            }                            
+                        }
                     }
                 }
                 
