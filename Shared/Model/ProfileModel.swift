@@ -75,6 +75,11 @@ extension ProfileModel {
             complete(nil)
             return
         }
+        if uid == "" {
+            complete(nil)
+            return
+        }
+        
         DispatchQueue.global().async {
             collection.document(uid).getDocument { snapShot, error in
                 if error == nil && snapShot?.data() == nil && isCreateDefaultProfile {
