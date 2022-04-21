@@ -70,68 +70,70 @@ struct LoadView: View {
         return false
     }
     private func makeListView(gridItems:[GridItem], width:CGFloat) -> some View {
-        
-        LazyVGrid(columns: gridItems, spacing:20) {
+        Group {
             NavigationLink(isActive: $isShowInAppPurch) {
                 InAppPurchesView()
             } label: {
                 
             }
-            ForEach(stages, id: \.self) {stage in
-                Button {
-                    if isOverLimit(stage: stage) {
-                        isShowInAppPurch = true
-                        return
-                    }
 
-                    if loadingStart == false {
-                        loadingStart = true
-                        stages = [stage]
-                        StageManager.shared.openStage(id: stage.documentId) { (result,errorA) in
-                            StageManager.shared.saveTemp { errorB in
-                                if errorA == nil && errorB == nil {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                                        presentationMode.wrappedValue.dismiss()
+            LazyVGrid(columns: gridItems, spacing:20) {
+                ForEach(stages, id: \.self) {stage in
+                    Button {
+                        if isOverLimit(stage: stage) {
+                            isShowInAppPurch = true
+                            return
+                        }
+                        
+                        if loadingStart == false {
+                            loadingStart = true
+                            stages = [stage]
+                            StageManager.shared.openStage(id: stage.documentId) { (result,errorA) in
+                                StageManager.shared.saveTemp { errorB in
+                                    if errorA == nil && errorB == nil {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                                            presentationMode.wrappedValue.dismiss()
+                                        }
                                     }
+                                    isShowToast = errorA != nil || errorB != nil
+                                    toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                 }
-                                isShowToast = errorA != nil || errorB != nil
-                                toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                             }
                         }
+                    } label : {
+                        VStack {
+                            WebImage(url: stage.imageURL)
+                                .placeholder(.imagePlaceHolder.resizable())
+                                .resizable().frame(width: getWidth(width: width, number: gridItems.count),
+                                                   height: getWidth(width: width, number: gridItems.count),
+                                                   alignment: .center)
+                            HStack {
+                                Text("id").font(.system(size: 10))
+                                Text(stage.documentId)
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.gray)
+                                Spacer()
+                            }
+                            HStack {
+                                Text("update").font(.system(size:10))
+                                Text(stage.updateDt.formatted(date:.long, time: .standard))
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.gray)
+                                Spacer()
+                            }
+                            
+                            Spacer()
+                        }.frame(width: loadingStart && stages.count == 1 ? getWidth(width: width, number: 1) : getWidth(width: width, number: gridItems.count),
+                                height: loadingStart && stages.count == 1 ? getWidth(width: width, number: 1) + 30 : getWidth(width: width, number: gridItems.count) + 30 ,
+                                alignment: .center)
+                        .opacity(isOverLimit(stage: stage) ? 0.2 : 1.0)
                     }
-                } label : {
-                    VStack {
-                        WebImage(url: stage.imageURL)
-                            .placeholder(.imagePlaceHolder.resizable())
-                            .resizable().frame(width: getWidth(width: width, number: gridItems.count),
-                                               height: getWidth(width: width, number: gridItems.count),
-                                               alignment: .center)
-                        HStack {
-                            Text("id").font(.system(size: 10))
-                            Text(stage.documentId)
-                                .font(.system(size: 10))
-                                .foregroundColor(.gray)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("update").font(.system(size:10))
-                            Text(stage.updateDt.formatted(date:.long, time: .standard))
-                                .font(.system(size: 10))
-                                .foregroundColor(.gray)
-                            Spacer()
-                        }
-
-                        Spacer()
-                    }.frame(width: loadingStart && stages.count == 1 ? getWidth(width: width, number: 1) : getWidth(width: width, number: gridItems.count),
-                            height: loadingStart && stages.count == 1 ? getWidth(width: width, number: 1) + 30 : getWidth(width: width, number: gridItems.count) + 30 ,
-                            alignment: .center)
-                    .opacity(isOverLimit(stage: stage) ? 0.2 : 1.0)
+                    
                 }
-                
             }
+            .opacity(loadingStart ? 0.5 : 1.0)
+            .padding(.horizontal)
         }
-        .opacity(loadingStart ? 0.5 : 1.0)
-        .padding(.horizontal)
 //        .animation(.easeInOut, value: loadingStart)
 
     }
