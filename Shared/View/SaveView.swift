@@ -29,6 +29,10 @@ struct SaveView: View {
     
     @State var isShowActionSheet = false
     @State var isPreseneted = false
+    
+    @State var alertText:Text? = nil
+    @State var isShowAlert = false
+
     func updateId() {
         self.id = StageManager.shared.stage?.documentId
         var id:String? {
@@ -131,7 +135,8 @@ struct SaveView: View {
                                         toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                         updateId()
                                         if errorA == nil && errorB == nil  {
-//                                            presentationMode.wrappedValue.dismiss()
+                                            alertText = Text("save view save sucess")
+                                            isShowAlert = true
                                         }
                                     }
                                     return
@@ -157,7 +162,8 @@ struct SaveView: View {
                                 toastMessage = error?.localizedDescription ?? ""
                                 isShowToast = error != nil
                                 if error == nil  {
-                                    //                                presentationMode.wrappedValue.dismiss()
+                                    alertText = Text("save view save sucess")
+                                    isShowAlert = true
                                 }
                             })
                         }
@@ -202,6 +208,9 @@ struct SaveView: View {
                                     updateId()
                                     if errorA == nil && errorB == nil {
 //                                        presentationMode.wrappedValue.dismiss()
+                                        alertText = Text("save view publish sucess")
+                                        isShowAlert = true
+
                                     }
                                 }
                             }
@@ -275,6 +284,9 @@ struct SaveView: View {
             StageManager.shared.stage?.title = title
         }
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
+        .alert(isPresented: $isShowAlert) {
+            Alert(title: Text("alert"), message: alertText, dismissButton: nil)
+        }
     }
 }
 

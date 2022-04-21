@@ -141,3 +141,7 @@
 "like art list" = "좋아요 한 그림들";
 "art list" = "공개한 그림들";
 "profile introduce title" = "자기소개";
+
+"save view save sucess" = "저장 성공했습니다.";
+"save view publish sucess" = "공개 개시글 발행 성공했습니다.";
+"alert" = "알림";

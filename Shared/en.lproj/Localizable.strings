@@ -43,7 +43,7 @@
 
 "delete layer" = "delete layer";
 "copy layer" = "copy layer";
-"share public" = "share public";
+"share public" = "publish";
 "update shared" = "update shared";
 "public shared list" = "public shared list";
 "empty public shard list message" = "There are no pictures shared.";
@@ -124,3 +124,9 @@
 
 "own replys" = "replys";
 "profile introduce title" = "introduce";
+
+
+"save view save sucess" = "save success";
+"save view publish sucess" = "successful to publish";
+
+"alert" = "alert";
