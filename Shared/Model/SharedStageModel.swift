@@ -33,17 +33,6 @@ class SharedStageModel : Object {
     @Persisted var likeUids:String = ""
     @Persisted var likeCount:Int = 0    
     
-    func getImageURL(complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
-        let id = documentId
-        DispatchQueue.global().async {
-            FirebaseStorageHelper.shared.getDownloadURL(id: id) { url, error in
-                DispatchQueue.main.async {
-                    complete(url,error)
-                }
-            }
-        }
-    }
-    
     var regDate:Date {
         Date(timeIntervalSince1970: regDt)
     }
