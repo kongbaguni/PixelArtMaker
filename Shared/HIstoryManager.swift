@@ -43,7 +43,9 @@ class HistoryManager {
     }
     
     func save() {
-        HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).saveToLocalDB()
+        DispatchQueue.global().async { [self] in
+            HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).saveToLocalDB()
+        }
     }
     
     public var undoCount:Int {
