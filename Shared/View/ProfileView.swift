@@ -98,7 +98,7 @@ struct ProfileView: View {
             if haveArtList == false {
                 HStack {
                     NavigationLink {
-                        ArtListView(uid: uid, width:nil)
+                        ArtListView(uid: uid, width:nil, limit:0)
                             .navigationTitle(Text("art list"))
                     } label: {
                         Text("art list")
@@ -151,7 +151,17 @@ struct ProfileView: View {
         }
     }
     
-    
+    private var moreArtListBtn : some View {
+        Group {
+            if sharedIds.count == Consts.profileImageLimit {
+                NavigationLink {
+                    ArtListView(uid: uid, width: nil, limit: 0)
+                } label: {
+                    Text("more title")
+                }
+            }
+        }
+    }
     
     var body: some View {
         GeometryReader { geomentry in
@@ -163,6 +173,7 @@ struct ProfileView: View {
                             ArtListView.makeListView(ids: sharedIds, sort: sort,
                                                      gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
                                                      itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                            moreArtListBtn
                         }
                         Section(header:Text("profile view like arts")) {
                             LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
@@ -186,6 +197,7 @@ struct ProfileView: View {
                                 ArtListView.makeListView(ids: sharedIds, sort: sort,
                                                          gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
                                                          itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                                moreArtListBtn
                             }
                             Section(header:Text("profile view like arts")) {
                                 LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
@@ -214,8 +226,8 @@ struct ProfileView: View {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
                 self.loadData()
             }
-            sharedIds = ArtListView.reloadFromLocalDb(uid:uid,sort: sort)
-            ArtListView.getListFromFirestore(uid:uid,sort: sort) { ids, error in
+//            sharedIds = ArtListView.reloadFromLocalDb(uid:uid,sort: sort)
+            ArtListView.getListFromFirestore(uid:uid, limit:Consts.profileImageLimit ,sort: sort) { ids, error in
                 self.sharedIds = ids
                 toastMessage = error?.localizedDescription ?? ""
                 isToast = error != nil

@@ -11,6 +11,7 @@ import RealmSwift
 import SDWebImageSwiftUI
 struct ArtListView: View {
         
+    let limit:Int
     let collection = Firestore.firestore().collection("public")
     @State var isShowToast = false
     @State var toastMessage = ""
@@ -31,9 +32,10 @@ struct ArtListView: View {
     
     let uid:String
 
-    init(uid:String, width:CGFloat?) {
+    init(uid:String, width:CGFloat?, limit:Int) {
         self.uid = uid
         self.width = width
+        self.limit = limit
     }
         
     private func makePickerView()-> some View {
@@ -43,9 +45,9 @@ struct ArtListView: View {
                 Sort.getText(type: type)
             }
         }.onChange(of: sortIndex) { newValue in
-            ids = ArtListView.reloadFromLocalDb(uid:uid,sort:sort)
+            ids = ArtListView.reloadFromLocalDb(uid:uid,limit:limit,sort:sort)
             isAnimate = true
-            ArtListView.getListFromFirestore(uid:uid,sort:sort) { ids, error in
+            ArtListView.getListFromFirestore(uid:uid, limit:limit,sort:sort) { ids, error in
                 isAnimate = false
                 self.ids = ids
             }
@@ -89,11 +91,14 @@ struct ArtListView: View {
         }
     }
     
-    static func getListFromFirestore(uid:String,sort:Sort.SortType,complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
+    static func getListFromFirestore(uid:String, limit:Int ,sort:Sort.SortType,complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
         var ids:[String] = []
         let lastSyncDt = try! Realm().objects(SharedStageModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt").last?.updateDt
 
-        var query = Firestore.firestore().collection("public").whereField("uid", isEqualTo: uid)
+        var query = Firestore.firestore().collection("public")
+            .whereField("uid", isEqualTo: uid)
+            .order(by: "updateDt", descending: true)
+        
         
         if let time = lastSyncDt {
             query = query.whereField("updateDt", isGreaterThan: time)
@@ -109,14 +114,17 @@ struct ArtListView: View {
                 }
             }
             try! realm.commitWrite()
+            print("new record : \(snapshot?.documents.count ?? 0))")
             print(error?.localizedDescription ?? "성공")
-            complete(ArtListView.reloadFromLocalDb(uid:uid,sort: sort), error)
+            
+            complete(ArtListView.reloadFromLocalDb(uid:uid, limit:limit,sort: sort), error)
         }
     }
     /** 내가 공개한 작품의 목록을 로컬DB에서 읽어온다.*/
-    static func reloadFromLocalDb(uid:String,sort:Sort.SortType)->[String] {
+    static func reloadFromLocalDb(uid:String, limit:Int,sort:Sort.SortType)->[String] {
         let db = try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false)
-
+        
+        
         var result:Results<SharedStageModel>? = nil
         switch sort {
         case .latestOrder:
@@ -126,9 +134,18 @@ struct ArtListView: View {
         case .like:
             result = db.sorted(byKeyPath: "likeCount", ascending: true)
         }
+        
         let ids = (result?.reversed() ?? []).map({ model in
             return model.id
         })
+        if limit > 0 && ids.count > limit {
+            var newResult:[String] = []
+            for i in 0..<limit {
+                newResult.append(ids[i])
+            }
+            return newResult
+        }
+
         return ids
     }
     
@@ -161,7 +178,7 @@ struct ArtListView: View {
         .navigationTitle(Text(profile?.nickname ?? "unknown people"))
         .animation(.easeInOut, value: isAnimate)
         .onAppear {
-            ArtListView.getListFromFirestore(uid:uid,sort:sort) { ids, error in
+            ArtListView.getListFromFirestore(uid:uid,limit:limit,sort:sort) { ids, error in
                 if let err = error {
                     toastMessage = err.localizedDescription
                     isShowToast = true
