@@ -11,7 +11,6 @@ import RealmSwift
 
 class MyStageModel : Object {
     @Persisted(primaryKey: true) var documentId:String = ""
-    @Persisted var imageURL:String = ""
     @Persisted var updateDt:Date = Date()
     @Persisted var shareDocumentId:String = ""
     
@@ -21,13 +20,12 @@ class MyStageModel : Object {
             return lhs.documentId == rhs.documentId
         }
         let documentId:String
-        let imageURL:URL?
         let updateDt:Date
         let shareDocumentId:String
     }
     
     var threadSafeModel:ThreadSafeModel {
-        return .init(documentId: documentId, imageURL: URL(string: imageURL), updateDt: updateDt, shareDocumentId: shareDocumentId)
+        return .init(documentId: documentId, updateDt: updateDt, shareDocumentId: shareDocumentId)
     }
     
     static var stageCount:Int {

@@ -162,10 +162,10 @@ struct LoadView: View {
         ZStack {
             VStack {
                 Spacer()
-                if let url = stages.first?.imageURL {
+                if let id = stages.first?.documentId {
                     HStack {
                         Spacer()
-                        WebImage(url: url).resizable()
+                        FSImageView(imageRefId: id, placeholder: .imagePlaceHolder)
                             .frame(width: CGSize.getImageSizeForPreviewImage(padding: 40).width,
                                    height: CGSize.getImageSizeForPreviewImage(padding: 40).height,
                                    alignment: .center)

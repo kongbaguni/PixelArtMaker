@@ -23,15 +23,21 @@ struct FSImageView : View {
                 .placeholder(placeholder.resizable())
                 .resizable()
                 .onAppear {
-                    let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId)
-                    isLoading = model?.imageUrl == nil
-                    imageURL = model?.imageUrl
-                    
-                    FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
+                    var isNeedUpdate = true
+                    if let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId) {
                         isLoading = false
-                        imageURL = url
-                        toastMessage = error?.localizedDescription ?? ""
-                        isShowToast = error != nil
+                        imageURL = model.imageUrl
+                        isNeedUpdate = model.isExpire
+                    }
+                    isLoading = imageURL == nil
+                    
+                    if isNeedUpdate {
+                        FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
+                            isLoading = false
+                            imageURL = url
+                            toastMessage = error?.localizedDescription ?? ""
+                            isShowToast = error != nil
+                        }
                     }
                 }
                 .opacity(isLoading ? 0.0 : 1.0)

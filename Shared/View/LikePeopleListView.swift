@@ -32,7 +32,7 @@ struct SimplePeopleView : View {
                 ZStack {
                     if let id = profileImageRefId {
                         FSImageView(imageRefId: id, placeholder: .profilePlaceHolder)
-                            .frame(width: 40, height: 40)
+                            .frame(width: 100, height: 100)
                     }
                     else {
                         Image.profilePlaceHolder
