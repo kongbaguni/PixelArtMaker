@@ -39,11 +39,16 @@ struct Consts {
             return [16,36,64]
         }
     }
-    
+    /** 프로필에서 바로 그림 보여주기 리미트 */
+    static let profileImageLimit = 24
+    /** 프로필에서 바로 댓글 보여주기 리미트 */
+    static let profileReplyLimit = 20
     /** 무료모드에서 겔러리 생성 제한 */
     static let free_myGalleryLimit = 50
     /** 무료모드에서 레이어 생성 제한*/
     static let free_layerLimit = 2    
     /** 구독모드에서 레이어 생성 제한*/
     static let plus_layerLimit = 7
+    
+    static let imageUploadPath = "shareImages"
 }

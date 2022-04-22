@@ -22,7 +22,7 @@ class StageManager {
 
     var stagePreviews:Results<MyStageModel> {
         let realm = try! Realm()
-        return realm.objects(MyStageModel.self)//.sorted(byKeyPath: "updateDt").reversed()
+        return realm.objects(MyStageModel.self).sorted(byKeyPath: "updateDt", ascending: true)
     }
     
     func initStage(canvasSize:CGSize) {
@@ -167,17 +167,12 @@ class StageManager {
                 "updateDt":Date().timeIntervalSince1970
             ]
             
-            
-            
-            
             if asNewForce == false {
                 if let documentPath = self.stage?.documentId {
                     FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png,
-                                                            uploadPath: "shareImages",
+                                                            uploadPath: Consts.imageUploadPath,
                                                             id:documentPath
                                                             ) { downloadURL, error in
-                        data["imageURL"] = downloadURL?.absoluteString ?? ""
-                        
                             let d = collection.document(documentPath)
                             d.updateData(data) {[self] error in
                                 print(error?.localizedDescription ?? "업로드 성공")
@@ -202,10 +197,9 @@ class StageManager {
                     stage.documentId = documentId
                     
                     FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png,
-                                                            uploadPath: "shareImages",
+                                                            uploadPath: Consts.imageUploadPath,
                                                             id:documentId) {
                         downloadURL, error in
-                        data["imageURL"] = downloadURL?.absoluteString ?? ""
                         
                         let d = collection.document(documentId)
                         d.updateData(data) { [self] error in
@@ -296,9 +290,6 @@ class StageManager {
                         "documentId":data.1,
                         "updateDt":updateDt
                     ]
-                    if let imageURL = data.0["imageURL"] as? String {
-                        ddata["imageURL"] = imageURL
-                    }
                     if let sid = data.0["shared_document_id"] as? String {
                         ddata["shareDocumentId"] = sid
                     }                    
@@ -318,7 +309,7 @@ class StageManager {
             }
         }
         DispatchQueue.global().async {[self] in
-            let lastSync = StageManager.shared.stagePreviews.first?.updateDt
+            let lastSync = StageManager.shared.stagePreviews.last?.updateDt
             
             guard let uid = AuthManager.shared.userId else {
                 return
@@ -364,7 +355,6 @@ class StageManager {
                             let updateData:[String:AnyHashable] = [
                                 "email":"",
                                 "documentId":"",
-                                "imageURL":"",
                                 "deleted":true,
                                 "updateDt":Date().timeIntervalSince1970
                             ]
@@ -412,9 +402,7 @@ class StageManager {
     func sharePublic( complete:@escaping(_ error:Error?)->Void) {
         guard let id = stage?.documentId,
               let uid = AuthManager.shared.userId,
-              let email = AuthManager.shared.auth.currentUser?.email,
-              let imgURL = try! Realm().object(ofType: MyStageModel.self, forPrimaryKey: id)?.imageURL
-                
+              let email = AuthManager.shared.auth.currentUser?.email                
         else {
             return
         }
@@ -424,7 +412,6 @@ class StageManager {
         
         var data:[String:AnyHashable] = [
             "documentId":id ,
-            "imageUrl":imgURL,
             "email":email,
             "updateDt":now,
             "uid":uid

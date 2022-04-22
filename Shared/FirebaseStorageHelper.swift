@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import FirebaseStorage
 import FirebaseFirestore
+import RealmSwift
 
 class FirebaseStorageHelper {
     static let shared = FirebaseStorageHelper()
@@ -19,7 +20,6 @@ class FirebaseStorageHelper {
         case png = "image/png"
         case jpeg = "image/jpeg"
     }
-    
     
     func uploadImage(url:URL, contentType:ContentType, uploadPath:String, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
         guard var data = try? Data(contentsOf: url) else {
@@ -42,7 +42,7 @@ class FirebaseStorageHelper {
     }
 
     
-    func uploadData(data:Data, contentType:ContentType, uploadPath:String, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
+    func uploadData(data:Data, contentType:ContentType, uploadPath:String = Consts.imageUploadPath, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
         let ref:StorageReference = storageRef.child("\(uploadPath)/\(id)")
         let metadata = StorageMetadata()
         metadata.contentType = contentType.rawValue
@@ -52,10 +52,10 @@ class FirebaseStorageHelper {
             print(snapshot.reference.name)
             print(path)
             
-            ref.downloadURL { (downloadUrl, err) in
+            ref.downloadURL { [self] (downloadUrl, err) in
                 if let url = downloadUrl {
-                    print(url)
-                }
+                    updateCash(id: id, url: url)
+                }                
                 complete(downloadUrl, nil)
             }
         }
@@ -64,9 +64,12 @@ class FirebaseStorageHelper {
         }
     }
         
-    func getDownloadURL(uploadPath:String, id:String,complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
-        let ref:StorageReference = storageRef.child(id)
-        ref.downloadURL { downloadURL, err in
+    func getDownloadURL(uploadPath:String = Consts.imageUploadPath, id:String,complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
+        let ref:StorageReference = storageRef.child("\(uploadPath)/\(id)")
+        ref.downloadURL { [self] downloadURL, err in
+            if let url = downloadURL {
+                updateCash(id: id, url: url)
+            }
             complete(downloadURL,err)
         }
     }
@@ -77,4 +80,18 @@ class FirebaseStorageHelper {
             complete(error)
         }
     }
+    
+    private func updateCash(id:String, url:URL) {
+        let realm = try! Realm()
+        let data:[String:AnyHashable] = [
+            "id":id,
+            "url":url.absoluteString,
+            "date":Date()
+        ]
+        try! realm.write {
+            realm.create(FirebaseStorageImageUrlCashModel.self, value: data, update: .all)
+        }
+    }
 }
+
+

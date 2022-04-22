@@ -145,3 +145,8 @@
 "save view save sucess" = "저장 성공했습니다.";
 "save view publish sucess" = "공개 개시글 발행 성공했습니다.";
 "alert" = "알림";
+"more title" = "더보기";
+
+
+"reply written by" = "작성한 댓글";
+"received reply" = "받은 댓글";

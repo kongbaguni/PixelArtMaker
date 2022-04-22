@@ -102,9 +102,8 @@ struct LoadView: View {
                         }
                     } label : {
                         VStack {
-                            WebImage(url: stage.imageURL)
-                                .placeholder(.imagePlaceHolder.resizable())
-                                .resizable().frame(width: getWidth(width: width, number: gridItems.count),
+                            FSImageView(imageRefId: stage.documentId, placeholder: .imagePlaceHolder)
+                                .frame(width: getWidth(width: width, number: gridItems.count),
                                                    height: getWidth(width: width, number: gridItems.count),
                                                    alignment: .center)
                             HStack {
@@ -163,10 +162,10 @@ struct LoadView: View {
         ZStack {
             VStack {
                 Spacer()
-                if let url = stages.first?.imageURL {
+                if let id = stages.first?.documentId {
                     HStack {
                         Spacer()
-                        WebImage(url: url).resizable()
+                        FSImageView(imageRefId: id, placeholder: .imagePlaceHolder)
                             .frame(width: CGSize.getImageSizeForPreviewImage(padding: 40).width,
                                    height: CGSize.getImageSizeForPreviewImage(padding: 40).height,
                                    alignment: .center)

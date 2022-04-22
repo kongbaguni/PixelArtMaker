@@ -16,7 +16,7 @@ extension Notification.Name {
 class ProfileModel: Object {
     @Persisted(primaryKey: true) var uid:String = ""
     @Persisted var nickname:String = ""
-    @Persisted var profileURL:String = ""
+    @Persisted var profileImageRefId:String = ""
     @Persisted var email:String = ""
     @Persisted var introduce:String = ""
     @Persisted var updateDt:TimeInterval = 0
@@ -42,10 +42,6 @@ fileprivate func createDefaultProfile(complete:@escaping(_ isSucess:Bool)->Void)
 }
 
 extension ProfileModel {
-    var profileImageURL:URL? {
-        return URL(string: profileURL)
-    }
-    
     static func findBy(uid:String)->ProfileModel? {
         return try! Realm().object(ofType: ProfileModel.self, forPrimaryKey: uid)
     }
@@ -107,11 +103,11 @@ extension ProfileModel {
     }
     
     func updateProfile(complete:@escaping(_ error:Error?)->Void) {
-        ProfileModel.updateProfile(nickname: nickname, introduce: introduce, profileURL: profileURL, email: email, complete: complete)
+        ProfileModel.updateProfile(nickname: nickname, introduce: introduce, profileImageRefId: profileImageRefId, email: email, complete: complete)
     }
     
     
-    static func updateProfile(nickname:String, introduce:String? = nil, profileURL:String? = nil, email:String? = nil, complete:@escaping(_ error:Error?)->Void) {
+    static func updateProfile(nickname:String, introduce:String? = nil, profileImageRefId:String? = nil, email:String? = nil, complete:@escaping(_ error:Error?)->Void) {
         if nickname.replacingOccurrences(of: " ", with: "").isEmpty == true {
             complete(nil)
             return
@@ -128,8 +124,8 @@ extension ProfileModel {
         if let txt = introduce {
             data["introduce"] = txt
         }
-        if let url = profileURL {
-            data["profileURL"] = url
+        if let id = profileImageRefId {
+            data["profileImageRefId"] = id
         }
         if let email = email {
             data["email"] = email
@@ -146,7 +142,7 @@ extension ProfileModel {
         }
     }
     
-    func updatePhoto(photoURL:String, complete:@escaping(_ error:Error?)->Void) {
+    func updatePhoto(photoRefId:String, complete:@escaping(_ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
             complete(nil)
             return
@@ -154,7 +150,7 @@ extension ProfileModel {
 
         let data:[String:AnyHashable] = [
             "uid":uid,
-            "profileURL":photoURL,
+            "profileImageRefId":photoRefId,
             "updateDt":Date().timeIntervalSince1970
         ]
         collection.document(uid).updateData(data) { error in

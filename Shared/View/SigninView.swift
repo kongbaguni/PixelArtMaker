@@ -96,11 +96,9 @@ struct SigninView: View {
             if let user = AuthManager.shared.auth.currentUser {
                 if ProfileModel.currentUser == nil {
                     ProfileModel.updateProfile(nickname: user.displayName ?? "",
-                                               profileURL: user.photoURL?.absoluteString ?? "",
-                                               email: user.email ?? "" ) { error in
+                                               email: user.email) { error in
                         toastMessage = error?.localizedDescription ?? ""
                         isShowToast = error != nil
-                        
                     }
                 }
             }

@@ -26,7 +26,7 @@ struct ProfileView: View {
     @State var isToast = false
     @State var nickname:String = ""
     @State var introduce:String = ""
-    @State var imageURL:URL? = nil
+    @State var imageRefId:String? = nil
     @State var email:String = ""
     @State var sortSelect = 0
     var sortList:[Sort.SortType] = Sort.SortTypeForPublicGallery
@@ -38,10 +38,8 @@ struct ProfileView: View {
     
     private func makeProfileImageView(size:CGFloat)-> some View {
         VStack {
-            if let url = imageURL {
-                WebImage(url: url)
-                    .placeholder(.profilePlaceHolder.resizable())
-                    .resizable()
+            if let url = imageRefId {
+                FSImageView(imageRefId: url, placeholder: .profilePlaceHolder)
                     .frame(width: size, height: size, alignment: .center)
             } else {
                 Image.profilePlaceHolder
@@ -100,7 +98,7 @@ struct ProfileView: View {
             if haveArtList == false {
                 HStack {
                     NavigationLink {
-                        ArtListView(uid: uid, width:nil)
+                        ArtListView(uid: uid, width:nil, limit:0)
                             .navigationTitle(Text("art list"))
                     } label: {
                         Text("art list")
@@ -153,6 +151,29 @@ struct ProfileView: View {
         }
     }
     
+    private var moreArtListBtn : some View {
+        Group {
+            if try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false).count > Consts.profileImageLimit {
+                NavigationLink {
+                    ArtListView(uid: uid, width: nil, limit: 0)
+                } label: {
+                    Text("more title")
+                }
+            }
+        }
+    }
+    private var moreLikeListBtn : some View {
+        Group {
+            if try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").count > Consts.profileImageLimit {
+                NavigationLink {
+                    LikeArtListFullView(uid: uid)
+                } label: {
+                    Text("more title")
+                }
+            }
+        }
+    }
+    
     
     
     var body: some View {
@@ -165,16 +186,18 @@ struct ProfileView: View {
                             ArtListView.makeListView(ids: sharedIds, sort: sort,
                                                      gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
                                                      itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                            moreArtListBtn
                         }
                         Section(header:Text("profile view like arts")) {
                             LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), limit: Consts.profileImageLimit)
+                            moreLikeListBtn
                         }
                         Section(header:Text("profile view replys")) {
-                            ReplyListView(uid: uid, limit: 20, listMode:.내가_쓴_댓글)
+                            ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_쓴_댓글)
                         }
                         Section(header:Text("profile view replys to me")) {
-                            ReplyListView(uid: uid, limit: 20, listMode:.내_게시글에_달린_댓글)
+                            ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내_게시글에_달린_댓글)
                         }
 
                     }
@@ -188,17 +211,19 @@ struct ProfileView: View {
                                 ArtListView.makeListView(ids: sharedIds, sort: sort,
                                                          gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
                                                          itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                                moreArtListBtn
                             }
                             Section(header:Text("profile view like arts")) {
                                 LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), limit: Consts.profileImageLimit)
+                                moreLikeListBtn
                             }
                             Section(header:Text("profile view replys")) {
-                                ReplyListView(uid: uid, limit: 20, listMode:.내가_쓴_댓글)
+                                ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_쓴_댓글)
                             }
                             
                             Section(header:Text("profile view replys to me")) {
-                                ReplyListView(uid: uid, limit: 20, listMode:.내_게시글에_달린_댓글)
+                                ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내_게시글에_달린_댓글)
                             }
 
                         }
@@ -216,8 +241,8 @@ struct ProfileView: View {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
                 self.loadData()
             }
-            sharedIds = ArtListView.reloadFromLocalDb(uid:uid,sort: sort)
-            ArtListView.getListFromFirestore(uid:uid,sort: sort) { ids, error in
+//            sharedIds = ArtListView.reloadFromLocalDb(uid:uid,sort: sort)
+            ArtListView.getListFromFirestore(uid:uid, limit:Consts.profileImageLimit ,sort: sort) { ids, error in
                 self.sharedIds = ids
                 toastMessage = error?.localizedDescription ?? ""
                 isToast = error != nil
@@ -260,7 +285,7 @@ struct ProfileView: View {
         }
         nickname = user.nickname
         introduce = user.introduce
-        imageURL = URL(string: user.profileURL)
+        imageRefId = user.profileImageRefId
         email = user.email
         
     }

@@ -10,7 +10,7 @@ import RealmSwift
 class LikeModel : Object {
     @Persisted(primaryKey: true) var id:String = ""
     @Persisted var uid:String = ""
-    @Persisted var imageURL:String = ""
+    @Persisted var imageRefId:String = ""
     @Persisted var updateDt:TimeInterval = 0
     
     var documentId:String {

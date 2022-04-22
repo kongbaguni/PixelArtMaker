@@ -38,9 +38,7 @@ struct ReplyListView: View {
                 } label: {
                     HStack {
                         VStack {
-                            WebImage(url: URL(string:reply.imageURL))
-                                .placeholder(.imagePlaceHolder.resizable())
-                                .resizable()
+                            FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
                                 .frame(width: 50, height: 50, alignment: .center)
                             Spacer()
                         }
@@ -66,6 +64,14 @@ struct ReplyListView: View {
                     }
                 }
                 
+            }
+            
+            if replys.count == limit {
+                NavigationLink {
+                    ReplyListFullView(uid: uid, listMode: listMode)
+                } label: {
+                    Text("more title")
+                }
             }
         }.onAppear {
             isLoading = true
@@ -102,6 +108,7 @@ struct ReplyListFullView : View {
     var body : some View {
         ScrollView {
             ReplyListView(uid: uid, limit: 0, listMode: listMode)
+                .navigationBarTitle(Text(listMode == .내가_쓴_댓글 ? "reply written by" : "received reply"))
         }
     }
 }
