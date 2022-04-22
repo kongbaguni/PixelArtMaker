@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import RealmSwift
 
 /** 파이어스토어 이미지 보여주는 뷰 */
 struct FSImageView : View {
@@ -22,7 +23,10 @@ struct FSImageView : View {
                 .placeholder(placeholder.resizable())
                 .resizable()
                 .onAppear {
-                    isLoading = true
+                    let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId)
+                    isLoading = model?.imageUrl == nil
+                    imageURL = model?.imageUrl
+                    
                     FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
                         isLoading = false
                         imageURL = url

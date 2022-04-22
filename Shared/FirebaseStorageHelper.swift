@@ -65,13 +65,6 @@ class FirebaseStorageHelper {
     }
         
     func getDownloadURL(uploadPath:String = Consts.imageUploadPath, id:String,complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
-        let realm = try! Realm()
-        if let model = realm.object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: id) {
-            if model.isExpire == false {
-                complete(URL(string: model.url), nil)
-                return
-            }
-        }
         let ref:StorageReference = storageRef.child("\(uploadPath)/\(id)")
         ref.downloadURL { downloadURL, err in
             if let url = downloadURL {
