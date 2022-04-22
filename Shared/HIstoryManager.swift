@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import RealmSwift
+
 extension Notification.Name {
     static let historyDataDidChanged = Notification.Name(rawValue: "historyDataDidChanged")
 }
@@ -24,6 +26,12 @@ class HistoryManager {
     func clear() {
         undoStack.removeAll()
         redoStack.removeAll()
+        let realm = try! Realm()
+        if let model = realm.object(ofType: HistoryBackupModel.self, forPrimaryKey: "none") {
+            try! realm.write({
+                realm.delete(model)
+            })
+        }
     }
     
     func load() {
