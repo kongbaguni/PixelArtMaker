@@ -99,7 +99,7 @@ class StageManager {
                     self.stage = stage
                     self.stage?.createrId = uid
                     print(stage.canvasSize)
-
+                    HistoryManager.shared.load()
                     complete(nil)
                     return
                 }
@@ -132,6 +132,7 @@ class StageManager {
                     self.stage?.documentId = id.isEmpty ? nil : id
                 }
                             
+                HistoryManager.shared.load()
                 DispatchQueue.main.async {
                     complete(error)
                 }
@@ -249,7 +250,7 @@ class StageManager {
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
                 stage = model
                 model?.createrId = uid
-                HistoryManager.shared.load()
+                HistoryManager.shared.clear()
                 DispatchQueue.main.async {
                     complete(model,error)
                 }

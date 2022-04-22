@@ -27,11 +27,11 @@ class HistoryManager {
         undoStack.removeAll()
         redoStack.removeAll()
         let realm = try! Realm()
-        if let model = realm.object(ofType: HistoryBackupModel.self, forPrimaryKey: "none") {
-            try! realm.write({
-                realm.delete(model)
-            })
+        let list = realm.objects(HistoryBackupModel.self)
+        try! realm.write{
+            realm.delete(list)
         }
+        
     }
     
     func load() {
