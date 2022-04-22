@@ -22,7 +22,7 @@ class StageManager {
 
     var stagePreviews:Results<MyStageModel> {
         let realm = try! Realm()
-        return realm.objects(MyStageModel.self)//.sorted(byKeyPath: "updateDt").reversed()
+        return realm.objects(MyStageModel.self).sorted(byKeyPath: "updateDt", ascending: true)
     }
     
     func initStage(canvasSize:CGSize) {
@@ -167,9 +167,6 @@ class StageManager {
                 "updateDt":Date().timeIntervalSince1970
             ]
             
-            
-            
-            
             if asNewForce == false {
                 if let documentPath = self.stage?.documentId {
                     FirebaseStorageHelper.shared.uploadData(data: imageData, contentType: .png,
@@ -312,7 +309,11 @@ class StageManager {
             }
         }
         DispatchQueue.global().async {[self] in
-            let lastSync = StageManager.shared.stagePreviews.first?.updateDt
+            print("loadList ---------------------")
+            print(StageManager.shared.stagePreviews.first?.updateDt)
+            print(StageManager.shared.stagePreviews.last?.updateDt)
+            print("loadList ---------------------")
+            let lastSync = StageManager.shared.stagePreviews.last?.updateDt
             
             guard let uid = AuthManager.shared.userId else {
                 return
