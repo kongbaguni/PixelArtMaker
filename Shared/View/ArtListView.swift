@@ -62,9 +62,7 @@ struct ArtListView: View {
                     }, label: {
                         VStack {
                             if itemSize.width > 0 && itemSize.height > 0 {
-                                WebImage(url: model.imageURLvalue)
-                                    .placeholder(.imagePlaceHolder.resizable())
-                                    .resizable()
+                                FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder)                                    
                                     .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
                             }
                             

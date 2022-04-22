@@ -16,28 +16,33 @@ class SharedStageModel : Object {
         let uid:String
         let documentId:String
         let email:String
-        let imageURL:URL
         let regDt:Date
         let updateDt:Date
         let likeCount:Int
         let isMyLike:Bool
     }
+    
     @Persisted(primaryKey: true) var id:String = ""
     /** 원본의 아이디 불러오기 구현시 참조용.*/
     @Persisted var documentId:String = ""
     @Persisted var uid:String = ""
     @Persisted var email:String = ""
-    @Persisted var imageUrl:String = ""
     @Persisted var regDt:TimeInterval = 0.0
     @Persisted var updateDt:TimeInterval = 0.0
     @Persisted var deleted:Bool = false
     @Persisted var likeUids:String = ""
     @Persisted var likeCount:Int = 0    
     
-    var imageURLvalue:URL? {
-        URL(string: imageUrl)
+    func getImageURL(complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
+        let id = documentId
+        DispatchQueue.global().async {
+            FirebaseStorageHelper.shared.getDownloadURL(id: id) { url, error in
+                DispatchQueue.main.async {
+                    complete(url,error)
+                }
+            }
+        }
     }
-    
     
     var regDate:Date {
         Date(timeIntervalSince1970: regDt)
@@ -75,7 +80,6 @@ class SharedStageModel : Object {
               uid: uid,
               documentId: documentId,
               email: email,
-              imageURL: URL(string: imageUrl)!,
               regDt: Date(timeIntervalSince1970: regDt),
               updateDt: Date(timeIntervalSince1970: updateDt),
               likeCount: likeCount, isMyLike: isMyLike)
@@ -103,7 +107,7 @@ extension SharedStageModel {
         var data:[String:Any] = [
             "id" : id,
             "uid" : uid,
-            "imageURL" : imageUrl,
+            "imageRefId" : documentId,
             "updateDt" : Date().timeIntervalSince1970
         ]
         
@@ -128,7 +132,7 @@ extension SharedStageModel {
                     return
                 } // 있으니까 지운다. (좋아요 취소함)
                 data["deleted"] = true
-                data["imageURL"] = ""
+                data["imageRefId"] = ""
                 
                 collection.document(id).setData(data) { error in
                     let realm = try! Realm()

@@ -64,18 +64,12 @@ struct PixelArtDetailView: View {
     private func makeImageView(imageSize:CGFloat)->some View {
         VStack {
             if let m = tmodel {
-                if let imgUrl = m.imageURL {
-                    Button {
-                        toggleLike()
-                    } label: {
-                        WebImage(url:imgUrl)
-                            .placeholder(.imagePlaceHolder.resizable())
-                            .resizable()
-                            .frame(width: imageSize, height: imageSize, alignment: .center)
-                        
-                    }
+                Button {
+                    toggleLike()
+                } label: {
+                    FSImageView(imageRefId: m.documentId, placeholder: .imagePlaceHolder)
+                        .frame(width: imageSize, height: imageSize, alignment: .center)
                 }
-                
             }
         }.padding(10)
     }
@@ -109,27 +103,30 @@ struct PixelArtDetailView: View {
             if let m = tmodel {
                 if m.uid == AuthManager.shared.userId && isProfileImage == false  {
                     Button {
-                        ProfileModel.findBy(uid: m.uid)?.updatePhoto(photoURL: m.imageURL.absoluteString, complete: { error in
-                            isProfileImage = true
-                            toastMessage = error?.localizedDescription ?? ""
-                            isShowToast = error != nil
-                        })
+                        ProfileModel.findBy(uid: m.uid)?
+                            .updatePhoto(photoRefId: m.documentId, complete: { error in
+                                isProfileImage = true
+                                toastMessage = error?.localizedDescription ?? ""
+                                isShowToast = error != nil
+                            })                        
                     } label : {
                         OrangeTextView(image: Image(systemName: "person.crop.circle"), text: Text("Set as Profile Image"))
                     }
                 }
                 
-                if let img = m.imageURL {
-                    Button {
-                        googleAd.showAd { isSucess in
-                            if isSucess {
-                                share(items: [img])
+                Button {
+                    FirebaseStorageHelper.shared.getDownloadURL(id: m.documentId) { url, error in
+                        if let url = url {
+                            googleAd.showAd { isSucess in
+                                if isSucess {
+                                    share(items: [url])
+                                }
                             }
                         }
-                        
-                    } label: {
-                        OrangeTextView(image: Image(systemName: "square.and.arrow.up"), text: Text("share"))
                     }
+                    
+                } label: {
+                    OrangeTextView(image: Image(systemName: "square.and.arrow.up"), text: Text("share"))
                 }
             }
         }
@@ -171,7 +168,7 @@ struct PixelArtDetailView: View {
                     let reply = ReplyModel(documentId: model.id,
                                            documentsUid: model.uid,
                                            message: replyText,
-                                           imageURL: model.imageUrl)
+                                           imageRefId: model.documentId)
                     ReplyManager.shared.addReply(replyModel: reply) { error in
                         if error == nil {
                             isFocusedReplyInput = false
@@ -393,7 +390,7 @@ struct PixelArtDetailView: View {
             tmodel = model.threadSafeModel
             isMyLike = model.isMyLike
             likeCount = model.likeCount
-            isProfileImage = model.imageUrl == ProfileModel.findBy(uid: model.uid)?.profileURL
+            isProfileImage = model.documentId == ProfileModel.findBy(uid: model.uid)?.profileImageRefId
         }
         
     }

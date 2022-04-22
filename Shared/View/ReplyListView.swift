@@ -38,9 +38,7 @@ struct ReplyListView: View {
                 } label: {
                     HStack {
                         VStack {
-                            WebImage(url: URL(string:reply.imageURL))
-                                .placeholder(.imagePlaceHolder.resizable())
-                                .resizable()
+                            FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
                                 .frame(width: 50, height: 50, alignment: .center)
                             Spacer()
                         }

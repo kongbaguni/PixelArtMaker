@@ -11,15 +11,14 @@ import SDWebImageSwiftUI
 struct SimplePeopleView : View {
     let uid:String
     let isSmall:Bool
-    @State var profileImageURL:URL? = nil
+    @State var profileImageRefId:String? = nil
     @State var name:String? = nil
     var body: some View {
         Group {
             if isSmall {
                 VStack {
-                    if let url = profileImageURL {
-                        WebImage(url: url)
-                            .resizable()
+                    if let id = profileImageRefId {
+                        FSImageView(imageRefId: id, placeholder: .profilePlaceHolder)
                             .frame(width: 40, height: 40)
                     }
                     if let name = name {
@@ -31,9 +30,9 @@ struct SimplePeopleView : View {
             }
             else {
                 ZStack {
-                    if let url = profileImageURL {
-                        WebImage(url: url)
-                            .resizable()
+                    if let id = profileImageRefId {
+                        FSImageView(imageRefId: id, placeholder: .profilePlaceHolder)
+                            .frame(width: 40, height: 40)
                     }
                     else {
                         Image.profilePlaceHolder
@@ -56,7 +55,7 @@ struct SimplePeopleView : View {
                 }
             }
         }.onAppear {
-            if profileImageURL == nil {
+            if profileImageRefId == nil {
                 ProfileModel.downloadProfile(uid: uid, isCreateDefaultProfile: false) { error in
                     loadDataFromLocalDb()
                 }
@@ -67,7 +66,7 @@ struct SimplePeopleView : View {
     
     private func loadDataFromLocalDb() {
         if let model = ProfileModel.findBy(uid: uid) {
-            profileImageURL = model.profileImageURL
+            profileImageRefId = model.profileImageRefId
             name = model.nickname
         }
 

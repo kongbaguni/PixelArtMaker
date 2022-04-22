@@ -39,6 +39,8 @@
 		8D3BD9A3280F8F320022ED89 /* HistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A2280F8F320022ED89 /* HistoryModel.swift */; };
 		8D3BD9A528112B8E0022ED89 /* AppCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A428112B8E0022ED89 /* AppCheck.swift */; };
 		8D3BD9A828112BCA0022ED89 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8D3BD9A728112BCA0022ED89 /* FirebaseAppCheck */; };
+		8D3BD9AA2812382E0022ED89 /* FSImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A92812382E0022ED89 /* FSImageView.swift */; };
+		8D3BD9AC281240930022ED89 /* FirebaseStorageImageUrlCashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9AB281240920022ED89 /* FirebaseStorageImageUrlCashModel.swift */; };
 		8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9128080BCB00565A3C /* PathFinder.swift */; };
 		8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC982809410400565A3C /* PhotoPicker.swift */; };
 		8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9A280959CD00565A3C /* TracingImageModel.swift */; };
@@ -154,6 +156,8 @@
 		8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIstoryManager.swift; sourceTree = "<group>"; };
 		8D3BD9A2280F8F320022ED89 /* HistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModel.swift; sourceTree = "<group>"; };
 		8D3BD9A428112B8E0022ED89 /* AppCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCheck.swift; sourceTree = "<group>"; };
+		8D3BD9A92812382E0022ED89 /* FSImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSImageView.swift; sourceTree = "<group>"; };
+		8D3BD9AB281240920022ED89 /* FirebaseStorageImageUrlCashModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageImageUrlCashModel.swift; sourceTree = "<group>"; };
 		8D49FC9128080BCB00565A3C /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		8D49FC982809410400565A3C /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8D49FC9A280959CD00565A3C /* TracingImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingImageModel.swift; sourceTree = "<group>"; };
@@ -362,6 +366,7 @@
 				8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */,
 				8D49FC9A280959CD00565A3C /* TracingImageModel.swift */,
 				8DABAF17280D2D33001E7619 /* ReplyModel.swift */,
+				8D3BD9AB281240920022ED89 /* FirebaseStorageImageUrlCashModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 				8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */,
 				8D3BD981280E74CB0022ED89 /* BannerAdView.swift */,
 				8D3BD983280E841F0022ED89 /* ReplyListView.swift */,
+				8D3BD9A92812382E0022ED89 /* FSImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -645,12 +651,14 @@
 				C356364127FAC4AE00B2609A /* Float+Extensions.swift in Sources */,
 				C356362F27F976E600B2609A /* Share.swift in Sources */,
 				C356363F27FAC41C00B2609A /* InAppPurchaseModel.swift in Sources */,
+				8D3BD9AA2812382E0022ED89 /* FSImageView.swift in Sources */,
 				C3DBA08C27ECA32B00FE8392 /* GoogleAd.swift in Sources */,
 				C3DBA08327EC5F8900FE8392 /* MyStageModel.swift in Sources */,
 				C38C1BAA2802EC5800350176 /* DrawingToolView.swift in Sources */,
 				C356363827FA7C2200B2609A /* Consts.swift in Sources */,
 				8DABAF1A280D2E92001E7619 /* ReplyManager.swift in Sources */,
 				C38C1BA42801A44700350176 /* PaletteView.swift in Sources */,
+				8D3BD9AC281240930022ED89 /* FirebaseStorageImageUrlCashModel.swift in Sources */,
 				C38C1BAC2802F26600350176 /* ArrowToolView.swift in Sources */,
 				1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */,
 				C356363A27FAC29400B2609A /* InAppPurchaseManager.swift in Sources */,

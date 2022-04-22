@@ -51,7 +51,7 @@ struct LikeArtListView: View {
     }
 
     private func loadFromLocalDb() {
-        let result = try! Realm().objects(LikeModel.self).filter("uid = %@ && imageURL != %@", uid, "").sorted(byKeyPath: "updateDt", ascending: true).map({ model in
+        let result = try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").sorted(byKeyPath: "updateDt", ascending: true).map({ model in
             return model.id
         })
         ids = result.reversed()
@@ -68,16 +68,8 @@ struct LikeArtListView: View {
                     PixelArtDetailView(id: model.documentId, showProfile: true)
                 } label: {
                     if itemSize.width > 0 && itemSize.height > 0 {
-                        if let url = URL(string: model.imageURL) {
-                            WebImage(url:url)
-                                .placeholder(.imagePlaceHolder.resizable())
-                                .resizable()
-                                .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
-                        } else {
-                            Image.imagePlaceHolder
-                                .resizable()
-                                .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
-                        }
+                        FSImageView(imageRefId: model.imageRefId, placeholder: .imagePlaceHolder)
+                            .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
                     }
                 }
             }

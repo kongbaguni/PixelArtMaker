@@ -58,17 +58,14 @@ struct PublicShareListView: View {
             makePickerView()
             LazyVGrid(columns: gridItems, spacing:20) {
                 ForEach(idlist, id:\.self) { id in
-                    if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id),
-                       let imageURL = model.imageURLvalue {
+                    if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
                         Button {
                             pictureId = model.id
                             isShowPictureDetail = true
                         } label: {
                             VStack {
                                 ZStack {
-                                    WebImage(url:imageURL)
-                                        .placeholder(.imagePlaceHolder.resizable())
-                                        .resizable()
+                                    FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder)
                                         .frame(width: getWidth(length: gridItems.count, width: width),
                                                height: getWidth(length: gridItems.count, width: width), alignment: .center)
                                     

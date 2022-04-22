@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import FirebaseStorage
 import FirebaseFirestore
+import RealmSwift
 
 class FirebaseStorageHelper {
     static let shared = FirebaseStorageHelper()
@@ -19,7 +20,6 @@ class FirebaseStorageHelper {
         case png = "image/png"
         case jpeg = "image/jpeg"
     }
-    
     
     func uploadImage(url:URL, contentType:ContentType, uploadPath:String, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
         guard var data = try? Data(contentsOf: url) else {
@@ -42,7 +42,7 @@ class FirebaseStorageHelper {
     }
 
     
-    func uploadData(data:Data, contentType:ContentType, uploadPath:String, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
+    func uploadData(data:Data, contentType:ContentType, uploadPath:String = Consts.imageUploadPath, id:String, complete:@escaping(_ downloadURL:URL?, _ error:Error?)->Void) {
         let ref:StorageReference = storageRef.child("\(uploadPath)/\(id)")
         let metadata = StorageMetadata()
         metadata.contentType = contentType.rawValue
@@ -64,9 +64,27 @@ class FirebaseStorageHelper {
         }
     }
         
-    func getDownloadURL(uploadPath:String, id:String,complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
-        let ref:StorageReference = storageRef.child(id)
+    func getDownloadURL(uploadPath:String = Consts.imageUploadPath, id:String,complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
+        let realm = try! Realm()
+        if let model = realm.object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: id) {
+            if model.isExpire == false {
+                complete(URL(string: model.url), nil)
+                return
+            }
+        }
+        let ref:StorageReference = storageRef.child("\(uploadPath)/\(id)")
         ref.downloadURL { downloadURL, err in
+            if let url = downloadURL {
+                let realm = try! Realm()
+                let data:[String:AnyHashable] = [
+                    "id":id,
+                    "url":url.absoluteString,
+                    "date":Date()
+                ]
+                try! realm.write {
+                    realm.create(FirebaseStorageImageUrlCashModel.self, value: data, update: .all)
+                }
+            }
             complete(downloadURL,err)
         }
     }
@@ -78,3 +96,5 @@ class FirebaseStorageHelper {
         }
     }
 }
+
+

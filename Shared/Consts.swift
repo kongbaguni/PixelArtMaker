@@ -46,4 +46,6 @@ struct Consts {
     static let free_layerLimit = 2    
     /** 구독모드에서 레이어 생성 제한*/
     static let plus_layerLimit = 7
+    
+    static let imageUploadPath = "shareImages"
 }

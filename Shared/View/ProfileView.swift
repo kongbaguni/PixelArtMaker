@@ -26,7 +26,7 @@ struct ProfileView: View {
     @State var isToast = false
     @State var nickname:String = ""
     @State var introduce:String = ""
-    @State var imageURL:URL? = nil
+    @State var imageRefId:String? = nil
     @State var email:String = ""
     @State var sortSelect = 0
     var sortList:[Sort.SortType] = Sort.SortTypeForPublicGallery
@@ -38,10 +38,8 @@ struct ProfileView: View {
     
     private func makeProfileImageView(size:CGFloat)-> some View {
         VStack {
-            if let url = imageURL {
-                WebImage(url: url)
-                    .placeholder(.profilePlaceHolder.resizable())
-                    .resizable()
+            if let url = imageRefId {
+                FSImageView(imageRefId: url, placeholder: .profilePlaceHolder)
                     .frame(width: size, height: size, alignment: .center)
             } else {
                 Image.profilePlaceHolder
@@ -260,7 +258,7 @@ struct ProfileView: View {
         }
         nickname = user.nickname
         introduce = user.introduce
-        imageURL = URL(string: user.profileURL)
+        imageRefId = user.profileImageRefId
         email = user.email
         
     }

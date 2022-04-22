@@ -102,9 +102,8 @@ struct LoadView: View {
                         }
                     } label : {
                         VStack {
-                            WebImage(url: stage.imageURL)
-                                .placeholder(.imagePlaceHolder.resizable())
-                                .resizable().frame(width: getWidth(width: width, number: gridItems.count),
+                            FSImageView(imageRefId: stage.documentId, placeholder: .imagePlaceHolder)
+                                .frame(width: getWidth(width: width, number: gridItems.count),
                                                    height: getWidth(width: width, number: gridItems.count),
                                                    alignment: .center)
                             HStack {
