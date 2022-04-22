@@ -15,19 +15,29 @@ struct FSImageView : View {
     @State var imageURL:URL? = nil
     @State var toastMessage:String = ""
     @State var isShowToast:Bool = false
-    
+    @State var isLoading:Bool = false
     var body : some View {
-        WebImage(url: imageURL)
-            .placeholder(placeholder.resizable())
-            .resizable()
-            .onAppear {
-                FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
-                    imageURL = url
-                    toastMessage = error?.localizedDescription ?? ""
-                    isShowToast = error != nil
+        ZStack {
+            WebImage(url: imageURL)
+                .placeholder(placeholder.resizable())
+                .resizable()
+                .onAppear {
+                    isLoading = true
+                    FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
+                        isLoading = false
+                        imageURL = url
+                        toastMessage = error?.localizedDescription ?? ""
+                        isShowToast = error != nil
+                    }
                 }
+                .opacity(isLoading ? 0.0 : 1.0)
+                .background(isLoading ? .gray : .clear)
+            if isLoading {
+                ActivityIndicator(isAnimating: $isLoading, style: .medium)
             }
-            .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
+        }
+        .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
+
     }
 }
 
