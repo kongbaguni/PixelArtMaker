@@ -153,7 +153,7 @@ struct ProfileView: View {
     
     private var moreArtListBtn : some View {
         Group {
-            if sharedIds.count == Consts.profileImageLimit {
+            if try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false).count > Consts.profileImageLimit {
                 NavigationLink {
                     ArtListView(uid: uid, width: nil, limit: 0)
                 } label: {
@@ -162,6 +162,19 @@ struct ProfileView: View {
             }
         }
     }
+    private var moreLikeListBtn : some View {
+        Group {
+            if try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").count > Consts.profileImageLimit {
+                NavigationLink {
+                    LikeArtListFullView(uid: uid)
+                } label: {
+                    Text("more title")
+                }
+            }
+        }
+    }
+    
+    
     
     var body: some View {
         GeometryReader { geomentry in
@@ -177,13 +190,14 @@ struct ProfileView: View {
                         }
                         Section(header:Text("profile view like arts")) {
                             LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), limit: Consts.profileImageLimit)
+                            moreLikeListBtn
                         }
                         Section(header:Text("profile view replys")) {
-                            ReplyListView(uid: uid, limit: 20, listMode:.내가_쓴_댓글)
+                            ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_쓴_댓글)
                         }
                         Section(header:Text("profile view replys to me")) {
-                            ReplyListView(uid: uid, limit: 20, listMode:.내_게시글에_달린_댓글)
+                            ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내_게시글에_달린_댓글)
                         }
 
                     }
@@ -201,14 +215,15 @@ struct ProfileView: View {
                             }
                             Section(header:Text("profile view like arts")) {
                                 LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), limit: Consts.profileImageLimit)
+                                moreLikeListBtn
                             }
                             Section(header:Text("profile view replys")) {
-                                ReplyListView(uid: uid, limit: 20, listMode:.내가_쓴_댓글)
+                                ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_쓴_댓글)
                             }
                             
                             Section(header:Text("profile view replys to me")) {
-                                ReplyListView(uid: uid, limit: 20, listMode:.내_게시글에_달린_댓글)
+                                ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내_게시글에_달린_댓글)
                             }
 
                         }

@@ -14,7 +14,8 @@ struct LikeArtListView: View {
     let uid:String
     let gridItems:[GridItem]
     let itemSize:CGSize
-
+    let limit:Int
+    
     @State var ids:[String] = []
     
     var collection: CollectionReference {
@@ -55,6 +56,13 @@ struct LikeArtListView: View {
             return model.id
         })
         ids = result.reversed()
+        if limit > 0 && ids.count > limit {
+            var new:[String] = []
+            for i in 0..<limit {
+                new.append(ids[i])
+            }
+            ids = new
+        }
     }
     
     private func getModel(id:String)->LikeModel? {
@@ -117,11 +125,11 @@ struct LikeArtListFullView: View {
             ScrollView {
                 if geomentry.size.width < geomentry.size.height {
                     LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width),
-                                    itemSize: Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width))
+                                    itemSize: Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width), limit: 0)
                 }
                 else {
                     LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width),
-                                    itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width))
+                                    itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width), limit: 0)
 
                 }
                 

@@ -65,6 +65,14 @@ struct ReplyListView: View {
                 }
                 
             }
+            
+            if replys.count == limit {
+                NavigationLink {
+                    ReplyListFullView(uid: uid, listMode: listMode)
+                } label: {
+                    Text("more title")
+                }
+            }
         }.onAppear {
             isLoading = true
             switch listMode {
@@ -100,6 +108,7 @@ struct ReplyListFullView : View {
     var body : some View {
         ScrollView {
             ReplyListView(uid: uid, limit: 0, listMode: listMode)
+                .navigationBarTitle(Text(listMode == .내가_쓴_댓글 ? "reply written by" : "received reply"))
         }
     }
 }
