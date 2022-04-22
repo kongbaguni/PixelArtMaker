@@ -309,10 +309,6 @@ class StageManager {
             }
         }
         DispatchQueue.global().async {[self] in
-            print("loadList ---------------------")
-            print(StageManager.shared.stagePreviews.first?.updateDt)
-            print(StageManager.shared.stagePreviews.last?.updateDt)
-            print("loadList ---------------------")
             let lastSync = StageManager.shared.stagePreviews.last?.updateDt
             
             guard let uid = AuthManager.shared.userId else {
