@@ -59,7 +59,7 @@ struct ReplyView: View {
                 ProfileView(uid: reply.uid, haveArtList: true)
                     .navigationTitle(Text(ProfileModel.findBy(uid: reply.uid)?.nickname ?? reply.uid))
             } label: {
-                SimplePeopleView(uid: reply.uid, isSmall: true)
+                SimplePeopleView(uid: reply.uid, size:40)
                     .frame(width: 50, height: 50, alignment: .leading)
             }
         }
