@@ -203,89 +203,20 @@ struct PixelArtDetailView: View {
         }
     }
     
-    private func replyListProfileView(reply:ReplyModel)-> some View {
-        VStack {
-            Spacer()
-            NavigationLink {
-                ProfileView(uid: reply.uid, haveArtList: true)
-                    .navigationTitle(Text(ProfileModel.findBy(uid: reply.uid)?.nickname ?? reply.uid))
-            } label: {
-                SimplePeopleView(uid: reply.uid, isSmall: true)
-                    .frame(width: 50, height: 50, alignment: .leading)
-            }
-        }
-    }
-    private func replyListReplyView(reply:ReplyModel) -> some View {
-        ZStack {
-            if reply.uid == AuthManager.shared.userId {
-                Image(reply.uid == model?.uid ? "bubble_purple" :"bubble")
-                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-            } else {
-                Image(reply.uid == model?.uid ? "bubble_purple" :"bubble")
-            }
-            HStack {
-                if reply.uid == AuthManager.shared.userId {
-                    Text(reply.message)
-                        .padding(10)
-                        .padding(.trailing,20)
-                        .foregroundColor(focusedReply == reply ? .K_boldText : .k_normalText)
-                } else {
-                    Text(reply.message)
-                        .padding(10)
-                        .padding(.leading,20)
-                        .foregroundColor(focusedReply == reply ? .K_boldText : .k_normalText)
-
-                }
-                Spacer()
-            }
-        }
-    }
     
-    private func replyListUpdateDtView(reply:ReplyModel) ->  some View {
-        HStack {
-            if reply.uid == AuthManager.shared.userId {
-                Spacer()
-            }
-            reply.updateDtText.font(.system(size: 10))
-            if reply.uid == AuthManager.shared.userId {
-                Button {
-                    alertType = .댓글삭제
-                    isShowAlert = true
-                    willDeleteReply = reply
-                } label : {
-                    Text("delete reply")
-                }.padding(.trailing, 10)
-            }
-            if reply.uid != AuthManager.shared.userId {
-                Spacer()
-            }
-        }
-    }
+        
     
     func makeReplyListView() -> some View {
         LazyVStack {
             ForEach(replys, id:\.self) { reply in
-                VStack {
-                    if reply.uid == AuthManager.shared.userId {
-                        HStack {
-                            Spacer()
-                            replyListReplyView(reply: reply)
-                            replyListProfileView(reply: reply)
-                                .padding(.trailing, 10)
-                        }
-                        replyListUpdateDtView(reply: reply)
-                            .padding(.trailing, 10)
-                    } else {
-                        HStack {
-                            replyListProfileView(reply: reply)
-                                .padding(.leading, 10)
-                            replyListReplyView(reply: reply)
-                            Spacer()
-                        }
-                        replyListUpdateDtView(reply: reply)
-                            .padding(.leading, 10)
-                    }
-                    
+                if let r = reply {
+                    ReplyView(
+                        reply: r,
+                        focusedReply: focusedReply,
+                        pid: pid,
+                        alertType: $alertType,
+                        isShowAlert: $isShowAlert,
+                        willDeleteReply: $willDeleteReply)
                 }
             }
         }

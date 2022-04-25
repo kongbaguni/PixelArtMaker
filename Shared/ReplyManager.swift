@@ -13,6 +13,8 @@ class ReplyManager {
     
     let collection = Firestore.firestore().collection("reply")
 
+    let likeReplyCollection = Firestore.firestore().collection("replylike")
+    
     func addReply(replyModel:ReplyModel,complete:@escaping(_ error:Error?)->Void) {
         guard let data = replyModel.jsonValue else {
             return
@@ -103,6 +105,50 @@ class ReplyManager {
                 a.updateDt > b.updateDt
             }),error)
         }
+    }
+    
+    func likeToggle(replyId:String, complete:@escaping(_ isLike:Bool, _ error:Error?)->Void) {
+        guard let uid = AuthManager.shared.userId else {
+            return
+        }
+        let id = "\(uid)_\(replyId)"
+        likeReplyCollection.document(id).getDocument {[self] snapshot, error1 in
+            if snapshot?.data() == nil {
+                let data:[String:AnyHashable] = [
+                    "uid":uid,
+                    "replyId":replyId,
+                    "updateDt":Date().timeIntervalSince1970
+                ]
+                likeReplyCollection.document(id).setData(data) { error2 in
+                    complete(true, error1 ?? error2)
+                }
+            } else {
+                likeReplyCollection.document(id).delete { error2 in
+                    complete(false, error1 ?? error2)
+                }
+            }
+        }
+    }
+    
+    func getLikeList(replyId:String, complete:@escaping(_ uids:[String], _ error: Error?)->Void) {
+        likeReplyCollection.order(by: "updateDt", descending: true)
+            .whereField("replyId", isEqualTo: replyId)
+            .getDocuments { snapshot, error in
+                let ids = (snapshot?.documents ?? []).map({ snap in
+                    return snap.data()["uid"] as! String
+                })
+                complete(ids, error)
+            }
         
+    }
+    
+    func isMyLike(replyId:String, complete:@escaping(_ isMyLike:Bool, _ error:Error?)->Void) {
+        guard let uid = AuthManager.shared.userId else {
+            return
+        }
+        let id = "\(uid)_\(replyId)"
+        likeReplyCollection.document(id).getDocument { snapshot, error in
+            complete(snapshot?.data() != nil, error)
+        }
     }
 }

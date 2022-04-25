@@ -91,3 +91,31 @@ struct LikePeopleShortListView : View {
         }
     }
 }
+
+struct likePeopleFullListView : View {
+    let uids:[String]
+    var body : some View {
+        GeometryReader { geomentry in
+            ScrollView {
+                LazyVGrid(columns: geomentry.size.width > geomentry.size.height
+                          ? Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width)
+                          : Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width)
+                          , alignment: .center, spacing: 10) {
+                    
+                    ForEach(uids,id:\.self) { uid in
+                        NavigationLink {
+                            ProfileView(uid: uid, haveArtList: true, editable: false, landScape: nil)
+                                .navigationTitle(Text(ProfileModel.findBy(uid: uid)?.nickname ?? uid))
+                        } label: {
+                            let size = Utill.makeItemSize(length: geomentry.size.width > geomentry.size.height ? 5 : 3, screenWidth: geomentry.size.width)
+                            SimplePeopleView(uid: uid, isSmall: false)
+                                .frame(width: size.width, height: size.height, alignment: .center)
+                        }
+                    }
+                    
+                }
+                
+            }
+        }
+    }
+}
