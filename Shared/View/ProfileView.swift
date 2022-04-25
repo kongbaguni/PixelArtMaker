@@ -187,18 +187,21 @@ struct ProfileView: View {
                                                      gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
                                                      itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
                             moreArtListBtn
-                        }
+                        }.padding(.top, 20)
                         Section(header:Text("profile view like arts")) {
                             LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
                                             itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), limit: Consts.profileImageLimit)
                             moreLikeListBtn
-                        }
+                        }.padding(.top, 20)
                         Section(header:Text("profile view replys")) {
                             ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_쓴_댓글)
-                        }
+                        }.padding(.top, 20)
                         Section(header:Text("profile view replys to me")) {
                             ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내_게시글에_달린_댓글)
-                        }
+                        }.padding(.top, 20)
+                        Section(header:Text("profile view replys my like")) {
+                            ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_좋아요한_댓글)
+                        }.padding(.top, 20)
 
                     }
                 }
@@ -212,19 +215,24 @@ struct ProfileView: View {
                                                          gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
                                                          itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
                                 moreArtListBtn
-                            }
+                            }.padding(.top, 20)
                             Section(header:Text("profile view like arts")) {
                                 LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
                                                 itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), limit: Consts.profileImageLimit)
                                 moreLikeListBtn
-                            }
+                            }.padding(.top, 20)
                             Section(header:Text("profile view replys")) {
                                 ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_쓴_댓글)
-                            }
+                            }.padding(.top, 20)
                             
                             Section(header:Text("profile view replys to me")) {
                                 ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내_게시글에_달린_댓글)
-                            }
+                            }.padding(.top, 20)
+                            
+                            Section(header:Text("profile view replys my like")) {
+                                ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_좋아요한_댓글)
+                            }.padding(.top, 20)
+
 
                         }
                     }

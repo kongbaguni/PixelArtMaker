@@ -12,6 +12,7 @@ struct ReplyListView: View {
     enum ListMode {
         case 내가_쓴_댓글
         case 내_게시글에_달린_댓글
+        case 내가_좋아요한_댓글
     }
     
     let uid:String
@@ -55,7 +56,7 @@ struct ReplyListView: View {
                             }
                             Spacer()
                         }
-                        if listMode == .내_게시글에_달린_댓글 {
+                        if listMode == .내_게시글에_달린_댓글 || listMode == .내가_좋아요한_댓글 {
                             VStack {
                                 SimplePeopleView(uid: reply.uid, size:40)
                                 Spacer()
@@ -87,6 +88,15 @@ struct ReplyListView: View {
                 }
             case .내_게시글에_달린_댓글:
                 ReplyManager.shared.getReplysToMe(uid: uid, limit: limit) { result, error in
+                    withAnimation(.easeInOut) {
+                        isLoading = false
+                        replys = result
+                        toastMessage = error?.localizedDescription ?? ""
+                        isToast = error != nil
+                    }
+                }
+            case .내가_좋아요한_댓글:
+                ReplyManager.shared.getLikeList(uid: uid, limit: limit) { result, error in
                     withAnimation(.easeInOut) {
                         isLoading = false
                         replys = result

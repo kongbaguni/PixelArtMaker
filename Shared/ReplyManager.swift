@@ -129,7 +129,7 @@ class ReplyManager {
             }
         }
     }
-    
+    /** 특정 댓글을 좋아요 한 사람 목록 */
     func getLikeList(replyId:String, complete:@escaping(_ uids:[String], _ error: Error?)->Void) {
         likeReplyCollection.order(by: "updateDt", descending: true)
             .whereField("replyId", isEqualTo: replyId)
@@ -142,13 +142,51 @@ class ReplyManager {
         
     }
     
-    func isMyLike(replyId:String, complete:@escaping(_ isMyLike:Bool, _ error:Error?)->Void) {
-        guard let uid = AuthManager.shared.userId else {
-            return
+
+    func getLikeList(uid:String, limit:Int,complete:@escaping(_ replys:[ReplyModel], _ error : Error?)-> Void) {
+        var query = likeReplyCollection.order(by: "updateDt", descending: true)
+            .whereField("uid", isEqualTo: uid)
+        if limit > 0 {
+            query = query.limit(to: limit)
         }
-        let id = "\(uid)_\(replyId)"
-        likeReplyCollection.document(id).getDocument { snapshot, error in
-            complete(snapshot?.data() != nil, error)
+        DispatchQueue.global().async {
+            query.getDocuments { snapshot, error in
+                let ids = (snapshot?.documents ?? []).map({ snap in
+                    return snap.data()["replyId"] as! String
+                })
+                var replys:[ReplyModel] = []
+                var replyCount = 0
+                for _ in ids {
+                    replys.append(.init(documentId: "", documentsUid: "", message: "", imageRefId: ""))
+                }
+                if ids.count == 0 {
+                    complete([],nil)
+                    return 
+                }
+                for (idx,id) in ids.enumerated() {
+                    self.collection.document(id).getDocument { rsnapShot, error in
+                        if let err = error {
+                            complete([], err)
+                            return
+                        }
+                        
+                        if let json = rsnapShot?.data() as? [String:AnyObject] {
+                            if let model = ReplyModel.makeModel(json: json)  {
+                                replys[idx] = model
+                                replyCount += 1
+                            }
+                            
+                            if replyCount == ids.count {
+                                DispatchQueue.main.async {
+                                    complete(replys, nil)
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+
         }
     }
 }

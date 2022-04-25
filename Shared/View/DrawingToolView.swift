@@ -79,9 +79,6 @@ struct DrawingToolView: View {
             }
         }
         let layerIndex = StageManager.shared.stage!.selectedLayerIndex
-        let old = colors[idx.y][idx.x]
-        colors[idx.y][idx.x] = color
-        changeSet.insert(.init(layerIndex: layerIndex, point: .init(x: idx.x, y: idx.y), change: .init(before: old, after: color)))
         for i in list {
             let old = colors[i.y][i.x]
             colors[i.y][i.x] = color
