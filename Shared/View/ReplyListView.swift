@@ -34,33 +34,37 @@ struct ReplyListView: View {
                     .foregroundColor(Color.k_weakText)
             }
             ForEach(replys, id:\.self) { reply in
-                NavigationLink {
-                    PixelArtDetailView(id: reply.documentId, showProfile: true, focusedReply: reply)
-                } label: {
-                    HStack {
-                        VStack {
-                            FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
-                                .frame(width: 50, height: 50, alignment: .center)
-                            Spacer()
-                        }
-                        VStack {
-                            HStack {
-                                reply.updateDtText.font(.system(size: 10)).foregroundColor(.gray)
-                                Spacer()
-                            }
-                            HStack {
-                                Text(reply.message)
-                                    .font(.subheadline)
-                                    .foregroundColor(Color.k_normalText)
-                                Spacer()
-                            }
-                            Spacer()
-                        }
-                        if listMode == .내_게시글에_달린_댓글 || listMode == .내가_좋아요한_댓글 {
+                if reply.documentId.isEmpty {
+                    Text("deleted reply message").font(Font.subheadline).foregroundColor(Color.k_weakText).padding(20)
+                } else {
+                    NavigationLink {
+                        PixelArtDetailView(id: reply.documentId, showProfile: true, focusedReply: reply)
+                    } label: {
+                        HStack {
                             VStack {
-                                SimplePeopleView(uid: reply.uid, size:40)
+                                FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
+                                    .frame(width: 50, height: 50, alignment: .center)
                                 Spacer()
-                            }                            
+                            }
+                            VStack {
+                                HStack {
+                                    reply.updateDtText.font(.system(size: 10)).foregroundColor(.gray)
+                                    Spacer()
+                                }
+                                HStack {
+                                    Text(reply.message)
+                                        .font(.subheadline)
+                                        .foregroundColor(Color.k_normalText)
+                                    Spacer()
+                                }
+                                Spacer()
+                            }
+                            if listMode == .내_게시글에_달린_댓글 || listMode == .내가_좋아요한_댓글 {
+                                VStack {
+                                    SimplePeopleView(uid: reply.uid, size:40)
+                                    Spacer()
+                                }
+                            }
                         }
                     }
                 }

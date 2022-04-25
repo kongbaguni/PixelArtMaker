@@ -161,7 +161,7 @@ class ReplyManager {
                 }
                 if ids.count == 0 {
                     complete([],nil)
-                    return 
+                    return
                 }
                 for (idx,id) in ids.enumerated() {
                     self.collection.document(id).getDocument { rsnapShot, error in
@@ -169,19 +169,22 @@ class ReplyManager {
                             complete([], err)
                             return
                         }
-                        
-                        if let json = rsnapShot?.data() as? [String:AnyObject] {
+                        if let data = rsnapShot?.data() {
+                            let json = data as [String:AnyObject]
                             if let model = ReplyModel.makeModel(json: json)  {
                                 replys[idx] = model
-                                replyCount += 1
                             }
-                            
-                            if replyCount == ids.count {
-                                DispatchQueue.main.async {
-                                    complete(replys, nil)
-                                }
+                                                                                    
+                        }
+                        
+                        replyCount += 1
+                        if replyCount == ids.count {
+                            DispatchQueue.main.async {
+                                complete(replys, nil)
                             }
                         }
+
+                       
                     }
                 }
                 
