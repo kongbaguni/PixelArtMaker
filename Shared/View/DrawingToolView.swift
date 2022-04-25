@@ -19,6 +19,8 @@ struct DrawingToolView: View {
     @Binding var isShowToast:Bool
     @Binding var previewImage:Image?
     @Binding var drawBegainPointer:CGPoint?
+    /** 광범위 페인팅 시도할 때 드로잉 툴 잠그기 위한 flag*/
+    @State var isBegainPainting = false
     let colorSelectMode:PaletteView.ColorSelectMode
     let pointer:CGPoint
     @State var isMiniDrawingMode:Bool = UserDefaults.standard.isMiniDrawingMode
@@ -225,26 +227,49 @@ struct DrawingToolView: View {
 
             case .연필:
                 makeImageButton(imageName:"pencil") {
+                    if isBegainPainting {
+                        return
+                    }
                     draw(target: pointer, color: forgroundColor)
-                }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .페인트1:
                 makeImageButton(imageName:"paint") {
-                    paint(target: pointer, color: forgroundColor)
-                }
+                    if isBegainPainting {
+                        return
+                    }
+                    isBegainPainting = true
+                    DispatchQueue.global().async {
+                        paint(target: pointer, color: forgroundColor)
+                        isBegainPainting = false
+                    }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .페인트2:
                 makeImageButton(imageName:"paint2") {
+                    if isBegainPainting {
+                        return
+                    }
                     changeColor(target: pointer, color: forgroundColor)
-                }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .지우개:
                 makeImageButton(imageName:"eraser") {
+                    if isBegainPainting {
+                        return
+                    }
                     draw(target: pointer, color: .clear)
-                }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .스포이드:
                 makeImageButton(imageName:"spoid") {
                     spoid(target: pointer)
                 }
             case .드로잉:
                 makeImageButton(systemName:"line.diagonal") {
+                    if isBegainPainting {
+                        return
+                    }
                     if drawBegainPointer == nil {
                         withAnimation(.easeInOut) {
                             drawBegainPointer = pointer
@@ -253,7 +278,8 @@ struct DrawingToolView: View {
                     } else {
                         draw(points: PathFinder.findLine(startCGPoint: drawBegainPointer!, endCGPoint: pointer))
                     }
-                }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .박스선:
                 makeImageButton(systemName: "square") {
                     draw(points: PathFinder.findSquare(a: drawBegainPointer!, b: pointer))
@@ -282,7 +308,6 @@ struct DrawingToolView: View {
                     }
                 }
             }
-        
         }
     }
     
