@@ -71,18 +71,22 @@ struct DrawingToolView: View {
         }
         
         var list = getNextIdxs(idx: idx)
+        var outList = list
+        
         var test = true
         while test {
             let count = list.count
-            var notiList = Set<PathFinder.Point>()
-            for idx in list {
+            let out = outList
+            outList.removeAll()
+            for idx in out {
                 for new in getNextIdxs(idx: idx) {
-                    list.insert(new)
-                    notiList.insert(new)
+                    if list.firstIndex(of: new) == nil {
+                        outList.insert(new)
+                        list.insert(new)
+                    }
                 }
             }
-            NotificationCenter.default.post(name: .paintingProcess, object: notiList)
-
+            NotificationCenter.default.post(name: .paintingProcess, object: list)
             if count == list.count {
                 test = false
             }
