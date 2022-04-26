@@ -6,7 +6,10 @@
 //
 
 import SwiftUI
-
+extension Notification.Name {
+    static let paintingProcess = Notification.Name("paintingProcess_observer")
+    static let paintingFinish = Notification.Name("paintingFinsh_observer")
+}
 struct DrawingToolView: View {
     
     @Binding var isZoomMode:Bool
@@ -71,11 +74,15 @@ struct DrawingToolView: View {
         var test = true
         while test {
             let count = list.count
+            var notiList = Set<PathFinder.Point>()
             for idx in list {
                 for new in getNextIdxs(idx: idx) {
                     list.insert(new)
+                    notiList.insert(new)
                 }
             }
+            NotificationCenter.default.post(name: .paintingProcess, object: notiList)
+
             if count == list.count {
                 test = false
             }
@@ -87,6 +94,7 @@ struct DrawingToolView: View {
             changeSet.insert(.init(layerIndex: layerIndex, point: .init(x: i.x, y: i.y), change: .init(before: old, after: color)))
         }
         HistoryManager.shared.addHistory(.init(colorChanges: changeSet))
+        NotificationCenter.default.post(name: .paintingFinish, object: nil)
         refreshStage()
     }
     
