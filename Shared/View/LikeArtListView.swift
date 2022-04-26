@@ -52,16 +52,19 @@ struct LikeArtListView: View {
     }
 
     private func loadFromLocalDb() {
-        let result = try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").sorted(byKeyPath: "updateDt", ascending: true).map({ model in
+        let result = try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").sorted(byKeyPath: "updateDt", ascending: false).map({ model in
             return model.id
         })
-        ids = result.reversed()
-        if limit > 0 && ids.count > limit {
+        if limit > 0 {
             var new:[String] = []
             for i in 0..<limit {
-                new.append(ids[i])
+                if i < result.count {
+                    new.append(result[i])
+                }
             }
             ids = new
+        } else {
+            ids = result.reversed().reversed()
         }
     }
     

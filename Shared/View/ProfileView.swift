@@ -249,7 +249,7 @@ struct ProfileView: View {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
                 self.loadData()
             }
-//            sharedIds = ArtListView.reloadFromLocalDb(uid:uid,sort: sort)
+            sharedIds = ArtListView.reloadFromLocalDb(uid:uid, limit:Consts.profileImageLimit, sort: sort)
             ArtListView.getListFromFirestore(uid:uid, limit:Consts.profileImageLimit ,sort: sort) { ids, error in
                 self.sharedIds = ids
                 toastMessage = error?.localizedDescription ?? ""
@@ -265,7 +265,7 @@ struct ProfileView: View {
                     
                 }
             }
-        }
+        }        
         .toolbar {
             if editabel {
                 Button {
