@@ -109,7 +109,7 @@ struct DrawingToolView: View {
     
     func draw(idx:(Int,Int), color:Color) {
         
-        if PathFinder.Point(x: idx.0, y: idx.1).isIn(size: StageManager.shared.canvasSize) {
+        if PathFinder.Point(x: idx.0, y: idx.1).isIn(colors: colors) {
             let before = colors[idx.1][idx.0]
             colors[idx.1][idx.0] = color
             var set = Set<ColorChangeModelWithLayerPoint>()
@@ -329,7 +329,7 @@ struct DrawingToolView: View {
         var cset = Set<ColorChangeModelWithLayerPoint>()
         
         for point in points {
-            if point.isIn(size: StageManager.shared.canvasSize) {
+            if point.isIn(colors: colors) {
                 let old = colors[point.y][point.x]
                 colors[point.y][point.x] = forgroundColor
                 cset.insert(.init(layerIndex: StageManager.shared.stage!.selectedLayerIndex,

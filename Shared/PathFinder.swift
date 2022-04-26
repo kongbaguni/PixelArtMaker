@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 fileprivate extension CGPoint {
     var pointValue:PathFinder.Point {
@@ -58,6 +59,10 @@ struct PathFinder {
                 return false
             }
             return true
+        }
+        
+        func isIn(colors:[[Color]])->Bool {
+            return isIn(size: .init(width: colors.first?.count ?? 0, height: colors.count))
         }
     }
         

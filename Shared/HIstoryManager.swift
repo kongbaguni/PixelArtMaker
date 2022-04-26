@@ -55,9 +55,15 @@ class HistoryManager {
         }
     }
     
+    var isSaving = false
     func save(complete:@escaping(_ error:Error?)->Void) {
+        if isSaving {
+            return
+        }
+        isSaving = true
         DispatchQueue.global().async { [unowned self] in
             let error = HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).saveToLocalDB()
+            isSaving = false
             DispatchQueue.main.async {
                 complete(error)
             }
@@ -109,7 +115,7 @@ class HistoryManager {
                 if change.layerIndex >= colors.count {
                     continue
                 }
-                if change.point.isIn(size: StageManager.shared.canvasSize) == false {
+                if change.point.isIn(colors: stage.selectedLayer.colors) == false {
                     continue
                 }
                 
