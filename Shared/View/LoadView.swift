@@ -95,6 +95,7 @@ struct LoadView: View {
                                             presentationMode.wrappedValue.dismiss()
                                         }
                                     }
+                                    loadingStart = false
                                     isShowToast = errorA != nil || errorB != nil
                                     toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                 }

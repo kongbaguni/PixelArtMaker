@@ -99,8 +99,9 @@ class StageManager {
                     self.stage = stage
                     self.stage?.createrId = uid
                     print(stage.canvasSize)
-                    HistoryManager.shared.load()
-                    complete(nil)
+                    HistoryManager.shared.load { error in
+                        complete(error)
+                    }
                     return
                 }
             }
@@ -132,9 +133,10 @@ class StageManager {
                     self.stage?.documentId = id.isEmpty ? nil : id
                 }
                             
-                HistoryManager.shared.load()
-                DispatchQueue.main.async {
-                    complete(error)
+                HistoryManager.shared.load { loadError in
+                    DispatchQueue.main.async {
+                        complete(error ?? loadError)
+                    }
                 }
             }
         }
@@ -246,13 +248,12 @@ class StageManager {
                     }
                     return
                 }
-                HistoryManager.shared.clear()
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
                 stage = model
                 model?.createrId = uid
-                HistoryManager.shared.clear()
+                let clearErr = HistoryManager.shared.clear()
                 DispatchQueue.main.async {
-                    complete(model,error)
+                    complete(model,error ?? clearErr)
                 }
             }
         

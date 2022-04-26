@@ -23,28 +23,44 @@ class HistoryManager {
     private var undoStack = Stack<HistoryModel>()
     private var redoStack = Stack<HistoryModel>()
     
-    func clear() {
-        undoStack.removeAll()
-        redoStack.removeAll()
-        let realm = try! Realm()
-        let list = realm.objects(HistoryBackupModel.self)
-        try! realm.write{
-            realm.delete(list)
+    func clear()->Error? {
+        do {
+            undoStack.removeAll()
+            redoStack.removeAll()
+            if var url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                url.appendPathComponent("history")
+                if FileManager.default.fileExists(atPath: url.path) {
+                    try FileManager.default.removeItem(atPath: url.path)
+                }
+            }
         }
-        
+        catch {
+            print(error.localizedDescription)
+            return error
+        }
+        return nil
     }
     
-    func load() {
-        if let set = HistorySet.loadFromLocalDB() {
-            undoStack = set.undoStack
-            redoStack = set.redoStack
-            notifyCount()
+    func load(complete:@escaping(_ error:Error?)->Void) {
+        DispatchQueue.global().async {[unowned self] in
+            let result = HistorySet.loadFromLocalDB()
+            if let set = result.result {
+                undoStack = set.undoStack
+                redoStack = set.redoStack
+                notifyCount()
+            }
+            DispatchQueue.main.async {
+                complete(result.error)
+            }
         }
     }
     
-    func save() {
-        DispatchQueue.global().async { [self] in
-            HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).saveToLocalDB()
+    func save(complete:@escaping(_ error:Error?)->Void) {
+        DispatchQueue.global().async { [unowned self] in
+            let error = HistorySet(undo: undoStack.arrayValue, redo: redoStack.arrayValue).saveToLocalDB()
+            DispatchQueue.main.async {
+                complete(error)
+            }
         }
     }
     
@@ -60,13 +76,15 @@ class HistoryManager {
         undoCount + redoCount
     }
     
-    public func addHistory(_ change:HistoryModel) {
+    public func addHistory(_ change:HistoryModel, complete:@escaping(_ error:Error?)->Void = {_ in }) {
         if change.isInvalid == false {
             undoStack.push(change)
             redoStack.removeAll()
             notifyCount()
         }
-        save()
+        save { error in
+            complete(error)
+        }
     }
     
     private func notifyCount() {

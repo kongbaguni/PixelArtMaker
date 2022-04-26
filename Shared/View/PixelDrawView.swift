@@ -485,7 +485,10 @@ struct PixelDrawView: View {
             }
             load()
             if HistoryManager.shared.undoCount == 0 {
-                HistoryManager.shared.load()
+                HistoryManager.shared.load { error in
+                    toastMessage = error?.localizedDescription ?? ""
+                    isShowToast = error != nil                    
+                }
             }
             NotificationCenter.default.addObserver(forName: .authDidSucessed, object: nil, queue: nil) { noti in
                 isLoadingDataFin = true

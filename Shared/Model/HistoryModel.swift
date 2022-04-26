@@ -2,10 +2,6 @@ import Foundation
 import SwiftUI
 import RealmSwift
 
-class HistoryBackupModel:Object {
-    @Persisted(primaryKey: true) var documentId:String = ""
-    @Persisted var data:Data?
-}
 
 struct HistorySet: Codable {
     let undo:[HistoryModel]
@@ -17,34 +13,35 @@ struct HistorySet: Codable {
         .init(array: redo)
     }
     
-    func saveToLocalDB() {
+    func saveToLocalDB()->Error? {
         do {
             let data = try JSONEncoder().encode(self)
-            let parm:[String:Any] = [
-                "documentId" : StageManager.shared.stage?.documentId ?? "none",
-                "data" : data
-            ]
-            let realm = try Realm()
-            try realm.write {
-                realm.create(HistoryBackupModel.self, value: parm, update: .all)
+            if var path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                path.appendPathComponent("history")
+                try data.write(to: path)
             }
         } catch {
             print(error.localizedDescription)
-        }
-    }
-    
-    static func loadFromLocalDB()->HistorySet? {
-        let did = StageManager.shared.stage?.documentId ?? "none"
-        do {
-            let realm = try Realm()
-            if let data = realm.object(ofType: HistoryBackupModel.self, forPrimaryKey: did)?.data {
-                let result = try JSONDecoder().decode(HistorySet.self, from: data)
-                return result
-            }
-        } catch {
-            print(error.localizedDescription)
+            return error
         }
         return nil
+    }
+    
+    static func loadFromLocalDB()->(result:HistorySet?,error:Error?) {
+        do {
+            if var path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                path.appendPathComponent("history")
+                if FileManager.default.fileExists(atPath: path.path) {
+                    let data = try Data(contentsOf: path)
+                    let result = try JSONDecoder().decode(HistorySet.self, from:data)
+                    return (result:result, error:nil)
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+            return (result:nil, error:error)
+        }
+        return (result:nil, error:nil)
     }
 }
 
