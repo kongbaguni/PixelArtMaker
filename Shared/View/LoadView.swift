@@ -17,6 +17,7 @@ struct LoadView: View {
     @State var toastMessage = ""
     @State var stages:[MyStageModel.ThreadSafeModel] = []
 
+    @State var loadStage:MyStageModel.ThreadSafeModel? = nil
     @State var loadingStart = false
     @State var sortIndex = 0
 
@@ -84,18 +85,18 @@ struct LoadView: View {
                             isShowInAppPurch = true
                             return
                         }
-                        
                         if loadingStart == false {
+                            loadStage = stage
                             loadingStart = true
-                            stages = [stage]
                             StageManager.shared.openStage(id: stage.documentId) { (result,errorA) in
                                 StageManager.shared.saveTemp { errorB in
                                     if errorA == nil && errorB == nil {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
                                             presentationMode.wrappedValue.dismiss()
                                         }
+                                    } else {
+                                        loadingStart = false
                                     }
-                                    loadingStart = false
                                     isShowToast = errorA != nil || errorB != nil
                                     toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                 }
@@ -163,7 +164,7 @@ struct LoadView: View {
         ZStack {
             VStack {
                 Spacer()
-                if let id = stages.first?.documentId {
+                if let id = loadStage?.documentId {
                     HStack {
                         Spacer()
                         FSImageView(imageRefId: id, placeholder: .imagePlaceHolder)
@@ -178,7 +179,7 @@ struct LoadView: View {
             }
             VStack {
                 ActivityIndicator(isAnimating: $loadingStart, style: .large)
-                if stages.count == 1 {
+                if loadingStart {
                     Text("open start").padding(20)
                 }
             }
@@ -187,7 +188,7 @@ struct LoadView: View {
     
     var body: some View {
         GeometryReader { geomentry in
-            if loadingStart && stages.count == 1 {
+            if loadingStart && loadStage != nil {
                 makePreviewLoadView()
             } else if geomentry.size.width < geomentry.size.height {
                 ScrollView {
