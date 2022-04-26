@@ -43,7 +43,7 @@ struct DrawingToolView: View {
         
         let idx:PathFinder.Point = .init(point: target)
         /** 최초 선택 컬러*/
-        if StageManager.shared.canvasSize.isOut(cgPoint: target) {
+        if colors.count <= idx.y || ( colors.first?.count ?? 0) <= idx.x {
             return
         }
         let cc = colors[idx.y][idx.x]
@@ -86,7 +86,7 @@ struct DrawingToolView: View {
                     }
                 }
             }
-            NotificationCenter.default.post(name: .paintingProcess, object: list)
+            NotificationCenter.default.post(name: .paintingProcess, object: outList)
             if count == list.count {
                 test = false
             }
@@ -98,7 +98,7 @@ struct DrawingToolView: View {
             changeSet.insert(.init(layerIndex: layerIndex, point: .init(x: i.x, y: i.y), change: .init(before: old, after: color)))
         }
         HistoryManager.shared.addHistory(.init(colorChanges: changeSet))
-        NotificationCenter.default.post(name: .paintingFinish, object: nil)
+        NotificationCenter.default.post(name: .paintingFinish, object: list)
         refreshStage()
     }
     
@@ -124,12 +124,14 @@ struct DrawingToolView: View {
     func changeColor(target:CGPoint, color:Color) {
         var changeSet = Set<ColorChangeModelWithLayerPoint>()
         
-        if StageManager.shared.canvasSize.isOut(cgPoint: target) {
+        let idx:PathFinder.Point = .init(point: target)
+        if colors.count <= idx.y || ( colors.first?.count ?? 0) <= idx.x {
             return
         }
-        let idx:PathFinder.Point = .init(point: target)
+
         /** 최초 선택 컬러*/
         var result = Set<PathFinder.Point>()
+        
         let cc = colors[idx.y][idx.x]
         for (i,list) in colors.enumerated() {
             for (r,color) in list.enumerated() {

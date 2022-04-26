@@ -131,7 +131,7 @@ struct CanvasView: View {
                                 width: pw, height: pw),cornerRadius: 0)
                                             
                             context.blendMode = .normal
-                            context.fill(path, with: .color(forgroundColor))
+                            context.fill(path, with: .color(forgroundColor == .clear ? .blue : forgroundColor))
                         }
                     }
                 }
@@ -254,7 +254,12 @@ struct CanvasView: View {
                 }
             }
             NotificationCenter.default.addObserver(forName: .paintingFinish, object: nil, queue: nil) { noti in
-                paintingPoint = nil
+                if let set = noti.object as? Set<PathFinder.Point> {
+                    paintingPoint = set
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                        paintingPoint = nil
+                    }
+                }
             }
         })
         .frame(width: screenWidth, height: screenWidth, alignment: .center)
