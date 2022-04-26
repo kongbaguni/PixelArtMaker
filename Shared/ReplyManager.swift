@@ -156,8 +156,8 @@ class ReplyManager {
                 })
                 var replys:[ReplyModel] = []
                 var replyCount = 0
-                for _ in ids {
-                    replys.append(.init(documentId: "", documentsUid: "", message: "", imageRefId: ""))
+                for id in ids {
+                    replys.append(.init(documentId: "" , documentsUid: "", message: "", imageRefId: "", replyId: id))
                 }
                 if ids.count == 0 {
                     complete([],nil)

@@ -26,10 +26,10 @@ struct ReplyModel : Codable, Hashable {
     /** 댓글 단 그림의 REF ID*/
     let imageRefId:String
     
-    init(documentId:String, documentsUid:String, message:String, imageRefId:String) {
+    init(documentId:String, documentsUid:String, message:String, imageRefId:String, replyId:String? = nil ) {
         self.documentId = documentId
         self.message = message
-        id = "\(AuthManager.shared.userId ?? "guest")_\(UUID().uuidString)_\(Date().timeIntervalSince1970)"
+        id = replyId ?? "\(AuthManager.shared.userId ?? "guest")_\(UUID().uuidString)_\(Date().timeIntervalSince1970)"
         uid = AuthManager.shared.userId ?? "guest"
         updateDt = Date().timeIntervalSince1970
         self.imageRefId = imageRefId

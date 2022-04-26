@@ -35,7 +35,17 @@ struct ReplyListView: View {
             }
             ForEach(replys, id:\.self) { reply in
                 if reply.documentId.isEmpty {
-                    Text("deleted reply message").font(Font.subheadline).foregroundColor(Color.k_weakText).padding(20)
+                    Button {
+                        let idx = replys.firstIndex(of: reply)!
+                        ReplyManager.shared.likeToggle(replyId: reply.id) { isLike, error in
+                            if isLike == false {
+                                replys.remove(at: idx)
+                                loadData()
+                            }
+                        }
+                    } label : {
+                        Text("deleted reply message").font(Font.subheadline).foregroundColor(Color.k_weakText).padding(20)
+                    }
                 } else {
                     NavigationLink {
                         PixelArtDetailView(id: reply.documentId, showProfile: true, focusedReply: reply)
@@ -79,38 +89,42 @@ struct ReplyListView: View {
                 }
             }
         }.onAppear {
-            isLoading = true
-            switch listMode {
-            case .내가_쓴_댓글:
-                ReplyManager.shared.getReplys(uid: uid, limit: limit) { result, error in
-                    withAnimation(.easeInOut) {
-                        isLoading = false
-                        replys = result
-                        toastMessage = error?.localizedDescription ?? ""
-                        isToast = error != nil
-                    }
+            loadData()
+        }
+        .toast(message: toastMessage, isShowing: $isToast, duration: 4)
+    }
+    
+    private func loadData() {
+        isLoading = true
+        switch listMode {
+        case .내가_쓴_댓글:
+            ReplyManager.shared.getReplys(uid: uid, limit: limit) { result, error in
+                withAnimation(.easeInOut) {
+                    isLoading = false
+                    replys = result
+                    toastMessage = error?.localizedDescription ?? ""
+                    isToast = error != nil
                 }
-            case .내_게시글에_달린_댓글:
-                ReplyManager.shared.getReplysToMe(uid: uid, limit: limit) { result, error in
-                    withAnimation(.easeInOut) {
-                        isLoading = false
-                        replys = result
-                        toastMessage = error?.localizedDescription ?? ""
-                        isToast = error != nil
-                    }
+            }
+        case .내_게시글에_달린_댓글:
+            ReplyManager.shared.getReplysToMe(uid: uid, limit: limit) { result, error in
+                withAnimation(.easeInOut) {
+                    isLoading = false
+                    replys = result
+                    toastMessage = error?.localizedDescription ?? ""
+                    isToast = error != nil
                 }
-            case .내가_좋아요한_댓글:
-                ReplyManager.shared.getLikeList(uid: uid, limit: limit) { result, error in
-                    withAnimation(.easeInOut) {
-                        isLoading = false
-                        replys = result
-                        toastMessage = error?.localizedDescription ?? ""
-                        isToast = error != nil
-                    }
+            }
+        case .내가_좋아요한_댓글:
+            ReplyManager.shared.getLikeList(uid: uid, limit: limit) { result, error in
+                withAnimation(.easeInOut) {
+                    isLoading = false
+                    replys = result
+                    toastMessage = error?.localizedDescription ?? ""
+                    isToast = error != nil
                 }
             }
         }
-        .toast(message: toastMessage, isShowing: $isToast, duration: 4)
     }
 }
 
