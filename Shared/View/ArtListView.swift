@@ -58,7 +58,6 @@ struct ArtListView: View {
         LazyVGrid(columns: gridItems, spacing:20) {
             ForEach(ids, id:\.self) { id in
                 if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
-                    
                     NavigationLink(destination: {
                         PixelArtDetailView(id: id, showProfile: false)
                     }, label: {
@@ -84,8 +83,9 @@ struct ArtListView: View {
                             }
                         }
                         
-                        
                     })
+                } else {
+                    Image.imagePlaceHolder.resizable()
                 }
             }
         }
