@@ -76,7 +76,6 @@ struct TimeLineView : View {
                     PixelArtDetailView(id: id, showProfile: true)
                 } label: {
                     if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
-                        
                         HStack {
                             FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder)
                                 .frame(width: 150, height: 150, alignment: .leading)
@@ -113,6 +112,11 @@ struct TimeLineView : View {
                                 }
                             }
                         }
+                    }
+                }
+                .onAppear {
+                    if id == ids.last {
+                        loadData()
                     }
                 }
             }
