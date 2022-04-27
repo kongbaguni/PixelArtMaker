@@ -16,8 +16,16 @@ struct PixelArtDetailView: View {
     }
     let pid:String
     var model:SharedStageModel? {
+        return model1 ?? model2
+    }
+    
+    var model1:SharedStageModel? {
         return try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: pid)
     }
+    var model2:SharedStageModelForTimeLine? {
+        return try! Realm().object(ofType: SharedStageModelForTimeLine.self, forPrimaryKey: pid)
+    }
+    
     @State var isProfileImage = false
     @State var tmodel:SharedStageModel.ThreadSafeModel? = nil
     @State var isShowToast = false

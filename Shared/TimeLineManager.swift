@@ -53,9 +53,21 @@ struct TimeLineManager {
         if parm["id"] as? String != nil {
             let realm = try! Realm()
             realm.beginWrite()
-            realm.create(SharedStageModel.self, value: parm, update: .all)
+            realm.create(SharedStageModelForTimeLine.self, value: parm, update: .all)
             try! realm.commitWrite()
         }
         return parm["id"] as? String ?? ""
+    }
+    
+    func loadFromLocalDB()->[String] {
+        let realm = try! Realm()
+        let list = realm.objects(SharedStageModelForTimeLine.self)
+            .sorted(byKeyPath: "updateDt", ascending: false)
+            .filter("deleted != %@", true)
+        var result:[String] = []
+        for model in list {
+            result.append(model.id)
+        }
+        return result
     }
 }
