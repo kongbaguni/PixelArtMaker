@@ -27,6 +27,7 @@ struct PixelArtDetailView: View {
     @State var isMyLike:Bool = false
     @State var likeCount:Int = 0
     let googleAd = GoogleAd()
+    
     let isShowProfile:Bool
     let isForceUpdate:Bool
     let focusedReply:ReplyModel?
@@ -234,8 +235,8 @@ struct PixelArtDetailView: View {
                                 makeProfileView(landScape: false).frame(height:120)
                                 makeImageView(imageSize: geomentry.size.width - 20)
                                 makeInfomationView().frame(width: geomentry.size.width - 20)
+                                BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
                                 makeButtonsView().padding(10)
-                                
                                 makeReplyListView()
                                 makeReplyTextView(scrollViewPrxy: proxy)
                             }
@@ -246,6 +247,7 @@ struct PixelArtDetailView: View {
                                 }
                                 ScrollView {
                                     makeImageView(imageSize: isShowProfile ? 250 : 450)
+                                    BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
                                 }
                                 ScrollView {
                                     makeInfomationView()

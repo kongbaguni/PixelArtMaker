@@ -59,13 +59,7 @@ struct TimeLineView : View {
                         loadData()
                     }
                 }
-            }
-            if isLoading {
-                ActivityIndicator(isAnimating: $isLoading, style: .large)
-                    .frame(width: itemSize.width,
-                           height: itemSize.height,
-                           alignment: .center)
-            }
+            }            
         }
     }
 
