@@ -109,6 +109,7 @@ struct TimeLineView : View {
                                 HStack {
                                     Spacer()
                                     SimplePeopleView(uid: model.uid, size: 40)
+                                        .padding(.trailing,5)
                                 }
                             }
                         }
