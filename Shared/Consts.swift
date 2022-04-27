@@ -42,6 +42,9 @@ struct Consts {
             return [16,36,64]
         }
     }
+    /** 타임라인에서 그림 한번에 가져오는  리미트 */
+    static let timelineLimit = 5
+
     /** 프로필에서 바로 그림 보여주기 리미트 */
     static let profileImageLimit = 24
     /** 프로필에서 바로 댓글 보여주기 리미트 */

@@ -33,6 +33,7 @@
 		1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25D27E3288E007A73CB /* SaveView.swift */; };
 		1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
+		8D30B1972818D47D00785F1A /* TimeLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30B1962818D47D00785F1A /* TimeLineView.swift */; };
 		8D3BD982280E74CB0022ED89 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD981280E74CB0022ED89 /* BannerAdView.swift */; };
 		8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD983280E841F0022ED89 /* ReplyListView.swift */; };
 		8D3BD9A1280F8F1B0022ED89 /* HIstoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */; };
@@ -42,6 +43,7 @@
 		8D3BD9AA2812382E0022ED89 /* FSImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9A92812382E0022ED89 /* FSImageView.swift */; };
 		8D3BD9AC281240930022ED89 /* FirebaseStorageImageUrlCashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9AB281240920022ED89 /* FirebaseStorageImageUrlCashModel.swift */; };
 		8D3BD9AE281632A80022ED89 /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD9AD281632A80022ED89 /* ReplyView.swift */; };
+		8D407D082818CC45001732F9 /* TimeLineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D407D072818CC45001732F9 /* TimeLineManager.swift */; };
 		8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9128080BCB00565A3C /* PathFinder.swift */; };
 		8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC982809410400565A3C /* PhotoPicker.swift */; };
 		8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9A280959CD00565A3C /* TracingImageModel.swift */; };
@@ -152,6 +154,7 @@
 		1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPresetView.swift; sourceTree = "<group>"; };
 		28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixelArtMaker__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		8D30B1962818D47D00785F1A /* TimeLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineView.swift; sourceTree = "<group>"; };
 		8D3BD981280E74CB0022ED89 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		8D3BD983280E841F0022ED89 /* ReplyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyListView.swift; sourceTree = "<group>"; };
 		8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIstoryManager.swift; sourceTree = "<group>"; };
@@ -160,6 +163,7 @@
 		8D3BD9A92812382E0022ED89 /* FSImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSImageView.swift; sourceTree = "<group>"; };
 		8D3BD9AB281240920022ED89 /* FirebaseStorageImageUrlCashModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageImageUrlCashModel.swift; sourceTree = "<group>"; };
 		8D3BD9AD281632A80022ED89 /* ReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyView.swift; sourceTree = "<group>"; };
+		8D407D072818CC45001732F9 /* TimeLineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineManager.swift; sourceTree = "<group>"; };
 		8D49FC9128080BCB00565A3C /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		8D49FC982809410400565A3C /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8D49FC9A280959CD00565A3C /* TracingImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingImageModel.swift; sourceTree = "<group>"; };
@@ -306,6 +310,7 @@
 				C303FB17281037C700E920D8 /* LikeManager.swift */,
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
 				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
+				8D407D072818CC45001732F9 /* TimeLineManager.swift */,
 				C3EDBF2B27F9412100BBEC01 /* Toast.swift */,
 				C356362E27F976E600B2609A /* Share.swift */,
 				C356363527F9D9A800B2609A /* SortType.swift */,
@@ -407,6 +412,7 @@
 				8D3BD981280E74CB0022ED89 /* BannerAdView.swift */,
 				8D3BD983280E841F0022ED89 /* ReplyListView.swift */,
 				8D3BD9A92812382E0022ED89 /* FSImageView.swift */,
+				8D30B1962818D47D00785F1A /* TimeLineView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -630,7 +636,9 @@
 				8DB0BA092807BA5100C2B0FF /* Utill.swift in Sources */,
 				8D3BD982280E74CB0022ED89 /* BannerAdView.swift in Sources */,
 				1B28C3EB27BE108F003F8312 /* LayerModel.swift in Sources */,
+				8D407D082818CC45001732F9 /* TimeLineManager.swift in Sources */,
 				1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */,
+				8D30B1972818D47D00785F1A /* TimeLineView.swift in Sources */,
 				C356364527FAC73A00B2609A /* InAppPurchesView.swift in Sources */,
 				8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,

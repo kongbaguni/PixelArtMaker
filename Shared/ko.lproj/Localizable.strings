@@ -23,7 +23,7 @@
 "menu signout title" = "로그아웃";
 "menu save title" = "저장하기";
 "menu load title" = "불러오기";
-"menu public load title" = "공유 갤러리";
+"menu public load title" = "타임라인";
 
 "menu color select title" = "컬러 프리셋";
 "menu delete title" = "삭제하기";
