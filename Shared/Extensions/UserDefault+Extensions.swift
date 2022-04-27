@@ -137,4 +137,16 @@ extension UserDefaults {
             bool(forKey: "isMiniDrawingMode")
         }
     }
+    
+    var timeLineListType:TimeLineView.ListType {
+        set {
+            set(newValue.rawValue, forKey: "timeLineListType")
+        }
+        get {
+            if let str = string(forKey: "timeLineListType") {
+                return TimeLineView.ListType(rawValue: str) ?? .grid
+            }
+            return .grid
+        }
+    }
 }

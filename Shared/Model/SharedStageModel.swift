@@ -188,6 +188,3 @@ extension SharedStageModel {
 }
 
 
-class SharedStageModelForTimeLine : SharedStageModel {
-    
-}
