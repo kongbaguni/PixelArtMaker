@@ -49,13 +49,12 @@ struct TimeLineManager {
     }
     
     private func writeDb(snapshot:QueryDocumentSnapshot)->String {        
-        let parm = snapshot.data()
-        if parm["id"] as? String != nil {
-            let realm = try! Realm()
-            realm.beginWrite()
-            realm.create(SharedStageModel.self, value: parm, update: .all)
-            try! realm.commitWrite()
-        }
+        var parm = snapshot.data()
+        parm["id"] = snapshot.documentID
+        let realm = try! Realm()
+        realm.beginWrite()
+        realm.create(SharedStageModel.self, value: parm, update: .all)
+        try! realm.commitWrite()
         return parm["id"] as? String ?? ""
     }
     

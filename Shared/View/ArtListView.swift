@@ -108,13 +108,13 @@ struct ArticleListView : View {
             let realm = try! Realm()
             realm.beginWrite()
             for doc in snapshot?.documents ?? [] {
-                let data = doc.data()
+                var data = doc.data()
+                data["id"] = doc.documentID
                 if data["deleted"] as? Bool != true {
-                    if let id = data["id"] as? String {
-                        realm.create(SharedStageModel.self, value: data, update: .modified)
-                        if self.ids.firstIndex(of: id) == nil {
-                            ids.append(id)
-                        }
+                    let id = doc.documentID
+                    realm.create(SharedStageModel.self, value: data, update: .modified)
+                    if self.ids.firstIndex(of: id) == nil {
+                        ids.append(id)
                     }
                 }
             }
