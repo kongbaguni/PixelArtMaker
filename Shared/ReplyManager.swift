@@ -60,7 +60,7 @@ class ReplyManager {
         
         if let list = replys, let dt = replys?.last?.updateDt {
             if list.count % Consts.profileReplyLimit == 0 {
-                query = query.whereField("updateDt", isLessThanOrEqualTo: dt)
+                query = query.whereField("updateDt", isLessThan: dt)
             }
         }
         query = query.limit(to: Consts.profileReplyLimit)
@@ -92,7 +92,7 @@ class ReplyManager {
             
         if let list = replys, let dt = replys?.last?.updateDt {
             if list.count % Consts.profileReplyLimit == 0 {
-                query = query.whereField("updateDt", isLessThanOrEqualTo: dt)
+                query = query.whereField("updateDt", isLessThan: dt)
             }
         }
         query = query.limit(to: Consts.profileReplyLimit)
@@ -151,14 +151,22 @@ class ReplyManager {
     }
     
 
-    func getLikeList(uid:String, replys:[ReplyModel]? = nil,complete:@escaping(_ replys:[ReplyModel], _ error : Error?)-> Void) {
+    func getLikeList(uid:String, replys:[ReplyModel]? = nil, lastUpdateDt:TimeInterval? = nil ,complete:@escaping(_ replys:[ReplyModel], _ error : Error?)-> Void) {
         var query = likeReplyCollection.order(by: "updateDt", descending: true)
             .whereField("uid", isEqualTo: uid)
 
-        if let list = replys, let dt = replys?.last?.updateDt {
-            if list.count % Consts.profileReplyLimit == 0 {
-                query = query.whereField("updateDt", isLessThanOrEqualTo: dt)
+        
+        if let lastId = replys?.last?.id {
+            likeReplyCollection.document("\(uid)_\(lastId)").getDocument { [self] snapShot, error in
+                if let data = snapShot?.data(),
+                   let dt = data["updateDt"] as? TimeInterval {
+                    getLikeList(uid: uid, replys: nil, lastUpdateDt: dt, complete: complete)
+                }
             }
+            return
+        }
+        if let lastUpdateDt = lastUpdateDt {
+            query = query.whereField("updateDt", isLessThan: lastUpdateDt)
         }
         query = query.limit(to: Consts.profileReplyLimit)
         
