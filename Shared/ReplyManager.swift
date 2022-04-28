@@ -84,18 +84,17 @@ class ReplyManager {
     }
     /** 내 게시글에 달린 댓글 목록*/
     func getReplysToMe(uid:String, replys:[ReplyModel]? = nil, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
-        var query = collection
-            .order(by: "uid")
-            .whereField("uid", isNotEqualTo: uid)
-            .order(by: "updateDt", descending: true)
-            .whereField("documentsUid", isEqualTo: uid)
-            
+        var query = collection.order(by: "updateDt", descending: true)
         if let list = replys, let dt = replys?.last?.updateDt {
             if list.count % Consts.profileReplyLimit == 0 {
                 query = query.whereField("updateDt", isLessThan: dt)
             }
         }
-        query = query.limit(to: Consts.profileReplyLimit)
+
+        query = query
+//            .whereField("uid", isNotEqualTo: uid)
+            .whereField("documentsUid", isEqualTo: uid)
+            .limit(to: Consts.profileReplyLimit)
 
         query.getDocuments { snapShot, error in
             var result:[ReplyModel] = []
@@ -104,9 +103,10 @@ class ReplyManager {
                 for doc in documents {
                     let json = doc.data() as [String:AnyObject]
                     if let model = ReplyModel.makeModel(json: json)  {
-                        result.append(model)
-                    }
-                    
+                        if model.uid != uid {
+                            result.append(model)
+                        }
+                    }                    
                 }
             }
             complete(result.sorted(by: { a, b in

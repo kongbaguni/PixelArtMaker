@@ -24,9 +24,18 @@ struct SimplePeopleView : View {
                     if let id = profileImageRefId {
                         FSImageView(imageRefId: id, placeholder: .profilePlaceHolder)
                             .frame(width: size, height: size)
+                    } else {
+                        Image.profilePlaceHolder
+                            .resizable()
+                            .frame(width: size, height: size)
                     }
                     if let name = name {
                         Text(name)
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.k_normalText)
+                    }
+                    else {
+                        Text("anonymous")
                             .font(.system(size: 10))
                             .foregroundColor(Color.k_normalText)
                     }
@@ -41,12 +50,21 @@ struct SimplePeopleView : View {
                     else {
                         Image.profilePlaceHolder
                             .resizable()
+                            .frame(width: size, height: size)
                     }
                     if !isSmall {
-                        if let name = name {
-                            VStack {
-                                Spacer()
+                        VStack {
+                            Spacer()
+                            if let name = name {
                                 Text(name)
+                                    .font(.subheadline)
+                                    .padding(5)
+                                    .background(Color.k_dim)
+                                    .foregroundColor(.k_normalText)
+                                    .cornerRadius(10)
+                                    .padding(5)
+                            } else {
+                                Text("anonymous")
                                     .font(.subheadline)
                                     .padding(5)
                                     .background(Color.k_dim)
@@ -55,6 +73,7 @@ struct SimplePeopleView : View {
                                     .padding(5)
                             }
                         }
+                        
                     }
                 }
             }

@@ -15,6 +15,7 @@ struct ProfileView: View {
     let haveArtList:Bool
     let editabel:Bool
     let landScape:Bool?
+    @State var isAnonymous = false
     
     init(uid:String, haveArtList:Bool, editable:Bool = false, landScape:Bool? = nil) {
         self.uid = uid
@@ -107,7 +108,8 @@ struct ProfileView: View {
                     }
 
                     NavigationLink  {
-                        LikeArtListFullView(uid: uid).navigationTitle(Text("like art list"))
+                        LikeArtListFullView(uid: uid)
+                            .navigationTitle(Text("like art list"))
                         
                     } label: {
                         Text("like art list")
@@ -181,24 +183,28 @@ struct ProfileView: View {
             if haveArtList {
                 if geomentry.size.height > geomentry.size.width || geomentry.size.width < 400{
                     ScrollView {
-                        makeProfileView(isLandscape: false)
-                        Section(header:Text("profile view public arts")) {
-                            ArticleListView(uid: uid, sort: sort,
-                                            gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
-                            moreArtListBtn
-                        }.padding(.top, 20)
+                        if isAnonymous == false {
+                            makeProfileView(isLandscape: false)
+                            Section(header:Text("profile view public arts")) {
+                                ArticleListView(uid: uid, sort: sort,
+                                                gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
+                                                itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
+                                moreArtListBtn
+                            }.padding(.top, 20)
+                        }
                         Section(header:Text("profile view like arts")) {
                             LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), limit: Consts.profileImageLimit)
+                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
                             moreLikeListBtn
                         }.padding(.top, 20)
                         Section(header:Text("profile view replys")) {
                             ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
                         }.padding(.top, 20)
-                        Section(header:Text("profile view replys to me")) {
-                            ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
-                        }.padding(.top, 20)
+                        if isAnonymous == false {
+                            Section(header:Text("profile view replys to me")) {
+                                ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
+                            }.padding(.top, 20)
+                        }
                         Section(header:Text("profile view replys my like")) {
                             ReplyListView(uid: uid, isLimited: true, listMode:.내가_좋아요한_댓글)
                         }.padding(.top, 20)
@@ -207,27 +213,32 @@ struct ProfileView: View {
                 }
                 else {
                     HStack {
-                        makeProfileView(isLandscape: true)
-                            .frame(width:250)
+                        if isAnonymous == false {
+                            makeProfileView(isLandscape: true)
+                                .frame(width:250)
+                        }
                         ScrollView {
-                            Section(header:Text("profile view public arts")) {
-                                ArticleListView(uid: uid, sort: sort,
-                                                gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited: true)
-                                moreArtListBtn
-                            }.padding(.top, 20)
+                            if isAnonymous == false {
+                                Section(header:Text("profile view public arts")) {
+                                    ArticleListView(uid: uid, sort: sort,
+                                                    gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
+                                                    itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited: true)
+                                    moreArtListBtn
+                                }.padding(.top, 20)
+                            }
                             Section(header:Text("profile view like arts")) {
                                 LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), limit: Consts.profileImageLimit)
+                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited:true)
                                 moreLikeListBtn
                             }.padding(.top, 20)
                             Section(header:Text("profile view replys")) {
                                 ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
                             }.padding(.top, 20)
-                            
-                            Section(header:Text("profile view replys to me")) {
-                                ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
-                            }.padding(.top, 20)
+                            if isAnonymous == false {
+                                Section(header:Text("profile view replys to me")) {
+                                    ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
+                                }.padding(.top, 20)
+                            }
                             
                             Section(header:Text("profile view replys my like")) {
                                 ReplyListView(uid: uid, isLimited: true, listMode:.내가_좋아요한_댓글)
@@ -260,7 +271,7 @@ struct ProfileView: View {
             }
         }        
         .toolbar {
-            if editabel {
+            if editabel && isAnonymous == false {
                 Button {
                     ProfileModel.updateProfile(nickname: nickname, introduce:introduce) { error in
                         if error == nil {
@@ -282,6 +293,7 @@ struct ProfileView: View {
     
     private func loadData() {
         guard let user = try! Realm().object(ofType: ProfileModel.self, forPrimaryKey: uid) else {
+            isAnonymous = true
             return
         }
         nickname = user.nickname
