@@ -56,6 +56,7 @@ struct ReplyListView: View {
                                 Text(reply.message)
                                     .font(.subheadline)
                                     .foregroundColor(Color.k_normalText)
+                                    .multilineTextAlignment(.leading)
                                 Spacer()
                             }
                             Spacer()

@@ -99,8 +99,7 @@ struct ProfileView: View {
             if haveArtList == false {
                 HStack {
                     NavigationLink {
-                        ArtListView(uid: uid, width:nil)
-                            .navigationTitle(Text("art list"))
+                        ArtListView(uid: uid, width:nil, navigationTitle: Text("art list"))
                     } label: {
                         Text("art list")
                             .padding(5)
@@ -157,7 +156,7 @@ struct ProfileView: View {
         Group {
             if try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false).count > Consts.profileImageLimit {
                 NavigationLink {
-                    ArtListView(uid: uid, width: nil)
+                    ArtListView(uid: uid, width: nil, navigationTitle: Text("profile view public arts"))
                 } label: {
                     Text("more title")
                 }
@@ -169,6 +168,7 @@ struct ProfileView: View {
             if try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").count > Consts.profileImageLimit {
                 NavigationLink {
                     LikeArtListFullView(uid: uid)
+                        .navigationTitle(Text("profile view like arts"))
                 } label: {
                     Text("more title")
                 }

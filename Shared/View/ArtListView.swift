@@ -151,6 +151,8 @@ struct ArtListView: View {
     @State var sortIndex:Int = 0
     @State var isAnimate:Bool = false
     
+    let navigationTitle:Text?
+    
     let width:CGFloat?
     var sort:Sort.SortType {
         return Sort.SortType.allCases[sortIndex]
@@ -163,9 +165,10 @@ struct ArtListView: View {
     
     let uid:String
 
-    init(uid:String, width:CGFloat?) {
+    init(uid:String, width:CGFloat?, navigationTitle:Text?) {
         self.uid = uid
         self.width = width
+        self.navigationTitle = navigationTitle
     }
         
     private func makePickerView()-> some View {
@@ -204,7 +207,7 @@ struct ArtListView: View {
             
         }
         
-        .navigationTitle(Text(profile?.nickname ?? "unknown people"))
+        .navigationTitle(navigationTitle ?? Text(profile?.nickname ?? "unknown people"))
         .animation(.easeInOut, value: isAnimate)
         
         .toast(message: toastMessage, isShowing: $isShowToast,duration: 4)

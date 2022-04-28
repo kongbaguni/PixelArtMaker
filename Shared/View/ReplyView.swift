@@ -40,11 +40,15 @@ struct ReplyView: View {
                         .padding(10)
                         .padding(.trailing,20)
                         .foregroundColor(focusedReply == reply ? .K_boldText : .k_normalText)
+                        .multilineTextAlignment(.leading)
+
                 } else {
                     Text(reply.message)
                         .padding(10)
                         .padding(.leading,20)
                         .foregroundColor(focusedReply == reply ? .K_boldText : .k_normalText)
+                        .multilineTextAlignment(.leading)
+
 
                 }
                 Spacer()
