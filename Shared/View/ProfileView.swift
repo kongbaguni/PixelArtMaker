@@ -194,13 +194,13 @@ struct ProfileView: View {
                             moreLikeListBtn
                         }.padding(.top, 20)
                         Section(header:Text("profile view replys")) {
-                            ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_쓴_댓글)
+                            ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
                         }.padding(.top, 20)
                         Section(header:Text("profile view replys to me")) {
-                            ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내_게시글에_달린_댓글)
+                            ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
                         }.padding(.top, 20)
                         Section(header:Text("profile view replys my like")) {
-                            ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_좋아요한_댓글)
+                            ReplyListView(uid: uid, isLimited: true, listMode:.내가_좋아요한_댓글)
                         }.padding(.top, 20)
 
                     }
@@ -222,15 +222,15 @@ struct ProfileView: View {
                                 moreLikeListBtn
                             }.padding(.top, 20)
                             Section(header:Text("profile view replys")) {
-                                ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_쓴_댓글)
+                                ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
                             }.padding(.top, 20)
                             
                             Section(header:Text("profile view replys to me")) {
-                                ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내_게시글에_달린_댓글)
+                                ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
                             }.padding(.top, 20)
                             
                             Section(header:Text("profile view replys my like")) {
-                                ReplyListView(uid: uid, limit: Consts.profileReplyLimit, listMode:.내가_좋아요한_댓글)
+                                ReplyListView(uid: uid, isLimited: true, listMode:.내가_좋아요한_댓글)
                             }.padding(.top, 20)
 
 

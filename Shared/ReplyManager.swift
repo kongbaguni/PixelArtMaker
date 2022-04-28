@@ -55,12 +55,16 @@ class ReplyManager {
     }
     
     /** 내가 단 댓글 목록 */
-    func getReplys(uid:String, limit:Int, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
+    func getReplys(uid:String, replys:[ReplyModel]? = nil, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
         var query = collection.order(by: "updateDt", descending: true).whereField("uid", isEqualTo: uid)
         
-        if limit > 0 {
-            query = query.limit(to: limit)
+        if let list = replys, let dt = replys?.last?.updateDt {
+            if list.count % Consts.profileReplyLimit == 0 {
+                query = query.whereField("updateDt", isLessThanOrEqualTo: dt)
+            }
         }
+        query = query.limit(to: Consts.profileReplyLimit)
+
         query.getDocuments { snapShot, error in
             var result:[ReplyModel] = []
 
@@ -79,16 +83,20 @@ class ReplyManager {
         }        
     }
     /** 내 게시글에 달린 댓글 목록*/
-    func getReplysToMe(uid:String,  limit:Int,complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
+    func getReplysToMe(uid:String, replys:[ReplyModel]? = nil, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
         var query = collection
             .order(by: "uid")
             .whereField("uid", isNotEqualTo: uid)
             .order(by: "updateDt", descending: true)
             .whereField("documentsUid", isEqualTo: uid)
             
-        if limit > 0 {
-            query = query.limit(to: limit)
+        if let list = replys, let dt = replys?.last?.updateDt {
+            if list.count % Consts.profileReplyLimit == 0 {
+                query = query.whereField("updateDt", isLessThanOrEqualTo: dt)
+            }
         }
+        query = query.limit(to: Consts.profileReplyLimit)
+
         query.getDocuments { snapShot, error in
             var result:[ReplyModel] = []
 
@@ -143,12 +151,17 @@ class ReplyManager {
     }
     
 
-    func getLikeList(uid:String, limit:Int,complete:@escaping(_ replys:[ReplyModel], _ error : Error?)-> Void) {
+    func getLikeList(uid:String, replys:[ReplyModel]? = nil,complete:@escaping(_ replys:[ReplyModel], _ error : Error?)-> Void) {
         var query = likeReplyCollection.order(by: "updateDt", descending: true)
             .whereField("uid", isEqualTo: uid)
-        if limit > 0 {
-            query = query.limit(to: limit)
+
+        if let list = replys, let dt = replys?.last?.updateDt {
+            if list.count % Consts.profileReplyLimit == 0 {
+                query = query.whereField("updateDt", isLessThanOrEqualTo: dt)
+            }
         }
+        query = query.limit(to: Consts.profileReplyLimit)
+        
         DispatchQueue.global().async {
             query.getDocuments { snapshot, error in
                 let ids = (snapshot?.documents ?? []).map({ snap in
@@ -160,7 +173,7 @@ class ReplyManager {
                     replys.append(.init(documentId: "" , documentsUid: "", message: "", imageRefId: "", replyId: id))
                 }
                 if ids.count == 0 {
-                    complete([],nil)
+                    complete([],error)
                     return
                 }
                 for (idx,id) in ids.enumerated() {

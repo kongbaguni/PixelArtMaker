@@ -16,14 +16,61 @@ struct ReplyListView: View {
     }
     
     let uid:String
-    let limit:Int
+    let isLimited:Bool
     let listMode:ListMode
     
     @State var replys:[ReplyModel] = []
     @State var isToast = false
     @State var toastMessage = ""
     @State var isLoading = false
-    
+    private func makeReplyView(reply:ReplyModel)-> some View {
+        Group {
+            if reply.documentId.isEmpty {
+                Button {
+                    let idx = replys.firstIndex(of: reply)!
+                    ReplyManager.shared.likeToggle(replyId: reply.id) { isLike, error in
+                        if isLike == false {
+                            replys.remove(at: idx)
+                            loadData()
+                        }
+                    }
+                } label : {
+                    Text("deleted reply message").font(Font.subheadline).foregroundColor(Color.k_weakText).padding(20)
+                }
+            } else {
+                NavigationLink {
+                    PixelArtDetailView(id: reply.documentId, showProfile: true, focusedReply: reply)
+                } label: {
+                    HStack {
+                        VStack {
+                            FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
+                                .frame(width: 50, height: 50, alignment: .center)
+                            Spacer()
+                        }
+                        VStack {
+                            HStack {
+                                reply.updateDtText.font(.system(size: 10)).foregroundColor(.gray)
+                                Spacer()
+                            }
+                            HStack {
+                                Text(reply.message)
+                                    .font(.subheadline)
+                                    .foregroundColor(Color.k_normalText)
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                        if listMode == .내_게시글에_달린_댓글 || listMode == .내가_좋아요한_댓글 {
+                            VStack {
+                                SimplePeopleView(uid: reply.uid, size:40)
+                                Spacer()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     var body: some View {
         LazyVStack {
             if isLoading {
@@ -34,54 +81,16 @@ struct ReplyListView: View {
                     .foregroundColor(Color.k_weakText)
             }
             ForEach(replys, id:\.self) { reply in
-                if reply.documentId.isEmpty {
-                    Button {
-                        let idx = replys.firstIndex(of: reply)!
-                        ReplyManager.shared.likeToggle(replyId: reply.id) { isLike, error in
-                            if isLike == false {
-                                replys.remove(at: idx)
-                                loadData()
-                            }
-                        }
-                    } label : {
-                        Text("deleted reply message").font(Font.subheadline).foregroundColor(Color.k_weakText).padding(20)
-                    }
-                } else {
-                    NavigationLink {
-                        PixelArtDetailView(id: reply.documentId, showProfile: true, focusedReply: reply)
-                    } label: {
-                        HStack {
-                            VStack {
-                                FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
-                                    .frame(width: 50, height: 50, alignment: .center)
-                                Spacer()
-                            }
-                            VStack {
-                                HStack {
-                                    reply.updateDtText.font(.system(size: 10)).foregroundColor(.gray)
-                                    Spacer()
-                                }
-                                HStack {
-                                    Text(reply.message)
-                                        .font(.subheadline)
-                                        .foregroundColor(Color.k_normalText)
-                                    Spacer()
-                                }
-                                Spacer()
-                            }
-                            if listMode == .내_게시글에_달린_댓글 || listMode == .내가_좋아요한_댓글 {
-                                VStack {
-                                    SimplePeopleView(uid: reply.uid, size:40)
-                                    Spacer()
-                                }
-                            }
+                makeReplyView(reply: reply)
+                    .onAppear {
+                        if reply == replys.last && replys.count % Consts.profileReplyLimit == 0 {
+                            loadData()
                         }
                     }
-                }
-                
+                               
             }
             
-            if replys.count == limit {
+            if isLimited && replys.count % Consts.profileReplyLimit == 0 && replys.count > 0 {
                 NavigationLink {
                     ReplyListFullView(uid: uid, listMode: listMode)
                 } label: {
@@ -98,30 +107,42 @@ struct ReplyListView: View {
         isLoading = true
         switch listMode {
         case .내가_쓴_댓글:
-            ReplyManager.shared.getReplys(uid: uid, limit: limit) { result, error in
+            ReplyManager.shared.getReplys(uid: uid, replys: isLimited ? nil : replys) { result, error in
                 withAnimation(.easeInOut) {
                     isLoading = false
-                    replys = result
-                    toastMessage = error?.localizedDescription ?? ""
-                    isToast = error != nil
+                    appendData(result: result)
                 }
+                toastMessage = error?.localizedDescription ?? ""
+                isToast = error != nil
             }
         case .내_게시글에_달린_댓글:
-            ReplyManager.shared.getReplysToMe(uid: uid, limit: limit) { result, error in
+            ReplyManager.shared.getReplysToMe(uid: uid, replys: isLimited ? nil : replys) { result, error in
                 withAnimation(.easeInOut) {
                     isLoading = false
-                    replys = result
-                    toastMessage = error?.localizedDescription ?? ""
-                    isToast = error != nil
+                    appendData(result: result)
                 }
+                toastMessage = error?.localizedDescription ?? ""
+                isToast = error != nil
             }
         case .내가_좋아요한_댓글:
-            ReplyManager.shared.getLikeList(uid: uid, limit: limit) { result, error in
+            ReplyManager.shared.getLikeList(uid: uid, replys: isLimited ? nil : replys) { result, error in
                 withAnimation(.easeInOut) {
                     isLoading = false
-                    replys = result
-                    toastMessage = error?.localizedDescription ?? ""
-                    isToast = error != nil
+                    appendData(result: result)
+                }
+                toastMessage = error?.localizedDescription ?? ""
+                isToast = error != nil
+            }
+        }
+    }
+    
+    private func appendData(result:[ReplyModel]) {
+        if isLimited {
+            replys = result
+        } else {
+            for reply in result {
+                if replys.firstIndex(of: reply) == nil {
+                    replys.append(reply)
                 }
             }
         }
@@ -132,11 +153,20 @@ struct ReplyListView: View {
 struct ReplyListFullView : View {
     let uid:String
     let listMode: ReplyListView.ListMode
-    
+    private var navigationTitle:Text {
+        switch listMode {
+        case .내가_좋아요한_댓글:
+            return Text("profile view replys my like")
+        case .내가_쓴_댓글:
+            return Text("reply written by")
+        case .내_게시글에_달린_댓글:
+            return Text("received reply")
+        }
+    }
     var body : some View {
         ScrollView {
-            ReplyListView(uid: uid, limit: 0, listMode: listMode)
-                .navigationBarTitle(Text(listMode == .내가_쓴_댓글 ? "reply written by" : "received reply"))
+            ReplyListView(uid: uid, isLimited: false, listMode: listMode)
+                .navigationBarTitle(navigationTitle)
         }
     }
 }
