@@ -83,13 +83,14 @@ struct ArticleListView : View {
     }
     
     func loadData() {
-        let lastSyncDt = try! Realm().objects(SharedStageModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt").last?.updateDt
+        let list = try! Realm().objects(SharedStageModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt")
+        let lastSyncDt = list.first?.updateDt
         var query = collection
             .whereField("uid", isEqualTo: uid)
             .order(by: "updateDt", descending: true)
         
         if let time = lastSyncDt {
-            query = query.whereField("updateDt", isGreaterThan: time)
+            query = query.whereField("updateDt", isLessThan: time)
         }
         query = query.limit(to: Consts.timelineLimit)
         
@@ -98,10 +99,12 @@ struct ArticleListView : View {
             realm.beginWrite()
             for doc in snapshot?.documents ?? [] {
                 let data = doc.data()
-                if let id = data["id"] as? String {
-                    realm.create(SharedStageModel.self, value: data, update: .modified)
-                    if self.ids.firstIndex(of: id) == nil {
-                        ids.append(id)
+                if data["deleted"] as? Bool != true {
+                    if let id = data["id"] as? String {
+                        realm.create(SharedStageModel.self, value: data, update: .modified)
+                        if self.ids.firstIndex(of: id) == nil {
+                            ids.append(id)
+                        }
                     }
                 }
             }
