@@ -278,6 +278,13 @@ class StageManager {
             else {
                 return
             }
+            if datas.count == 0 {
+                DispatchQueue.main.async {
+                    complete(nil)
+                }
+                print("새로운 그림이 없구나.")
+                return
+            }
             let realm = try! Realm()
         
             var result:[MyStageModel] = []
@@ -316,17 +323,14 @@ class StageManager {
             guard let uid = AuthManager.shared.userId else {
                 return
             }
-            let collection = fireStore.collection("pixelarts").document(uid).collection("data")
+            var query = fireStore.collection("pixelarts").document(uid).collection("data").order(by: "updateDt", descending: false)
+            
             if let date = lastSync {
-                collection
-                    .whereField("updateDt", isGreaterThan: date.timeIntervalSince1970)
-                    .getDocuments { snapShot, error in
-                        make(snapShot: snapShot, error: error)
-                    }
-            } else {
-                collection.getDocuments { snapShot, error in
-                    make(snapShot: snapShot, error: error)
-                }
+                query = query.whereField("updateDt", isGreaterThan: date.timeIntervalSince1970)
+            }
+            
+            query.getDocuments { snapShot, error in
+                make(snapShot: snapShot, error: error)
             }
         }
     }

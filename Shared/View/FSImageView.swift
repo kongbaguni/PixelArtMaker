@@ -31,7 +31,7 @@ struct FSImageView : View {
                     }
                     isLoading = imageURL == nil
                     
-                    if isNeedUpdate {
+                    if isNeedUpdate && imageRefId.isEmpty == false {                    
                         FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
                             isLoading = false
                             imageURL = url
