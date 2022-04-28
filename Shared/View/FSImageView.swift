@@ -23,6 +23,9 @@ struct FSImageView : View {
                 .placeholder(placeholder.resizable())
                 .resizable()
                 .onAppear {
+                    if imageRefId.isEmpty {
+                        return 
+                    }
                     var isNeedUpdate = true
                     if let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId) {
                         isLoading = false
@@ -31,7 +34,7 @@ struct FSImageView : View {
                     }
                     isLoading = imageURL == nil
                     
-                    if isNeedUpdate && imageRefId.isEmpty == false {                    
+                    if isNeedUpdate {
                         FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
                             isLoading = false
                             imageURL = url
