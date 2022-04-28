@@ -14,7 +14,7 @@ struct LikeArtListView: View {
     let uid:String
     let gridItems:[GridItem]
     let itemSize:CGSize
-    let limit:Int
+    let isLimited:Bool
     
     @State var ids:[String] = []
     
@@ -37,31 +37,33 @@ struct LikeArtListView: View {
                 try! realm.commitWrite()
             }
         }
-        
+        var query = collection.order(by: "updateDt", descending: true)
         if let lastSync = try! Realm().objects(LikeModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt").last?.updateDt {
-            collection.whereField("updateDt", isGreaterThan: lastSync).getDocuments { snapshot, error in
-                writeLocalDb(snapshot: snapshot)
-                complete(error)
-            }
-        } else {
-            collection.getDocuments { snapshot, error in
-                writeLocalDb(snapshot: snapshot)
-                complete(error)
-            }
+            query = query.whereField("updateDt", isGreaterThan: lastSync)
         }
+        query = query.limit(to: Consts.timelineLimit)
+        query.getDocuments { snapshot, error in
+            writeLocalDb(snapshot: snapshot)
+            complete(error)
+        }
+
     }
 
     private func loadFromLocalDb() {
-        let result = try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").sorted(byKeyPath: "updateDt", ascending: true).map({ model in
+        let result = try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").sorted(byKeyPath: "updateDt", ascending: false).map({ model in
             return model.id
         })
-        ids = result.reversed()
-        if limit > 0 && ids.count > limit {
+        if isLimited {
+            let limit = Consts.timelineLimit
             var new:[String] = []
             for i in 0..<limit {
-                new.append(ids[i])
+                if i < result.count {
+                    new.append(result[i])
+                }
             }
             ids = new
+        } else {
+            ids = result.reversed().reversed()
         }
     }
     
@@ -92,6 +94,17 @@ struct LikeArtListView: View {
                 LazyVGrid(columns: gridItems, spacing:20) {
                     ForEach(ids, id:\.self) { id in
                         makeLikeView(id: id)
+                            .onAppear {
+                                if isLimited == false {
+                                    if id == ids.last {
+                                        if ids.count > 0 && ids.count % Consts.timelineLimit == 0 {
+                                            getListFromFirebase { error in
+                                                loadFromLocalDb()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                     }
                 }
             } else {
@@ -100,7 +113,6 @@ struct LikeArtListView: View {
                     Text("empty like list message")
                         .font(.subheadline)
                         .foregroundColor(.gray)
-                        .padding(30)
                     Spacer()
                 }
             }
@@ -125,11 +137,11 @@ struct LikeArtListFullView: View {
             ScrollView {
                 if geomentry.size.width < geomentry.size.height {
                     LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width),
-                                    itemSize: Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width), limit: 0)
+                                    itemSize: Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width), isLimited: false)
                 }
                 else {
                     LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width),
-                                    itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width), limit: 0)
+                                    itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width), isLimited: false)
 
                 }
                 

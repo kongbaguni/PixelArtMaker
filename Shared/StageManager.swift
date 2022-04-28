@@ -99,8 +99,9 @@ class StageManager {
                     self.stage = stage
                     self.stage?.createrId = uid
                     print(stage.canvasSize)
-                    HistoryManager.shared.load()
-                    complete(nil)
+                    HistoryManager.shared.load { error in
+                        complete(error)
+                    }
                     return
                 }
             }
@@ -132,9 +133,10 @@ class StageManager {
                     self.stage?.documentId = id.isEmpty ? nil : id
                 }
                             
-                HistoryManager.shared.load()
-                DispatchQueue.main.async {
-                    complete(error)
+                HistoryManager.shared.load { loadError in
+                    DispatchQueue.main.async {
+                        complete(error ?? loadError)
+                    }
                 }
             }
         }
@@ -246,13 +248,12 @@ class StageManager {
                     }
                     return
                 }
-                HistoryManager.shared.clear()
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
                 stage = model
                 model?.createrId = uid
-                HistoryManager.shared.clear()
+                let clearErr = HistoryManager.shared.clear()
                 DispatchQueue.main.async {
-                    complete(model,error)
+                    complete(model,error ?? clearErr)
                 }
             }
         
@@ -275,6 +276,13 @@ class StageManager {
                 }
             })
             else {
+                return
+            }
+            if datas.count == 0 {
+                DispatchQueue.main.async {
+                    complete(nil)
+                }
+                print("새로운 그림이 없구나.")
                 return
             }
             let realm = try! Realm()
@@ -315,17 +323,14 @@ class StageManager {
             guard let uid = AuthManager.shared.userId else {
                 return
             }
-            let collection = fireStore.collection("pixelarts").document(uid).collection("data")
+            var query = fireStore.collection("pixelarts").document(uid).collection("data").order(by: "updateDt", descending: false)
+            
             if let date = lastSync {
-                collection
-                    .whereField("updateDt", isGreaterThan: date.timeIntervalSince1970)
-                    .getDocuments { snapShot, error in
-                        make(snapShot: snapShot, error: error)
-                    }
-            } else {
-                collection.getDocuments { snapShot, error in
-                    make(snapShot: snapShot, error: error)
-                }
+                query = query.whereField("updateDt", isGreaterThan: date.timeIntervalSince1970)
+            }
+            
+            query.getDocuments { snapShot, error in
+                make(snapShot: snapShot, error: error)
             }
         }
     }

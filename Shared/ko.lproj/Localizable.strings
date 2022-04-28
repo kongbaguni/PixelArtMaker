@@ -23,7 +23,7 @@
 "menu signout title" = "로그아웃";
 "menu save title" = "저장하기";
 "menu load title" = "불러오기";
-"menu public load title" = "공유 갤러리";
+"menu public load title" = "타임라인";
 
 "menu color select title" = "컬러 프리셋";
 "menu delete title" = "삭제하기";
@@ -150,3 +150,14 @@
 
 "reply written by" = "작성한 댓글";
 "received reply" = "받은 댓글";
+
+"like people count title" = "명";
+
+"like peoples" = "좋아요";
+
+"profile view replys my like" = "좋아요 한 댓글";
+
+"deleted reply message" = "작성자가 삭제함";
+"writer" = "작성자";
+
+"anonymous" = "익명";

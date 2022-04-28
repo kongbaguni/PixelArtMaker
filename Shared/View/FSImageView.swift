@@ -23,6 +23,9 @@ struct FSImageView : View {
                 .placeholder(placeholder.resizable())
                 .resizable()
                 .onAppear {
+                    if imageRefId.isEmpty {
+                        return 
+                    }
                     var isNeedUpdate = true
                     if let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId) {
                         isLoading = false

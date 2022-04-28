@@ -6,7 +6,10 @@
 //
 
 import SwiftUI
-
+extension Notification.Name {
+    static let paintingProcess = Notification.Name("paintingProcess_observer")
+    static let paintingFinish = Notification.Name("paintingFinsh_observer")
+}
 struct DrawingToolView: View {
     
     @Binding var isZoomMode:Bool
@@ -19,6 +22,8 @@ struct DrawingToolView: View {
     @Binding var isShowToast:Bool
     @Binding var previewImage:Image?
     @Binding var drawBegainPointer:CGPoint?
+    /** 광범위 페인팅 시도할 때 드로잉 툴 잠그기 위한 flag*/
+    @State var isBegainPainting = false
     let colorSelectMode:PaletteView.ColorSelectMode
     let pointer:CGPoint
     @State var isMiniDrawingMode:Bool = UserDefaults.standard.isMiniDrawingMode
@@ -38,7 +43,7 @@ struct DrawingToolView: View {
         
         let idx:PathFinder.Point = .init(point: target)
         /** 최초 선택 컬러*/
-        if StageManager.shared.canvasSize.isOut(cgPoint: target) {
+        if colors.count <= idx.y || ( colors.first?.count ?? 0) <= idx.x {
             return
         }
         let cc = colors[idx.y][idx.x]
@@ -66,28 +71,34 @@ struct DrawingToolView: View {
         }
         
         var list = getNextIdxs(idx: idx)
+        var outList = list
+        
         var test = true
         while test {
             let count = list.count
-            for idx in list {
+            let out = outList
+            outList.removeAll()
+            for idx in out {
                 for new in getNextIdxs(idx: idx) {
-                    list.insert(new)
+                    if list.firstIndex(of: new) == nil {
+                        outList.insert(new)
+                        list.insert(new)
+                    }
                 }
             }
+            NotificationCenter.default.post(name: .paintingProcess, object: outList)
             if count == list.count {
                 test = false
             }
         }
         let layerIndex = StageManager.shared.stage!.selectedLayerIndex
-        let old = colors[idx.y][idx.x]
-        colors[idx.y][idx.x] = color
-        changeSet.insert(.init(layerIndex: layerIndex, point: .init(x: idx.x, y: idx.y), change: .init(before: old, after: color)))
         for i in list {
             let old = colors[i.y][i.x]
             colors[i.y][i.x] = color
             changeSet.insert(.init(layerIndex: layerIndex, point: .init(x: i.x, y: i.y), change: .init(before: old, after: color)))
         }
         HistoryManager.shared.addHistory(.init(colorChanges: changeSet))
+        NotificationCenter.default.post(name: .paintingFinish, object: list)
         refreshStage()
     }
     
@@ -98,7 +109,7 @@ struct DrawingToolView: View {
     
     func draw(idx:(Int,Int), color:Color) {
         
-        if PathFinder.Point(x: idx.0, y: idx.1).isIn(size: StageManager.shared.canvasSize) {
+        if PathFinder.Point(x: idx.0, y: idx.1).isIn(colors: colors) {
             let before = colors[idx.1][idx.0]
             colors[idx.1][idx.0] = color
             var set = Set<ColorChangeModelWithLayerPoint>()
@@ -113,12 +124,14 @@ struct DrawingToolView: View {
     func changeColor(target:CGPoint, color:Color) {
         var changeSet = Set<ColorChangeModelWithLayerPoint>()
         
-        if StageManager.shared.canvasSize.isOut(cgPoint: target) {
+        let idx:PathFinder.Point = .init(point: target)
+        if colors.count <= idx.y || ( colors.first?.count ?? 0) <= idx.x {
             return
         }
-        let idx:PathFinder.Point = .init(point: target)
+
         /** 최초 선택 컬러*/
         var result = Set<PathFinder.Point>()
+        
         let cc = colors[idx.y][idx.x]
         for (i,list) in colors.enumerated() {
             for (r,color) in list.enumerated() {
@@ -228,26 +241,49 @@ struct DrawingToolView: View {
 
             case .연필:
                 makeImageButton(imageName:"pencil") {
+                    if isBegainPainting {
+                        return
+                    }
                     draw(target: pointer, color: forgroundColor)
-                }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .페인트1:
                 makeImageButton(imageName:"paint") {
-                    paint(target: pointer, color: forgroundColor)
-                }
+                    if isBegainPainting {
+                        return
+                    }
+                    isBegainPainting = true
+                    DispatchQueue.global().async {
+                        paint(target: pointer, color: forgroundColor)
+                        isBegainPainting = false
+                    }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .페인트2:
                 makeImageButton(imageName:"paint2") {
+                    if isBegainPainting {
+                        return
+                    }
                     changeColor(target: pointer, color: forgroundColor)
-                }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .지우개:
                 makeImageButton(imageName:"eraser") {
+                    if isBegainPainting {
+                        return
+                    }
                     draw(target: pointer, color: .clear)
-                }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .스포이드:
                 makeImageButton(imageName:"spoid") {
                     spoid(target: pointer)
                 }
             case .드로잉:
                 makeImageButton(systemName:"line.diagonal") {
+                    if isBegainPainting {
+                        return
+                    }
                     if drawBegainPointer == nil {
                         withAnimation(.easeInOut) {
                             drawBegainPointer = pointer
@@ -256,7 +292,8 @@ struct DrawingToolView: View {
                     } else {
                         draw(points: PathFinder.findLine(startCGPoint: drawBegainPointer!, endCGPoint: pointer))
                     }
-                }
+                }.opacity(isBegainPainting ? 0.2 : 1.0)
+                
             case .박스선:
                 makeImageButton(systemName: "square") {
                     draw(points: PathFinder.findSquare(a: drawBegainPointer!, b: pointer))
@@ -285,7 +322,6 @@ struct DrawingToolView: View {
                     }
                 }
             }
-        
         }
     }
     
@@ -293,7 +329,7 @@ struct DrawingToolView: View {
         var cset = Set<ColorChangeModelWithLayerPoint>()
         
         for point in points {
-            if point.isIn(size: StageManager.shared.canvasSize) {
+            if point.isIn(colors: colors) {
                 let old = colors[point.y][point.x]
                 colors[point.y][point.x] = forgroundColor
                 cset.insert(.init(layerIndex: StageManager.shared.stage!.selectedLayerIndex,

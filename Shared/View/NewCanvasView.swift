@@ -79,8 +79,9 @@ struct NewCanvasView: View {
     
     private func makeButton() -> some View {
         Button {
+            var clearErr:Error? = nil
             if AuthManager.shared.isSignined == false {
-                HistoryManager.shared.clear()
+                clearErr = HistoryManager.shared.clear()
                 StageManager.shared.initStage(canvasSize:canvasSize)
                 StageManager.shared.stage?.backgroundColor = backgroundColor
                 NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
@@ -88,24 +89,16 @@ struct NewCanvasView: View {
 
             } else {
                 StageManager.shared.deleteTemp { errorA in
-                    HistoryManager.shared.clear()
+                    clearErr = HistoryManager.shared.clear()
                     StageManager.shared.initStage(canvasSize:canvasSize)
                     StageManager.shared.stage?.backgroundColor = backgroundColor
                     NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
-                    if let err = errorA {
-                        toastMessage = err.localizedDescription
-                        isToast = true
-                        return
-                    }
                     
                     
                     StageManager.shared.saveTemp { errorB in
-                        if let err = errorB {
-                            toastMessage = err.localizedDescription
-                            isToast = true
-                            return
-                        }
                         presentationMode.wrappedValue.dismiss()
+                        isToast = (clearErr ?? errorA ?? errorB) != nil
+                        toastMessage = (clearErr ?? errorA ?? errorB)?.localizedDescription ?? ""
                     }                    
                 }
             }

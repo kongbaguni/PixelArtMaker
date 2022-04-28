@@ -13,6 +13,8 @@ class ReplyManager {
     
     let collection = Firestore.firestore().collection("reply")
 
+    let likeReplyCollection = Firestore.firestore().collection("replylike")
+    
     func addReply(replyModel:ReplyModel,complete:@escaping(_ error:Error?)->Void) {
         guard let data = replyModel.jsonValue else {
             return
@@ -53,12 +55,16 @@ class ReplyManager {
     }
     
     /** 내가 단 댓글 목록 */
-    func getReplys(uid:String, limit:Int, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
+    func getReplys(uid:String, replys:[ReplyModel]? = nil, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
         var query = collection.order(by: "updateDt", descending: true).whereField("uid", isEqualTo: uid)
         
-        if limit > 0 {
-            query = query.limit(to: limit)
+        if let list = replys, let dt = replys?.last?.updateDt {
+            if list.count % Consts.profileReplyLimit == 0 {
+                query = query.whereField("updateDt", isLessThan: dt)
+            }
         }
+        query = query.limit(to: Consts.profileReplyLimit)
+
         query.getDocuments { snapShot, error in
             var result:[ReplyModel] = []
 
@@ -77,16 +83,18 @@ class ReplyManager {
         }        
     }
     /** 내 게시글에 달린 댓글 목록*/
-    func getReplysToMe(uid:String,  limit:Int,complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
-        var query = collection
-            .order(by: "uid")
-            .whereField("uid", isNotEqualTo: uid)
-            .order(by: "updateDt", descending: true)
-            .whereField("documentsUid", isEqualTo: uid)
-            
-        if limit > 0 {
-            query = query.limit(to: limit)
+    func getReplysToMe(uid:String, replys:[ReplyModel]? = nil, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
+        var query = collection.order(by: "updateDt", descending: true)
+        if let list = replys, let dt = replys?.last?.updateDt {
+            if list.count % Consts.profileReplyLimit == 0 {
+                query = query.whereField("updateDt", isLessThan: dt)
+            }
         }
+
+        query = query
+            .whereField("documentsUid", isEqualTo: uid)
+            .limit(to: Consts.profileReplyLimit)
+
         query.getDocuments { snapShot, error in
             var result:[ReplyModel] = []
 
@@ -96,13 +104,110 @@ class ReplyManager {
                     if let model = ReplyModel.makeModel(json: json)  {
                         result.append(model)
                     }
-                    
                 }
             }
             complete(result.sorted(by: { a, b in
                 a.updateDt > b.updateDt
             }),error)
         }
+    }
+    
+    func likeToggle(replyId:String, complete:@escaping(_ isLike:Bool, _ error:Error?)->Void) {
+        guard let uid = AuthManager.shared.userId else {
+            return
+        }
+        let id = "\(uid)_\(replyId)"
+        likeReplyCollection.document(id).getDocument {[self] snapshot, error1 in
+            if snapshot?.data() == nil {
+                let data:[String:AnyHashable] = [
+                    "uid":uid,
+                    "replyId":replyId,
+                    "updateDt":Date().timeIntervalSince1970
+                ]
+                likeReplyCollection.document(id).setData(data) { error2 in
+                    complete(true, error1 ?? error2)
+                }
+            } else {
+                likeReplyCollection.document(id).delete { error2 in
+                    complete(false, error1 ?? error2)
+                }
+            }
+        }
+    }
+    /** 특정 댓글을 좋아요 한 사람 목록 */
+    func getLikeList(replyId:String, complete:@escaping(_ uids:[String], _ error: Error?)->Void) {
+        likeReplyCollection.order(by: "updateDt", descending: true)
+            .whereField("replyId", isEqualTo: replyId)
+            .getDocuments { snapshot, error in
+                let ids = (snapshot?.documents ?? []).map({ snap in
+                    return snap.data()["uid"] as! String
+                })
+                complete(ids, error)
+            }
         
+    }
+    
+
+    func getLikeList(uid:String, replys:[ReplyModel]? = nil, lastUpdateDt:TimeInterval? = nil ,complete:@escaping(_ replys:[ReplyModel], _ error : Error?)-> Void) {
+        var query = likeReplyCollection.order(by: "updateDt", descending: true)
+            .whereField("uid", isEqualTo: uid)
+
+        
+        if let lastId = replys?.last?.id {
+            likeReplyCollection.document("\(uid)_\(lastId)").getDocument { [self] snapShot, error in
+                if let data = snapShot?.data(),
+                   let dt = data["updateDt"] as? TimeInterval {
+                    getLikeList(uid: uid, replys: nil, lastUpdateDt: dt, complete: complete)
+                }
+            }
+            return
+        }
+        if let lastUpdateDt = lastUpdateDt {
+            query = query.whereField("updateDt", isLessThan: lastUpdateDt)
+        }
+        query = query.limit(to: Consts.profileReplyLimit)
+        
+        DispatchQueue.global().async {
+            query.getDocuments { snapshot, error in
+                let ids = (snapshot?.documents ?? []).map({ snap in
+                    return snap.data()["replyId"] as! String
+                })
+                var replys:[ReplyModel] = []
+                var replyCount = 0
+                for id in ids {
+                    replys.append(.init(documentId: "" , documentsUid: "", message: "", imageRefId: "", replyId: id))
+                }
+                if ids.count == 0 {
+                    complete([],error)
+                    return
+                }
+                for (idx,id) in ids.enumerated() {
+                    self.collection.document(id).getDocument { rsnapShot, error in
+                        if let err = error {
+                            complete([], err)
+                            return
+                        }
+                        if let data = rsnapShot?.data() {
+                            let json = data as [String:AnyObject]
+                            if let model = ReplyModel.makeModel(json: json)  {
+                                replys[idx] = model
+                            }
+                                                                                    
+                        }
+                        
+                        replyCount += 1
+                        if replyCount == ids.count {
+                            DispatchQueue.main.async {
+                                complete(replys, nil)
+                            }
+                        }
+
+                       
+                    }
+                }
+                
+            }
+
+        }
     }
 }

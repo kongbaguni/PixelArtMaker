@@ -153,7 +153,9 @@ struct LayerToolView: View {
     }
     
     func loadRangeImage() {
-        rangeImage = Image(offset: offset, frame: frame, size: StageManager.shared.canvasSize, backgroundColor: .black, AreaLineColor: .yellow)
+        DispatchQueue.global().async {
+            self.rangeImage = Image(offset: offset, frame: frame, size: StageManager.shared.canvasSize, backgroundColor: .black, AreaLineColor: .yellow)
+        }
     }
   
 }

@@ -24,6 +24,7 @@ struct CanvasView: View {
     let zoomOffset:(x:Int,y:Int)
     let drawBegainPointer:CGPoint?
     let tracingImage:PixelDrawView.TracingImageData?
+    @State var paintingPoint:Set<PathFinder.Point>? = nil
 
     private var pw:CGFloat {
         return screenWidth / CGFloat(zoomFrame.width)
@@ -118,7 +119,21 @@ struct CanvasView: View {
                         x: (pointer.x - CGFloat(zoomOffset.x)) * w,
                         y: (pointer.y - CGFloat(zoomOffset.y)) * w,
                         width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer), lineWidth: 4)
-
+                }
+                
+                func drawPainting() {
+                    if let points = paintingPoint {
+                        for point in points {
+                            let cp = point.cgpoint
+                            let path = Path(roundedRect: .init(
+                                x: (cp.x - CGFloat(zoomOffset.x)) * w,
+                                y: (cp.y - CGFloat(zoomOffset.y)) * w,
+                                width: pw, height: pw),cornerRadius: 0)
+                                            
+                            context.blendMode = .normal
+                            context.fill(path, with: .color(forgroundColor == .clear ? .blue : forgroundColor))
+                        }
+                    }
                 }
                 
                 func drawImage() {
@@ -173,6 +188,7 @@ struct CanvasView: View {
                     drawImage()
                     drawGridLine()
                     drawPointer()
+                    drawPainting()
                 }
                 if AuthManager.shared.isSignined {
                     if isLoadingDataFin {
@@ -231,6 +247,21 @@ struct CanvasView: View {
                 
             }
         }
+        .onAppear(perform: {
+            NotificationCenter.default.addObserver(forName: .paintingProcess, object: nil, queue: nil) { noti in
+                if let set = noti.object as? Set<PathFinder.Point> {
+                    paintingPoint = set
+                }
+            }
+            NotificationCenter.default.addObserver(forName: .paintingFinish, object: nil, queue: nil) { noti in
+                if let set = noti.object as? Set<PathFinder.Point> {
+                    paintingPoint = set
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                        paintingPoint = nil
+                    }
+                }
+            }
+        })
         .frame(width: screenWidth, height: screenWidth, alignment: .center)
         .padding(0)
 
