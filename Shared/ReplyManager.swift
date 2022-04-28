@@ -92,7 +92,6 @@ class ReplyManager {
         }
 
         query = query
-//            .whereField("uid", isNotEqualTo: uid)
             .whereField("documentsUid", isEqualTo: uid)
             .limit(to: Consts.profileReplyLimit)
 
@@ -103,10 +102,8 @@ class ReplyManager {
                 for doc in documents {
                     let json = doc.data() as [String:AnyObject]
                     if let model = ReplyModel.makeModel(json: json)  {
-                        if model.uid != uid {
-                            result.append(model)
-                        }
-                    }                    
+                        result.append(model)
+                    }
                 }
             }
             complete(result.sorted(by: { a, b in
