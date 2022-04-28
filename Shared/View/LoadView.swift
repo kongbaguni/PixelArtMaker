@@ -190,25 +190,15 @@ struct LoadView: View {
         GeometryReader { geomentry in
             if loadingStart && loadStage != nil {
                 makePreviewLoadView()
-            } else if geomentry.size.width < geomentry.size.height {
-                ScrollView {
-                    BannerAdView(sizeType: .GADAdSizeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
-                    pickerView
-                    makeListView(gridItems:Utill.makeGridItems(length: 2, screenWidth: geomentry.size.width, padding:20)
-                                 ,width:geomentry.size.width)
-                }
             }
-            else {
-                ScrollView {
-                    BannerAdView(sizeType: .GADAdSizeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
-                    pickerView
-                    makeListView(gridItems:  Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width, padding:20)
-                                 ,width:geomentry.size.width)
+            ScrollView {
+                BannerAdView(sizeType: .GADAdSizeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
+                if stages.count == 0 {
+                    Text(loadingStart ? "open start" : "empty gallery title").padding(20)
                 }
-            }
-            
-            if stages.count == 0 {
-                Text(loadingStart ? "open start" : "empty gallery title").padding(20)
+                pickerView
+                makeListView(gridItems:Utill.makeGridItems(length: geomentry.size.width < geomentry.size.height ? 2 : 4 , screenWidth: geomentry.size.width, padding:20)
+                             ,width:geomentry.size.width)
             }
                         
         }
