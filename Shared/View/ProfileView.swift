@@ -98,7 +98,7 @@ struct ProfileView: View {
             if haveArtList == false {
                 HStack {
                     NavigationLink {
-                        ArtListView(uid: uid, width:nil, limit:0)
+                        ArtListView(uid: uid, width:nil)
                             .navigationTitle(Text("art list"))
                     } label: {
                         Text("art list")
@@ -155,7 +155,7 @@ struct ProfileView: View {
         Group {
             if try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false).count > Consts.profileImageLimit {
                 NavigationLink {
-                    ArtListView(uid: uid, width: nil, limit: 0)
+                    ArtListView(uid: uid, width: nil)
                 } label: {
                     Text("more title")
                 }
@@ -183,9 +183,9 @@ struct ProfileView: View {
                     ScrollView {
                         makeProfileView(isLandscape: false)
                         Section(header:Text("profile view public arts")) {
-                            ArtListView.makeListView(ids: sharedIds, sort: sort,
-                                                     gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                                     itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width))
+                            ArticleListView(uid: uid, sort: sort,
+                                            gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
+                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
                             moreArtListBtn
                         }.padding(.top, 20)
                         Section(header:Text("profile view like arts")) {
@@ -211,9 +211,9 @@ struct ProfileView: View {
                             .frame(width:250)
                         ScrollView {
                             Section(header:Text("profile view public arts")) {
-                                ArtListView.makeListView(ids: sharedIds, sort: sort,
-                                                         gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                         itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10))
+                                ArticleListView(uid: uid, sort: sort,
+                                                gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
+                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited: true)
                                 moreArtListBtn
                             }.padding(.top, 20)
                             Section(header:Text("profile view like arts")) {
@@ -249,13 +249,6 @@ struct ProfileView: View {
             NotificationCenter.default.addObserver(forName: .profileDidUpdated, object: nil, queue: nil) { notification in
                 self.loadData()
             }
-            sharedIds = ArtListView.reloadFromLocalDb(uid:uid, limit:Consts.profileImageLimit, sort: sort)
-            ArtListView.getListFromFirestore(uid:uid, limit:Consts.profileImageLimit ,sort: sort) { ids, error in
-                self.sharedIds = ids
-                toastMessage = error?.localizedDescription ?? ""
-                isToast = error != nil
-            }
-            
             loadData()
             if uid.isEmpty == false {
                 ProfileModel.findBy(uid: uid) { error in
