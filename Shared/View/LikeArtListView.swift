@@ -113,7 +113,6 @@ struct LikeArtListView: View {
                     Text("empty like list message")
                         .font(.subheadline)
                         .foregroundColor(.gray)
-                        .padding(30)
                     Spacer()
                 }
             }

@@ -61,22 +61,32 @@ struct ArticleListView : View {
     
     @State var ids:[String] = []
     var body : some View {
-        LazyVGrid(columns: gridItems, spacing:20) {
-            ForEach(ids, id:\.self) { id in
-                ArticleView(id: id, itemSize: itemSize, sort: sort)
-                    .onAppear {
-                        if id == ids.last {
-                            if ids.count % Consts.timelineLimit == 0 {
-                                if ids.count > 0 {
-                                    if  isLimited == false {
-                                        loadData()
+        Group {
+            if ids.count == 0 {
+                Text("empty public shard list message")
+                    .foregroundColor(.k_weakText)
+                    .font(.subheadline)
+            } else {
+                LazyVGrid(columns: gridItems, spacing:20) {
+                    ForEach(ids, id:\.self) { id in
+                        ArticleView(id: id, itemSize: itemSize, sort: sort)
+                            .onAppear {
+                                if id == ids.last {
+                                    if ids.count % Consts.timelineLimit == 0 {
+                                        if ids.count > 0 {
+                                            if  isLimited == false {
+                                                loadData()
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
                     }
+                }
             }
-        }.onAppear {
+            
+        }
+        .onAppear {
             ids = reloadFromLocalDb()
             loadData()
         }
