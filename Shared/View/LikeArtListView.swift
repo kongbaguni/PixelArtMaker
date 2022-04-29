@@ -19,6 +19,7 @@ struct LikeArtListView: View {
     @State var list:[LikeModel] = []
     @State var toastMessage:String = ""
     @State var isToast = false
+    @State var isNeedReload = false
     var collection: CollectionReference {
         Firestore.firestore().collection("like")
     }
@@ -73,7 +74,9 @@ struct LikeArtListView: View {
                                     getListFromFirebase { result, error in
                                         for model in result {
                                             if list.firstIndex(of: model) == nil {
-                                                list.append(model)
+                                                withAnimation (.easeInOut){
+                                                    list.append(model)
+                                                }
                                             }
                                         }
                                     }
@@ -91,12 +94,21 @@ struct LikeArtListView: View {
                 }
             }
         }.onAppear {
+            if isNeedReload {
+                list.removeAll()
+                isNeedReload = false
+            }
             if list.count == 0 {
                 getListFromFirebase { result, error in
-                    list = result
+                    withAnimation (.easeInOut){
+                        list = result
+                    }
                     toastMessage = error?.localizedDescription ?? ""
                     isToast = error != nil
                 }
+            }
+            NotificationCenter.default.addObserver(forName: .likeArticleDataDidChange, object: nil, queue: nil) { noti in
+                isNeedReload = true
             }
         }
         .toast(message: toastMessage, isShowing: $isToast, duration: 4)

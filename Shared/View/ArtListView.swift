@@ -23,10 +23,14 @@ struct ArticleView : View {
                 }, label: {
                     VStack {
                         if itemSize.width > 0 && itemSize.height > 0 {
-                            FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder)
-                                .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                            if model.deleted {
+                                Image.errorImage.frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                                    .background(Color.gray)
+                            } else {
+                                FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder)
+                                    .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                            }
                         }
-                        
                         switch sort {
                         case .like:
                             ArticleLikeView(documentId: id, haveRightSpacer: false)
@@ -54,6 +58,8 @@ struct ArticleListView : View {
     let isLimited:Bool
     
     @State var ids:[String] = []
+    @State var toastMessage = ""
+    @State var isToast = false
     var body : some View {
         Group {
             if ids.count == 0 {
@@ -65,13 +71,22 @@ struct ArticleListView : View {
                     ForEach(ids, id:\.self) { id in
                         ArticleView(id: id, itemSize: itemSize, sort: sort)
                             .onAppear {
-                                if id == ids.last {
-                                    if ids.count % Consts.profileImageLimit == 0 {
-                                        if ids.count > 0 {
-                                            if  isLimited == false {
-                                                loadData()
+                                let a = id == ids.last
+                                let b = ids.count % Consts.profileImageLimit == 0
+                                let c = ids.count > 0
+                                let d = isLimited == false
+                                if  a && b && c && d {
+                                    loadData { result, error in
+                                        for id in result {
+                                            if ids.firstIndex(of: id) == nil {
+                                                withAnimation (.easeInOut){
+                                                    ids.append(id)
+                                                }
                                             }
                                         }
+                                        
+                                        toastMessage = error?.localizedDescription ?? ""
+                                        isToast = error != nil
                                     }
                                 }
                             }
@@ -81,69 +96,52 @@ struct ArticleListView : View {
             
         }
         .onAppear {
-            ids = reloadFromLocalDb()
-            loadData()
+            if ids.count == 0 {
+                loadData { result, error in
+                    withAnimation (.easeInOut){
+                        ids = result
+                    }
+                    toastMessage = error?.localizedDescription ?? ""
+                    isToast = error != nil
+                }
+            }
         }
     }
     
-    func loadData() {
-        let list = try! Realm().objects(SharedStageModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt")
-        let lastSyncDt = list.first?.updateDt
+    func loadData(complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
         var query = collection
             .whereField("uid", isEqualTo: uid)
             .order(by: "updateDt", descending: true)
-        
-        if let time = lastSyncDt {
-            query = query.whereField("updateDt", isLessThan: time)
+    
+        if isLimited == false {
+            if let last = ids.last {
+                if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: last) {
+                    query = query.whereField("updateDt", isLessThan: model.updateDt)
+                }
+            }
         }
         query = query.limit(to: Consts.profileImageLimit)
         
         query.getDocuments { snapshot, error in
             let realm = try! Realm()
-            realm.beginWrite()
-            for doc in snapshot?.documents ?? [] {
-                var data = doc.data()
-                data["id"] = doc.documentID
-                let id = doc.documentID
-                realm.create(SharedStageModel.self, value: data, update: .modified)
-                if self.ids.firstIndex(of: id) == nil {
-                    ids.append(id)
+            if let documents = snapshot?.documents {
+                var result:[String] = []
+                realm.beginWrite()
+                for doc in documents {
+                    var data = doc.data()
+                    data["id"] = doc.documentID
+                    realm.create(SharedStageModel.self, value: data, update: .modified)
+                    result.append(doc.documentID)
                 }
+                try! realm.commitWrite()
+                complete(result, error)
+            } else {
+                complete([],error)
             }
-            try! realm.commitWrite()
         }
     }
     
-    /** 내가 공개한 작품의 목록을 로컬DB에서 읽어온다.*/
-    func reloadFromLocalDb()->[String] {
-        let db = try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false)
-        
-        var result:Results<SharedStageModel>? = nil
-        switch sort {
-        case .latestOrder:
-            result =  db.sorted(byKeyPath: "updateDt", ascending: true)
-        case .oldnet:
-            result = db.sorted(byKeyPath: "updateDt", ascending: false)
-        case .like:
-            result = db.sorted(byKeyPath: "likeCount", ascending: true)
-        }
-        
-        let ids = (result?.reversed() ?? []).map({ model in
-            return model.id
-        })
-        if isLimited {
-            let limit = Consts.profileImageLimit
-            if limit > 0 && ids.count > limit {
-                var newResult:[String] = []
-                for i in 0..<limit {
-                    newResult.append(ids[i])
-                }
-                return newResult
-            }
-        }
-
-        return ids
-    }
+   
 }
 
 struct ArtListView: View {
