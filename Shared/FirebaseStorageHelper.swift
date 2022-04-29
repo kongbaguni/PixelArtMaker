@@ -67,9 +67,7 @@ class FirebaseStorageHelper {
     func getDownloadURL(uploadPath:String = Consts.imageUploadPath, id:String,complete:@escaping(_ url:URL?, _ error:Error?)->Void) {
         let ref:StorageReference = storageRef.child("\(uploadPath)/\(id)")
         ref.downloadURL { [self] downloadURL, err in
-            if let url = downloadURL {
-                updateCash(id: id, url: url)
-            }
+            updateCash(id: id, url: downloadURL)
             complete(downloadURL,err)
         }
     }
@@ -81,12 +79,13 @@ class FirebaseStorageHelper {
         }
     }
     
-    private func updateCash(id:String, url:URL) {
+    private func updateCash(id:String, url:URL?) {
         let realm = try! Realm()
         let data:[String:AnyHashable] = [
             "id":id,
-            "url":url.absoluteString,
-            "date":Date()
+            "url":url?.absoluteString ?? "",
+            "date":Date(),
+            "deleted":url == nil
         ]
         try! realm.write {
             realm.create(FirebaseStorageImageUrlCashModel.self, value: data, update: .all)

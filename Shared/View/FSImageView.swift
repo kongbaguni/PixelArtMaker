@@ -35,6 +35,7 @@ struct FSImageView : View {
                             isLoading = false
                             imageURL = model.imageUrl
                             isNeedUpdate = model.isExpire
+                            hasError = model.deleted && model.url.isEmpty 
                         }
                         isLoading = imageURL == nil
                         

@@ -358,17 +358,10 @@ class StageManager {
                     fireStore.collection("public").whereField("documentId", isEqualTo: id).getDocuments {[self] qs, error in
                         for doc in qs?.documents ?? [] {
                             let id = doc.documentID
-                            let updateData:[String:AnyHashable] = [
-                                "email":"",
-                                "documentId":"",
-                                "deleted":true,
-                                "updateDt":Date().timeIntervalSince1970
-                            ]
-                            fireStore.collection("public").document(id).updateData(updateData) { error in
+                            fireStore.collection("public").document(id).delete { error in
                                 
                             }
                         }                        
-                        
                     }
                     
                     let realm = try! Realm()

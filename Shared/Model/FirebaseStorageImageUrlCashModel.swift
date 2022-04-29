@@ -11,6 +11,7 @@ class FirebaseStorageImageUrlCashModel : Object {
     @Persisted(primaryKey: true) var id:String = ""
     @Persisted var url:String = ""
     @Persisted var date:Date = Date()
+    @Persisted var deleted:Bool = false 
     
     var isExpire:Bool {
         return Date().timeIntervalSince1970 - date.timeIntervalSince1970 > 60 * 60 

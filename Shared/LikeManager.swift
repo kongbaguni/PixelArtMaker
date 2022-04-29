@@ -39,7 +39,7 @@ struct LikeManager {
         }
     }
     
-    private func getLikeCount(documentId:String, complete:@escaping(_ uids:[String], _ error:Error?)->Void) {
+    func getLikeCount(documentId:String, complete:@escaping(_ uids:[String], _ error:Error?)->Void) {
         collection.whereField("documentId", isEqualTo: documentId)
             .order(by: "updateDt", descending: true)
             .getDocuments { snapShot, error in

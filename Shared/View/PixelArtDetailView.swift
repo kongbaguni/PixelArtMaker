@@ -38,6 +38,7 @@ struct PixelArtDetailView: View {
     
     @State var replyText = ""
     @State var replys:[ReplyModel] = []
+    @State var likeUids:[String] = []
     @Namespace var bottomID
     @FocusState var isFocusedReplyInput
     
@@ -107,10 +108,8 @@ struct PixelArtDetailView: View {
                     Text("like list")
                 }
             }
-            if let m = model {
-                if m.likeUserIds.count > 0 {
-                    LikePeopleShortListView(uids:m.likeUserIds)
-                }
+            if likeUids.count > 0 {
+                LikePeopleShortListView(uids:likeUids)
             }
             if let m = tmodel {
                 if m.uid == AuthManager.shared.userId
@@ -334,6 +333,14 @@ struct PixelArtDetailView: View {
 
             }
             
+            LikeManager().getLikeCount(documentId: pid) { uids, error in
+                likeUids = uids
+                toastMessage = error?.localizedDescription ?? ""
+                isShowToast = error != nil
+                isMyLike = uids.firstIndex(of: AuthManager.shared.userId!) != nil
+                likeCount = uids.count
+            }
+            
         }
         
     }
@@ -341,11 +348,9 @@ struct PixelArtDetailView: View {
     private func load() {
         if let model = model {
             tmodel = model.threadSafeModel
-            isMyLike = model.isMyLike
             likeCount = model.likeCount
             isProfileImage = model.documentId == ProfileModel.findBy(uid: model.uid)?.profileImageRefId
-        }
-        
+        }        
     }
 
 }

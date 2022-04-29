@@ -29,13 +29,7 @@ struct ArticleView : View {
                         
                         switch sort {
                         case .like:
-                            HStack {
-                                Image(model.isMyLike ? "heart_red" : "heart_gray")
-                                    .padding(5)
-                                Text(model.likeCount.formatted(.number))
-                                    .font(.system(size: 10))
-                                    .foregroundColor(.k_normalText)
-                            }
+                            ArticleLikeView(documentId: id, haveRightSpacer: false)
                         default:
                             Text(model.updateDate.formatted(date: .long, time: .standard ))
                                 .font(.system(size: 10))
@@ -110,12 +104,10 @@ struct ArticleListView : View {
             for doc in snapshot?.documents ?? [] {
                 var data = doc.data()
                 data["id"] = doc.documentID
-                if data["deleted"] as? Bool != true {
-                    let id = doc.documentID
-                    realm.create(SharedStageModel.self, value: data, update: .modified)
-                    if self.ids.firstIndex(of: id) == nil {
-                        ids.append(id)
-                    }
+                let id = doc.documentID
+                realm.create(SharedStageModel.self, value: data, update: .modified)
+                if self.ids.firstIndex(of: id) == nil {
+                    ids.append(id)
                 }
             }
             try! realm.commitWrite()

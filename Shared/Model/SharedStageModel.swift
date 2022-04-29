@@ -18,7 +18,6 @@ class SharedStageModel : Object {
         let regDt:Date
         let updateDt:Date
         let likeCount:Int
-        let isMyLike:Bool
     }
     
     @Persisted(primaryKey: true) var id:String = ""
@@ -28,8 +27,7 @@ class SharedStageModel : Object {
     @Persisted var regDt:TimeInterval = 0.0
     @Persisted var updateDt:TimeInterval = 0.0
     @Persisted var deleted:Bool = false
-    @Persisted var likeUids:String = ""
-    @Persisted var likeCount:Int = 0    
+    @Persisted var likeCount:Int = 0
     
     var regDate:Date {
         Date(timeIntervalSince1970: regDt)
@@ -42,33 +40,14 @@ class SharedStageModel : Object {
     var isNew:Bool {
         Date().timeIntervalSince1970 - updateDt < 43200
     }
-    
-    var likeUserIds:[String] {
-        let arr = likeUids.components(separatedBy: ",")
-        var result:[String] = []
-        for id in arr {
-            if id.isEmpty {
-                continue
-            }
-            result.append(id)
-        }
-        return result
-    }
-    
-    var isMyLike:Bool {
-        guard let uid = AuthManager.shared.userId else {
-            return false
-        }
-        return likeUserIds.firstIndex(of: uid) != nil
-    }
-    
+            
     var threadSafeModel:ThreadSafeModel {
         .init(id: id,
               uid: uid,
               documentId: documentId,
               regDt: Date(timeIntervalSince1970: regDt),
               updateDt: Date(timeIntervalSince1970: updateDt),
-              likeCount: likeCount, isMyLike: isMyLike)
+              likeCount: likeCount)
     }
     
 }
@@ -150,7 +129,6 @@ extension SharedStageModel {
                 
                 let updateData:[String:AnyHashable] = [
                     "id":id,
-                    "likeUids" : likeUids.joined(separator: ","),
                     "likeCount" : likeUids.filter({ str in
                         return str.isEmpty == false
                     }).count

@@ -91,13 +91,7 @@ struct TimeLineView : View {
                                         .foregroundColor(.k_weakText)
                                     Spacer()
                                 }
-                                HStack {
-                                    Image(model.isMyLike ? "heart_red": "heart_gray")
-                                    Text("like peoples")
-                                    Text("\(model.likeCount)")
-                                    Text("like people count title")
-                                    Spacer()
-                                }
+                                ArticleLikeView(documentId: id, haveRightSpacer: true)
                                 Spacer()
                                 HStack {
                                     Spacer()
