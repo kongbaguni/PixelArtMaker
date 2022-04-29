@@ -151,7 +151,11 @@ struct PathFinder {
     
     static func findCircle(center:CGPoint, end:CGPoint)->Set<Point> {
         let dist:Double = Double(center.pointValue.distance(end.pointValue))
-        
+        if dist == 0 {
+            var set = Set<Point>()
+            set.insert(center.pointValue)
+            return set
+        }
         var result = Set<Point>()
         let _iEndX = Int(end.x)
         let _iEndY = Int(end.y)
@@ -168,6 +172,7 @@ struct PathFinder {
         // 360까지만 돌면 원의 지름이 커질수록 빈틈이 많아짐
         // 루프 횟수를 늘리는 것으로 어느정도 해결가능
         // 이대 iDegree 값도 수정 (ex. 3600 => iDegree = M_PI / 1800)
+        
         var iTheta:Double = 0
         while iTheta <= (360 * dist) {
             iTheta += 1
