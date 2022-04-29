@@ -407,18 +407,17 @@ class StageManager {
     
     func sharePublic( complete:@escaping(_ error:Error?)->Void) {
         guard let id = stage?.documentId,
-              let uid = AuthManager.shared.userId,
-              let email = AuthManager.shared.auth.currentUser?.email                
+              let uid = AuthManager.shared.userId
         else {
             return
         }
+
         let collection = fireStore.collection("public")
         let now = Date().timeIntervalSince1970
         
         
         var data:[String:AnyHashable] = [
             "documentId":id ,
-            "email":email,
             "updateDt":now,
             "uid":uid
         ]

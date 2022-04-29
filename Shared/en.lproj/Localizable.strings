@@ -97,6 +97,8 @@
 
 "signout title" = "Sign out";
 "signout message" = "Even if you log out now, the data you are working on will not be lost and will be restored the next time you log in.";
+"signout message anonymous" = "You are currently logging in anonymously. If you log out, you will not be able to log back in with the same account.";
+
 "signout confirm" = "Sign out";
 
 "openSourceLicense" = "open source license";
@@ -143,3 +145,5 @@
 "deleted reply message" = "Deleted by author";
 "writer" = "writer";
 "anonymous" = "anonymous";
+
+"deleted by user message" = "Deleted by author";

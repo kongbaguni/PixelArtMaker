@@ -15,7 +15,6 @@ class SharedStageModel : Object {
         let id:String
         let uid:String
         let documentId:String
-        let email:String
         let regDt:Date
         let updateDt:Date
         let likeCount:Int
@@ -26,7 +25,6 @@ class SharedStageModel : Object {
     /** 원본의 아이디 불러오기 구현시 참조용.*/
     @Persisted var documentId:String = ""
     @Persisted var uid:String = ""
-    @Persisted var email:String = ""
     @Persisted var regDt:TimeInterval = 0.0
     @Persisted var updateDt:TimeInterval = 0.0
     @Persisted var deleted:Bool = false
@@ -68,7 +66,6 @@ class SharedStageModel : Object {
         .init(id: id,
               uid: uid,
               documentId: documentId,
-              email: email,
               regDt: Date(timeIntervalSince1970: regDt),
               updateDt: Date(timeIntervalSince1970: updateDt),
               likeCount: likeCount, isMyLike: isMyLike)

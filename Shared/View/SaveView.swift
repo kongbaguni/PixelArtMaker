@@ -195,7 +195,7 @@ struct SaveView: View {
 //            }
             
 
-            if StageManager.shared.stage?.documentId != nil && sharedId == nil && AuthManager.shared.auth.currentUser?.isAnonymous == false {
+            if StageManager.shared.stage?.documentId != nil && sharedId == nil {
                 HStack {
                     Button {
                         dim.show()

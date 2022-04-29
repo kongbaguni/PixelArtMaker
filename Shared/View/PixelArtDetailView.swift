@@ -69,8 +69,17 @@ struct PixelArtDetailView: View {
                 Button {
                     toggleLike()
                 } label: {
-                    FSImageView(imageRefId: m.documentId, placeholder: .imagePlaceHolder)
-                        .frame(width: imageSize, height: imageSize, alignment: .center)
+                    if model?.deleted == true {
+                        ZStack {
+                            Image.errorImage
+                                .background(.gray)
+                                .opacity(0.5)
+                            Text("deleted by user message").font(.headline).foregroundColor(.white)
+                        }.frame(width: imageSize, height: imageSize, alignment: .center)
+                    } else {
+                        FSImageView(imageRefId: m.documentId, placeholder: .imagePlaceHolder)
+                            .frame(width: imageSize, height: imageSize, alignment: .center)
+                    }
                 }
             }
         }.padding(10)
@@ -104,7 +113,10 @@ struct PixelArtDetailView: View {
                 }
             }
             if let m = tmodel {
-                if m.uid == AuthManager.shared.userId && isProfileImage == false  {
+                if m.uid == AuthManager.shared.userId
+                    && isProfileImage == false
+                    && model?.deleted == false
+                    && AuthManager.shared.auth.currentUser?.isAnonymous == false {
                     Button {
                         ProfileModel.findBy(uid: m.uid)?
                             .updatePhoto(photoRefId: m.documentId, complete: { error in

@@ -410,7 +410,7 @@ struct PixelDrawView: View {
             switch alertType {
             case .signout:
                 return Alert(title: Text("signout title"),
-                             message: Text("signout message"),
+                             message: Text(AuthManager.shared.auth.currentUser?.isAnonymous == true ? "signout message anonymous" : "signout message"),
                              primaryButton: .default(
                                 Text("signout confirm"), action : {
                                     AuthManager.shared.signout()

@@ -108,6 +108,8 @@
 
 "signout title" = "로그아웃 합니다";
 "signout message" = "지금 로그아웃을 해도 작업중인 데이터는 사라지지 않고 다음 로그인 할 때 복구 됩니다.";
+"signout message anonymous" = "지금 익명 로그인 중입니다. 로그아웃 하면 같은 계정으로 다시 로그인 할 수 없습니다.";
+
 "signout confirm" = "로그아웃 하기";
 
 "App Infomation" = "앱 정보";
@@ -161,3 +163,4 @@
 "writer" = "작성자";
 
 "anonymous" = "익명";
+"deleted by user message" = "작성자가 삭제함";

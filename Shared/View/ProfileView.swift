@@ -15,7 +15,9 @@ struct ProfileView: View {
     let haveArtList:Bool
     let editabel:Bool
     let landScape:Bool?
-    @State var isAnonymous = false
+    var isAnonymous:Bool {
+        return AuthManager.shared.auth.currentUser?.isAnonymous ?? true
+    }
     
     init(uid:String, haveArtList:Bool, editable:Bool = false, landScape:Bool? = nil) {
         self.uid = uid
@@ -52,48 +54,35 @@ struct ProfileView: View {
     
     private func mkaeProfileInfomationView(isLandScape:Bool)-> some View {
         VStack {
-//            HStack {
-//                Text("email")
-//                    .font(.system(size: 10, weight: .heavy, design: .serif))
-//                    .padding(5)
-//                Button {
-//                    let urlstr = "mailto:\(email)"
-//                    if let url = URL(string: urlstr) {
-//                        UIApplication.shared.open(url)
-//                    }
-//                } label : {
-//                    Text(email)
-//                        .font(.system(size: 10, weight: .light, design: .serif))
-//                }
-//                Spacer()
-//            }
-            HStack {
-                Text("name")
-                    .font(.system(size: 10, weight: .heavy, design: .serif))
-                    .padding(5)
-                if editabel {
-                    TextField("name", text: $nickname)
-                        .textFieldStyle(.roundedBorder)
-                } else {
-                    Text(nickname)
-                        .font(.system(size: 10, weight: .light, design: .serif))
-                        .foregroundColor(.gray)
+            if isAnonymous == false {
+                HStack {
+                    Text("name")
+                        .font(.system(size: 10, weight: .heavy, design: .serif))
+                        .padding(5)
+                    if editabel {
+                        TextField("name", text: $nickname)
+                            .textFieldStyle(.roundedBorder)
+                    } else {
+                        Text(nickname)
+                            .font(.system(size: 10, weight: .light, design: .serif))
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
                 }
-                Spacer()
-            }
-            HStack {
-                Text("profile introduce title")
-                    .font(.system(size: 10, weight: .heavy, design: .serif))
-                    .padding(5)
-                if editabel {
-                    TextEditor(text: $introduce)
-                        .border(Color.k_weakText)
-                } else {
-                    Text(introduce)
-                        .font(.system(size: 10, weight: .light, design: .serif))
-                        .foregroundColor(.gray)
+                HStack {
+                    Text("profile introduce title")
+                        .font(.system(size: 10, weight: .heavy, design: .serif))
+                        .padding(5)
+                    if editabel {
+                        TextEditor(text: $introduce)
+                            .border(Color.k_weakText)
+                    } else {
+                        Text(introduce)
+                            .font(.system(size: 10, weight: .light, design: .serif))
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
             
             if haveArtList == false {
@@ -183,15 +172,14 @@ struct ProfileView: View {
             if haveArtList {
                 if geomentry.size.height > geomentry.size.width || geomentry.size.width < 400{
                     ScrollView {
-                        if isAnonymous == false {
-                            makeProfileView(isLandscape: false)
-                            Section(header:Text("profile view public arts")) {
-                                ArticleListView(uid: uid, sort: sort,
-                                                gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                                itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
-                                moreArtListBtn
-                            }.padding(.top, 20)
-                        }
+                        makeProfileView(isLandscape: false)
+                        Section(header:Text("profile view public arts")) {
+                            ArticleListView(uid: uid, sort: sort,
+                                            gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
+                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
+                            moreArtListBtn
+                        }.padding(.top, 20)
+                        
                         Section(header:Text("profile view like arts")) {
                             LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
                                             itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
@@ -218,14 +206,13 @@ struct ProfileView: View {
                                 .frame(width:250)
                         }
                         ScrollView {
-                            if isAnonymous == false {
-                                Section(header:Text("profile view public arts")) {
-                                    ArticleListView(uid: uid, sort: sort,
-                                                    gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                    itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited: true)
-                                    moreArtListBtn
-                                }.padding(.top, 20)
-                            }
+                            Section(header:Text("profile view public arts")) {
+                                ArticleListView(uid: uid, sort: sort,
+                                                gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
+                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited: true)
+                                moreArtListBtn
+                            }.padding(.top, 20)
+
                             Section(header:Text("profile view like arts")) {
                                 LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
                                                 itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited:true)
@@ -293,7 +280,6 @@ struct ProfileView: View {
     
     private func loadData() {
         guard let user = try! Realm().object(ofType: ProfileModel.self, forPrimaryKey: uid) else {
-            isAnonymous = true
             return
         }
         nickname = user.nickname

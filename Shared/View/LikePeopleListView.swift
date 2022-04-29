@@ -34,7 +34,7 @@ struct SimplePeopleView : View {
                             .font(.system(size: 10))
                             .foregroundColor(Color.k_normalText)
                     }
-                    else {
+                    else if AuthManager.shared.auth.currentUser?.isAnonymous == true {
                         Text("anonymous")
                             .font(.system(size: 10))
                             .foregroundColor(Color.k_normalText)
@@ -63,7 +63,7 @@ struct SimplePeopleView : View {
                                     .foregroundColor(.k_normalText)
                                     .cornerRadius(10)
                                     .padding(5)
-                            } else {
+                            } else if AuthManager.shared.auth.currentUser?.isAnonymous == true {
                                 Text("anonymous")
                                     .font(.subheadline)
                                     .padding(5)
