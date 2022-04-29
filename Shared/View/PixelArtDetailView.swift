@@ -18,7 +18,7 @@ struct PixelArtDetailView: View {
     var model:SharedStageModel? {
         return try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: pid)
     }
-    
+    @State var viewCount = 0
     @State var isProfileImage = false
     @State var tmodel:SharedStageModel.ThreadSafeModel? = nil
     @State var isShowToast = false
@@ -82,6 +82,7 @@ struct PixelArtDetailView: View {
             if let m = tmodel {
                 LabelTextView(label: "reg dt", text: m.regDt.formatted(date: .long, time: .standard))
                 LabelTextView(label: "update dt", text: m.updateDt.formatted(date: .long, time: .standard))
+                LabelTextView(label: "view count", text: "\(viewCount)")
             }
         }
     }
@@ -313,6 +314,12 @@ struct PixelArtDetailView: View {
                     toastMessage = error?.localizedDescription ?? ""
                     isShowToast = error != nil                        
                 }
+                TimeLineManager().read(articleId: id, isRead: true) { count, error in
+                    viewCount = count
+                    toastMessage = error?.localizedDescription ?? ""
+                    isShowToast = error != nil
+                }
+
             }
             
         }

@@ -10,10 +10,32 @@ import FirebaseFirestore
 import RealmSwift
 
 struct TimeLineManager {
-    let collection = Firestore.firestore()
-        .collection("public")
-//        .order(by: "deleted")
-//        .whereField("deleted", isNotEqualTo: true)
+    let collection = Firestore.firestore().collection("public")
+    let readCountCollection = Firestore.firestore().collection("public_read")
+    
+    func read(articleId:String, isRead:Bool, complete:@escaping(_ count:Int, _ error:Error?)->Void) {
+        guard let uid = AuthManager.shared.userId else {
+            return
+        }
+        if isRead {
+            let data:[String:AnyHashable] = [
+                "articleId":articleId,
+                "uid":uid,
+                "updateDt":Date().timeIntervalSince1970
+            ]
+            
+            readCountCollection.document("\(uid)_\(articleId)").setData(data) { error in
+                if error == nil {
+                    read(articleId: articleId, isRead: false, complete: complete)
+                }
+            }
+            return
+        }
+        
+        readCountCollection.whereField("articleId", isEqualTo: articleId).getDocuments { snapShot, error in
+            complete(snapShot?.count ?? 0, error)
+        }
+    }
     
     func getTimeLine(order:Sort.SortType, lastDt:TimeInterval?, limit:Int, complete:@escaping(_ resultIds:[String], _ error:Error?)->Void) {
         var query:FirebaseFirestore.Query? = nil

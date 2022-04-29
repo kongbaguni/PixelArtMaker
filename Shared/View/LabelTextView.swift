@@ -8,12 +8,9 @@
 import SwiftUI
 
 struct LabelTextView: View {
-    @State var label:String
-    @State var text:String
-    init(label:String,text:String) {
-        self.label = label
-        self.text = text
-    }
+    let label:String
+    let text:String
+
     var body: some View {
         HStack {
             Text(label)
