@@ -25,6 +25,10 @@ struct ProfileView: View {
         self.editabel = editable
         self.landScape = landScape
     }
+    @State var isAlert = false
+    @State var alertTitle:Text? = nil
+    @State var alertMessage:Text? = nil
+    
     @State var toastMessage:String = ""
     @State var isToast = false
     @State var nickname:String = ""
@@ -120,8 +124,8 @@ struct ProfileView: View {
             }
             Spacer()
         }
-        
     }
+    
     private func makeProfileView(isLandscape:Bool)-> some View {
         VStack {
             if isLandscape {
@@ -138,6 +142,38 @@ struct ProfileView: View {
                     mkaeProfileInfomationView(isLandScape: isLandscape)
                 }
             }
+            if isAnonymous && editabel {
+                HStack {
+                    Button {
+                        AuthManager.shared.upgradeAnonymousWithAppleId { isSucess in
+                            if isSucess {
+                                ProfileModel.downloadProfile(isCreateDefaultProfile: true) { error in
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            } else {
+                                alertMessage = Text("upgrade anoymouse faild message")
+                                isAlert = true
+                            }
+                        }
+                    } label: {
+                        Text("Sign up With Apple ID")
+                    }
+                    Button {
+                        AuthManager.shared.upgradeAnonymousWithGoogleId { isSucess in
+                            if isSucess {
+                                ProfileModel.downloadProfile(isCreateDefaultProfile: true) { error in
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            } else {
+                                alertMessage = Text("upgrade anoymouse faild message")
+                                isAlert = true
+                            }
+                        }
+                    } label: {
+                        Text("Sign up With Google ID")
+                    }
+                }
+            }
         }
     }
     
@@ -152,6 +188,7 @@ struct ProfileView: View {
             }
         }
     }
+    
     private var moreLikeListBtn : some View {
         Group {
             if try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").count > Consts.profileImageLimit {
@@ -275,6 +312,9 @@ struct ProfileView: View {
             }
         }
         .toast(message: toastMessage, isShowing: $isToast, duration:4)
+        .alert(isPresented: $isAlert) {
+            Alert(title: alertTitle ?? Text("commom alert title"), message: alertMessage, dismissButton: nil)
+        }
         
     }
     

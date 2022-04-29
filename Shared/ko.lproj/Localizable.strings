@@ -164,3 +164,11 @@
 
 "anonymous" = "익명";
 "deleted by user message" = "작성자가 삭제함";
+
+"upgrade anoymouse faild message" = "이미 가입되어 있는 계정입니다. 다른 계정으로 시도하세요.";
+
+"commom alert title" = "알림";
+"commom alert confirm" = "확인";
+
+"Sign up With Apple ID" = "Apple ID 로 가입";
+"Sign up With Google ID" = "Google ID 로 가입";

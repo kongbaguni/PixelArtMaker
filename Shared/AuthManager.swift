@@ -180,6 +180,35 @@ class AuthManager : NSObject {
             }
         }
     }
+    
+    func upgradeAnonymousWithGoogleId(complete:@escaping(_ isSucess:Bool)->Void) {
+        guard let clientID = FirebaseApp.app()?.options.clientID,
+              let vc = rootViewController
+        else { return }
+        
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+            
+        // Start the sign in flow!
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: vc) { [unowned self] user, error in
+            guard
+              let authentication = user?.authentication,
+              let idToken = authentication.idToken
+            else {
+              return
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+            auth.currentUser?.link(with: credential, completion: { result, error in
+                complete(error == nil)
+            })
+        }
+    }
+    
+    func upgradeAnonymousWithAppleId(complete:@escaping(_ isSucess:Bool)->Void) {
+        startSignInWithAppleFlow(complete: complete)
+    }
 }
 
 
@@ -208,23 +237,30 @@ extension AuthManager: ASAuthorizationControllerDelegate {
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
-            // Sign in with Firebase.
-            auth.signIn(with: credential) { [self] (authResult, error) in
-                if let error = error {
-                    // Error. If error.code == .MissingOrInvalidNonce, make sure
-                    // you're sending the SHA256-hashed nonce as a hex string with
-                    // your request to Apple.
-                    print(error.localizedDescription)
-                    return
+            
+            if auth.currentUser == nil {
+                // Sign in with Firebase.
+                auth.signIn(with: credential) { [self] (authResult, error) in
+                    if let error = error {
+                        // Error. If error.code == .MissingOrInvalidNonce, make sure
+                        // you're sending the SHA256-hashed nonce as a hex string with
+                        // your request to Apple.
+                        print(error.localizedDescription)
+                        return
+                    }
+                    print("login sucess")
+                    didComplete(true)
+                    print(authResult?.user.email ?? "없다")
+                    StageManager.shared.loadTemp(isOnlineDownload: true) { error in
+                        NotificationCenter.default.post(name: .authDidSucessed, object: nil)
+                    }
+                    // User is signed in to Firebase with Apple.
+                    // ...
                 }
-                print("login sucess")
-                didComplete(true)
-                print(authResult?.user.email ?? "없다")
-                StageManager.shared.loadTemp(isOnlineDownload: true) { error in
-                    NotificationCenter.default.post(name: .authDidSucessed, object: nil)
-                }
-                // User is signed in to Firebase with Apple.
-                // ...
+            } else {
+                auth.currentUser?.link(with: credential, completion: { [unowned self] result, error in
+                    didComplete(error == nil)
+                })
             }
             
         }
