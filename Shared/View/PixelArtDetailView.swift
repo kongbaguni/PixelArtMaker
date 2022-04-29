@@ -15,9 +15,11 @@ struct PixelArtDetailView: View {
         case 댓글삭제
     }
     let pid:String
+    
     var model:SharedStageModel? {
         return try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: pid)
     }
+    
     @State var viewCount = 0
     @State var isProfileImage = false
     @State var tmodel:SharedStageModel.ThreadSafeModel? = nil
@@ -41,6 +43,7 @@ struct PixelArtDetailView: View {
     @State var replyText = ""
     @State var replys:[ReplyModel] = []
     @State var likeUids:[String] = []
+    @State var isDeleted = false
     @Namespace var bottomID
     @FocusState var isFocusedReplyInput
     
@@ -51,6 +54,9 @@ struct PixelArtDetailView: View {
         self.focusedReply = focusedReply
     }
     private func toggleLike() {
+        if isDeleted {
+            return
+        }
         LikeManager().toggleLike(documentId: model!.id, imageRefId: model!.documentId) { isLike, likeUids, error in
             print("toggle like \(isLike), \(likeUids) \(likeUids.count)")
             model?.likeUpdate(isMyLike: isLike, likeUids: likeUids, complete: { error in
@@ -68,22 +74,21 @@ struct PixelArtDetailView: View {
     }
     private func makeImageView(imageSize:CGFloat)->some View {
         VStack {
-            if let m = tmodel {
-                Button {
-                    toggleLike()
-                } label: {
-                    if model?.deleted == true {
-                        ZStack {
-                            Image.errorImage
-                                .background(.gray)
-                                .opacity(0.5)
-                            Text("deleted by user message").font(.headline).foregroundColor(.white)
-                        }.frame(width: imageSize, height: imageSize, alignment: .center)
-                    } else {
-                        FSImageView(imageRefId: m.documentId, placeholder: .imagePlaceHolder)
-                            .frame(width: imageSize, height: imageSize, alignment: .center)
-                    }
+            Button {
+                toggleLike()
+            } label: {
+                if isDeleted {
+                    ZStack {
+                        Image.errorImage
+                            .background(.gray)
+                            .opacity(0.5)
+                        Text("deleted by user message").font(.headline).foregroundColor(.white)
+                    }.frame(width: imageSize, height: imageSize, alignment: .center)
+                } else if let m = tmodel {
+                    FSImageView(imageRefId: m.documentId, placeholder: .imagePlaceHolder)
+                        .frame(width: imageSize, height: imageSize, alignment: .center)
                 }
+                
             }
         }.padding(10)
     }
@@ -277,6 +282,18 @@ struct PixelArtDetailView: View {
                     
                 }
             }
+            else if isDeleted {
+                GeometryReader { geomentry in
+                    ScrollView {
+                        if geomentry.size.width > geomentry.size.height {
+                            makeImageView(imageSize: geomentry.size.height - 20)
+                        } else {
+                            makeImageView(imageSize: geomentry.size.width - 20)
+                        }
+                        BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
+                    }.frame(width: geomentry.size.width)
+                }
+            }
             else {
                 Text("loading")
             }
@@ -315,8 +332,15 @@ struct PixelArtDetailView: View {
         .onAppear {
             print(pid)
             if model == nil || isForceUpdate {
-                SharedStageModel.findBy(id: pid) { error in
-                    load()
+                SharedStageModel.findBy(id: pid) { isDeleted ,error in
+                    if error == nil {
+                        load()
+                    }
+                    toastMessage = error?.localizedDescription ?? ""
+                    isShowToast = error != nil
+                    if isDeleted {
+                        self.isDeleted = true
+                    }
                 }
             } else {
                 load()
@@ -350,7 +374,7 @@ struct PixelArtDetailView: View {
         if let model = model {
             tmodel = model.threadSafeModel
             isProfileImage = model.documentId == ProfileModel.findBy(uid: model.uid)?.profileImageRefId
-        }        
+        }
     }
 
 }

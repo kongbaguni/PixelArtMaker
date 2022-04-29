@@ -20,30 +20,20 @@ struct LikeArtListView: View {
     @State var toastMessage:String = ""
     @State var isToast = false
     @State var isNeedReload = false
-    var collection: CollectionReference {
-        Firestore.firestore().collection("like")
+    @State var isNeedMore = false
+    
+    
+    var moreButton : some View {
+        NavigationLink {
+            LikeArtListFullView(uid: uid)
+                .navigationTitle(Text("profile view like arts"))
+        } label: {
+            Text("more title")
+        }
     }
     
     func getListFromFirebase(complete:@escaping(_ ids:[LikeModel], _ error:Error?)->Void) {
-        var query = collection.order(by: "updateDt", descending: true)
-            .whereField("uid", isEqualTo: uid)
-        if let updateDt = list.last?.updateDt {
-            if isLimited == false {
-                query = query.whereField("updateDt", isLessThan: updateDt)
-            }
-        }
-        query = query.limit(to: Consts.profileImageLimit)
-        query.getDocuments { snapshot, error in
-            if let docs = snapshot?.documents {
-                let ids = docs.map { ds in
-                    return LikeModel.makeModel(json: ds.data()) ?? .init(documentId: "", uid: "", imageRefId: "", updateDt: 0)
-                }
-                complete(ids, error)
-            } else {
-                complete([], error)
-            }
-        }
-        
+        FirestoreHelper.getLikeArticleList(uid: uid, list: list, isLimited: isLimited, complete: complete)
     }
     
     
@@ -61,28 +51,40 @@ struct LikeArtListView: View {
         
     }
     
-    
-    var body: some View {
-        Group {
-            if list.count > 0 {
-                LazyVGrid(columns: gridItems, spacing:20) {
-                    ForEach(list, id:\.self) { model in
-                        makeLikeView(model: model)
-                            .onAppear {
-                                if isLimited == false && model == list.last
-                                    && list.count > 0 && list.count % Consts.profileImageLimit == 0 {
-                                    getListFromFirebase { result, error in
-                                        for model in result {
-                                            if list.firstIndex(of: model) == nil {
-                                                withAnimation (.easeInOut){
-                                                    list.append(model)
-                                                }
-                                            }
+    var listView : some View {
+        LazyVGrid(columns: gridItems, spacing:20) {
+            ForEach(list, id:\.self) { model in
+                makeLikeView(model: model)
+                    .onAppear {
+                        if isLimited == false && model == list.last
+                            && list.count > 0 && list.count % Consts.profileImageLimit == 0 {
+                            getListFromFirebase { result, error in
+                                for model in result {
+                                    if list.firstIndex(of: model) == nil {
+                                        withAnimation (.easeInOut){
+                                            list.append(model)
                                         }
                                     }
                                 }
                             }
+                        }
                     }
+            }
+        }
+    }
+    
+    var body: some View {
+        Group {
+            if list.count > 0 {
+                if isLimited {
+                    VStack {
+                        listView
+                        if isNeedMore {
+                            moreButton
+                        }
+                    }
+                } else {
+                    listView
                 }
             } else {
                 HStack {
@@ -103,6 +105,7 @@ struct LikeArtListView: View {
                     withAnimation (.easeInOut){
                         list = result
                     }
+                    isNeedMore = result.count == Consts.profileImageLimit
                     toastMessage = error?.localizedDescription ?? ""
                     isToast = error != nil
                 }

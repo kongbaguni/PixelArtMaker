@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
 import RealmSwift
 import SDWebImageSwiftUI
+
 extension Notification.Name {
     static let articleListSortTypeDidChanged = Notification.Name("articleListSortTypeDidChanged_observer")
 }
@@ -53,16 +53,53 @@ struct ArticleView : View {
 }
 
 struct ArticleListView : View {
-    let collection = Firestore.firestore().collection("public")
+    
     let uid:String
     @State var sort:Sort.SortType = .latestOrder
     let gridItems:[GridItem]
     let itemSize:CGSize
     let isLimited:Bool
-    
+    @State var isNeedMore = false
     @State var ids:[String] = []
     @State var toastMessage = ""
     @State var isToast = false
+    @State var isNeedReload = false
+    var moreBtn : some View {
+        NavigationLink {
+            ArtListView(uid: uid, navigationTitle: Text("profile view public arts"))
+        } label: {
+            Text("more title")
+        }
+    }
+
+    var list : some View {
+        LazyVGrid(columns: gridItems, spacing:20) {
+            ForEach(ids, id:\.self) { id in
+                ArticleView(id: id, itemSize: itemSize, sort: sort)
+                    .onAppear {
+                        let a = id == ids.last
+                        let b = ids.count % Consts.profileImageLimit == 0
+                        let c = ids.count > 0
+                        let d = isLimited == false
+                        if  a && b && c && d {
+                            loadData { result, error in
+                                for id in result {
+                                    if ids.firstIndex(of: id) == nil {
+                                        withAnimation (.easeInOut){
+                                            ids.append(id)
+                                        }
+                                    }
+                                }
+                                
+                                toastMessage = error?.localizedDescription ?? ""
+                                isToast = error != nil
+                            }
+                        }
+                    }
+            }
+        }
+    }
+    
     var body : some View {
         Group {
             if ids.count == 0 {
@@ -70,46 +107,38 @@ struct ArticleListView : View {
                     .foregroundColor(.k_weakText)
                     .font(.subheadline)
             } else {
-                LazyVGrid(columns: gridItems, spacing:20) {
-                    ForEach(ids, id:\.self) { id in
-                        ArticleView(id: id, itemSize: itemSize, sort: sort)
-                            .onAppear {
-                                let a = id == ids.last
-                                let b = ids.count % Consts.profileImageLimit == 0
-                                let c = ids.count > 0
-                                let d = isLimited == false
-                                if  a && b && c && d {
-                                    loadData { result, error in
-                                        for id in result {
-                                            if ids.firstIndex(of: id) == nil {
-                                                withAnimation (.easeInOut){
-                                                    ids.append(id)
-                                                }
-                                            }
-                                        }
-                                        
-                                        toastMessage = error?.localizedDescription ?? ""
-                                        isToast = error != nil
-                                    }
-                                }
-                            }
+                if isLimited {
+                    VStack {
+                        list
+                        if isNeedMore {
+                            moreBtn
+                        }
                     }
+                } else {
+                    list
                 }
             }
-            
         }
         .onAppear {
             if ids.count == 0 {
                 loadFirst()
             }
-            NotificationCenter.default.addObserver(forName: .articleListSortTypeDidChanged, object: nil, queue: nil) { noti in
-                if let type = noti.object as? Sort.SortType {
-                    sort = type
+            if isLimited == false {
+                NotificationCenter.default.addObserver(forName: .articleListSortTypeDidChanged, object: nil, queue: nil) { noti in
+                    if let type = noti.object as? Sort.SortType {
+                        sort = type
+                    }
+                    ids.removeAll()
+                    loadFirst()
                 }
+            }
+            if isNeedReload {
                 ids.removeAll()
                 loadFirst()
+                isNeedReload = false
             }
         }
+        .toast(message: toastMessage, isShowing: $isToast, duration: 4)
     }
     
     private func loadFirst() {
@@ -119,57 +148,12 @@ struct ArticleListView : View {
             }
             toastMessage = error?.localizedDescription ?? ""
             isToast = error != nil
+            isNeedMore = result.count == Consts.profileImageLimit
         }
     }
     
     func loadData(complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
-        var query = collection
-            .whereField("uid", isEqualTo: uid)
-            
-    
-        switch sort {
-        case .latestOrder:
-            query = query.order(by: "updateDt", descending: true)
-        case .oldnet:
-            query = query.order(by: "updateDt", descending: false)
-        case .like:
-            query = query.order(by: "likeCount", descending: false)
-        }
-        
-        if isLimited == false {
-            if let last = ids.last {
-                if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: last) {
-                    switch sort {
-                    case .latestOrder:
-                        query = query.whereField("updateDt", isLessThan: model.updateDt)
-                    case .oldnet:
-                        query = query.whereField("updateDt", isGreaterThan: model.updateDt)
-                    case .like:
-                        query = query.whereField("likeCount", isLessThan: model.updateDt)
-                    }
-
-                }
-            }
-        }
-        query = query.limit(to: Consts.profileImageLimit)
-        
-        query.getDocuments { snapshot, error in
-            let realm = try! Realm()
-            if let documents = snapshot?.documents {
-                var result:[String] = []
-                realm.beginWrite()
-                for doc in documents {
-                    var data = doc.data()
-                    data["id"] = doc.documentID
-                    realm.create(SharedStageModel.self, value: data, update: .modified)
-                    result.append(doc.documentID)
-                }
-                try! realm.commitWrite()
-                complete(result, error)
-            } else {
-                complete([],error)
-            }
-        }
+        FirestoreHelper.getPublicArticle(uid: uid, isLimited: isLimited, ids: ids, sort: sort, complete: complete)
     }
     
    

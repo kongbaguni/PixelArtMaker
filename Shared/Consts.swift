@@ -46,6 +46,10 @@ struct Consts {
 
     /** 프로필에서 바로 그림 보여주기 리미트 */
     static let profileImageLimit = 12
+
+    /** 좋아요 순서로 소트 할 때 리미트 (페이징 없음)*/
+    static let likeSortLimit = 24
+    
     /** 프로필에서 바로 댓글 보여주기 리미트 */
     static let profileReplyLimit = 5
     /** 무료모드에서 겔러리 생성 제한 */

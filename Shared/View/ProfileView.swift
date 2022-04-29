@@ -179,28 +179,8 @@ struct ProfileView: View {
         }
     }
     
-    private var moreArtListBtn : some View {
-        Group {
-            if try! Realm().objects(SharedStageModel.self).filter("uid = %@ && deleted = %@", uid, false).count > Consts.profileImageLimit {
-                NavigationLink {
-                    ArtListView(uid: uid, navigationTitle: Text("profile view public arts"))
-                } label: {
-                    Text("more title")
-                }
-            }
-        }
-    }
     
-    private var moreLikeListBtn : some View {
-        Group {
-            NavigationLink {
-                LikeArtListFullView(uid: uid)
-                    .navigationTitle(Text("profile view like arts"))
-            } label: {
-                Text("more title")
-            }
-        }
-    }
+
     
     
     
@@ -214,13 +194,12 @@ struct ProfileView: View {
                             ArticleListView(uid: uid, sort: sort,
                                             gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
                                             itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
-                            moreArtListBtn
                         }.padding(.top, 20)
                         
                         Section(header:Text("profile view like arts")) {
                             LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
                                             itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
-                            moreLikeListBtn
+                            
                         }.padding(.top, 20)
                         Section(header:Text("profile view replys")) {
                             ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
@@ -246,14 +225,12 @@ struct ProfileView: View {
                             Section(header:Text("profile view public arts")) {
                                 ArticleListView(uid: uid, sort: sort,
                                                 gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited: true)
-                                moreArtListBtn
-                            }.padding(.top, 20)
+                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited: true)                            }.padding(.top, 20)
 
                             Section(header:Text("profile view like arts")) {
                                 LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
                                                 itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited:true)
-                                moreLikeListBtn
+                            
                             }.padding(.top, 20)
                             Section(header:Text("profile view replys")) {
                                 ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)

@@ -50,7 +50,7 @@ struct FSImageView : View {
                     .opacity(isLoading ? 0.0 : 1.0)
                     .background(isLoading ? .gray : .clear)
             }
-            if isLoading {
+            if isLoading && !hasError {
                 ActivityIndicator(isAnimating: $isLoading, style: .medium)
             }
         }

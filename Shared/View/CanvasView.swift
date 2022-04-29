@@ -110,7 +110,7 @@ struct CanvasView: View {
                         context.stroke(Path(roundedRect: .init(
                             x: (p.x - CGFloat(zoomOffset.x)) * w,
                             y: (p.y - CGFloat(zoomOffset.y)) * w,
-                            width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer2), lineWidth: 4)
+                            width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer2), lineWidth: 1)
                         
                     }
 
@@ -118,7 +118,7 @@ struct CanvasView: View {
                     context.stroke(Path(roundedRect: .init(
                         x: (pointer.x - CGFloat(zoomOffset.x)) * w,
                         y: (pointer.y - CGFloat(zoomOffset.y)) * w,
-                        width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer), lineWidth: 4)
+                        width: pw, height: pw), cornerRadius: 0), with: .color(.k_pointer), lineWidth: 1)
                 }
                 
                 func drawPainting() {

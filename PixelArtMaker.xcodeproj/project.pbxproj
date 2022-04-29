@@ -116,6 +116,7 @@
 		C3EDBF2827F88FE500BBEC01 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C3EDBF2727F88FE500BBEC01 /* SDWebImageSwiftUI */; };
 		C3EDBF2A27F892B700BBEC01 /* LabelTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EDBF2927F892B700BBEC01 /* LabelTextView.swift */; };
 		C3EDBF2C27F9412100BBEC01 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EDBF2B27F9412100BBEC01 /* Toast.swift */; };
+		C3FB0785281C07770022E163 /* FirestoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0784281C07770022E163 /* FirestoreHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -228,6 +229,7 @@
 		C3EDBF2427F8863A00BBEC01 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		C3EDBF2927F892B700BBEC01 /* LabelTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTextView.swift; sourceTree = "<group>"; };
 		C3EDBF2B27F9412100BBEC01 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		C3FB0784281C07770022E163 /* FirestoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreHelper.swift; sourceTree = "<group>"; };
 		F9940D8FB396FA3693BE19D4 /* Pods-PixelArtMaker (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).release.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -299,6 +301,7 @@
 			children = (
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
+				C3FB0784281C07770022E163 /* FirestoreHelper.swift */,
 				8D3BD9A428112B8E0022ED89 /* AppCheck.swift */,
 				8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */,
 				8DB0BA082807BA5100C2B0FF /* Utill.swift */,
@@ -669,6 +672,7 @@
 				8D3BD9AE281632A80022ED89 /* ReplyView.swift in Sources */,
 				8D3BD9AA2812382E0022ED89 /* FSImageView.swift in Sources */,
 				C3DBA08C27ECA32B00FE8392 /* GoogleAd.swift in Sources */,
+				C3FB0785281C07770022E163 /* FirestoreHelper.swift in Sources */,
 				C3DBA08327EC5F8900FE8392 /* MyStageModel.swift in Sources */,
 				C38C1BAA2802EC5800350176 /* DrawingToolView.swift in Sources */,
 				C356363827FA7C2200B2609A /* Consts.swift in Sources */,

@@ -64,6 +64,7 @@ struct ReplyListView: View {
                         if listMode == .내_게시글에_달린_댓글 || listMode == .내가_좋아요한_댓글 {
                             VStack {
                                 SimplePeopleView(uid: reply.uid, size:40)
+                                    .frame(maxWidth:50)
                                 Spacer()
                             }
                         }

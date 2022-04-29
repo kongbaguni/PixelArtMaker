@@ -142,7 +142,7 @@ extension SharedStageModel {
     }
     
     
-    static func findBy(id:String,complete:@escaping(_ error:Error?)->Void) {
+    static func findBy(id:String,complete:@escaping(_ isDeleted:Bool, _ error:Error?)->Void) {
         collection.document(id).getDocument { snapShot, error in
             if var data = snapShot?.data() {
                 data["id"] = id
@@ -150,8 +150,10 @@ extension SharedStageModel {
                 realm.beginWrite()
                 realm.create(SharedStageModel.self, value: data, update: .modified)
                 try! realm.commitWrite()
+                complete(false, error)
+                return
             }
-            complete(error)
+            complete(true,error)
         }
     }
 }
