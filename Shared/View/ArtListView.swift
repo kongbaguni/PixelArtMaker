@@ -163,7 +163,6 @@ struct ArtListView: View {
     
     let navigationTitle:Text?
     
-    let width:CGFloat?
     var sort:Sort.SortType {
         return Sort.SortType.allCases[sortIndex]
     }
@@ -175,9 +174,8 @@ struct ArtListView: View {
     
     let uid:String
 
-    init(uid:String, width:CGFloat?, navigationTitle:Text?) {
+    init(uid:String,  navigationTitle:Text?) {
         self.uid = uid
-        self.width = width
         self.navigationTitle = navigationTitle
     }
         
@@ -202,6 +200,7 @@ struct ArtListView: View {
                                     gridItems: Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width, padding:20),
                                     itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width, padding:20),
                                     isLimited: false)
+                    .frame(width:geomentry.size.width)
                     
                     
                 } else {
@@ -210,6 +209,7 @@ struct ArtListView: View {
                                     gridItems: Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width, padding:20),
                                     itemSize: Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width, padding:20),
                                     isLimited: false)
+                    .frame(width:geomentry.size.width)
                   
                 }
                 
