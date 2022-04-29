@@ -146,6 +146,9 @@
 "writer" = "writer";
 "anonymous" = "anonymous";
 
+"anonymous signin" = "anonymous signin";
+
+
 "deleted by user message" = "Deleted by author";
 
 "upgrade anoymouse faild message" = "This account is already registered. Please try with a different account.";

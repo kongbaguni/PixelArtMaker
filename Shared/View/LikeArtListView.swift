@@ -41,7 +41,7 @@ struct LikeArtListView: View {
         if let lastSync = try! Realm().objects(LikeModel.self).filter("uid = %@",uid).sorted(byKeyPath: "updateDt").last?.updateDt {
             query = query.whereField("updateDt", isGreaterThan: lastSync)
         }
-        query = query.limit(to: Consts.timelineLimit)
+        query = query.limit(to: Consts.profileImageLimit)
         query.getDocuments { snapshot, error in
             writeLocalDb(snapshot: snapshot)
             complete(error)
@@ -54,7 +54,7 @@ struct LikeArtListView: View {
             return model.id
         })
         if isLimited {
-            let limit = Consts.timelineLimit
+            let limit = Consts.profileImageLimit
             var new:[String] = []
             for i in 0..<limit {
                 if i < result.count {
@@ -97,7 +97,7 @@ struct LikeArtListView: View {
                             .onAppear {
                                 if isLimited == false {
                                     if id == ids.last {
-                                        if ids.count > 0 && ids.count % Consts.timelineLimit == 0 {
+                                        if ids.count > 0 && ids.count % Consts.profileImageLimit == 0 {
                                             getListFromFirebase { error in
                                                 loadFromLocalDb()
                                             }

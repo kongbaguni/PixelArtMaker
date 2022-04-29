@@ -37,7 +37,6 @@ struct Consts {
             return (1...16).compactMap { value in
                 return CGFloat(value * 8)
             }
-//            return [16,24,32,36,48,56,64,72,80,88,96,104,112,120,128]
         } else {
             return [16,36,64]
         }

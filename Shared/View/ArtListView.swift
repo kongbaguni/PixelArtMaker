@@ -72,7 +72,7 @@ struct ArticleListView : View {
                         ArticleView(id: id, itemSize: itemSize, sort: sort)
                             .onAppear {
                                 if id == ids.last {
-                                    if ids.count % Consts.timelineLimit == 0 {
+                                    if ids.count % Consts.profileImageLimit == 0 {
                                         if ids.count > 0 {
                                             if  isLimited == false {
                                                 loadData()
@@ -102,7 +102,7 @@ struct ArticleListView : View {
         if let time = lastSyncDt {
             query = query.whereField("updateDt", isLessThan: time)
         }
-        query = query.limit(to: Consts.timelineLimit)
+        query = query.limit(to: Consts.profileImageLimit)
         
         query.getDocuments { snapshot, error in
             let realm = try! Realm()
@@ -140,7 +140,7 @@ struct ArticleListView : View {
             return model.id
         })
         if isLimited {
-            let limit = Consts.timelineLimit
+            let limit = Consts.profileImageLimit
             if limit > 0 && ids.count > limit {
                 var newResult:[String] = []
                 for i in 0..<limit {

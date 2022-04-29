@@ -16,7 +16,13 @@ struct ProfileView: View {
     let editabel:Bool
     let landScape:Bool?
     var isAnonymous:Bool {
-        return AuthManager.shared.auth.currentUser?.isAnonymous ?? true
+        if ProfileModel.findBy(uid: uid) == nil {
+            return true
+        }
+        if editabel && AuthManager.shared.auth.currentUser?.isAnonymous == true {
+            return true
+        }
+        return false
     }
     
     init(uid:String, haveArtList:Bool, editable:Bool = false, landScape:Bool? = nil) {
@@ -144,7 +150,7 @@ struct ProfileView: View {
             }
             if isAnonymous && editabel {
                 HStack {
-                    Button {
+                    AuthorizationButton(provider: .apple, sizeType: .large, authType: .signup) {
                         AuthManager.shared.upgradeAnonymousWithAppleId { isSucess in
                             if isSucess {
                                 ProfileModel.downloadProfile(isCreateDefaultProfile: true) { error in
@@ -155,10 +161,8 @@ struct ProfileView: View {
                                 isAlert = true
                             }
                         }
-                    } label: {
-                        Text("Sign up With Apple ID")
                     }
-                    Button {
+                    AuthorizationButton(provider: .google, sizeType: .large, authType: .signup) {
                         AuthManager.shared.upgradeAnonymousWithGoogleId { isSucess in
                             if isSucess {
                                 ProfileModel.downloadProfile(isCreateDefaultProfile: true) { error in
@@ -169,8 +173,6 @@ struct ProfileView: View {
                                 isAlert = true
                             }
                         }
-                    } label: {
-                        Text("Sign up With Google ID")
                     }
                 }
             }

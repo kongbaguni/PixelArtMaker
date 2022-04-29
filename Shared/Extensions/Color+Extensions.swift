@@ -8,6 +8,9 @@
 import Foundation
 import SwiftUI
 extension Color {
+    static let k_signInBtnBackgroundApple = Color(uiColor: UIColor(named: "signinBtnBackgroundApple")!)
+    static let k_signInBtnBackgroundGoogle = Color(uiColor: UIColor(named: "signinBtnBackgroundGoogle")!)
+    static let k_signInBtnBorder = Color(uiColor: UIColor(named: "signinBtnBorder")!)
     static let k_background = Color(uiColor: UIColor(named: "background")!)
     static let k_pointer = Color(uiColor: UIColor(named: "pointer")!)
     static let k_pointer2 = Color(uiColor: UIColor(named: "pointer2")!)
