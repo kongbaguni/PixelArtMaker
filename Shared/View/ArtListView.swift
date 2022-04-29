@@ -9,6 +9,9 @@ import SwiftUI
 import FirebaseFirestore
 import RealmSwift
 import SDWebImageSwiftUI
+extension Notification.Name {
+    static let articleListSortTypeDidChanged = Notification.Name("articleListSortTypeDidChanged_observer")
+}
 
 struct ArticleView : View {
     let id:String
@@ -52,7 +55,7 @@ struct ArticleView : View {
 struct ArticleListView : View {
     let collection = Firestore.firestore().collection("public")
     let uid:String
-    let sort:Sort.SortType
+    @State var sort:Sort.SortType = .latestOrder
     let gridItems:[GridItem]
     let itemSize:CGSize
     let isLimited:Bool
@@ -97,26 +100,54 @@ struct ArticleListView : View {
         }
         .onAppear {
             if ids.count == 0 {
-                loadData { result, error in
-                    withAnimation (.easeInOut){
-                        ids = result
-                    }
-                    toastMessage = error?.localizedDescription ?? ""
-                    isToast = error != nil
-                }
+                loadFirst()
             }
+            NotificationCenter.default.addObserver(forName: .articleListSortTypeDidChanged, object: nil, queue: nil) { noti in
+                if let type = noti.object as? Sort.SortType {
+                    sort = type
+                }
+                ids.removeAll()
+                loadFirst()
+            }
+        }
+    }
+    
+    private func loadFirst() {
+        loadData { result, error in
+            withAnimation (.easeInOut){
+                ids = result
+            }
+            toastMessage = error?.localizedDescription ?? ""
+            isToast = error != nil
         }
     }
     
     func loadData(complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
         var query = collection
             .whereField("uid", isEqualTo: uid)
-            .order(by: "updateDt", descending: true)
+            
     
+        switch sort {
+        case .latestOrder:
+            query = query.order(by: "updateDt", descending: true)
+        case .oldnet:
+            query = query.order(by: "updateDt", descending: false)
+        case .like:
+            query = query.order(by: "likeCount", descending: false)
+        }
+        
         if isLimited == false {
             if let last = ids.last {
                 if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: last) {
-                    query = query.whereField("updateDt", isLessThan: model.updateDt)
+                    switch sort {
+                    case .latestOrder:
+                        query = query.whereField("updateDt", isLessThan: model.updateDt)
+                    case .oldnet:
+                        query = query.whereField("updateDt", isGreaterThan: model.updateDt)
+                    case .like:
+                        query = query.whereField("likeCount", isLessThan: model.updateDt)
+                    }
+
                 }
             }
         }
@@ -177,6 +208,7 @@ struct ArtListView: View {
             }
         }.onChange(of: sortIndex) { newValue in
             isAnimate = true
+            NotificationCenter.default.post(name: .articleListSortTypeDidChanged, object: Sort.SortType.allCases[newValue])
         }
     }
     
@@ -186,7 +218,6 @@ struct ArtListView: View {
                 makePickerView()
                 if geomentry.size.width > geomentry.size.height {
                     ArticleListView(uid: uid,
-                                    sort: sort,
                                     gridItems: Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width, padding:20),
                                     itemSize: Utill.makeItemSize(length: 5, screenWidth: geomentry.size.width, padding:20),
                                     isLimited: false)
@@ -195,7 +226,6 @@ struct ArtListView: View {
                     
                 } else {
                     ArticleListView(uid: uid,
-                                    sort: sort,
                                     gridItems: Utill.makeGridItems(length: 3, screenWidth: geomentry.size.width, padding:20),
                                     itemSize: Utill.makeItemSize(length: 3, screenWidth: geomentry.size.width, padding:20),
                                     isLimited: false)
