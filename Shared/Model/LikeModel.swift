@@ -7,13 +7,20 @@
 
 import Foundation
 import RealmSwift
-class LikeModel : Object {
-    @Persisted(primaryKey: true) var id:String = ""
-    @Persisted var uid:String = ""
-    @Persisted var imageRefId:String = ""
-    @Persisted var updateDt:TimeInterval = 0
+struct LikeModel : Codable, Hashable {
+    public static func == (lhs:LikeModel, rhs:LikeModel)->Bool {
+        return lhs.documentId == rhs.documentId && lhs.uid == rhs.uid && lhs.imageRefId == rhs.imageRefId
+    }
+    let documentId:String
+    let uid:String
+    let imageRefId:String
+    let updateDt:TimeInterval
     
-    var documentId:String {
-        return id.components(separatedBy: ",").last ?? id
+    static func makeModel(json:[String:Any])->LikeModel? {
+        if let data = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
+            return try? JSONDecoder().decode(LikeModel.self, from: data)
+        }
+        return nil
     }
 }
+

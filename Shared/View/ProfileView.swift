@@ -193,13 +193,11 @@ struct ProfileView: View {
     
     private var moreLikeListBtn : some View {
         Group {
-            if try! Realm().objects(LikeModel.self).filter("uid = %@ && imageRefId != %@", uid, "").count > Consts.profileImageLimit {
-                NavigationLink {
-                    LikeArtListFullView(uid: uid)
-                        .navigationTitle(Text("profile view like arts"))
-                } label: {
-                    Text("more title")
-                }
+            NavigationLink {
+                LikeArtListFullView(uid: uid)
+                    .navigationTitle(Text("profile view like arts"))
+            } label: {
+                Text("more title")
             }
         }
     }

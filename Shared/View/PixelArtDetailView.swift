@@ -25,7 +25,9 @@ struct PixelArtDetailView: View {
     @State var toastMessage = ""
     @State var profileModel:ProfileModel? = nil
     @State var isMyLike:Bool = false
-    @State var likeCount:Int = 0
+    var likeCount:Int {
+        return likeUids.count
+    }
     let googleAd = GoogleAd()
     
     let isShowProfile:Bool
@@ -49,7 +51,7 @@ struct PixelArtDetailView: View {
         self.focusedReply = focusedReply
     }
     private func toggleLike() {
-        LikeManager().toggleLike(documentId: model!.id) { isLike, likeUids, error in
+        LikeManager().toggleLike(documentId: model!.id, imageRefId: model!.documentId) { isLike, likeUids, error in
             print("toggle like \(isLike), \(likeUids) \(likeUids.count)")
             model?.likeUpdate(isMyLike: isLike, likeUids: likeUids, complete: { error in
                 if let err = error {
@@ -57,7 +59,7 @@ struct PixelArtDetailView: View {
                     isShowToast = true
                 } else {
                     self.isMyLike = isLike
-                    self.likeCount = likeUids.count
+                    self.likeUids = likeUids
                     print("like toggle : \(isMyLike)")
                 }
             })
@@ -338,7 +340,6 @@ struct PixelArtDetailView: View {
                 toastMessage = error?.localizedDescription ?? ""
                 isShowToast = error != nil
                 isMyLike = uids.firstIndex(of: AuthManager.shared.userId!) != nil
-                likeCount = uids.count
             }
             
         }
@@ -348,7 +349,6 @@ struct PixelArtDetailView: View {
     private func load() {
         if let model = model {
             tmodel = model.threadSafeModel
-            likeCount = model.likeCount
             isProfileImage = model.documentId == ProfileModel.findBy(uid: model.uid)?.profileImageRefId
         }        
     }

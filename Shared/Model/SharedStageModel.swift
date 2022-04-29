@@ -100,12 +100,6 @@ extension SharedStageModel {
                 data["imageRefId"] = ""
                 
                 collection.document(id).setData(data) { error in
-                    let realm = try! Realm()
-                    if let model = realm.object(ofType: LikeModel.self, forPrimaryKey: "\(uid),\(id)") {
-                        realm.beginWrite()
-                        realm.delete(model)
-                        try! realm.commitWrite()
-                    }
                     complete(error)
                 }
             }

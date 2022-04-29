@@ -11,13 +11,14 @@ import FirebaseFirestore
 struct LikeManager {
     let collection = Firestore.firestore().collection("like")
     
-    func toggleLike(documentId:String, complete:@escaping(_ isLike:Bool, _ uids:[String], _ error:Error?)->Void) {
+    func toggleLike(documentId:String, imageRefId:String, complete:@escaping(_ isLike:Bool, _ uids:[String], _ error:Error?)->Void) {
         guard let uid = AuthManager.shared.userId else {
             return
         }
         let id = "\(documentId),\(uid)"
         let data:[String:AnyHashable] = [
             "documentId":documentId,
+            "imageRefId":imageRefId,
             "uid":uid,
             "updateDt":Date().timeIntervalSince1970,
         ]
