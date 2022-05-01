@@ -77,6 +77,17 @@ struct TimeLineReplyView: View {
                     self.replys = replys
                 }
             }
+            NotificationCenter.default.addObserver(forName: .replyDidDeleted, object: nil, queue: nil) { noti in
+                if let id = noti.object as? String {
+                    if let reply = replys.filter({ model in
+                        return model.id == id
+                    }).first {
+                        if let idx = replys.firstIndex(of: reply) {
+                            replys.remove(at: idx)
+                        }
+                    }
+                }
+            }
         }
     }
 }

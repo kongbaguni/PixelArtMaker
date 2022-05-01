@@ -9,6 +9,9 @@ import Foundation
 import FirebaseFirestore
 import RealmSwift
 
+extension Notification.Name {
+    static let replyDidDeleted = Notification.Name("replyDidDeleted_observer")
+}
 
 struct FirestoreHelper {
     //MARK: - 공개 개시글 목록 가져오기
@@ -138,6 +141,9 @@ struct FirestoreHelper {
     static func deleteReply(id:String, complete:@escaping(_ error:Error?)->Void) {
         Firestore.firestore().collection("reply").document(id).delete { error in
             complete(error)
+            if error == nil {
+                NotificationCenter.default.post(name: .replyDidDeleted, object: id)
+            }
         }
     }
     
