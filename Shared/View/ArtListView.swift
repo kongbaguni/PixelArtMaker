@@ -148,9 +148,7 @@ struct ArticleListView : View {
     
     private func loadFirst() {
         loadData { result, error in
-            withAnimation (.easeInOut){
-                ids = result
-            }
+            ids = result
             toastMessage = error?.localizedDescription ?? ""
             isToast = error != nil
             isNeedMore = result.count == Consts.profileImageLimit

@@ -10,7 +10,7 @@ import SwiftUI
 struct TimeLineReplyView: View {
     
     @State var replys:[ReplyModel] = []
-    
+    @State var isLoading = false
     var listView : some View {
         LazyVStack {
             ForEach(replys, id:\.self) { reply in
@@ -68,12 +68,27 @@ struct TimeLineReplyView: View {
     
     var body: some View {
         GeometryReader { geomentry in
-            ScrollView {
-                listView
+            if replys.count == 0 {
+                Group {
+                    if isLoading {
+                        VStack {
+                            ActivityIndicator(isAnimating: $isLoading, style: .large)
+                            Text("reply loading").font(.subheadline).foregroundColor(.k_weakText)
+                        }
+                    } else {
+                        Text("empty reply list message").font(.subheadline).foregroundColor(.k_weakText)
+                    }
+                }.frame(width:geomentry.size.width, height:geomentry.size.height)
+            } else {
+                ScrollView {
+                    listView
+                }
             }
         }.onAppear {
             if replys.count == 0 {
+                isLoading = true
                 FirestoreHelper.getReplyTopicList(indexReply:nil, isLast: false) { replys, error in
+                    isLoading = false
                     self.replys = replys
                 }
             }
