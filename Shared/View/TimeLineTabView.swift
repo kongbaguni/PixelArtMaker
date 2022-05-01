@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct TimeLineTabView: View {
+    init() {
+        UITabBar.appearance().backgroundColor = .black
+    }
     var body: some View {
         TabView {
             TimeLineView().tabItem {
@@ -16,7 +19,10 @@ struct TimeLineTabView: View {
             TimeLineReplyView().tabItem {
                 Image(systemName: "text.bubble")
             }
-        }.background(Color.k_background)
+        }
+        .background(Color.k_background)
+        .tabViewStyle(PageTabViewStyle())
+        
     }
 }
 

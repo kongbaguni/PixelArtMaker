@@ -84,7 +84,8 @@ struct TimeLineReplyView: View {
                     listView
                 }
             }
-        }.onAppear {
+        }
+        .onAppear {
             if replys.count == 0 {
                 isLoading = true
                 FirestoreHelper.getReplyTopicList(indexReply:nil, isLast: false) { replys, error in
@@ -104,6 +105,7 @@ struct TimeLineReplyView: View {
                 }
             }
         }
+        .navigationTitle(Text("menu public load title"))
     }
 }
 
