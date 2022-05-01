@@ -28,7 +28,7 @@ struct ReplyListView: View {
             if reply.documentId.isEmpty {
                 Button {
                     let idx = replys.firstIndex(of: reply)!
-                    ReplyManager.shared.likeToggle(replyId: reply.id) { isLike, error in
+                    FirestoreHelper.likeToggle(replyId: reply.id) { isLike, error in
                         if isLike == false {
                             replys.remove(at: idx)
                             loadData()
@@ -109,7 +109,7 @@ struct ReplyListView: View {
         isLoading = true
         switch listMode {
         case .내가_쓴_댓글:
-            ReplyManager.shared.getReplys(uid: uid, replys: isLimited ? nil : replys) { result, error in
+            FirestoreHelper.getReplys(uid: uid, replys: isLimited ? nil : replys) { result, error in
                 withAnimation(.easeInOut) {
                     isLoading = false
                     appendData(result: result)
@@ -118,7 +118,7 @@ struct ReplyListView: View {
                 isToast = error != nil
             }
         case .내_게시글에_달린_댓글:
-            ReplyManager.shared.getReplysToMe(uid: uid, replys: isLimited ? nil : replys) { result, error in
+            FirestoreHelper.getReplysToMe(uid: uid, replys: isLimited ? nil : replys) { result, error in
                 withAnimation(.easeInOut) {
                     isLoading = false
                     appendData(result: result)
@@ -127,7 +127,7 @@ struct ReplyListView: View {
                 isToast = error != nil
             }
         case .내가_좋아요한_댓글:
-            ReplyManager.shared.getLikeList(uid: uid, replys: isLimited ? nil : replys) { result, error in
+            FirestoreHelper.getLikeReplyList(uid: uid, replys: isLimited ? nil : replys) { result, error in
                 withAnimation(.easeInOut) {
                     isLoading = false
                     appendData(result: result)

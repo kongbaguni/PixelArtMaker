@@ -132,6 +132,11 @@ struct ArticleListView : View {
                     loadFirst()
                 }
             }
+            NotificationCenter.default.addObserver(forName: .likeArticleDataDidChange, object: nil, queue: nil) { noti in
+                if sort == .like {
+                    isNeedReload = true
+                }
+            }
             if isNeedReload {
                 ids.removeAll()
                 loadFirst()

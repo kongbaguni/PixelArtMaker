@@ -53,6 +53,14 @@ struct PixelArtDetailView: View {
         isForceUpdate = forceUpdate
         self.focusedReply = focusedReply
     }
+    
+    init(reply:ReplyModel) {
+        pid = reply.documentId
+        isShowProfile = true
+        isForceUpdate = true
+        focusedReply = reply
+    }
+    
     private func toggleLike() {
         if isDeleted {
             return
@@ -190,7 +198,7 @@ struct PixelArtDetailView: View {
                                            documentsUid: model.uid,
                                            message: replyText,
                                            imageRefId: model.documentId)
-                    ReplyManager.shared.addReply(replyModel: reply) { error in
+                    FirestoreHelper.addReply(replyModel: reply) { error in
                         if error == nil {
                             isFocusedReplyInput = false
                             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
@@ -306,7 +314,7 @@ struct PixelArtDetailView: View {
                              primaryButton: .default(
                                 Text("reply delete confirm"), action : {
                                     if let reply = willDeleteReply {
-                                        ReplyManager.shared.deleteReply(id: reply.id) { error in
+                                        FirestoreHelper.deleteReply(id: reply.id) { error in
                                             if error == nil {
                                                 withAnimation(.easeInOut) {
                                                     if let idx = replys.firstIndex(of: reply) {
@@ -346,7 +354,7 @@ struct PixelArtDetailView: View {
                 load()
             }
             if let id = model?.id {
-                ReplyManager.shared.getReplys(documentId: id, limit:0) { result, error in
+                FirestoreHelper.getReplys(documentId: id, limit:0) { result, error in
                     replys = result
                     toastMessage = error?.localizedDescription ?? ""
                     isShowToast = error != nil                        

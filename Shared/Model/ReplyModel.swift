@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import RealmSwift
 
 struct ReplyModel : Codable, Hashable {
     static func == (lhs:ReplyModel, rhs:ReplyModel) -> Bool {
@@ -57,6 +58,11 @@ extension ReplyModel {
     var updateDtText:Text {
         let date = Date(timeIntervalSince1970: updateDt)
         return Text(date.formatted(date: .numeric, time: .standard))
+    }
+    
+    var documentModel:SharedStageModel.ThreadSafeModel? {
+        let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: documentId)
+        return model?.threadSafeModel
     }
     
 }

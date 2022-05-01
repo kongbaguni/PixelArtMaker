@@ -285,7 +285,7 @@ struct PixelDrawView: View {
                 NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
                     
                 }
-                NavigationLink(destination: TimeLineView(), isActive: $isShowShareListView) {
+                NavigationLink(destination: TimeLineTabView(), isActive: $isShowShareListView) {
                     
                 }
                 NavigationLink(destination: SettingView(tracingImageData: $tracingImage), isActive: $isShowSettingView) {

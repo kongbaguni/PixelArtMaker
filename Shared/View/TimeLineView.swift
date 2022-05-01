@@ -135,10 +135,10 @@ struct TimeLineView : View {
                     .frame(width: geomentry.size.width, height: geomentry.size.height, alignment: .center)
             } else {
                 VStack {
+                    listTypePickerView
                     ScrollView {
                         makeListView(geomentrySize: geomentry.size)
                     }
-                    listTypePickerView
                 }
             }
         }.onAppear(perform: loadData)
