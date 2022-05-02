@@ -65,7 +65,7 @@ struct PixelArtDetailView: View {
         if isDeleted {
             return
         }
-        FirestoreHelper.toggleArticleLike(documentId: model!.id, imageRefId: model!.documentId) { isLike, uids, error in
+        FirestoreHelper.PublicArticle.toggleArticleLike(documentId: model!.id, imageRefId: model!.documentId) { isLike, uids, error in
             print("toggle like \(isLike), \(likeUids) \(likeUids.count)")
             model?.likeUpdate(isMyLike: isLike, likeUids: likeUids, complete: { error in
                 if let err = error {
@@ -197,7 +197,7 @@ struct PixelArtDetailView: View {
                                            documentsUid: model.uid,
                                            message: replyText,
                                            imageRefId: model.documentId)
-                    FirestoreHelper.addReply(replyModel: reply) { error in
+                    FirestoreHelper.Reply.add(replyModel: reply) { error in
                         if error == nil {
                             isFocusedReplyInput = false
                             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
@@ -313,7 +313,7 @@ struct PixelArtDetailView: View {
                              primaryButton: .default(
                                 Text("reply delete confirm"), action : {
                                     if let reply = willDeleteReply {
-                                        FirestoreHelper.deleteReply(id: reply.id) { error in
+                                        FirestoreHelper.Reply.delete(id: reply.id) { error in
                                             if error == nil {
                                                 withAnimation(.easeInOut) {
                                                     if let idx = replys.firstIndex(of: reply) {
@@ -353,7 +353,7 @@ struct PixelArtDetailView: View {
                 load()
             }
             if let id = model?.id {
-                FirestoreHelper.getReplys(documentId: id, limit:0) { result, error in
+                FirestoreHelper.Reply.getReplys(documentId: id, limit:0) { result, error in
                     replys = result
                     toastMessage = error?.localizedDescription ?? ""
                     isShowToast = error != nil                        
@@ -365,7 +365,7 @@ struct PixelArtDetailView: View {
                 }
 
             }
-            FirestoreHelper.getLikePeopleIds(documentId: pid) { uids, error in
+            FirestoreHelper.PublicArticle.getLikePeopleIds(documentId: pid) { uids, error in
                 likeUids = uids
                 toastMessage = error?.localizedDescription ?? ""
                 isShowToast = error != nil

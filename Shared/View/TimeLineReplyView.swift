@@ -42,9 +42,9 @@ struct TimeLineReplyView: View {
                     }
                     
                 }
-                .onAppear {                    
+                .onAppear {
                     if reply == replys.last {
-                        FirestoreHelper.getReplyTopicList(indexReply: reply, isLast: true) { replys, error in
+                        FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: true) { replys, error in
                             for reply in replys {
                                 if self.replys.firstIndex(of: reply) == nil {
                                     self.replys.append(reply)
@@ -53,7 +53,7 @@ struct TimeLineReplyView: View {
                         }
                     }
                     if reply == replys.first {
-                        FirestoreHelper.getReplyTopicList(indexReply: reply, isLast: false) { replys, error in
+                        FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: false) { replys, error in
                             for reply in replys.reversed() {
                                 if self.replys.firstIndex(of: reply) == nil {
                                     self.replys.insert(reply, at: 0)
@@ -88,7 +88,7 @@ struct TimeLineReplyView: View {
         .onAppear {
             if replys.count == 0 {
                 isLoading = true
-                FirestoreHelper.getReplyTopicList(indexReply:nil, isLast: false) { replys, error in
+                FirestoreHelper.Reply.getReplyTopicList(indexReply:nil, isLast: false) { replys, error in
                     isLoading = false
                     self.replys = replys
                 }

@@ -76,9 +76,9 @@ struct ReplyView: View {
                 Spacer()
             }
             Button {
-                FirestoreHelper.likeToggle(replyId: reply.id) { isLike, error1 in
+                FirestoreHelper.Reply.likeToggle(replyId: reply.id) { isLike, error1 in
                     isMyLike = isLike
-                    FirestoreHelper.getLikePeopleList(replyId: reply.id) { uids, error2 in
+                    FirestoreHelper.Reply.getLikePeopleList(replyId: reply.id) { uids, error2 in
                         self.likeUids = uids
                         toastMessage = error1?.localizedDescription ?? error2?.localizedDescription ?? ""
                         isShowToast = (error1 ?? error2) != nil
@@ -140,7 +140,7 @@ struct ReplyView: View {
             }            
         }
         .onAppear {
-            FirestoreHelper.getLikePeopleList(replyId: reply.id) { uids, error in
+            FirestoreHelper.Reply.getLikePeopleList(replyId: reply.id) { uids, error in
                 likeUids = uids
                 self.isMyLike = uids.firstIndex(of: AuthManager.shared.userId!) != nil
                 

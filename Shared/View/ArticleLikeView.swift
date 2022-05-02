@@ -24,7 +24,7 @@ struct ArticleLikeView: View {
                 Spacer()
             }
         }.onAppear {
-            FirestoreHelper.getLikePeopleIds(documentId: documentId) { uids, error in
+            FirestoreHelper.PublicArticle.getLikePeopleIds(documentId: documentId) { uids, error in
                 isMyLike = uids.firstIndex(of: AuthManager.shared.userId!) != nil
                 likeUids = uids
             }
