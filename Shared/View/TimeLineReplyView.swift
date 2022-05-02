@@ -19,25 +19,47 @@ struct TimeLineReplyView: View {
                 } label: {
                     HStack {
                         if reply.uid == AuthManager.shared.userId {
-                            FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
-                                .frame(width: 50, height: 50, alignment: .leading)
+                            VStack {
+                                FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
+                                    .frame(width: 80, height: 80, alignment: .leading)
+                                Spacer()
+                            }
                             ZStack {
                                 Image(reply.documentModel?.uid == reply.uid ? "bubble_purple" : "bubble")
                                     .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                                Text(reply.message).font(.subheadline).foregroundColor(.k_weakText)
-                                    .padding(5)
+                                HStack {
+                                    Text(reply.message).font(.subheadline).foregroundColor(.k_weakText)
+                                        .padding(5)
+                                        .multilineTextAlignment(.leading)
+                                        .padding(.leading, 10)
+                                    Spacer()
+                                }
                             }
-                            SimplePeopleView(uid: reply.uid, size: 40).frame(width: 50)
+                            VStack {
+                                Spacer()
+                                SimplePeopleView(uid: reply.uid, size: 40).frame(width: 50)
+                            }
 
                         } else {
-                            SimplePeopleView(uid: reply.uid, size: 40).frame(width: 50)
+                            VStack {
+                                Spacer()
+                                SimplePeopleView(uid: reply.uid, size: 40).frame(width: 50)
+                            }
                             ZStack {
                                 Image(reply.documentModel?.uid == reply.uid ? "bubble_purple" : "bubble")
-                                Text(reply.message).font(.subheadline).foregroundColor(.k_weakText)
-                                    .padding(5)
+                                HStack {
+                                    Text(reply.message).font(.subheadline).foregroundColor(.k_weakText)
+                                        .padding(5)
+                                        .multilineTextAlignment(.leading)
+                                        .padding(.leading, 20)
+                                    Spacer()
+                                }
                             }
-                            FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
-                                .frame(width: 50, height: 50, alignment: .leading)
+                            VStack {
+                                FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
+                                    .frame(width: 80, height: 80, alignment: .leading)
+                                Spacer()
+                            }
                         }
                     }
                     
