@@ -15,7 +15,6 @@ class StageManager {
         return stage?.canvasSize ?? .init(width: 32, height: 32)
     }
     
-    let fireStore = Firestore.firestore()
 
     static let shared = StageManager() 
     var stage:StageModel? = nil  
@@ -70,7 +69,7 @@ class StageManager {
                 data["documentId"] = ""
             }
             if isOnlineUpdate && uid != "guest" {
-                let collection = fireStore.collection("temp")
+                let collection = Firestore.firestore().collection("temp")
                 collection.document(uid).setData(data, merge: true) { error in
                     print(error?.localizedDescription ?? "성공")
                     DispatchQueue.main.async {
@@ -112,7 +111,7 @@ class StageManager {
         }
         
         DispatchQueue.global().async {[self] in
-            let collection = fireStore.collection("temp")
+            let collection = Firestore.firestore().collection("temp")
             
             
             collection.document(uid).getDocument { snapShopt, error in
@@ -164,7 +163,7 @@ class StageManager {
                 return
             }
             
-            let collection = fireStore.collection("pixelarts").document(uid).collection("data")
+            let collection = Firestore.firestore().collection("pixelarts").document(uid).collection("data")
             var data:[String:AnyHashable] = [
                 "data":stage.base64EncodedString,
                 "updateDt":Date().timeIntervalSince1970
@@ -235,7 +234,7 @@ class StageManager {
         }
 
         DispatchQueue.global().async { [self] in
-            let document = fireStore.collection("pixelarts").document(uid).collection("data").document(id)
+            let document = Firestore.firestore().collection("pixelarts").document(uid).collection("data").document(id)
             document.getDocument { [self] snapShot, error in
                 if let err = error {
                     print(err.localizedDescription)
@@ -323,7 +322,7 @@ class StageManager {
             guard let uid = AuthManager.shared.userId else {
                 return
             }
-            var query = fireStore.collection("pixelarts").document(uid).collection("data").order(by: "updateDt", descending: false)
+            var query = Firestore.firestore().collection("pixelarts").document(uid).collection("data").order(by: "updateDt", descending: false)
             
             if let date = lastSync {
                 query = query.whereField("updateDt", isGreaterThan: date.timeIntervalSince1970)
@@ -352,13 +351,13 @@ class StageManager {
             }
 
             
-            let document = fireStore.collection("pixelarts").document(uid).collection("data").document(id)
+            let document = Firestore.firestore().collection("pixelarts").document(uid).collection("data").document(id)
             document.delete { [self] error in
                 if error == nil {
-                    fireStore.collection("public").whereField("documentId", isEqualTo: id).getDocuments {[self] qs, error in
+                    Firestore.firestore().collection("public").whereField("documentId", isEqualTo: id).getDocuments {[self] qs, error in
                         for doc in qs?.documents ?? [] {
                             let id = doc.documentID
-                            fireStore.collection("public").document(id).delete { error in
+                            Firestore.firestore().collection("public").document(id).delete { error in
                                 
                             }
                         }                        
@@ -388,7 +387,7 @@ class StageManager {
         guard let uid = AuthManager.shared.userId else {
             return
         }
-        let collection = fireStore.collection("temp")
+        let collection = Firestore.firestore().collection("temp")
         DispatchQueue.global().async {
             collection.document(uid).delete { error in
                 DispatchQueue.main.async {
@@ -405,7 +404,7 @@ class StageManager {
             return
         }
 
-        let collection = fireStore.collection("public")
+        let collection = Firestore.firestore().collection("public")
         let now = Date().timeIntervalSince1970
         
         
@@ -455,7 +454,7 @@ class StageManager {
                 "shared_document_id":shareId!,
                 "updateDt":now.timeIntervalSince1970
             ]
-            fireStore.collection("pixelarts").document(uid).collection("data").document(id).updateData(data) { error in
+            Firestore.firestore().collection("pixelarts").document(uid).collection("data").document(id).updateData(data) { error in
                 let udata:[String:AnyHashable] = [
                     "documentId":id,
                     "shareDocumentId":shareId,
@@ -472,7 +471,7 @@ class StageManager {
     }
     
     func loadSharedList(sort:Sort.SortType, limit:Int = 50, complete:@escaping(_ error:Error?)->Void){
-        let collection = fireStore.collection("public")
+        let collection = Firestore.firestore().collection("public")
         func make(snapShot:QuerySnapshot?, error:Error?) {
             let list = snapShot.map { qs in
                 return qs.documents.map { qsn in

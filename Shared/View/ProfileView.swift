@@ -180,74 +180,76 @@ struct ProfileView: View {
     }
     
     
+    private func makeList1(size:CGSize)-> some View {
+        ScrollView {
+            makeProfileView(isLandscape: false)
+            Section(header:Text("profile view public arts")) {
+                ArticleListView(uid: uid, sort: sort,
+                                gridItems: Utill.makeGridItems(length: 4, screenWidth: size.width),
+                                itemSize: Utill.makeItemSize(length: 4, screenWidth: size.width), isLimited: true)
+            }.padding(.top, 20)
+            
+            Section(header:Text("profile view like arts")) {
+                LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: size.width),
+                                itemSize: Utill.makeItemSize(length: 4, screenWidth: size.width), isLimited: true)
+                
+            }.padding(.top, 20)
+            Section(header:Text("profile view replys")) {
+                ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
+            }.padding(.top, 20)
+            if isAnonymous == false {
+                Section(header:Text("profile view replys to me")) {
+                    ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
+                }.padding(.top, 20)
+            }
+            Section(header:Text("profile view replys my like")) {
+                ReplyListView(uid: uid, isLimited: true, listMode:.내가_좋아요한_댓글)
+            }.padding(.top, 20)
+        }
+    }
+    
+    private func makeList2(size:CGSize)-> some View {
+        HStack {
+            if isAnonymous == false {
+                makeProfileView(isLandscape: true)
+                    .frame(width:250)
+            }
+            ScrollView {
+                Section(header:Text("profile view public arts")) {
+                    ArticleListView(uid: uid, sort: sort,
+                                    gridItems: Utill.makeGridItems(length: 6, screenWidth: size.width - size.height - 10),
+                                    itemSize: Utill.makeItemSize(length: 6, screenWidth: size.width - size.height - 10), isLimited: true)                            }.padding(.top, 20)
 
-    
-    
-    
+                Section(header:Text("profile view like arts")) {
+                    LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: size.width - size.height - 10),
+                                    itemSize: Utill.makeItemSize(length: 6, screenWidth: size.width - size.height - 10), isLimited:true)
+                
+                }.padding(.top, 20)
+                Section(header:Text("profile view replys")) {
+                    ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
+                }.padding(.top, 20)
+                if isAnonymous == false {
+                    Section(header:Text("profile view replys to me")) {
+                        ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
+                    }.padding(.top, 20)
+                }
+                
+                Section(header:Text("profile view replys my like")) {
+                    ReplyListView(uid: uid, isLimited: true, listMode:.내가_좋아요한_댓글)
+                }.padding(.top, 20)
+
+
+            }
+        }
+    }
     var body: some View {
         GeometryReader { geomentry in
             if haveArtList {
                 if geomentry.size.height > geomentry.size.width || geomentry.size.width < 400{
-                    ScrollView {
-                        makeProfileView(isLandscape: false)
-                        Section(header:Text("profile view public arts")) {
-                            ArticleListView(uid: uid, sort: sort,
-                                            gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
-                        }.padding(.top, 20)
-                        
-                        Section(header:Text("profile view like arts")) {
-                            LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 4, screenWidth: geomentry.size.width),
-                                            itemSize: Utill.makeItemSize(length: 4, screenWidth: geomentry.size.width), isLimited: true)
-                            
-                        }.padding(.top, 20)
-                        Section(header:Text("profile view replys")) {
-                            ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
-                        }.padding(.top, 20)
-                        if isAnonymous == false {
-                            Section(header:Text("profile view replys to me")) {
-                                ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
-                            }.padding(.top, 20)
-                        }
-                        Section(header:Text("profile view replys my like")) {
-                            ReplyListView(uid: uid, isLimited: true, listMode:.내가_좋아요한_댓글)
-                        }.padding(.top, 20)
-
-                    }
+                    makeList1(size: geomentry.size)
                 }
                 else {
-                    HStack {
-                        if isAnonymous == false {
-                            makeProfileView(isLandscape: true)
-                                .frame(width:250)
-                        }
-                        ScrollView {
-                            Section(header:Text("profile view public arts")) {
-                                ArticleListView(uid: uid, sort: sort,
-                                                gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited: true)                            }.padding(.top, 20)
-
-                            Section(header:Text("profile view like arts")) {
-                                LikeArtListView(uid: uid, gridItems: Utill.makeGridItems(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10),
-                                                itemSize: Utill.makeItemSize(length: 6, screenWidth: geomentry.size.width - geomentry.size.height - 10), isLimited:true)
-                            
-                            }.padding(.top, 20)
-                            Section(header:Text("profile view replys")) {
-                                ReplyListView(uid: uid, isLimited: true, listMode:.내가_쓴_댓글)
-                            }.padding(.top, 20)
-                            if isAnonymous == false {
-                                Section(header:Text("profile view replys to me")) {
-                                    ReplyListView(uid: uid, isLimited: true, listMode:.내_게시글에_달린_댓글)
-                                }.padding(.top, 20)
-                            }
-                            
-                            Section(header:Text("profile view replys my like")) {
-                                ReplyListView(uid: uid, isLimited: true, listMode:.내가_좋아요한_댓글)
-                            }.padding(.top, 20)
-
-
-                        }
-                    }
+                    makeList2(size: geomentry.size)
                 }
             }
             else {
@@ -263,18 +265,21 @@ struct ProfileView: View {
             }
             loadData()
             if uid.isEmpty == false {
-                ProfileModel.findBy(uid: uid) { error in
+                FirestoreHelper.Profile.findBy(uid: uid) { error in
                     loadData()
                     toastMessage = error?.localizedDescription ?? ""
                     isToast = error != nil
-                    
                 }
             }
-        }        
+        }
+        .toast(message: toastMessage, isShowing: $isToast, duration:4)
+        .alert(isPresented: $isAlert) {
+            Alert(title: alertTitle ?? Text("commom alert title"), message: alertMessage, dismissButton: nil)
+        }
         .toolbar {
             if editabel && isAnonymous == false {
                 Button {
-                    ProfileModel.updateProfile(nickname: nickname, introduce:introduce) { error in
+                    FirestoreHelper.Profile.updateProfile(nickname: nickname, introduce:introduce) { error in
                         if error == nil {
                             presentationMode.wrappedValue.dismiss()
                         } else {
@@ -285,14 +290,8 @@ struct ProfileView: View {
                 } label : {
                     Text("save")
                 }
-                
             }
         }
-        .toast(message: toastMessage, isShowing: $isToast, duration:4)
-        .alert(isPresented: $isAlert) {
-            Alert(title: alertTitle ?? Text("commom alert title"), message: alertMessage, dismissButton: nil)
-        }
-        
     }
     
     private func loadData() {
