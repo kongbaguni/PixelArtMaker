@@ -42,7 +42,7 @@ struct TimeLineReplyView: View {
                     }
                     
                 }
-                .onAppear {
+                .onAppear {                    
                     if reply == replys.last {
                         FirestoreHelper.getReplyTopicList(indexReply: reply, isLast: true) { replys, error in
                             for reply in replys {

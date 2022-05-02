@@ -33,7 +33,7 @@ struct LikeArtListView: View {
     }
     
     func getListFromFirebase(complete:@escaping(_ ids:[LikeModel], _ error:Error?)->Void) {
-        FirestoreHelper.getLikeArticleList(uid: uid, list: list, isLimited: isLimited, complete: complete)
+        FirestoreHelper.PublicArticle.getLikeList(uid: uid, list: list, isLimited: isLimited, complete: complete)
     }
     
     

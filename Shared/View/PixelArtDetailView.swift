@@ -65,7 +65,7 @@ struct PixelArtDetailView: View {
         if isDeleted {
             return
         }
-        LikeManager().toggleLike(documentId: model!.id, imageRefId: model!.documentId) { isLike, likeUids, error in
+        FirestoreHelper.toggleArticleLike(documentId: model!.id, imageRefId: model!.documentId) { isLike, uids, error in
             print("toggle like \(isLike), \(likeUids) \(likeUids.count)")
             model?.likeUpdate(isMyLike: isLike, likeUids: likeUids, complete: { error in
                 if let err = error {
@@ -78,7 +78,6 @@ struct PixelArtDetailView: View {
                 }
             })
         }
-        
     }
     private func makeImageView(imageSize:CGFloat)->some View {
         VStack {
@@ -359,15 +358,14 @@ struct PixelArtDetailView: View {
                     toastMessage = error?.localizedDescription ?? ""
                     isShowToast = error != nil                        
                 }
-                TimeLineManager().read(articleId: id, isRead: true) { count, error in
+                FirestoreHelper.Timeline.read(articleId: id, isRead: true) { count, error in
                     viewCount = count
                     toastMessage = error?.localizedDescription ?? ""
                     isShowToast = error != nil
                 }
 
             }
-            
-            LikeManager().getLikeCount(documentId: pid) { uids, error in
+            FirestoreHelper.getLikePeopleIds(documentId: pid) { uids, error in
                 likeUids = uids
                 toastMessage = error?.localizedDescription ?? ""
                 isShowToast = error != nil

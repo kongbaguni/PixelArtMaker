@@ -156,7 +156,7 @@ struct ArticleListView : View {
     }
     
     func loadData(complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
-        FirestoreHelper.getPublicArticle(uid: uid, isLimited: isLimited, ids: ids, sort: sort, complete: complete)
+        FirestoreHelper.PublicArticle.getList(uid: uid, isLimited: isLimited, ids: ids, sort: sort, complete: complete)
     }
     
    

@@ -14,7 +14,6 @@ struct TimeLineView : View {
         case list = "list.bullet"
     }
     
-    let queryManager = TimeLineManager()
     @State var ids:[String] = []
 
     @State var toastMessage = ""
@@ -153,22 +152,18 @@ struct TimeLineView : View {
         if let id = ids.last {
             lastDt = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id)?.updateDt
         }
-        DispatchQueue.global().async {
-            queryManager.getTimeLine(order: .latestOrder, lastDt: lastDt, limit: Consts.timelineLimit) { resultIds, error in
-                DispatchQueue.main.async { [self] in
-                    withAnimation {
-                        isLoading = false
-                        for id in resultIds {
-                            if try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id)?.deleted == false {
-                                ids.append(id)
-                            }
-                        }
+        FirestoreHelper.Timeline.getTimeLine(order: .latestOrder, lastDt: lastDt, limit: Consts.timelineLimit) { resultIds, error in
+            withAnimation {
+                isLoading = false
+                for id in resultIds {
+                    if try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id)?.deleted == false {
+                        ids.append(id)
                     }
-                    toastMessage = error?.localizedDescription ?? ""
-                    isShowToast = error != nil
                 }
             }
-        }
+            toastMessage = error?.localizedDescription ?? ""
+            isShowToast = error != nil
+        }        
     }
     
 }
