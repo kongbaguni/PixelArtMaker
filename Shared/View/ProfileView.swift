@@ -153,7 +153,7 @@ struct ProfileView: View {
                     AuthorizationButton(provider: .apple, sizeType: .large, authType: .signup) {
                         AuthManager.shared.upgradeAnonymousWithAppleId { isSucess in
                             if isSucess {
-                                ProfileModel.downloadProfile(isCreateDefaultProfile: true) { error in
+                                FirestoreHelper.Profile.downloadProfile(isCreateDefaultProfile: true) { error in
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             } else {
@@ -165,7 +165,7 @@ struct ProfileView: View {
                     AuthorizationButton(provider: .google, sizeType: .large, authType: .signup) {
                         AuthManager.shared.upgradeAnonymousWithGoogleId { isSucess in
                             if isSucess {
-                                ProfileModel.downloadProfile(isCreateDefaultProfile: true) { error in
+                                FirestoreHelper.Profile.downloadProfile(isCreateDefaultProfile: true) { error in
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             } else {

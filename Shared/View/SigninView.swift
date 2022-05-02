@@ -58,7 +58,7 @@ struct SigninView: View {
                     AuthorizationButton(provider: .apple, sizeType: .large, authType: .signin) {
                         AuthManager.shared.startSignInWithAppleFlow { loginSucess in
                             if loginSucess {
-                                ProfileModel.downloadProfile (isCreateDefaultProfile: true) { error in
+                                FirestoreHelper.Profile.downloadProfile (isCreateDefaultProfile: true) { error in
                                     restoreInappPurchase()
                                     toastMessage = error?.localizedDescription ?? ""
                                     isShowToast = error != nil
@@ -73,7 +73,7 @@ struct SigninView: View {
                     AuthorizationButton(provider: .google, sizeType: .large, authType: .signin) {
                         AuthManager.shared.startSignInWithGoogleId { loginSucess in
                             if loginSucess {
-                                ProfileModel.downloadProfile (isCreateDefaultProfile: true) { error in
+                                FirestoreHelper.Profile.downloadProfile (isCreateDefaultProfile: true) { error in
                                     restoreInappPurchase()
                                     toastMessage = error?.localizedDescription ?? ""
                                     isShowToast = error != nil

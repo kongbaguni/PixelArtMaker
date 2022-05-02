@@ -131,12 +131,11 @@ struct PixelArtDetailView: View {
                     && model?.deleted == false
                     && AuthManager.shared.auth.currentUser?.isAnonymous == false {
                     Button {
-                        ProfileModel.findBy(uid: m.uid)?
-                            .updatePhoto(photoRefId: m.documentId, complete: { error in
-                                isProfileImage = true
-                                toastMessage = error?.localizedDescription ?? ""
-                                isShowToast = error != nil
-                            })                        
+                        FirestoreHelper.Profile.updatePhoto(photoRefId: m.documentId) { error in
+                            isProfileImage = true
+                            toastMessage = error?.localizedDescription ?? ""
+                            isShowToast = error != nil
+                        }
                     } label : {
                         OrangeTextView(image: Image(systemName: "person.crop.circle"), text: Text("Set as Profile Image"))
                     }

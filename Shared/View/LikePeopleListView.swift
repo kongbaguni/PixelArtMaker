@@ -79,7 +79,7 @@ struct SimplePeopleView : View {
             }
         }.onAppear {
             if profileImageRefId == nil {
-                ProfileModel.downloadProfile(uid: uid, isCreateDefaultProfile: false) { error in
+                FirestoreHelper.Profile.downloadProfile(uid: uid, isCreateDefaultProfile: false) { error in
                     loadDataFromLocalDb()
                 }
             }
