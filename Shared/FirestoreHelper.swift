@@ -285,7 +285,8 @@ struct FirestoreHelper {
                             NotificationCenter.default.post(name: .likeArticleDataDidChange, object: nil, userInfo: [
                                 "documentId":documentId,
                                 "uid":uid,
-                                "isLike":true
+                                "isLike":true,
+                                "likePeopleUids":uids
                             ])
                         }
                     }
@@ -296,7 +297,8 @@ struct FirestoreHelper {
                             NotificationCenter.default.post(name: .likeArticleDataDidChange, object: nil, userInfo: [
                                 "documentId":documentId,
                                 "uid":uid,
-                                "isLike":false
+                                "isLike":false,
+                                "likePeopleUids":uids
                             ])
                         }
                     }

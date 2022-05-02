@@ -370,6 +370,13 @@ struct PixelArtDetailView: View {
                 isShowToast = error != nil
                 isMyLike = uids.firstIndex(of: AuthManager.shared.userId!) != nil
             }
+            NotificationCenter.default.addObserver(forName: .likeArticleDataDidChange, object: nil, queue: nil) { noti in
+                if let ids = noti.userInfo?["likePeopleUids"] as? [String] {
+                    withAnimation {
+                        self.likeUids = ids
+                    }
+                }
+            }
             
         }
         
