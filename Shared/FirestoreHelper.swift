@@ -629,20 +629,31 @@ struct FirestoreHelper {
             }
         }
         
-        static func getTimeLine(order:Sort.SortType, lastDt:TimeInterval?, limit:Int, complete:@escaping(_ resultIds:[String], _ error:Error?)->Void) {
+        static func getTimeLine(order:Sort.SortType, indexDt:TimeInterval? = nil , isLast:Bool = true, limit:Int, complete:@escaping(_ resultIds:[String], _ error:Error?)->Void) {
             DispatchQueue.global().async {
                 let collection = Firestore.firestore().collection("public")
                 var query:FirebaseFirestore.Query? = nil
                 switch order {
                 case .latestOrder:
                     query = collection.order(by: "updateDt", descending: true)
-                    if let interval = lastDt {
-                        query = query?.whereField("updateDt", isLessThan: interval)
+                    if let interval = indexDt {
+                        if isLast {
+                            query = query?.whereField("updateDt", isLessThan: interval)
+                        } else {
+                            query = query?.whereField("updateDt", isGreaterThan: interval)
+                        }
                     }
                 case .oldnet:
                     query = collection.order(by: "updateDt", descending: false)
-                    if let interval = lastDt {
-                        query = query?.whereField("updateDt", isGreaterThan: interval)
+                    if let interval = indexDt {
+                        if isLast {
+                            query = query?.whereField("updateDt", isGreaterThan: interval)
+                        } else {
+                            DispatchQueue.main.async {
+                                complete([], nil)
+                            }
+                            return
+                        }
                     }
                 case .like:
                     query = collection.order(by: "likeCount", descending: true)

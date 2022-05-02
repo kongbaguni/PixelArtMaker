@@ -55,7 +55,10 @@ struct TimeLineView : View {
                        alignment: .center)
                 .onAppear {
                     if id == ids.last  {
-                        loadData()
+                        loadData(isLast: true)
+                    }
+                    if id == ids.first {
+                        loadData(isLast: false)
                     }
                 }
             }            
@@ -103,7 +106,10 @@ struct TimeLineView : View {
                 }
                 .onAppear {
                     if id == ids.last {
-                        loadData()
+                        loadData(isLast: true)
+                    }
+                    if id == ids.first {
+                        loadData(isLast: false)
                     }
                 }
             }
@@ -140,30 +146,47 @@ struct TimeLineView : View {
                     }
                 }
             }
-        }.onAppear(perform: loadData)
-            .navigationTitle(Text("menu public load title"))
+        }
+        .onAppear {
+            if ids.count == 0 {
+                isLoading = true
+                FirestoreHelper.Timeline.getTimeLine(order: .latestOrder, limit: Consts.timelineLimit) { resultIds, error in
+                    ids = resultIds
+                    toastMessage = error?.localizedDescription ?? ""
+                    isShowToast = error != nil
+                    isLoading = false
+                }
+            }
+        }
+        .navigationTitle(Text("menu public load title"))
     }
     
-    private func loadData() {
-        let type = UserDefaults.standard.timeLineListType
-        listTypeSelection = ListType.allCases.firstIndex(of: type) ?? 0
+    private func loadData(isLast:Bool = true) {
         isLoading = true
-        var lastDt:TimeInterval? = nil
-        if let id = ids.last {
-            lastDt = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id)?.updateDt
+        var indexDt:TimeInterval? = nil
+        let id = isLast ? ids.last : ids.first
+        if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
+            indexDt = model.updateDt
         }
-        FirestoreHelper.Timeline.getTimeLine(order: .latestOrder, lastDt: lastDt, limit: Consts.timelineLimit) { resultIds, error in
-            withAnimation {
-                isLoading = false
+        FirestoreHelper.Timeline.getTimeLine(order: .latestOrder, indexDt: indexDt, isLast: isLast, limit: Consts.timelineLimit) { resultIds, error in
+            if isLast {
                 for id in resultIds {
-                    if try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id)?.deleted == false {
+                    if ids.firstIndex(of: id) == nil {
                         ids.append(id)
+                    }
+                }
+            } else {
+                for id in resultIds.reversed() {
+                    if ids.firstIndex(of: id) == nil {
+                        ids.insert(id, at: 0)
                     }
                 }
             }
             toastMessage = error?.localizedDescription ?? ""
             isShowToast = error != nil
-        }        
+            isLoading = false
+        }
+
     }
     
 }
