@@ -183,3 +183,12 @@
 
 "NSFW title" = "후방주의";
 "NSFW message" = "후방주의 게시물입니다.";
+
+
+"cache delete title" = "캐시 삭제";
+"cache delete message" = "캐시를 삭제합니다.";
+"cache delete confirm" = "확인";
+"cache delete confirm title" = "캐시 삭제";
+"cache delete confirm message" = "삭제 완료";
+"cache delete confirm confirm" = "확인";
+

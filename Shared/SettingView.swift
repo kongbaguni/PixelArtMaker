@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import RealmSwift
 
 fileprivate let transparancyStyleColors:[(a:UIColor,b:UIColor)] = [
     (a:UIColor(white: 1,alpha: 1), b:UIColor(white: 0.8, alpha: 1)),
@@ -40,6 +41,13 @@ struct SettingView: View {
     @State var tracingImageOpacity:CGFloat = 0.5
     @Binding var tracingImageData:PixelDrawView.TracingImageData?
     
+    @State var isShowAlert = false
+    @State var alertType:AlertType = .cacheDelete
+    
+    enum AlertType {
+        case cacheDelete
+        case cacheDeleteConfirm
+    }
     
     var version : some View {
         Group {
@@ -161,6 +169,15 @@ struct SettingView: View {
         }
     }
     
+    var cacheDeleteBtn : some View {
+        Button {
+            alertType = .cacheDelete
+            isShowAlert = true
+        } label : {
+            Text("cache delete title")
+        }
+    }
+    
     var body: some View {
         List {
             Section(header:Text("Setting")) {
@@ -184,8 +201,27 @@ struct SettingView: View {
                     makeWebViewLink(url: url, title: Text("openSourceLicense"))
                 }
                 version
+                cacheDeleteBtn
             }
 
+        }
+        .alert(isPresented: $isShowAlert) {
+            switch alertType {
+            case .cacheDelete:                
+                return Alert(title: Text("cache delete title"), message: Text("cache delete message"), primaryButton: .default(Text("cache delete confirm"), action: {
+                    let realm = try! Realm()
+                    realm.beginWrite()
+                    realm.deleteAll()
+                    try! realm.commitWrite()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                        isShowAlert = true
+                        alertType = .cacheDeleteConfirm
+                    }
+                    
+                }), secondaryButton: .cancel())
+            case .cacheDeleteConfirm:
+                return Alert(title: Text("cache delete confirm title"), message: Text("cache delete confirm message"), dismissButton: .default(Text("cache delete confirm confirm"), action: nil))
+            }
         }
         .toolbar {
             Button {

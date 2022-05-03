@@ -162,3 +162,12 @@
 
 "NSFW title" = "NSFW";
 "NSFW message" = "Not Safe For Work!";
+
+
+"cache delete title" = "cache delete";
+"cache delete message" = "Delete the cache.";
+"cache delete confirm" = "confirm";
+"cache delete confirm title" = "cache delete";
+"cache delete confirm message" = "Cache has been cleared.";
+"cache delete confirm confirm" = "confirm";
+

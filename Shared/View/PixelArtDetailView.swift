@@ -62,9 +62,6 @@ struct PixelArtDetailView: View {
     }
     
     private func toggleLike() {
-        if isDeleted {
-            return
-        }
         FirestoreHelper.PublicArticle.toggleArticleLike(documentId: model!.id, imageRefId: model!.documentId) { isLike, uids, error in
             print("toggle like \(isLike), \(likeUids) \(likeUids.count)")
             model?.likeUpdate(isMyLike: isLike, likeUids: likeUids, complete: { error in
@@ -253,59 +250,39 @@ struct PixelArtDetailView: View {
     
     
     var body: some View {
-        Group {
-            if tmodel != nil {
-                GeometryReader { geomentry in
-                    ScrollViewReader { proxy in
-                        if geomentry.size.width < geomentry.size.height || geomentry.size.width < 400 {
+            GeometryReader { geomentry in
+                ScrollViewReader { proxy in
+                    if geomentry.size.width < geomentry.size.height || geomentry.size.width < 400 {
+                        ScrollView {
+                            makeProfileView(landScape: false).frame(height:120)
+                            makeImageView(imageSize: geomentry.size.width - 20)
+                            makeInfomationView().frame(width: geomentry.size.width - 20)
+                            BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
+                            makeButtonsView().padding(10)
+                            makeReplyListView()
+                            makeReplyTextView(scrollViewPrxy: proxy)
+                        }
+                    } else {
+                        HStack {
+                            if isShowProfile {
+                                makeProfileView(landScape: true).frame(width:200)
+                            }
                             ScrollView {
-                                makeProfileView(landScape: false).frame(height:120)
-                                makeImageView(imageSize: geomentry.size.width - 20)
-                                makeInfomationView().frame(width: geomentry.size.width - 20)
+                                makeImageView(imageSize: isShowProfile ? 250 : 450)
                                 BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
-                                makeButtonsView().padding(10)
+                            }
+                            ScrollView {
+                                makeInfomationView()
+                                    .frame(width:geomentry.size.width > 470 ? geomentry.size.width - 470 : 100)
+                                    .padding(.top, 10)
+                                makeButtonsView()
                                 makeReplyListView()
                                 makeReplyTextView(scrollViewPrxy: proxy)
                             }
-                        } else {
-                            HStack {
-                                if isShowProfile {
-                                    makeProfileView(landScape: true).frame(width:200)
-                                }
-                                ScrollView {
-                                    makeImageView(imageSize: isShowProfile ? 250 : 450)
-                                    BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
-                                }
-                                ScrollView {
-                                    makeInfomationView()
-                                        .frame(width:geomentry.size.width > 470 ? geomentry.size.width - 470 : 100)
-                                        .padding(.top, 10)
-                                    makeButtonsView()
-                                    makeReplyListView()
-                                    makeReplyTextView(scrollViewPrxy: proxy)
-                                }
-                            }
                         }
                     }
-                    
                 }
             }
-            else if isDeleted {
-                GeometryReader { geomentry in
-                    ScrollView {
-                        if geomentry.size.width > geomentry.size.height {
-                            makeImageView(imageSize: geomentry.size.height - 20)
-                        } else {
-                            makeImageView(imageSize: geomentry.size.width - 20)
-                        }
-                        BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
-                    }.frame(width: geomentry.size.width)
-                }
-            }
-            else {
-                Text("loading")
-            }
-        }
         .alert(isPresented: $isShowAlert, content: {
             switch alertType {
             case .댓글삭제:
@@ -353,19 +330,17 @@ struct PixelArtDetailView: View {
             } else {
                 load()
             }
-            if let id = model?.id {
-                FirestoreHelper.Reply.getReplys(documentId: id, limit:0) { result, error in
-                    replys = result
-                    toastMessage = error?.localizedDescription ?? ""
-                    isShowToast = error != nil                        
-                }
-                FirestoreHelper.Timeline.read(articleId: id, isRead: true) { count, error in
-                    viewCount = count
-                    toastMessage = error?.localizedDescription ?? ""
-                    isShowToast = error != nil
-                }
-
+            FirestoreHelper.Reply.getReplys(documentId: pid, limit:0) { result, error in
+                replys = result
+                toastMessage = error?.localizedDescription ?? ""
+                isShowToast = error != nil
             }
+            FirestoreHelper.Timeline.read(articleId: pid, isRead: true) { count, error in
+                viewCount = count
+                toastMessage = error?.localizedDescription ?? ""
+                isShowToast = error != nil
+            }
+            
             FirestoreHelper.PublicArticle.getLikePeopleIds(documentId: pid) { uids, error in
                 likeUids = uids
                 toastMessage = error?.localizedDescription ?? ""

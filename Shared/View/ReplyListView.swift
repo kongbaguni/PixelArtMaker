@@ -53,22 +53,28 @@ struct ReplyListView: View {
                                 reply.updateDtText.font(.system(size: 10)).foregroundColor(.gray)
                                 Spacer()
                             }
-                            HStack {
-                                Text(reply.message)
-                                    .font(.subheadline)
-                                    .foregroundColor(Color.k_normalText)
-                                    .multilineTextAlignment(.leading)
-                                Spacer()
+                            ZStack {
+                                Image(reply.uid == reply.documentsUid ? "bubble_purple" : "bubble")
+                                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+
+                                HStack {
+                                    Text(reply.message)
+                                        .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 20))
+                                        .font(.subheadline)
+                                        .foregroundColor(Color.k_normalText)
+                                        .multilineTextAlignment(.leading)
+                                    Spacer()
+                                }
                             }
                             Spacer()
                         }
-                        if listMode == .내_게시글에_달린_댓글 || listMode == .내가_좋아요한_댓글 {
+//                        if listMode == .내_게시글에_달린_댓글 || listMode == .내가_좋아요한_댓글 {
                             VStack {
+                                Spacer()
                                 SimplePeopleView(uid: reply.uid, size:40)
                                     .frame(maxWidth:50)
-                                Spacer()
                             }
-                        }
+//                        }
                     }
                 }
             }
