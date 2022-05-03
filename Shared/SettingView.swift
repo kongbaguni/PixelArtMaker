@@ -186,6 +186,8 @@ struct SettingView: View {
                 makeTransparencyStylePicker()
                 
                 makeTracingImageSelecter()
+
+                cacheDeleteBtn
             }
             
             Section(header:Text("App Infomation")) {
@@ -201,14 +203,15 @@ struct SettingView: View {
                     makeWebViewLink(url: url, title: Text("openSourceLicense"))
                 }
                 version
-                cacheDeleteBtn
             }
 
         }
         .alert(isPresented: $isShowAlert) {
             switch alertType {
             case .cacheDelete:                
-                return Alert(title: Text("cache delete title"), message: Text("cache delete message"), primaryButton: .default(Text("cache delete confirm"), action: {
+                return Alert(title: Text("cache delete title"),
+                             message: Text("cache delete message"),
+                             primaryButton: .default(Text("cache delete confirm"), action: {
                     let realm = try! Realm()
                     realm.beginWrite()
                     realm.deleteAll()
@@ -218,9 +221,12 @@ struct SettingView: View {
                         alertType = .cacheDeleteConfirm
                     }
                     
-                }), secondaryButton: .cancel())
+                }),
+                             secondaryButton: .cancel())
             case .cacheDeleteConfirm:
-                return Alert(title: Text("cache delete confirm title"), message: Text("cache delete confirm message"), dismissButton: .default(Text("cache delete confirm confirm"), action: nil))
+                return Alert(title: Text("cache delete confirm title"),
+                             message: Text("cache delete confirm message"),
+                             dismissButton: .default(Text("cache delete confirm confirm")))
             }
         }
         .toolbar {
