@@ -55,33 +55,35 @@ struct FSImageView : View {
                     }
                 }
                 else {
-                    Image(pixelSize: (width: 16, height: 16), backgroundColor: .clear, size: .init(width: 640, height: 640))?.resizable()
-                    WebImage(url: imageURL)
-                        .placeholder(placeholder.resizable())
-                        .resizable()
-                        .onAppear {
-                            if imageRefId.isEmpty {
-                                return
-                            }
-                            var isNeedUpdate = true
-                            if let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId) {
+                    Group {
+                        Image(pixelSize: (width: 16, height: 16), backgroundColor: .clear, size: .init(width: 640, height: 640))?.resizable()
+                        WebImage(url: imageURL)
+                            .placeholder(placeholder.resizable())
+                            .resizable()
+                    }
+                    .onAppear {
+                        if imageRefId.isEmpty {
+                            return
+                        }
+                        var isNeedUpdate = true
+                        if let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId) {
+                            isLoading = false
+                            imageURL = model.imageUrl
+                            isNeedUpdate = model.isExpire
+                            hasError = model.deleted && model.url.isEmpty
+                        }
+                        isLoading = imageURL == nil
+                        
+                        if isNeedUpdate {
+                            FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
                                 isLoading = false
-                                imageURL = model.imageUrl
-                                isNeedUpdate = model.isExpire
-                                hasError = model.deleted && model.url.isEmpty
-                            }
-                            isLoading = imageURL == nil
-                            
-                            if isNeedUpdate {
-                                FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
-                                    isLoading = false
-                                    imageURL = url
-                                    hasError = error != nil
-                                }
+                                imageURL = url
+                                hasError = error != nil
                             }
                         }
-                        .opacity(isLoading ? 0.0 : 1.0)
-                        .background(isLoading ? .gray : .clear)
+                    }
+                    .opacity(isLoading ? 0.0 : 1.0)
+                    .background(isLoading ? .gray : .clear)
                 }
                 
             }
