@@ -13,21 +13,131 @@ extension Notification.Name {
     static let layerblendModeDidChange = Notification.Name("layerblendModeDidChange_observer")
 }
 
+struct StageDataModel : Codable, Hashable {
+    public static func == (lhs:StageDataModel, rhs:StageDataModel) -> Bool {
+        return lhs.documentId == rhs.documentId
+    }
+    var createrId:String
+    var documentId:String?
+    var canvasWidth:CGFloat
+    var canvasHeight:CGFloat
+    var forgroundColorModel:ColorModel
+    var backgroundColorModel:ColorModel
+    var layers:[LayerModel]
+    var isR18:Bool
+    var selected_layer_index:Int
+    
+    var canvasSize:CGSize {
+        return .init(width: canvasWidth, height: canvasHeight)
+    }
+    
+    var forgroundColor:Color {
+        get {
+            forgroundColorModel.getColor(colorSpace: .sRGB)
+        }
+        set {
+            forgroundColorModel = .init(color: newValue)
+        }
+    }
+    
+    var backgroundColor:Color {
+        get {
+            backgroundColorModel.getColor(colorSpace: .sRGB)
+        }
+        set {
+            backgroundColorModel = .init(color: newValue)
+        }
+    }
+    
+    static let empty:StageDataModel = .init(createrId: "", canvasWidth: 0, canvasHeight: 0, forgroundColorModel: .clear, backgroundColorModel: .clear, layers: [], isR18: false, selected_layer_index: 0)
+    
+    
+    static func makeModel(json:[String:AnyObject])->StageDataModel? {
+        if let data = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
+            return try? JSONDecoder().decode(StageDataModel.self, from: data)
+        }
+        return nil
+    }
+    
+    var jsonValue:[String:AnyObject]? {
+        if let data = try? JSONEncoder().encode(self) {
+            if let json = try? JSONSerialization.jsonObject(with: data) as? [String:AnyObject] {
+                return json
+            }
+        }
+        return nil
+    }
+}
+
+
 class StageModel {
-    var createrId:String = ""
-    var documentId:String? = nil
+    var data:StageDataModel = .empty
+    
+    var createrId:String  {
+        set {
+            data.createrId = newValue
+        }
+        get {
+            data.createrId
+        }
+    }
+    var documentId:String? {
+        set {
+            data.documentId = newValue
+        }
+        get {
+            data.documentId
+        }
+    }
+    
     var previewImage:UIImage? = nil
     
     var paletteColors:[Color] = [.red,.orange,.yellow,.green,.blue,.purple,.black]
     
-    let canvasSize:CGSize
-    var forgroundColor:Color = .red
-    var backgroundColor:Color = .white
-    var layers:[LayerModel] 
-
-    var isR18:Bool = false
-    var title:String? = nil
+    var canvasSize:CGSize {
+        set {
+            data.canvasWidth = newValue.width
+            data.canvasHeight = newValue.height
+        }
+        get {
+            data.canvasSize
+        }
+    }
+    var forgroundColor:Color {
+        set {
+            data.forgroundColor = newValue
+        }
+        get {
+            data.forgroundColor
+        }
+    }
+    var backgroundColor:Color {
+        set {
+            data.backgroundColor = newValue
+        }
+        get {
+            data.backgroundColor
+        }
+    }
     
+    var layers:[LayerModel] {
+        set {
+            data.layers = newValue
+        }
+        get {
+            data.layers
+        }
+    }
+
+    var isR18:Bool {
+        set {
+            data.isR18 = newValue
+        }
+        get {
+            data.isR18
+        }
+    }
+        
     init(canvasSize:CGSize) {
         layers = [
             LayerModel(size: canvasSize, blendMode: .normal)
@@ -143,59 +253,20 @@ class StageModel {
     }
     
     var base64EncodedString:String {
-        func getColorStrings(colorArray:[[[Color]]])->[[[String]]] {
-            var colorStrings:[[[String]]] = []
-            for arr1 in colorArray {
-                var a:[[String]] = []
-                for arr2 in arr1 {
-                    var b:[String] = []
-                    for c in arr2 {
-                        b.append(c.string)
-                    }
-                    a.append(b)
-                }
-                colorStrings.append(a)
+        if let dic = data.jsonValue {
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
+                let compresedData = try (jsonData as NSData).compressed(using: .lzfse)
+                return compresedData.base64EncodedString()
+            } catch {
+                print(error.localizedDescription)
             }
-            return colorStrings
-        }
-                
-
-             
-        let blendModes = layers.map { model in
-            return model.blendMode.rawValue
-        }
-        
-        
-        let dic:[String:AnyHashable] = [
-            "title":title,
-            "colors":getColorStrings(colorArray: layers.map({ model in
-                return  model.colors
-            })),
-            "pallete_colors_idx_row":UserDefaults.standard.lastColorPresetIndexPath.row,
-            "pallete_colors_idx_section":UserDefaults.standard.lastColorPresetIndexPath.section,
-            "canvas_width":canvasSize.width,
-            "canvas_height":canvasSize.height,
-            "background_color":backgroundColor.string,
-            "forground_color":forgroundColor.string,
-            "bland_modes":blendModes,
-            "selected_layer_index":selectedLayerIndex,
-            "isR18":isR18
-        ]
-        
-        
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
-            let compresedData = try (jsonData as NSData).compressed(using: .lzfse)
-            return compresedData.base64EncodedString()
-        } catch {
-            print(error.localizedDescription)
         }
         return ""
     }
     
-   
-    
-    static func makeModel(base64EncodedString:String, documentId:String?)->StageModel? {
+   /** 구버전 세이브 로드 */
+    static func makeModelOld(base64EncodedString:String, documentId:String?)->StageModel? {
         func getColor(arr:[[[String]]])->[[[Color]]] {
             
             func makeColor(stringArr c:String)->Color {
@@ -227,7 +298,6 @@ class StageModel {
                 }
                 let model = StageModel(canvasSize: .init(width: w, height: h))
                 model.backgroundColor = Color(string: (json["background_color"] as? String) ?? "1 1 1 1")
-                model.title = json["title"] as? String ?? ""
                 model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
                 model.documentId = documentId
                 if let isR18 = json["R18"] as? Bool {
@@ -259,6 +329,63 @@ class StageModel {
                 }
                 model.layers = layers
                                                 
+                
+                return model
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    static func makeModel(base64EncodedString:String, documentId:String?)->StageModel? {
+        func getColor(arr:[[[String]]])->[[[Color]]] {
+            
+            func makeColor(stringArr c:String)->Color {
+                let list = c.components(separatedBy: " ")
+                let r = NSString(string:list[0]).doubleValue
+                let g = NSString(string:list[1]).doubleValue
+                let b = NSString(string:list[2]).doubleValue
+                let a = NSString(string:list[3]).doubleValue
+                return Color(uiColor: UIColor(red: r, green: g, blue: b, alpha: a))
+            }
+            
+            let result = arr.map { a in
+                a.map { b in
+                    b.map { c in
+                        return makeColor(stringArr: c)
+                    }
+                }
+            }
+            return result
+        }
+        
+        do {
+            if let data = Data(base64Encoded: base64EncodedString) {
+                let newData = try (data as NSData).decompressed(using: .lzfse) as Data
+                guard let json = try JSONSerialization.jsonObject(with: newData) as? [String:Any],
+                      let stageData = StageDataModel.makeModel(json: json as [String:AnyObject]) else {
+                    
+                    return StageModel.makeModelOld(base64EncodedString: base64EncodedString, documentId: documentId)
+                }
+                
+                let model = StageModel(canvasSize: stageData.canvasSize)
+                model.data = stageData
+                model.documentId = documentId
+                
+                model.selectLayer(index:stageData.selected_layer_index)
+
+                if let color = Color.lastSelectColors {
+                    model.paletteColors = color
+                }
+                else {
+                    if let row = json["pallete_colors_idx_row"] as? Int,
+                       let section = json["pallete_colors_idx_section"] as? Int {
+                        if let colors = Color.getColorsFromPreset(indexPath: .init(row: row, section: section)) {
+                            model.paletteColors = colors
+                        }
+                    }
+                }                                                
                 
                 return model
             }

@@ -277,7 +277,6 @@ struct SaveView: View {
                     return model.colors
                 })
                 backgroundColor = stage.backgroundColor
-                title = stage.title ?? ""
                 stage.getImage(size: Consts.previewImageSize) { image in
                     previewImage = image
                 }
@@ -291,9 +290,6 @@ struct SaveView: View {
                 }
                 isR18 = stage.isR18
             }
-        }
-        .onDisappear {
-            StageManager.shared.stage?.title = title
         }
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
         .alert(isPresented: $isShowAlert) {
