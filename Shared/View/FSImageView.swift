@@ -13,9 +13,21 @@ import RealmSwift
 struct FSImageView : View {
     let imageRefId:String
     let placeholder:Image
+    let isR18:Bool
+    let isR18unlock:Bool
+    @State var isTouchedR18 = false
     @State var imageURL:URL? = nil
     @State var isLoading:Bool = false
     @State var hasError:Bool = false
+    @State var isShwoAlert:Bool = false
+    
+    init (imageRefId:String, placeholder:Image, isR18:Bool = false, isR18Unlock:Bool = false ) {
+        self.imageRefId = imageRefId
+        self.placeholder = placeholder
+        self.isR18 = isR18
+        self.isR18unlock = isR18Unlock
+    }
+    
     var body : some View {
         ZStack {
             if hasError {
@@ -23,32 +35,46 @@ struct FSImageView : View {
                     .background(Color.gray)
             }
             else {
-                WebImage(url: imageURL)
-                    .placeholder(placeholder.resizable())
-                    .resizable()
-                    .onAppear {
-                        if imageRefId.isEmpty {
-                            return
+                if isR18 && isTouchedR18 == false {
+                    if isR18unlock {
+                        Button {
+                            isTouchedR18 = true
+                        } label : {
+                            Image("R18").resizable()
                         }
-                        var isNeedUpdate = true
-                        if let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId) {
-                            isLoading = false
-                            imageURL = model.imageUrl
-                            isNeedUpdate = model.isExpire
-                            hasError = model.deleted && model.url.isEmpty 
-                        }
-                        isLoading = imageURL == nil
-                        
-                        if isNeedUpdate {
-                            FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
+                    } else {
+                        Image("R18").resizable()
+                    }
+                }
+                else {
+                    WebImage(url: imageURL)
+                        .placeholder(placeholder.resizable())
+                        .resizable()
+                        .onAppear {
+                            if imageRefId.isEmpty {
+                                return
+                            }
+                            var isNeedUpdate = true
+                            if let model = try! Realm().object(ofType: FirebaseStorageImageUrlCashModel.self, forPrimaryKey: imageRefId) {
                                 isLoading = false
-                                imageURL = url
-                                hasError = error != nil
+                                imageURL = model.imageUrl
+                                isNeedUpdate = model.isExpire
+                                hasError = model.deleted && model.url.isEmpty
+                            }
+                            isLoading = imageURL == nil
+                            
+                            if isNeedUpdate {
+                                FirebaseStorageHelper.shared.getDownloadURL(id: imageRefId) { url, error in
+                                    isLoading = false
+                                    imageURL = url
+                                    hasError = error != nil
+                                }
                             }
                         }
-                    }
-                    .opacity(isLoading ? 0.0 : 1.0)
-                    .background(isLoading ? .gray : .clear)
+                        .opacity(isLoading ? 0.0 : 1.0)
+                        .background(isLoading ? .gray : .clear)
+                }
+                
             }
             if isLoading && !hasError {
                 ActivityIndicator(isAnimating: $isLoading, style: .medium)

@@ -11,79 +11,99 @@ struct TimeLineReplyView: View {
     
     @State var replys:[ReplyModel] = []
     @State var isLoading = false
+    @State var isR18Dic:[ReplyModel:Bool] = [:]
+    
+    private func makeReplyView(reply:ReplyModel) -> some View {
+        NavigationLink {
+            PixelArtDetailView(reply: reply)
+        } label: {
+            HStack {
+                if reply.uid == AuthManager.shared.userId {
+                    VStack {
+                        FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder, isR18: isR18Dic[reply] == true)
+                            .frame(width: 80, height: 80, alignment: .leading)
+                        Spacer()
+                    }
+                    ZStack {
+                        Image(reply.documentModel?.uid == reply.uid ? "bubble_purple" : "bubble")
+                            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                        HStack {
+                            Text(reply.message).font(.subheadline).foregroundColor(.k_weakText)
+                                .padding(5)
+                                .multilineTextAlignment(.leading)
+                                .padding(.leading, 10)
+                            Spacer()
+                        }
+                    }
+                    VStack {
+                        Spacer()
+                        SimplePeopleView(uid: reply.uid, size: 40).frame(width: 50)
+                    }
+
+                } else {
+                    VStack {
+                        Spacer()
+                        SimplePeopleView(uid: reply.uid, size: 40).frame(width: 50)
+                    }
+                    ZStack {
+                        Image(reply.documentModel?.uid == reply.uid ? "bubble_purple" : "bubble")
+                        HStack {
+                            Text(reply.message).font(.subheadline).foregroundColor(.k_weakText)
+                                .padding(5)
+                                .multilineTextAlignment(.leading)
+                                .padding(.leading, 20)
+                            Spacer()
+                        }
+                    }
+                    VStack {
+                        FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder, isR18: isR18Dic[reply] == true)
+                            .frame(width: 80, height: 80, alignment: .leading)
+                        Spacer()
+                    }
+                }
+            }
+            
+        }
+        .onAppear {
+            if reply == replys.last {
+                FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: true) { replys, error in
+                    for reply in replys {
+                        if self.replys.firstIndex(of: reply) == nil {
+                            self.replys.append(reply)
+                        }
+                    }
+                }
+            }
+            if reply == replys.first {
+                FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: false) { replys, error in
+                    for reply in replys.reversed() {
+                        if self.replys.firstIndex(of: reply) == nil {
+                            self.replys.insert(reply, at: 0)
+                        }
+                    }
+                }
+            }
+            
+            if let isR18 = SharedStageModel.findBy(id: reply.documentId)?.isR18 {
+                isR18Dic[reply] = isR18
+            } else {
+                SharedStageModel.findBy(id: reply.documentId) { isDeleted, error in
+                    if !isDeleted {
+                        if let isR18 = SharedStageModel.findBy(id: reply.documentId)?.isR18 {
+                            isR18Dic[reply] = isR18
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+    }
+    
     var listView : some View {
         LazyVStack {
             ForEach(replys, id:\.self) { reply in
-                NavigationLink {
-                    PixelArtDetailView(reply: reply)
-                } label: {
-                    HStack {
-                        if reply.uid == AuthManager.shared.userId {
-                            VStack {
-                                FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
-                                    .frame(width: 80, height: 80, alignment: .leading)
-                                Spacer()
-                            }
-                            ZStack {
-                                Image(reply.documentModel?.uid == reply.uid ? "bubble_purple" : "bubble")
-                                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                                HStack {
-                                    Text(reply.message).font(.subheadline).foregroundColor(.k_weakText)
-                                        .padding(5)
-                                        .multilineTextAlignment(.leading)
-                                        .padding(.leading, 10)
-                                    Spacer()
-                                }
-                            }
-                            VStack {
-                                Spacer()
-                                SimplePeopleView(uid: reply.uid, size: 40).frame(width: 50)
-                            }
-
-                        } else {
-                            VStack {
-                                Spacer()
-                                SimplePeopleView(uid: reply.uid, size: 40).frame(width: 50)
-                            }
-                            ZStack {
-                                Image(reply.documentModel?.uid == reply.uid ? "bubble_purple" : "bubble")
-                                HStack {
-                                    Text(reply.message).font(.subheadline).foregroundColor(.k_weakText)
-                                        .padding(5)
-                                        .multilineTextAlignment(.leading)
-                                        .padding(.leading, 20)
-                                    Spacer()
-                                }
-                            }
-                            VStack {
-                                FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder)
-                                    .frame(width: 80, height: 80, alignment: .leading)
-                                Spacer()
-                            }
-                        }
-                    }
-                    
-                }
-                .onAppear {
-                    if reply == replys.last {
-                        FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: true) { replys, error in
-                            for reply in replys {
-                                if self.replys.firstIndex(of: reply) == nil {
-                                    self.replys.append(reply)
-                                }
-                            }
-                        }
-                    }
-                    if reply == replys.first {
-                        FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: false) { replys, error in
-                            for reply in replys.reversed() {
-                                if self.replys.firstIndex(of: reply) == nil {
-                                    self.replys.insert(reply, at: 0)
-                                }
-                            }
-                        }
-                    }
-                }
+                makeReplyView(reply: reply)
             }
         }
     }

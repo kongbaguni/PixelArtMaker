@@ -114,22 +114,22 @@ class StageManager {
             let collection = Firestore.firestore().collection("temp")
             
             
-            collection.document(uid).getDocument { snapShopt, error in
+            collection.document(uid).getDocument { [weak self] snapShopt, error in
                 
                 guard let data = snapShopt?.data(),
                       let string = data["data"] as? String,
-                      let stage = StageModel.makeModel(base64EncodedString: string, documentId: nil)
+                      let stage = StageModel.makeModel(base64EncodedString: string, documentId: nil )
                 else {
                     DispatchQueue.main.async {
                         complete(error)
                     }
                     return
                 }
-                self.stage = stage                
+                self?.stage = stage
                 print(stage.canvasSize)
-                self.stage?.createrId = uid
+                self?.stage?.createrId = uid
                 if let id = data["documentId"] as? String {
-                    self.stage?.documentId = id.isEmpty ? nil : id
+                    self?.stage?.documentId = id.isEmpty ? nil : id
                 }
                             
                 HistoryManager.shared.load { loadError in
@@ -142,7 +142,7 @@ class StageManager {
     }
         
     var lastSaveTime:Date? = nil
-    func save(asNewForce:Bool,complete:@escaping(_ error:Error?)->Void) {
+    func save(asNewForce:Bool, isR18:Bool ,complete:@escaping(_ error:Error?)->Void) {
         if let time = lastSaveTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
                 complete(nil)
@@ -316,7 +316,7 @@ class StageManager {
                 complete(nil)
             }
         }
-        DispatchQueue.global().async {[self] in
+        DispatchQueue.global().async {
             let lastSync = StageManager.shared.stagePreviews.last?.updateDt
             
             guard let uid = AuthManager.shared.userId else {
@@ -397,7 +397,7 @@ class StageManager {
         }
     }
     
-    func sharePublic( complete:@escaping(_ error:Error?)->Void) {
+    func sharePublic( isR18:Bool ,complete:@escaping(_ error:Error?)->Void) {
         guard let id = stage?.documentId,
               let uid = AuthManager.shared.userId
         else {
@@ -411,7 +411,8 @@ class StageManager {
         var data:[String:AnyHashable] = [
             "documentId":id ,
             "updateDt":now,
-            "uid":uid
+            "uid":uid,
+            "isR18":isR18
         ]
         
         func getSharedList(complete:@escaping(_ list:[String])->Void) {
@@ -448,7 +449,7 @@ class StageManager {
             }
         }
         
-        save(finish: {[self] shareId in
+        save(finish: { shareId in
             let now = Date()
             let data:[String:AnyHashable] = [
                 "shared_document_id":shareId!,

@@ -14,11 +14,6 @@ extension Notification.Name {
 }
 
 class StageModel {
-    struct History {
-        let layers:[LayerModel]
-        let selectedLayerIndex:Int
-        let backgroundColor:Color
-    }
     var createrId:String = ""
     var documentId:String? = nil
     var previewImage:UIImage? = nil
@@ -30,7 +25,7 @@ class StageModel {
     var backgroundColor:Color = .white
     var layers:[LayerModel] 
 
-    
+    var isR18:Bool = false
     var title:String? = nil
     
     init(canvasSize:CGSize) {
@@ -184,6 +179,7 @@ class StageModel {
             "forground_color":forgroundColor.string,
             "bland_modes":blendModes,
             "selected_layer_index":selectedLayerIndex,
+            "isR18":isR18
         ]
         
         
@@ -234,6 +230,9 @@ class StageModel {
                 model.title = json["title"] as? String ?? ""
                 model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
                 model.documentId = documentId
+                if let isR18 = json["R18"] as? Bool {
+                    model.isR18 = isR18
+                }
                 if let idx = json["selected_layer_index"] as? Int {
                     model.selectLayer(index: idx)
                 }
@@ -259,30 +258,7 @@ class StageModel {
                     }
                 }
                 model.layers = layers
-                                
-                func make(indexs:[Int],list:[[[[String]]]], blendModes:[[Int32]], bgColors:[Color])->[History] {
-                    var result:[History] = []
-                    for (idx,strs) in list.enumerated() {
-                        let colors = getColor(arr: strs)
-                        var layers:[LayerModel] = []
-                        for (i,color) in colors.enumerated() {
-                            
-                            var blendMode:CGBlendMode = .normal
-                            if blendModes.count > idx {
-                                if blendModes[idx].count > i {
-                                    blendMode = .init(rawValue: blendModes[idx][i]) ?? .normal
-                                }
-                            }
-                            
-                            layers.append(.init(colors: color, id: "layer\(i)", blendMode: blendMode ))
-                        }
-                        if indexs.count > idx && bgColors.count > idx {
-                            result.append(.init(layers: layers, selectedLayerIndex: indexs[idx], backgroundColor: bgColors[idx]))
-                        }
-                    }
-                    return result
-                }
-                
+                                                
                 
                 return model
             }

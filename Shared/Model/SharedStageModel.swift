@@ -18,6 +18,7 @@ class SharedStageModel : Object {
         let regDt:Date
         let updateDt:Date
         let likeCount:Int
+        let isR18:Bool
     }
     
     @Persisted(primaryKey: true) var id:String = ""
@@ -28,6 +29,7 @@ class SharedStageModel : Object {
     @Persisted var updateDt:TimeInterval = 0.0
     @Persisted var deleted:Bool = false
     @Persisted var likeCount:Int = 0
+    @Persisted var isR18:Bool = false
     
     var regDate:Date {
         Date(timeIntervalSince1970: regDt)
@@ -47,7 +49,9 @@ class SharedStageModel : Object {
               documentId: documentId,
               regDt: Date(timeIntervalSince1970: regDt),
               updateDt: Date(timeIntervalSince1970: updateDt),
-              likeCount: likeCount)
+              likeCount: likeCount,
+              isR18 : isR18
+        )
     }
     
 }
@@ -155,6 +159,10 @@ extension SharedStageModel {
             }
             complete(true,error)
         }
+    }
+    
+    static func findBy(id:String)->SharedStageModel? {
+        return try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id)
     }
 }
 

@@ -179,3 +179,10 @@
 "Sign in with Apple" = "Apple로 로그인";
 "Sign in with Google" = "Google로 로그인";
 
+
+
+"R18 title" = "민감한 컨텐츠";
+
+"R18 message" = "당신은 만18세 이상입니까?";
+"R18 confirm" = "예";
+"R18 cancel" = "아니오";

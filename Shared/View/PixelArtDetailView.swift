@@ -92,7 +92,7 @@ struct PixelArtDetailView: View {
                         Text("deleted by user message").font(.headline).foregroundColor(.white)
                     }.frame(width: imageSize, height: imageSize, alignment: .center)
                 } else if let m = tmodel {
-                    FSImageView(imageRefId: m.documentId, placeholder: .imagePlaceHolder)
+                    FSImageView(imageRefId: m.documentId, placeholder: .imagePlaceHolder, isR18: m.isR18, isR18Unlock: true)
                         .frame(width: imageSize, height: imageSize, alignment: .center)
                 }
                 

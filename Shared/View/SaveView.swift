@@ -33,6 +33,8 @@ struct SaveView: View {
     @State var alertText:Text? = nil
     @State var isShowAlert = false
 
+    @State var isR18 = false
+    
     func updateId() {
         self.id = StageManager.shared.stage?.documentId
         var id:String? {
@@ -122,14 +124,23 @@ struct SaveView: View {
                  
             }
             HStack {
+                Toggle("R18", isOn: $isR18).onChange(of: isR18) { newValue in
+                    print(newValue)
+                    StageManager.shared.stage?.isR18 = newValue
+                }
+                .padding(.leading,20)
+                .padding(.trailing,20)
+            }
+
+            HStack {
                 //MARK: 기존 파일에 저장
                 if StageManager.shared.stage?.documentId != nil && StageManager.shared.stage?.isMyPicture == true {
                     Button {
                         dim.show()
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false, complete: {errorA in
+                            StageManager.shared.save(asNewForce: false, isR18: isR18,complete: {errorA in
                                 if sharedId != nil {
-                                    StageManager.shared.sharePublic { errorB in
+                                    StageManager.shared.sharePublic (isR18: isR18) { errorB in
                                         dim.hide()
                                         isShowToast = errorA != nil || errorB != nil
                                         toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
@@ -156,7 +167,7 @@ struct SaveView: View {
                     Button {
                         dim.show()
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: true, complete: { error in
+                            StageManager.shared.save(asNewForce: true, isR18: isR18, complete: { error in
                                 dim.hide()
                                 updateId()
                                 toastMessage = error?.localizedDescription ?? ""
@@ -200,8 +211,8 @@ struct SaveView: View {
                     Button {
                         dim.show()
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false) { errorA in
-                                StageManager.shared.sharePublic { errorB in
+                            StageManager.shared.save(asNewForce: false, isR18:isR18) { errorA in
+                                StageManager.shared.sharePublic  (isR18: isR18) { errorB in
                                     dim.hide()
                                     toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                     isShowToast = errorA != nil || errorB != nil
@@ -278,6 +289,7 @@ struct SaveView: View {
                         shareImageDatas.append(data)
                     }
                 }
+                isR18 = stage.isR18
             }
         }
         .onDisappear {

@@ -45,7 +45,7 @@ struct TimeLineView : View {
                     PixelArtDetailView(id: id, showProfile: true)
                 } label: {
                     if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
-                        FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder)
+                        FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder, isR18: model.isR18)
                     } else {
                         Image.imagePlaceHolder.resizable()
                     }
@@ -73,7 +73,7 @@ struct TimeLineView : View {
                 } label: {
                     if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: id) {
                         HStack {
-                            FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder)
+                            FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder, isR18: model.isR18)
                                 .frame(width: 150, height: 150, alignment: .leading)
                                 .padding(.trailing,10)
                             VStack {

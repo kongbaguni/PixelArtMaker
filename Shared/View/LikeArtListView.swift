@@ -21,7 +21,7 @@ struct LikeArtListView: View {
     @State var isToast = false
     @State var isNeedReload = false
     @State var isNeedMore = false
-    
+    @State var isR18Dic:[LikeModel:Bool] = [:]
     
     var moreButton : some View {
         NavigationLink {
@@ -43,8 +43,18 @@ struct LikeArtListView: View {
                 PixelArtDetailView(id: model.documentId, showProfile: true)
             } label: {
                 if itemSize.width > 0 && itemSize.height > 0 {
-                    FSImageView(imageRefId: model.imageRefId, placeholder: .imagePlaceHolder)
+                    FSImageView(imageRefId: model.imageRefId, placeholder: .imagePlaceHolder, isR18: isR18Dic[model] == true)
                         .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
+                }
+            }.onAppear {
+                if let isR18 = SharedStageModel.findBy(id: model.documentId)?.isR18 {
+                    isR18Dic[model] = isR18
+                    return
+                }
+                SharedStageModel.findBy(id: model.documentId) { isDeleted, error in
+                    if let isR18 = SharedStageModel.findBy(id: model.documentId)?.isR18 {
+                        isR18Dic[model] = isR18
+                    }
                 }
             }
         }
