@@ -8,20 +8,26 @@
 import SwiftUI
 
 struct TimeLineTabView: View {
-    init() {
-        UITabBar.appearance().backgroundColor = .black
-    }
+    @State var selection = 0
     var body: some View {
-        TabView {
-            TimeLineView().tabItem {
-                Image(systemName: "text.below.photo")
-            }
-            TimeLineReplyView().tabItem {
-                Image(systemName: "text.bubble")
+        TabView(selection: $selection) {
+            TimeLineReplyView()
+                .tabItem { Image(systemName: "text.bubble") }
+                .tag(0)
+            TimeLineView()
+                .tabItem { Image(systemName: "text.below.photo") }
+                .tag(1)
+        }
+        .onChange(of: selection) { newValue in
+            UserDefaults.standard.lastTimelintTabViewSelection = newValue
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+                withAnimation {
+                    selection = UserDefaults.standard.lastTimelintTabViewSelection
+                }
             }
         }
-        .background(Color.k_background)
-        .tabViewStyle(PageTabViewStyle())
         
     }
 }

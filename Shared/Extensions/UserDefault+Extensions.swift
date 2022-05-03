@@ -149,4 +149,13 @@ extension UserDefaults {
             return .grid
         }
     }
+    
+    var lastTimelintTabViewSelection:Int {
+        set {
+            set(newValue, forKey: "lastTimelintTabViewSelection")
+        }
+        get {
+            integer(forKey: "lastTimelintTabViewSelection")
+        }
+    }
 }
