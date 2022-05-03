@@ -7,65 +7,34 @@
 
 import Foundation
 import SwiftUI
-fileprivate var colorsCash:[String:[[Color]]] = [:]
-
-struct LayerModel : Codable, Hashable {
+struct LayerModel : Hashable {
     public static func == (lhs: LayerModel, rhs: LayerModel) -> Bool {
-        return lhs.id == rhs.id && lhs.colors == rhs.colors && lhs.blendModeRawVlaue == rhs.blendModeRawVlaue
+        return lhs.id == rhs.id && lhs.colors == rhs.colors && lhs.blendMode == rhs.blendMode
     }
-    
-    let colorsModels:[[ColorModel]]
-    let blendModeRawVlaue:Int32
-    
-    var colors:[[Color]] {
-        if let colors = colorsCash[id] {
-            return colors
-        }
-        let result = colorsModels.map { list in
-            list.map { model in
-                return model.getColor(colorSpace: .sRGB)
-            }
-        }
-        colorsCash[id] = result
-        return result
-    }
-    
-    var blendMode:CGBlendMode {
-        get {
-            CGBlendMode(rawValue: blendModeRawVlaue) ?? .normal
-        }
-    }
-    
+    let colors:[[Color]]
+    let blendMode:CGBlendMode
     var id = UUID().uuidString
 
+    
     init(size:CGSize, blendMode:CGBlendMode) {
-        self.blendModeRawVlaue = blendMode.rawValue
-        var colors:[[ColorModel]] = []
+        self.blendMode = blendMode
+        var colors:[[Color]] = []
         let w = Int(size.width)
         let h = Int(size.height)
         for _ in 0..<h {
-            var list:[ColorModel] = []
+            var list:[Color] = []
             for _ in 0..<w {
                 list.append(.clear)
             }
             colors.append(list)
         }
-        self.colorsModels = colors
-        colorsCash[id] = nil
-        NotificationCenter.default.addObserver(forName: .stageDidChanged, object: nil, queue: nil) { noti in
-            colorsCash.removeAll()
-        }
+        self.colors = colors
     }
     
     init(colors:[[Color]], id:String, blendMode:CGBlendMode) {
         self.id = id
-        self.colorsModels = colors.map { list in
-            list.map { color in
-                return ColorModel(color: color)
-            }
-        }
-        self.blendModeRawVlaue = blendMode.rawValue
-        colorsCash[id] = colors
+        self.colors = colors
+        self.blendMode = blendMode
     }
     
     var width:CGFloat {
@@ -74,6 +43,35 @@ struct LayerModel : Codable, Hashable {
     
     var height:CGFloat {
         CGFloat(colors.count)
+    }
+    
+    var saveModel:LayerModelForSave {
+        let cms = colors.map { list in
+            list.map { color in
+                return ColorModel(color: color)
+            }
+        }
+        return .init(colorsModels: cms, blendModeRawVlaue: blendMode.rawValue, id: id)
+    }
+    
+}
+
+struct LayerModelForSave : Codable, Hashable {
+    public static func == (lhs: LayerModelForSave, rhs: LayerModelForSave) -> Bool {
+        return lhs.id == rhs.id && lhs.colorsModels == rhs.colorsModels && lhs.blendModeRawVlaue == rhs.blendModeRawVlaue
+    }
+        
+    let colorsModels:[[ColorModel]]
+    let blendModeRawVlaue:Int32
+    let id:String
+    
+    var layerModel:LayerModel {
+        let colors = colorsModels.map { list in
+            list.map { colormodel in
+                return colormodel.getColor(colorSpace: .sRGB)
+            }
+        }
+        return .init(colors: colors, id: id, blendMode: CGBlendMode(rawValue: blendModeRawVlaue)!)
     }
 }
 

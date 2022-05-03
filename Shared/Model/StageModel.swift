@@ -23,7 +23,7 @@ struct StageDataModel : Codable, Hashable {
     var canvasHeight:CGFloat
     var forgroundColorModel:ColorModel
     var backgroundColorModel:ColorModel
-    var layers:[LayerModel]
+    var layers:[LayerModelForSave]
     var isNSFW:Bool
     var selected_layer_index:Int
     
@@ -120,14 +120,7 @@ class StageModel {
         }
     }
     
-    var layers:[LayerModel] {
-        set {
-            data.layers = newValue
-        }
-        get {
-            data.layers
-        }
-    }
+    var layers:[LayerModel] = []
 
     var isNSFW:Bool {
         set {
@@ -253,6 +246,11 @@ class StageModel {
     }
     
     var base64EncodedString:String {
+        let slayers = layers.map { layer in
+            return layer.saveModel
+        }
+        data.layers = slayers
+        
         if let dic = data.jsonValue {
             do {
                 let jsonData = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
@@ -373,7 +371,9 @@ class StageModel {
                 let model = StageModel(canvasSize: stageData.canvasSize)
                 model.data = stageData
                 model.documentId = documentId
-                
+                model.layers = model.data.layers.map({ model in
+                    return model.layerModel
+                })
                 model.selectLayer(index:stageData.selected_layer_index)
 
                 if let color = Color.lastSelectColors {

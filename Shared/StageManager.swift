@@ -10,9 +10,6 @@ import SwiftUI
 import FirebaseFirestore
 import RealmSwift
 
-extension Notification.Name {
-    static let stageDidChanged = Notification.Name("stageDidChanged_observer")
-}
 class StageManager {
     var canvasSize:CGSize {
         return stage?.canvasSize ?? .init(width: 32, height: 32)
@@ -236,7 +233,6 @@ class StageManager {
             complete(nil,nil)
             return
         }
-
         DispatchQueue.global().async { [self] in
             let document = Firestore.firestore().collection("pixelarts").document(uid).collection("data").document(id)
             document.getDocument { [self] snapShot, error in
@@ -251,6 +247,7 @@ class StageManager {
                     }
                     return
                 }
+
                 let model = StageModel.makeModel(base64EncodedString: str, documentId: id)
                 stage = model
                 model?.createrId = uid
@@ -258,7 +255,6 @@ class StageManager {
                 DispatchQueue.main.async {
                     complete(model,error ?? clearErr)
                 }
-                NotificationCenter.default.post(name: .stageDidChanged, object: nil)
             }
         
         }
