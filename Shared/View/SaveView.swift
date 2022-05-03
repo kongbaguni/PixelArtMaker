@@ -59,8 +59,16 @@ struct SaveView: View {
     }
 
     private func makePreviewImageView(width:CGFloat)-> some View {
-        (previewImage ?? Image.imagePlaceHolder)
-            .resizable().frame(width: width - 20, height: width - 20 , alignment: .center)
+        ZStack {
+            if StageManager.shared.stage?.backgroundColor.ciColor.alpha ?? 1.0 < 1.0 {
+                Image(pixelSize: (width: 16, height: 16),
+                      backgroundColor: .clear,
+                      size: CGSize(width: width * 3, height: width * 3))?.resizable()
+            }
+            (previewImage ?? Image.imagePlaceHolder)
+                .resizable()
+                
+        }.frame(width: width - 20, height: width - 20 , alignment: .center)
     }
     
     private var actionSheetButtonsForShareItems:[ActionSheet.Button] {

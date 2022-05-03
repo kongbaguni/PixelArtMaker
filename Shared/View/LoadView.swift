@@ -132,10 +132,8 @@ struct LoadView: View {
                     
                 }
             }
-            .opacity(loadingStart ? 0.5 : 1.0)
             .padding(.horizontal)
         }
-//        .animation(.easeInOut, value: loadingStart)
 
     }
     

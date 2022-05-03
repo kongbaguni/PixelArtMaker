@@ -251,16 +251,22 @@ struct PixelDrawView: View {
     }
     
     private func makeShowMenuPreviewImage(size:CGFloat)-> some View {
-        (previewImage ?? Image.imagePlaceHolder)
-            .resizable()
-                .frame(width: size, height: size, alignment: .center)
-                .padding(20)
-                .onTapGesture {
-                    withAnimation(.easeInOut) {
-                        isShowMenu = false
-                    }
-                }
-        
+        ZStack {
+            if StageManager.shared.stage?.backgroundColor.ciColor.alpha ?? 1.0 < 1.0 {
+                Image(pixelSize: (width: 16,height: 16),
+                      backgroundColor: .clear,
+                      size: CGSize(width: size * 3, height: size * 3))?.resizable()
+            }
+            (previewImage ?? Image.imagePlaceHolder)
+                .resizable()
+        }
+        .frame(width: size, height: size, alignment: .center)
+        .padding(20)
+        .onTapGesture {
+            withAnimation(.easeInOut) {
+                isShowMenu = false
+            }
+        }
     }
     
     var body: some View {

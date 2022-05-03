@@ -55,6 +55,7 @@ struct FSImageView : View {
                     }
                 }
                 else {
+                    Image(pixelSize: (width: 16, height: 16), backgroundColor: .clear, size: .init(width: 640, height: 640))?.resizable()
                     WebImage(url: imageURL)
                         .placeholder(placeholder.resizable())
                         .resizable()
