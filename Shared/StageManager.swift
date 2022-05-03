@@ -10,6 +10,9 @@ import SwiftUI
 import FirebaseFirestore
 import RealmSwift
 
+extension Notification.Name {
+    static let stageDidChanged = Notification.Name("stageDidChanged_observer")
+}
 class StageManager {
     var canvasSize:CGSize {
         return stage?.canvasSize ?? .init(width: 32, height: 32)
@@ -255,6 +258,7 @@ class StageManager {
                 DispatchQueue.main.async {
                     complete(model,error ?? clearErr)
                 }
+                NotificationCenter.default.post(name: .stageDidChanged, object: nil)
             }
         
         }

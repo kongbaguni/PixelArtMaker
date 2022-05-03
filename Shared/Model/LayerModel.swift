@@ -52,6 +52,9 @@ struct LayerModel : Codable, Hashable {
         }
         self.colorsModels = colors
         colorsCash[id] = nil
+        NotificationCenter.default.addObserver(forName: .stageDidChanged, object: nil, queue: nil) { noti in
+            colorsCash.removeAll()
+        }
     }
     
     init(colors:[[Color]], id:String, blendMode:CGBlendMode) {
