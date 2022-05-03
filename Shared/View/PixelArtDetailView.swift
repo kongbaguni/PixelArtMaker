@@ -129,7 +129,9 @@ struct PixelArtDetailView: View {
                 if m.uid == AuthManager.shared.userId
                     && isProfileImage == false
                     && model?.deleted == false
-                    && AuthManager.shared.auth.currentUser?.isAnonymous == false {
+                    && AuthManager.shared.auth.currentUser?.isAnonymous == false
+                    && model?.isNSFW == false 
+                {
                     Button {
                         FirestoreHelper.Profile.updatePhoto(photoRefId: m.documentId) { error in
                             isProfileImage = true
