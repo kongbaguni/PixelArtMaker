@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+fileprivate var colorsCash:[String:[[Color]]] = [:]
+
 struct LayerModel : Codable, Hashable {
     public static func == (lhs: LayerModel, rhs: LayerModel) -> Bool {
         return lhs.id == rhs.id && lhs.colors == rhs.colors && lhs.blendModeRawVlaue == rhs.blendModeRawVlaue
@@ -16,11 +18,16 @@ struct LayerModel : Codable, Hashable {
     let blendModeRawVlaue:Int32
     
     var colors:[[Color]] {
-        return colorsModels.map { list in
+        if let colors = colorsCash[id] {
+            return colors
+        }
+        let result = colorsModels.map { list in
             list.map { model in
                 return model.getColor(colorSpace: .sRGB)
             }
         }
+        colorsCash[id] = result
+        return result
     }
     
     var blendMode:CGBlendMode {
@@ -44,6 +51,7 @@ struct LayerModel : Codable, Hashable {
             colors.append(list)
         }
         self.colorsModels = colors
+        colorsCash[id] = nil
     }
     
     init(colors:[[Color]], id:String, blendMode:CGBlendMode) {
@@ -54,6 +62,7 @@ struct LayerModel : Codable, Hashable {
             }
         }
         self.blendModeRawVlaue = blendMode.rawValue
+        colorsCash[id] = colors
     }
     
     var width:CGFloat {
