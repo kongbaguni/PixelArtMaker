@@ -162,40 +162,20 @@ struct FirestoreHelper {
     /** 공개 개시글 관련 */
     struct PublicArticle {
         /** 개시글 목록 조회 */
-        static func getList(uid:String,isLimited:Bool, ids:[String], sort:Sort.SortType, complete:@escaping(_ result:[String], _ error:Error?)->Void) {
+        static func getList(uid:String,isLimited:Bool, ids:[String],  complete:@escaping(_ result:[String], _ error:Error?)->Void) {
             DispatchQueue.global().async {
                 
                 var query = Firestore.firestore().collection("public").whereField("uid", isEqualTo: uid)
-                
-                switch sort {
-                case .latestOrder:
-                    query = query.order(by: "updateDt", descending: true)
-                case .oldnet:
-                    query = query.order(by: "updateDt", descending: false)
-                case .like:
-                    query = query.order(by: "likeCount", descending: true)
-                }
+                query = query.order(by: "updateDt", descending: true)
                 
                 if isLimited == false {
                     if let last = ids.last {
                         if let model = try! Realm().object(ofType: SharedStageModel.self, forPrimaryKey: last) {
-                            switch sort {
-                            case .latestOrder:
-                                query = query.whereField("updateDt", isLessThan: model.updateDt)
-                            case .oldnet:
-                                query = query.whereField("updateDt", isGreaterThan: model.updateDt)
-                            case .like:
-                                break
-                            }
+                            query = query.whereField("updateDt", isLessThan: model.updateDt)
                         }
                     }
                 }
-                switch sort {
-                case .like:
-                    query = query.limit(to: Consts.likeSortLimit)
-                default:
-                    query = query.limit(to: Consts.profileImageLimit)
-                }
+                query = query.limit(to: Consts.profileImageLimit)
                 
                 query.getDocuments { snapshot, error in
                     let realm = try! Realm()

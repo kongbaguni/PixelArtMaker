@@ -41,11 +41,6 @@ struct ProfileView: View {
     @State var introduce:String = ""
     @State var imageRefId:String? = nil
     @State var email:String = ""
-    @State var sortSelect = 0
-    var sortList:[Sort.SortType] = Sort.SortTypeForPublicGallery
-    var sort:Sort.SortType {
-        sortList[sortSelect]
-    }
     
     @State var sharedIds:[String] = []
     
@@ -184,7 +179,7 @@ struct ProfileView: View {
         ScrollView {
             makeProfileView(isLandscape: false)
             Section(header:Text("profile view public arts")) {
-                ArticleListView(uid: uid, sort: sort,
+                ArticleListView(uid: uid,
                                 gridItems: Utill.makeGridItems(length: 4, screenWidth: size.width),
                                 itemSize: Utill.makeItemSize(length: 4, screenWidth: size.width), isLimited: true)
             }.padding(.top, 20)
@@ -216,7 +211,7 @@ struct ProfileView: View {
             }
             ScrollView {
                 Section(header:Text("profile view public arts")) {
-                    ArticleListView(uid: uid, sort: sort,
+                    ArticleListView(uid: uid,
                                     gridItems: Utill.makeGridItems(length: 6, screenWidth: size.width - size.height - 10),
                                     itemSize: Utill.makeItemSize(length: 6, screenWidth: size.width - size.height - 10), isLimited: true)                            }.padding(.top, 20)
 

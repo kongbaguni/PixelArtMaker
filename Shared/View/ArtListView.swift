@@ -16,7 +16,6 @@ extension Notification.Name {
 struct ArticleView : View {
     let id:String
     let itemSize:CGSize
-    let sort:Sort.SortType
     
     var body : some View {
         Group {
@@ -24,24 +23,9 @@ struct ArticleView : View {
                 NavigationLink(destination: {
                     PixelArtDetailView(id: id, showProfile: false)
                 }, label: {
-                    VStack {
-                        if itemSize.width > 0 && itemSize.height > 0 {
-                            if model.deleted {
-                                Image.errorImage.frame(width: itemSize.width, height: itemSize.height, alignment: .center)
-                                    .background(Color.gray)
-                            } else {
-                                FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder, isNSFW: model.isNSFW)
-                                    .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
-                            }
-                        }
-                        switch sort {
-                        case .like:
-                            ArticleLikeView(documentId: id, haveRightSpacer: false)
-                        default:
-                            Text(model.updateDate.formatted(date: .long, time: .standard ))
-                                .font(.system(size: 10))
-                                .foregroundColor(.k_normalText)
-                        }
+                    if itemSize.width > 0 && itemSize.height > 0 {
+                        FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder, isNSFW: model.isNSFW)
+                            .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
                     }
                     
                 })
@@ -55,7 +39,6 @@ struct ArticleView : View {
 struct ArticleListView : View {
     
     let uid:String
-    @State var sort:Sort.SortType = .latestOrder
     let gridItems:[GridItem]
     let itemSize:CGSize
     let isLimited:Bool
@@ -75,7 +58,7 @@ struct ArticleListView : View {
     var list : some View {
         LazyVGrid(columns: gridItems, spacing:20) {
             ForEach(ids, id:\.self) { id in
-                ArticleView(id: id, itemSize: itemSize, sort: sort)
+                ArticleView(id: id, itemSize: itemSize)
                     .onAppear {
                         let a = id == ids.last
                         let b = ids.count % Consts.profileImageLimit == 0
@@ -123,20 +106,6 @@ struct ArticleListView : View {
             if ids.count == 0 {
                 loadFirst()
             }
-            if isLimited == false {
-                NotificationCenter.default.addObserver(forName: .articleListSortTypeDidChanged, object: nil, queue: nil) { noti in
-                    if let type = noti.object as? Sort.SortType {
-                        sort = type
-                    }
-                    ids.removeAll()
-                    loadFirst()
-                }
-            }
-            NotificationCenter.default.addObserver(forName: .likeArticleDataDidChange, object: nil, queue: nil) { noti in
-                if sort == .like {
-                    isNeedReload = true
-                }
-            }
             if isNeedReload {
                 ids.removeAll()
                 loadFirst()
@@ -156,7 +125,7 @@ struct ArticleListView : View {
     }
     
     func loadData(complete:@escaping(_ ids:[String], _ error:Error?)->Void) {
-        FirestoreHelper.PublicArticle.getList(uid: uid, isLimited: isLimited, ids: ids, sort: sort, complete: complete)
+        FirestoreHelper.PublicArticle.getList(uid: uid, isLimited: isLimited, ids: ids, complete: complete)
     }
     
    
@@ -166,43 +135,24 @@ struct ArtListView: View {
         
     @State var isShowToast = false
     @State var toastMessage = ""
-    @State var sortIndex:Int = 0
     @State var isAnimate:Bool = false
     
     let navigationTitle:Text?
-    
-    var sort:Sort.SortType {
-        return Sort.SortType.allCases[sortIndex]
-    }
-        
+            
     var profile:ProfileModel? {
         return ProfileModel.findBy(uid: uid)
     }
-    
-    
+        
     let uid:String
 
     init(uid:String,  navigationTitle:Text?) {
         self.uid = uid
         self.navigationTitle = navigationTitle
     }
-        
-    private func makePickerView()-> some View {
-        Picker(selection:$sortIndex, label:Text("sort")) {
-            ForEach(0..<Sort.SortType.allCases.count, id:\.self) { idx in
-                let type = Sort.SortType.allCases[idx]
-                Sort.getText(type: type)
-            }
-        }.onChange(of: sortIndex) { newValue in
-            isAnimate = true
-            NotificationCenter.default.post(name: .articleListSortTypeDidChanged, object: Sort.SortType.allCases[newValue])
-        }
-    }
-    
+            
     var body: some View {
         GeometryReader { geomentry in
             ScrollView {
-                makePickerView()
                 if geomentry.size.width > geomentry.size.height {
                     ArticleListView(uid: uid,
                                     gridItems: Utill.makeGridItems(length: 5, screenWidth: geomentry.size.width, padding:20),
