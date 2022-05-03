@@ -30,7 +30,7 @@ struct ArticleView : View {
                                 Image.errorImage.frame(width: itemSize.width, height: itemSize.height, alignment: .center)
                                     .background(Color.gray)
                             } else {
-                                FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder, isR18: model.isR18)
+                                FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder, isNSFW: model.isNSFW)
                                     .frame(width: itemSize.width, height: itemSize.height, alignment: .center)
                             }
                         }

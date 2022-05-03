@@ -56,6 +56,7 @@ class StageManager {
 
         DispatchQueue.global().async {[self] in
             guard let stage = stage else {
+                complete(nil)
                 return
             }
             
@@ -142,7 +143,7 @@ class StageManager {
     }
         
     var lastSaveTime:Date? = nil
-    func save(asNewForce:Bool, isR18:Bool ,complete:@escaping(_ error:Error?)->Void) {
+    func save(asNewForce:Bool, isNSFW:Bool ,complete:@escaping(_ error:Error?)->Void) {
         if let time = lastSaveTime {
             if Date().timeIntervalSince1970 - 2 < time.timeIntervalSince1970 {
                 complete(nil)
@@ -397,7 +398,7 @@ class StageManager {
         }
     }
     
-    func sharePublic( isR18:Bool ,complete:@escaping(_ error:Error?)->Void) {
+    func sharePublic( isNSFW:Bool ,complete:@escaping(_ error:Error?)->Void) {
         guard let id = stage?.documentId,
               let uid = AuthManager.shared.userId
         else {
@@ -412,7 +413,7 @@ class StageManager {
             "documentId":id ,
             "updateDt":now,
             "uid":uid,
-            "isR18":isR18
+            "isNSFW":isNSFW
         ]
         
         func getSharedList(complete:@escaping(_ list:[String])->Void) {

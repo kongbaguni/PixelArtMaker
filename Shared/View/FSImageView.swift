@@ -13,19 +13,19 @@ import RealmSwift
 struct FSImageView : View {
     let imageRefId:String
     let placeholder:Image
-    let isR18:Bool
-    let isR18unlock:Bool
-    @State var isTouchedR18 = false
+    let isNSFW:Bool
+    let isNSFWunlock:Bool
+    @State var isTouchedNSFW = false
     @State var imageURL:URL? = nil
     @State var isLoading:Bool = false
     @State var hasError:Bool = false
     @State var isShwoAlert:Bool = false
     
-    init (imageRefId:String, placeholder:Image, isR18:Bool = false, isR18Unlock:Bool = false ) {
+    init (imageRefId:String, placeholder:Image, isNSFW:Bool = false, isNSFWUnlock:Bool = false ) {
         self.imageRefId = imageRefId
         self.placeholder = placeholder
-        self.isR18 = isR18
-        self.isR18unlock = isR18Unlock
+        self.isNSFW = isNSFW
+        self.isNSFWunlock = isNSFWUnlock
     }
     
     var body : some View {
@@ -35,15 +35,23 @@ struct FSImageView : View {
                     .background(Color.gray)
             }
             else {
-                if isR18 && isTouchedR18 == false {
-                    if isR18unlock {
+                if isNSFW && isTouchedNSFW == false {
+                    if isNSFWunlock {
                         Button {
-                            isTouchedR18 = true
+                            isTouchedNSFW = true
                         } label : {
-                            Image("R18").resizable()
+                            ZStack {
+                                Image("NSFW").resizable()
+                                    .opacity(0.2)
+                                Text("NSFW message")
+                                    .font(.system(size: 30, weight: .heavy, design: .rounded))
+                                    .foregroundColor(Color.white)
+                                    .shadow(color: .black, radius: 10, x: 0, y: 0)
+                                
+                            }
                         }
                     } else {
-                        Image("R18").resizable()
+                        Image("NSFW").resizable()
                     }
                 }
                 else {

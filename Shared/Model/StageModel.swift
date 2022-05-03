@@ -24,7 +24,7 @@ struct StageDataModel : Codable, Hashable {
     var forgroundColorModel:ColorModel
     var backgroundColorModel:ColorModel
     var layers:[LayerModel]
-    var isR18:Bool
+    var isNSFW:Bool
     var selected_layer_index:Int
     
     var canvasSize:CGSize {
@@ -49,7 +49,7 @@ struct StageDataModel : Codable, Hashable {
         }
     }
     
-    static let empty:StageDataModel = .init(createrId: "", canvasWidth: 0, canvasHeight: 0, forgroundColorModel: .clear, backgroundColorModel: .clear, layers: [], isR18: false, selected_layer_index: 0)
+    static let empty:StageDataModel = .init(createrId: "", canvasWidth: 0, canvasHeight: 0, forgroundColorModel: .clear, backgroundColorModel: .clear, layers: [], isNSFW: false, selected_layer_index: 0)
     
     
     static func makeModel(json:[String:AnyObject])->StageDataModel? {
@@ -129,12 +129,12 @@ class StageModel {
         }
     }
 
-    var isR18:Bool {
+    var isNSFW:Bool {
         set {
-            data.isR18 = newValue
+            data.isNSFW = newValue
         }
         get {
-            data.isR18
+            data.isNSFW
         }
     }
         
@@ -300,8 +300,8 @@ class StageModel {
                 model.backgroundColor = Color(string: (json["background_color"] as? String) ?? "1 1 1 1")
                 model.forgroundColor = Color(string: (json["forground_color"] as? String) ?? "1 0 0 1")
                 model.documentId = documentId
-                if let isR18 = json["R18"] as? Bool {
-                    model.isR18 = isR18
+                if let isNSFW = json["isNSFW"] as? Bool {
+                    model.isNSFW = isNSFW
                 }
                 if let idx = json["selected_layer_index"] as? Int {
                     model.selectLayer(index: idx)
@@ -347,6 +347,7 @@ class StageModel {
                 let g = NSString(string:list[1]).doubleValue
                 let b = NSString(string:list[2]).doubleValue
                 let a = NSString(string:list[3]).doubleValue
+                
                 return Color(uiColor: UIColor(red: r, green: g, blue: b, alpha: a))
             }
             

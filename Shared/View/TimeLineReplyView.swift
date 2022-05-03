@@ -11,7 +11,7 @@ struct TimeLineReplyView: View {
     
     @State var replys:[ReplyModel] = []
     @State var isLoading = false
-    @State var isR18Dic:[ReplyModel:Bool] = [:]
+    @State var isNSFWDic:[ReplyModel:Bool] = [:]
     
     private func makeReplyView(reply:ReplyModel) -> some View {
         NavigationLink {
@@ -20,7 +20,7 @@ struct TimeLineReplyView: View {
             HStack {
                 if reply.uid == AuthManager.shared.userId {
                     VStack {
-                        FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder, isR18: isR18Dic[reply] == true)
+                        FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder, isNSFW: isNSFWDic[reply] == true)
                             .frame(width: 80, height: 80, alignment: .leading)
                         Spacer()
                     }
@@ -56,7 +56,7 @@ struct TimeLineReplyView: View {
                         }
                     }
                     VStack {
-                        FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder, isR18: isR18Dic[reply] == true)
+                        FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder, isNSFW: isNSFWDic[reply] == true)
                             .frame(width: 80, height: 80, alignment: .leading)
                         Spacer()
                     }
@@ -84,13 +84,13 @@ struct TimeLineReplyView: View {
                 }
             }
             
-            if let isR18 = SharedStageModel.findBy(id: reply.documentId)?.isR18 {
-                isR18Dic[reply] = isR18
+            if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
+                isNSFWDic[reply] = isNSFW
             } else {
                 SharedStageModel.findBy(id: reply.documentId) { isDeleted, error in
                     if !isDeleted {
-                        if let isR18 = SharedStageModel.findBy(id: reply.documentId)?.isR18 {
-                            isR18Dic[reply] = isR18
+                        if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
+                            isNSFWDic[reply] = isNSFW
                         }
                     }
                 }

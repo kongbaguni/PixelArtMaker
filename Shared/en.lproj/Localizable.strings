@@ -159,3 +159,6 @@
 
 
 "reply loading" = "loading replys...";
+
+"NSFW title" = "NSFW";
+"NSFW message" = "Not Safe For Work!";

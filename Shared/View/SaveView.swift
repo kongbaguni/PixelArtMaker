@@ -33,7 +33,7 @@ struct SaveView: View {
     @State var alertText:Text? = nil
     @State var isShowAlert = false
 
-    @State var isR18 = false
+    @State var isNSFW = false
     
     func updateId() {
         self.id = StageManager.shared.stage?.documentId
@@ -124,9 +124,9 @@ struct SaveView: View {
                  
             }
             HStack {
-                Toggle("R18", isOn: $isR18).onChange(of: isR18) { newValue in
+                Toggle("NSFW title", isOn: $isNSFW).onChange(of: isNSFW) { newValue in
                     print(newValue)
-                    StageManager.shared.stage?.isR18 = newValue
+                    StageManager.shared.stage?.isNSFW = newValue
                 }
                 .padding(.leading,20)
                 .padding(.trailing,20)
@@ -138,9 +138,9 @@ struct SaveView: View {
                     Button {
                         dim.show()
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false, isR18: isR18,complete: {errorA in
+                            StageManager.shared.save(asNewForce: false, isNSFW: isNSFW,complete: {errorA in
                                 if sharedId != nil {
-                                    StageManager.shared.sharePublic (isR18: isR18) { errorB in
+                                    StageManager.shared.sharePublic (isNSFW: isNSFW) { errorB in
                                         dim.hide()
                                         isShowToast = errorA != nil || errorB != nil
                                         toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
@@ -167,7 +167,7 @@ struct SaveView: View {
                     Button {
                         dim.show()
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: true, isR18: isR18, complete: { error in
+                            StageManager.shared.save(asNewForce: true, isNSFW: isNSFW, complete: { error in
                                 dim.hide()
                                 updateId()
                                 toastMessage = error?.localizedDescription ?? ""
@@ -211,8 +211,8 @@ struct SaveView: View {
                     Button {
                         dim.show()
                         googleAd.showAd { isSucess in
-                            StageManager.shared.save(asNewForce: false, isR18:isR18) { errorA in
-                                StageManager.shared.sharePublic  (isR18: isR18) { errorB in
+                            StageManager.shared.save(asNewForce: false, isNSFW:isNSFW) { errorA in
+                                StageManager.shared.sharePublic  (isNSFW: isNSFW) { errorB in
                                     dim.hide()
                                     toastMessage = errorA?.localizedDescription ?? errorB?.localizedDescription ?? ""
                                     isShowToast = errorA != nil || errorB != nil
@@ -288,7 +288,7 @@ struct SaveView: View {
                         shareImageDatas.append(data)
                     }
                 }
-                isR18 = stage.isR18
+                isNSFW = stage.isNSFW
             }
         }
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)

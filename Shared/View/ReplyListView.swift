@@ -23,7 +23,7 @@ struct ReplyListView: View {
     @State var isToast = false
     @State var toastMessage = ""
     @State var isLoading = false
-    @State var isR18Dic:[ReplyModel:Bool] = [:]
+    @State var isNSFWDic:[ReplyModel:Bool] = [:]
     private func makeReplyView(reply:ReplyModel)-> some View {
         Group {
             if reply.documentId.isEmpty {
@@ -44,7 +44,7 @@ struct ReplyListView: View {
                 } label: {
                     HStack {
                         VStack {
-                            FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder, isR18: isR18Dic[reply] == true)
+                            FSImageView(imageRefId: reply.imageRefId, placeholder: .imagePlaceHolder, isNSFW: isNSFWDic[reply] == true)
                                 .frame(width: 50, height: 50, alignment: .center)
                             Spacer()
                         }
@@ -89,13 +89,13 @@ struct ReplyListView: View {
                         if reply == replys.last && replys.count % Consts.profileReplyLimit == 0 {
                             loadData()
                         }
-                        if let isR18 = SharedStageModel.findBy(id: reply.documentId)?.isR18 {
-                            isR18Dic[reply] = isR18
+                        if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
+                            isNSFWDic[reply] = isNSFW
                         } else {
                             SharedStageModel.findBy(id: reply.documentId) { isDeleted, error in
                                 if isDeleted == false {
-                                    if let isR18 = SharedStageModel.findBy(id: reply.documentId)?.isR18 {
-                                        isR18Dic[reply] = isR18
+                                    if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
+                                        isNSFWDic[reply] = isNSFW
                                     }
                                 }
                             }

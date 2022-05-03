@@ -65,7 +65,7 @@ struct PublicShareListView: View {
                         } label: {
                             VStack {
                                 ZStack {
-                                    FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder, isR18: model.isR18)
+                                    FSImageView(imageRefId: model.documentId, placeholder: .imagePlaceHolder, isNSFW: model.isNSFW)
                                         .frame(width: getWidth(length: gridItems.count, width: width),
                                                height: getWidth(length: gridItems.count, width: width), alignment: .center)
                                     

@@ -18,7 +18,7 @@ class SharedStageModel : Object {
         let regDt:Date
         let updateDt:Date
         let likeCount:Int
-        let isR18:Bool
+        let isNSFW:Bool
     }
     
     @Persisted(primaryKey: true) var id:String = ""
@@ -29,7 +29,7 @@ class SharedStageModel : Object {
     @Persisted var updateDt:TimeInterval = 0.0
     @Persisted var deleted:Bool = false
     @Persisted var likeCount:Int = 0
-    @Persisted var isR18:Bool = false
+    @Persisted var isNSFW:Bool = false
     
     var regDate:Date {
         Date(timeIntervalSince1970: regDt)
@@ -50,7 +50,7 @@ class SharedStageModel : Object {
               regDt: Date(timeIntervalSince1970: regDt),
               updateDt: Date(timeIntervalSince1970: updateDt),
               likeCount: likeCount,
-              isR18 : isR18
+              isNSFW : isNSFW
         )
     }
     

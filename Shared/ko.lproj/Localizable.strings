@@ -181,8 +181,5 @@
 
 
 
-"R18 title" = "민감한 컨텐츠";
-
-"R18 message" = "당신은 만18세 이상입니까?";
-"R18 confirm" = "예";
-"R18 cancel" = "아니오";
+"NSFW title" = "후방주의";
+"NSFW message" = "후방주의 게시물입니다.";
