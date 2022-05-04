@@ -368,15 +368,16 @@ struct FirestoreHelper {
         
         /** 내가 단 댓글 목록 */
         static func getReplys(uid:String, replys:[ReplyModel]? = nil, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
+            let limit = replys == nil ? Consts.profileReplyLimit : Consts.timelineLoadReplyLimit
             DispatchQueue.global().async {
                 var query = Firestore.firestore().collection("reply").order(by: "updateDt", descending: true).whereField("uid", isEqualTo: uid)
                 
                 if let list = replys, let dt = replys?.last?.updateDt {
-                    if list.count % Consts.profileReplyLimit == 0 {
+                    if list.count % limit == 0 {
                         query = query.whereField("updateDt", isLessThan: dt)
                     }
                 }
-                query = query.limit(to: Consts.profileReplyLimit)
+                query = query.limit(to: limit)
                 
                 query.getDocuments { snapShot, error in
                     var result:[ReplyModel] = []
@@ -402,16 +403,18 @@ struct FirestoreHelper {
         /** 내 게시글에 달린 댓글 목록*/
         static func getReplysToMe(uid:String, replys:[ReplyModel]? = nil, complete:@escaping(_ result:[ReplyModel], _ error:Error?)-> Void) {
             DispatchQueue.global().async {
+                let limit = replys == nil ? Consts.profileReplyLimit : Consts.timelineLoadReplyLimit
+
                 var query = Firestore.firestore().collection("reply").order(by: "updateDt", descending: true)
                 if let list = replys, let dt = replys?.last?.updateDt {
-                    if list.count % Consts.profileReplyLimit == 0 {
+                    if list.count % limit == 0 {
                         query = query.whereField("updateDt", isLessThan: dt)
                     }
                 }
                 
                 query = query
                     .whereField("documentsUid", isEqualTo: uid)
-                    .limit(to: Consts.profileReplyLimit)
+                    .limit(to: limit)
                 
                 query.getDocuments { snapShot, error in
                     var result:[ReplyModel] = []
@@ -484,6 +487,8 @@ struct FirestoreHelper {
 
         /** 좋아요한 댓글 목록*/
         static func getLikeReplyList(uid:String, replys:[ReplyModel]? = nil, lastUpdateDt:TimeInterval? = nil ,complete:@escaping(_ replys:[ReplyModel], _ error : Error?)-> Void) {
+            let limit = replys == nil ? Consts.profileReplyLimit : Consts.timelineLoadReplyLimit
+
             DispatchQueue.global().async {
                 
                 let likeReplyCollection = Firestore.firestore().collection("replylike")
@@ -503,7 +508,7 @@ struct FirestoreHelper {
                 if let lastUpdateDt = lastUpdateDt {
                     query = query.whereField("updateDt", isLessThan: lastUpdateDt)
                 }
-                query = query.limit(to: Consts.profileReplyLimit)
+                query = query.limit(to: limit)
                 
                 query.getDocuments { snapshot, error in
                     let ids = (snapshot?.documents ?? []).map({ snap in

@@ -92,7 +92,7 @@ struct ReplyListView: View {
             ForEach(replys, id:\.self) { reply in
                 makeReplyView(reply: reply)
                     .onAppear {
-                        if reply == replys.last && replys.count % Consts.profileReplyLimit == 0 {
+                        if reply == replys.last && replys.count % (isLimited ? Consts.profileReplyLimit : Consts.timelineLoadReplyLimit) == 0 {
                             loadData()
                         }
                         if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
@@ -110,7 +110,7 @@ struct ReplyListView: View {
                                
             }
             
-            if isLimited && replys.count % Consts.profileReplyLimit == 0 && replys.count > 0 {
+            if isLimited && replys.count % (isLimited ? Consts.profileReplyLimit : Consts.timelineLoadReplyLimit) == 0 && replys.count > 0 {
                 NavigationLink {
                     ReplyListFullView(uid: uid, listMode: listMode)
                 } label: {

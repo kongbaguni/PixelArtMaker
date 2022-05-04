@@ -65,38 +65,38 @@ struct TimeLineReplyView: View {
             
         }
         .onAppear {
-            if reply == replys.last {
-                FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: true) { replys, error in
-                    for reply in replys {
-                        if self.replys.firstIndex(of: reply) == nil {
-                            self.replys.append(reply)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                if reply == replys.last {
+                    FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: true) { replys, error in
+                        for reply in replys {
+                            if self.replys.firstIndex(of: reply) == nil {
+                                self.replys.append(reply)
+                            }
+                        }
+                    }
+                }
+                if reply == replys.first {
+                    FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: false) { replys, error in
+                        for reply in replys.reversed() {
+                            if self.replys.firstIndex(of: reply) == nil {
+                                self.replys.insert(reply, at: 0)
+                            }
+                        }
+                    }
+                }
+                
+                if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
+                    isNSFWDic[reply] = isNSFW
+                } else {
+                    SharedStageModel.findBy(id: reply.documentId) { isDeleted, error in
+                        if !isDeleted {
+                            if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
+                                isNSFWDic[reply] = isNSFW
+                            }
                         }
                     }
                 }
             }
-            if reply == replys.first {
-                FirestoreHelper.Reply.getReplyTopicList(indexReply: reply, isLast: false) { replys, error in
-                    for reply in replys.reversed() {
-                        if self.replys.firstIndex(of: reply) == nil {
-                            self.replys.insert(reply, at: 0)
-                        }
-                    }
-                }
-            }
-            
-            if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
-                isNSFWDic[reply] = isNSFW
-            } else {
-                SharedStageModel.findBy(id: reply.documentId) { isDeleted, error in
-                    if !isDeleted {
-                        if let isNSFW = SharedStageModel.findBy(id: reply.documentId)?.isNSFW {
-                            isNSFWDic[reply] = isNSFW
-                        }
-                    }
-                }
-            }
-            
-            
         }
     }
     

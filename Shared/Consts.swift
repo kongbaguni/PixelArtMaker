@@ -51,7 +51,9 @@ struct Consts {
     static let likeSortLimit = 24
     
     /** 프로필에서 바로 댓글 보여주기 리미트 */
-    static let profileReplyLimit = 20
+    static let profileReplyLimit = 5
+    /** 타임라인에서 한번에 읽어오는 댓글 리미트 */
+    static let timelineLoadReplyLimit = 20
     /** 무료모드에서 겔러리 생성 제한 */
     static let free_myGalleryLimit = 50
     /** 무료모드에서 레이어 생성 제한*/
