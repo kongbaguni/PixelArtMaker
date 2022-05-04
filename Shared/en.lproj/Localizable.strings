@@ -172,3 +172,7 @@
 "cache delete confirm confirm" = "confirm";
 
 "timeline" = "timeline";
+
+"loading like art gallery" = "Reading information about recently liked pictures.";
+
+"loading share gallery" = "Reading information about a picture you recently shared.";

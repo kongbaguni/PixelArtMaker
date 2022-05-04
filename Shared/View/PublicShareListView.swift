@@ -114,7 +114,7 @@ struct PublicShareListView: View {
                 }
                 
                 if idlist.count == 0 {
-                    Text("empty public shard list message")
+                    Text(isLoading ? "loading share gallery" : "empty public shard list message")
                 }
                 else {
                     ZStack {

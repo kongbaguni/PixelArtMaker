@@ -255,17 +255,20 @@ struct FirestoreHelper {
                 "updateDt":Date().timeIntervalSince1970,
             ]
                    
+            let newModel = LikeModel(documentId: documentId, uid: uid, imageRefId: imageRefId, updateDt: Date().timeIntervalSince1970)
+            
             let collection = Firestore.firestore().collection("like")
             collection.document(id).getDocument { snapShot, error1 in
                 if snapShot?.data() != nil {
                     collection.document(id).delete { error2 in
                         getLikePeopleIds(documentId: documentId) { uids, error3 in
                             complete(false, uids, error1 ?? error2 ?? error3)
+
                             
-                            NotificationCenter.default.post(name: .likeArticleDataDidChange, object: nil, userInfo: [
+                            NotificationCenter.default.post(name: .likeArticleDataDidChange, object: newModel, userInfo: [
                                 "documentId":documentId,
                                 "uid":uid,
-                                "isLike":true,
+                                "isLike":false,
                                 "likePeopleUids":uids
                             ])
                         }
@@ -274,10 +277,10 @@ struct FirestoreHelper {
                     collection.document(id).setData(data) { error2 in
                         getLikePeopleIds(documentId: documentId) { uids, error3 in
                             complete(true, uids, error1 ?? error2 ?? error3)
-                            NotificationCenter.default.post(name: .likeArticleDataDidChange, object: nil, userInfo: [
+                            NotificationCenter.default.post(name: .likeArticleDataDidChange, object: newModel, userInfo: [
                                 "documentId":documentId,
                                 "uid":uid,
-                                "isLike":false,
+                                "isLike":true,
                                 "likePeopleUids":uids
                             ])
                         }

@@ -19,9 +19,13 @@ struct LikeArtListView: View {
     @State var list:[LikeModel] = []
     @State var toastMessage:String = ""
     @State var isToast = false
-    @State var isNeedReload = false
     @State var isNeedMore = false
     @State var isNSFWDic:[LikeModel:Bool] = [:]
+    
+    @State var isLoading = false
+    
+    @State var changeLikeModel:(model:LikeModel,isLike:Bool)? = nil
+    @State var isNeedReload = false
     
     var moreButton : some View {
         NavigationLink {
@@ -99,7 +103,7 @@ struct LikeArtListView: View {
             } else {
                 HStack {
                     Spacer()
-                    Text("empty like list message")
+                    Text(isLoading ? "loading like art gallery" : "empty like list message")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                     Spacer()
@@ -108,9 +112,10 @@ struct LikeArtListView: View {
         }.onAppear {
             if isNeedReload {
                 list.removeAll()
-                isNeedReload = false
+                isNeedReload = false 
             }
             if list.count == 0 {
+                isLoading = true
                 getListFromFirebase { result, error in
                     withAnimation (.easeInOut){
                         list = result
@@ -118,10 +123,47 @@ struct LikeArtListView: View {
                     isNeedMore = result.count == Consts.profileImageLimit
                     toastMessage = error?.localizedDescription ?? ""
                     isToast = error != nil
+                    isLoading = false
                 }
             }
+            if let data = changeLikeModel {
+                let model = data.model
+                let docId = model.documentId
+                let isLike = data.isLike
+                
+                let models = list.filter { model in
+                    return model.documentId == docId
+                }
+                
+                if isLike == false {
+                    for m in models {
+                        if let idx = list.firstIndex(of: m) {
+                            list.remove(at: idx)
+                        }
+                    }
+                }
+                else {
+                    for m in models {
+                        if let idx = list.firstIndex(of: m) {
+                            list.remove(at: idx)
+                        }
+                        list.insert(m, at: 0)
+                    }
+                }
+                changeLikeModel = nil
+            }
             NotificationCenter.default.addObserver(forName: .likeArticleDataDidChange, object: nil, queue: nil) { noti in
-                isNeedReload = true
+                if changeLikeModel != nil {
+                    isNeedReload = true
+                    changeLikeModel = nil
+                }
+                else if let userInfo = noti.userInfo {
+                    if let isLike  = userInfo["isLike"] as? Bool,
+                       let model = noti.object as? LikeModel {
+                        changeLikeModel = (model:model,isLike:isLike)
+                    }
+                }
+                
             }
         }
         .toast(message: toastMessage, isShowing: $isToast, duration: 4)

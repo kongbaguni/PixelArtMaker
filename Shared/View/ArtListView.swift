@@ -47,6 +47,7 @@ struct ArticleListView : View {
     @State var toastMessage = ""
     @State var isToast = false
     @State var isNeedReload = false
+    @State var isLoading = false
     var moreBtn : some View {
         NavigationLink {
             ArtListView(uid: uid, navigationTitle: Text("profile view public arts"))
@@ -86,7 +87,7 @@ struct ArticleListView : View {
     var body : some View {
         Group {
             if ids.count == 0 {
-                Text("empty public shard list message")
+                Text(isLoading ? "loading share gallery" : "empty public shard list message")
                     .foregroundColor(.k_weakText)
                     .font(.subheadline)
             } else {
@@ -116,11 +117,13 @@ struct ArticleListView : View {
     }
     
     private func loadFirst() {
+        isLoading = true
         loadData { result, error in
             ids = result
             toastMessage = error?.localizedDescription ?? ""
             isToast = error != nil
             isNeedMore = result.count == Consts.profileImageLimit
+            isLoading = false 
         }
     }
     
