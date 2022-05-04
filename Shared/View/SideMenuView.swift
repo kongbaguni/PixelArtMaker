@@ -19,6 +19,7 @@ struct SideMenuView: View {
     @Binding var isShowSaveView:Bool
     @Binding var isShowLoadView:Bool
     @Binding var isShowShareListView:Bool
+    @Binding var isShowTimelineReply:Bool
     @Binding var isShowSettingView:Bool
     @State var isSignIn = false
     
@@ -76,9 +77,16 @@ struct SideMenuView: View {
     }
     
     var shareBtnView : some View {
-        makeBtn(image: Image(systemName: "icloud.square"), text: .menu_public_load_title) {
+        makeBtn(image: Image(systemName: "text.below.photo"), text: .menu_public_load_title) {
             isShowShareListView = true
         }
+    }
+    
+    var timelineReplyBtnView : some View {
+        makeBtn(image: Image(systemName: "text.bubble"), text: Text("timeline")) {
+            isShowTimelineReply = true
+        }
+
     }
     
     var deleteBtnView : some View {
@@ -125,7 +133,9 @@ struct SideMenuView: View {
                 Spacer()
                 saveBtnView
                 loadBtnView
+                Spacer()
                 shareBtnView
+                timelineReplyBtnView
                 Spacer()
                 if StageManager.shared.stage?.documentId != nil {
                     deleteBtnView

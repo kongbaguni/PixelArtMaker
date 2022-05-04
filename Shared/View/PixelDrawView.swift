@@ -91,6 +91,8 @@ struct PixelDrawView: View {
     @State var isShowSaveView = false
     @State var isShowLoadView = false
     @State var isShowShareListView = false
+    @State var isShowTimelineReply = false
+    
     @State var isShowSigninView = false
     @State var isShowProfileView = false
     @State var isShowNewCanvasView = false
@@ -167,6 +169,7 @@ struct PixelDrawView: View {
             isShowSaveView: $isShowSaveView,
             isShowLoadView: $isShowLoadView,
             isShowShareListView: $isShowShareListView,
+            isShowTimelineReply: $isShowTimelineReply,
             isShowSettingView: $isShowSettingView
         )
 
@@ -291,7 +294,10 @@ struct PixelDrawView: View {
                 NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
                     
                 }
-                NavigationLink(destination: TimeLineTabView(), isActive: $isShowShareListView) {
+                NavigationLink(destination: TimeLineView(), isActive: $isShowShareListView) {
+                    
+                }
+                NavigationLink(destination: TimeLineReplyView(), isActive: $isShowTimelineReply) {
                     
                 }
                 NavigationLink(destination: SettingView(tracingImageData: $tracingImage), isActive: $isShowSettingView) {

@@ -23,7 +23,7 @@
 "menu signout title" = "로그아웃";
 "menu save title" = "저장하기";
 "menu load title" = "불러오기";
-"menu public load title" = "타임라인";
+"menu public load title" = "공개 겔러리";
 
 "menu color select title" = "컬러 프리셋";
 "menu delete title" = "삭제하기";
@@ -192,3 +192,5 @@
 "cache delete confirm message" = "삭제 완료";
 "cache delete confirm confirm" = "확인";
 
+
+"timeline" = "타임라인";

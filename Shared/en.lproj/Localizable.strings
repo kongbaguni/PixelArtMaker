@@ -24,7 +24,7 @@
 "menu signout title" = "signout";
 "menu save title" = "save";
 "menu load title" = "load";
-"menu public load title" = "TimeLine";
+"menu public load title" = "Open Gallery";
 
 "menu delete title" = "delete";
 "menu delete alert title" = "Delete image";
@@ -171,3 +171,4 @@
 "cache delete confirm message" = "Cache has been cleared.";
 "cache delete confirm confirm" = "confirm";
 
+"timeline" = "timeline";
