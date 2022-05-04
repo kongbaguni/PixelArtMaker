@@ -104,6 +104,7 @@ struct LikeArtListView: View {
                 HStack {
                     Spacer()
                     Text(isLoading ? "loading like art gallery" : "empty like list message")
+                        .padding(50)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                     Spacer()
@@ -112,7 +113,7 @@ struct LikeArtListView: View {
         }.onAppear {
             if isNeedReload {
                 list.removeAll()
-                isNeedReload = false 
+                isNeedReload = false
             }
             if list.count == 0 {
                 isLoading = true
