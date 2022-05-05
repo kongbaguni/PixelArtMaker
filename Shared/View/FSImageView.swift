@@ -13,6 +13,7 @@ import RealmSwift
 struct FSImageView : View {
     let imageRefId:String
     let placeholder:Image
+    let error:Image
     let isNSFW:Bool
     let isNSFWunlock:Bool
     @State var isTouchedNSFW = false
@@ -21,18 +22,18 @@ struct FSImageView : View {
     @State var hasError:Bool = false
     @State var isShwoAlert:Bool = false
     
-    init (imageRefId:String, placeholder:Image, isNSFW:Bool = false, isNSFWUnlock:Bool = false ) {
+    init (imageRefId:String, placeholder:Image, error:Image = .errorImage ,isNSFW:Bool = false, isNSFWUnlock:Bool = false ) {
         self.imageRefId = imageRefId
         self.placeholder = placeholder
         self.isNSFW = isNSFW
         self.isNSFWunlock = isNSFWUnlock
+        self.error = error
     }
     
     var body : some View {
         ZStack {
             if hasError {
-                Image.errorImage
-                    .background(Color.gray)
+                error.background(Color.gray)
             }
             else {
                 if isNSFW && isTouchedNSFW == false {
@@ -63,6 +64,7 @@ struct FSImageView : View {
                     }
                     .onAppear {
                         if imageRefId.isEmpty {
+                            hasError = true
                             return
                         }
                         var isNeedUpdate = true

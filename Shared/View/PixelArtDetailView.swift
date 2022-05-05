@@ -62,7 +62,7 @@ struct PixelArtDetailView: View {
     }
     
     private func toggleLike() {
-        FirestoreHelper.PublicArticle.toggleArticleLike(documentId: model!.id, imageRefId: model!.documentId) { isLike, uids, error in
+        FirestoreHelper.PublicArticle.toggleArticleLike(documentId: pid, imageRefId: model?.documentId ?? "") { isLike, uids, error in
             print("toggle like \(isLike), \(likeUids) \(likeUids.count)")
             model?.likeUpdate(isMyLike: isLike, likeUids: likeUids, complete: { error in
                 if let err = error {

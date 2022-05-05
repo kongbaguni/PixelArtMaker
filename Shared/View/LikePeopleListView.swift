@@ -22,7 +22,7 @@ struct SimplePeopleView : View {
             if isSmall {
                 VStack {
                     if let id = profileImageRefId {
-                        FSImageView(imageRefId: id, placeholder: .profilePlaceHolder)
+                        FSImageView(imageRefId: id, placeholder: .profilePlaceHolder, error : .profilePlaceHolder)
                             .frame(width: size, height: size)
                     } else {
                         Image.profilePlaceHolder
@@ -44,7 +44,7 @@ struct SimplePeopleView : View {
             else {
                 ZStack {
                     if let id = profileImageRefId {
-                        FSImageView(imageRefId: id, placeholder: .profilePlaceHolder)
+                        FSImageView(imageRefId: id, placeholder: .profilePlaceHolder, error: .profilePlaceHolder)
                             .frame(width: size, height: size)
                     }
                     else {

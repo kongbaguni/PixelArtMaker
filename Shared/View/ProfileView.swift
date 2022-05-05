@@ -47,7 +47,7 @@ struct ProfileView: View {
     private func makeProfileImageView(size:CGFloat)-> some View {
         VStack {
             if let url = imageRefId {
-                FSImageView(imageRefId: url, placeholder: .profilePlaceHolder)
+                FSImageView(imageRefId: url, placeholder: .profilePlaceHolder, error: .profilePlaceHolder)
                     .frame(width: size, height: size, alignment: .center)
             } else {
                 Image.profilePlaceHolder
