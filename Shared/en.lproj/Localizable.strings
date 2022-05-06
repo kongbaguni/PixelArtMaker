@@ -146,7 +146,7 @@
 "writer" = "writer";
 "anonymous" = "anonymous";
 
-"anonymous signin" = "anonymous signin";
+"anonymous signin" = "anonymous signup";
 
 
 "deleted by user message" = "Deleted by author";
@@ -176,3 +176,6 @@
 "loading like art gallery" = "Reading information about recently liked pictures.";
 
 "loading share gallery" = "Reading information about a picture you recently shared.";
+
+"Signin title" = "Signin";
+"Signin desc" = "If you log in, you can save your drawings or share them with others.";

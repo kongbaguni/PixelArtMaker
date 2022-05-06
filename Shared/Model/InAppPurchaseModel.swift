@@ -21,7 +21,11 @@ class InAppPurchaseModel: Object {
 
 extension InAppPurchaseModel {
     var isExpire:Bool {
+#if targetEnvironment(simulator)
+        return false
+#else
         return expireDate < Date()
+#endif
     }
 
     var localeFormatedPrice:String? {
@@ -93,6 +97,9 @@ extension InAppPurchaseModel {
     
     /** 구독중인가?*/
     static var isSubscribe:Bool {
+#if targetEnvironment(simulator)
+        return true
+#else
         let list = try! Realm().objects(InAppPurchaseModel.self)
         for model in list {
             if model.isExpire == false {
@@ -100,6 +107,7 @@ extension InAppPurchaseModel {
             }
         }
         return false
+#endif 
     }
     
     var isLastPurchase:Bool {
