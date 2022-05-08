@@ -10,11 +10,12 @@ em {
 }
 
 q:before, q:after  {
-    color:#ff0000;
+    color:#396;
 }
 
 q {
-    color:#aaa;
+    color:#369;
+    font-weight:bold;
 }
 
 article {
@@ -148,4 +149,22 @@ article header a.toTop {
 
 body.dark article header a.toTop {
     background-image:url("toTop_black.png");
+}
+
+article.EULA > p {
+    padding:20px;
+}
+
+article.EULA > p.list:first-letter {
+    font-size:50px;
+    float:left;
+    padding:5px;
+    padding-left:15px;
+    padding-right:15px;
+    margin-right:5px;
+    margin-bottom:5px;
+    color:#fff;
+    background-color:#369;
+    border-radius:10px;
+    text-transform:uppercase;
 }
