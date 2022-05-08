@@ -22,59 +22,9 @@ struct InAppPurchesView: View {
     @State var isShowAlert = false
     @State var alertType:AlertType = .구입복원_구매내역없음
     @State var isSubscribe = false
-    var body: some View {
-        List {
-            Text("subscribe desc1_1")
-                .font(.system(size: 15))
-            Text("subscribe desc1_2")
-                .font(.system(size: 15))
-                .foregroundColor(.gray)
-
-            if isLoading {
-                ActivityIndicator(isAnimating: $isLoading, style: .large)
-                    .frame(height:200)
-            }
-            
-            ForEach(purches, id:\.self) { model in
-                Button {
-                    dim.show()
-                    inappPurchase.buyProduct(productId: model.id) { isSucess in
-                        dim.hide()
-                        self.isSubscribe = InAppPurchaseModel.isSubscribe
-                    }
-                } label: {
-                    let idx = purches.firstIndex(of: model)!
-                    VStack(alignment: .leading, spacing: 10) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(model.title)
-                                    .font(.system(size: 20, weight: .bold, design: .serif))
-                                if discount[idx] > 0 && model.isExpire {
-                                    HStack {
-                                    Text(discount[idx].currencyFormatString)
-                                    Text("discount")
-                                    }
-                                }
-                            }
-                            Spacer()
-                            Text(model.price.currencyFormatString)
-                                .font(.system(size: 30, weight: .heavy, design: .serif))
-                                .foregroundColor(SwiftUI.Color.K_boldText)
-//                                .strikethrough(model.isExpire == false && model.isLastPurchase == true, color: Color.K_boldText)
-                        }
-                    }
-
-                }//.opacity(model.isExpire == false && model.isLastPurchase ? 0.2 : 1.0)
-            }
-            Text("subscribe desc2_1")
-                .font(.system(size:15))
-            Text("subscribe desc2_2")
-                .font(.system(size:15))
-                .foregroundColor(.gray)
-            Text("subscribe desc2_3")
-                .font(.system(size:12))
-                .foregroundColor(.gray)
-            
+    
+    var links : some View {
+        Group {
             if let url = Bundle.main.url(forResource: "HTML/term", withExtension: "html") {
                 NavigationLink {
                     WebView(url: url)
@@ -93,8 +43,88 @@ struct InAppPurchesView: View {
                 }
             }
             
-
+            if let url = Bundle.main.url(forResource: "HTML/EULA", withExtension: "html") {
+                NavigationLink {
+                    WebView(url: url)
+                        .navigationBarTitle(Text("EULA"))
+                } label: {
+                    Text("EULA")
+                }
+            }
+        }
+    }
+    
+    var header : some View {
+        Group {
+            Text("subscribe desc1_1")
+                .font(.system(size: 15))
+            Text("subscribe desc1_2")
+                .font(.system(size: 15))
+                .foregroundColor(.gray)
+        }
+    }
+    
+    var list : some View {
+        Group {
+            ForEach(purches, id:\.self) { model in
+                Button {
+                    dim.show()
+                    inappPurchase.buyProduct(productId: model.id) { isSucess in
+                        dim.hide()
+                        self.isSubscribe = InAppPurchaseModel.isSubscribe
+                    }
+                } label: {
+                    let idx = purches.firstIndex(of: model)!
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(model.title)
+                                    .font(.system(size: 20, weight: .bold, design: .serif))
+                                if discount[idx] > 0 && model.isExpire {
+                                    HStack {
+                                        Text(discount[idx].currencyFormatString)
+                                        Text("discount")
+                                    }
+                                }
+                            }
+                            Spacer()
+                            Text(model.price.currencyFormatString)
+                                .font(.system(size: 30, weight: .heavy, design: .serif))
+                                .foregroundColor(SwiftUI.Color.K_boldText)
+                            //                                .strikethrough(model.isExpire == false && model.isLastPurchase == true, color: Color.K_boldText)
+                        }
+                    }
+                    
+                }//.opacity(model.isExpire == false && model.isLastPurchase ? 0.2 : 1.0)
+            }
+        }
+    }
+    
+    var footer: some View {
+        Group {
+            Text("subscribe desc2_1")
+                .font(.system(size:15))
+            Text("subscribe desc2_2")
+                .font(.system(size:15))
+                .foregroundColor(.gray)
+            Text("subscribe desc2_3")
+                .font(.system(size:12))
+                .foregroundColor(.gray)
+        }
+    }
+    
+    var body: some View {
+        List {
+            header
+            if isLoading {
+                ActivityIndicator(isAnimating: $isLoading, style: .large)
+                    .frame(height:200)
+            }
+            list
+            footer
             
+            links
+
             if isSubscribe == false {
                 Button {
                     dim.show()

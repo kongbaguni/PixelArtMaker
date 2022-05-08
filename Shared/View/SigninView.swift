@@ -50,6 +50,15 @@ struct SigninView: View {
                             Text("privacyPolicy")
                         }.padding(5)
                     }
+                    
+                    if let url =  Bundle.main.url(forResource: "HTML/EULA", withExtension: "html") {
+                        NavigationLink {
+                            WebView(url: url)
+                                .navigationBarTitle(Text("EULA"))
+                        } label: {
+                            Text("EULA")
+                        }.padding(5)
+                    }
                 }
                 
                 

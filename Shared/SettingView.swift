@@ -199,6 +199,10 @@ struct SettingView: View {
                     makeWebViewLink(url: url, title: Text("privacyPolicy"))
                 }
                 
+                if let url =  Bundle.main.url(forResource: "HTML/EULA", withExtension: "html") {
+                    makeWebViewLink(url: url, title: Text("EULA"))
+                }
+                
                 if let url = Bundle.main.url(forResource: "HTML/openSourceLicense", withExtension: "html") {
                     makeWebViewLink(url: url, title: Text("openSourceLicense"))
                 }
