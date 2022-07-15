@@ -9,6 +9,10 @@ import SwiftUI
 import SDWebImageSwiftUI
 import RealmSwift
 struct ProfileView: View {
+    enum AlertType {
+        case normal
+        case leave
+    }
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     let uid:String
@@ -32,6 +36,7 @@ struct ProfileView: View {
         self.landScape = landScape
     }
     @State var isAlert = false
+    @State var alertType:AlertType = .normal
     @State var alertTitle:Text? = nil
     @State var alertMessage:Text? = nil
     
@@ -43,6 +48,8 @@ struct ProfileView: View {
     @State var email:String = ""
     
     @State var sharedIds:[String] = []
+    /** 탈퇴처리 프로그레스*/
+    @State var leaveProgress:(title:Text,completed:Int,total:Int)? = nil
     
     private func makeProfileImageView(size:CGFloat)-> some View {
         VStack {
@@ -171,6 +178,14 @@ struct ProfileView: View {
                     }
                 }
             }
+            if editabel && uid == AuthManager.shared.userId {
+                VStack {
+                    leaveButton
+                    if let progress = leaveProgress {
+                        KProgressView(total: progress.total, progress: progress.completed, title: progress.title)
+                    }
+                }
+            }
         }
     }
     
@@ -237,6 +252,18 @@ struct ProfileView: View {
             }
         }
     }
+    
+    var leaveButton : some View {
+        Button {
+            alertType = .leave
+            isAlert = true
+        } label: {
+            Text("leave action title")
+                .font(.subheadline)
+                .foregroundColor(.red)
+        }
+    }
+    
     var body: some View {
         GeometryReader { geomentry in
             if haveArtList {
@@ -269,7 +296,29 @@ struct ProfileView: View {
         }
         .toast(message: toastMessage, isShowing: $isToast, duration:4)
         .alert(isPresented: $isAlert) {
-            Alert(title: alertTitle ?? Text("commom alert title"), message: alertMessage, dismissButton: nil)
+            switch alertType {
+            case .normal:
+                return Alert(title: alertTitle ?? Text("commom alert title"), message: alertMessage, dismissButton: nil)
+            case .leave:
+                return Alert(title: Text("leave alert title"),
+                      message: Text("leave alert message"),
+                      primaryButton: .default(Text("leave alert confirm"), action: {
+                    AuthManager.shared.leave { progress in
+                        leaveProgress = progress
+                    } complete: { error in
+                        if error != nil {
+                            toastMessage = error?.localizedDescription ?? ""
+                            isToast = true
+                            return
+                        }
+                        leaveProgress = nil 
+                        let size = StageManager.shared.canvasSize
+                        StageManager.shared.initStage(canvasSize:size)
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }), secondaryButton: .cancel())
+                      
+            }
         }
         .toolbar {
             if editabel && isAnonymous == false {

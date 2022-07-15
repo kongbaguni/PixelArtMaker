@@ -179,3 +179,13 @@
 
 "Signin title" = "Signin";
 "Signin desc" = "If you log in, you can save your drawings or share them with others.";
+
+"leave action title" = "Delete account";
+"leave alert title" = "Delete account";
+"leave alert message" = "Your account will be deleted. All data, including pictures you have worked on, published posts, comments you have made, and lists of likes, will be deleted and cannot be recovered. Are you sure you want to proceed?";
+"leave alert confirm" = "Delete";
+"leave process comple msg" = "The account deletion process has ended normally.";
+
+"leave delete like msg" = "You are deleting your like history.";
+"leave delete replies msg" = "You are deleting your comments.";
+"leave delete articles msg" = "Your posts are being deleted.";

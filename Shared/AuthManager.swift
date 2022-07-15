@@ -9,9 +9,12 @@ import Foundation
 import CryptoKit
 import AuthenticationServices
 import Firebase
+import FirebaseFirestore
 import FirebaseAuth
 import GoogleSignIn
 import RealmSwift
+import SwiftUI
+import Alamofire
 
 extension Notification.Name {
     static let authDidSucessed = Notification.Name("authDidSucessed_observer")
@@ -20,7 +23,7 @@ extension Notification.Name {
 class AuthManager : NSObject {
     static let shared = AuthManager()
     let auth = Auth.auth()
-    
+    var appleReAuth = false
     var userId:String? {
         return auth.currentUser?.uid
     }
@@ -180,6 +183,177 @@ class AuthManager : NSObject {
             }
         }
     }
+
+    //MARK: - 탈퇴하기
+    func leave(progress:@escaping(_ progress:(title:Text,completed:Int,total:Int))->Void, complete:@escaping(_ error:Error?)->Void) {
+        guard let uid = userId else {
+            return
+        }
+        func deleteArticles(complete:@escaping(_ error:Error?)->Void) {
+            Firestore.firestore().collection("public").whereField("uid", isEqualTo: uid).getDocuments { querySnapShot, error1 in
+                if let err = error1 {
+                    complete(err)
+                    return
+                }
+                
+                let totalCount = querySnapShot?.documents.count ?? 0
+                var completeCount = 0
+                var errors:[Error] = []
+                if totalCount == 0 {
+                    complete(nil)
+                    return
+                }
+                
+                for doc in querySnapShot?.documents ?? [] {
+                    if let docId = doc.data()["documentId"] as? String {
+                        FirebaseStorageHelper.shared.delete(deleteURL: "shareImages/\(docId)") { error2 in
+                            Firestore.firestore().collection("public").document(doc.documentID).delete { error3 in
+                                if error2 == nil && error3 == nil {
+                                    completeCount += 1
+                                    progress((title:Text("leave delete articles msg"),completed:completeCount, total:totalCount))
+                                } else {
+                                    errors.append((error2 ?? error3)!)
+                                }
+                                
+                                if completeCount == totalCount {
+                                    complete(nil)
+                                    return
+                                }
+                                if completeCount + errors.count == totalCount && errors.count > 0 {
+                                    complete(errors.first!)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        
+        func deleteReplys(complete:@escaping(_ error:Error?)->Void) {
+            Firestore.firestore().collection("reply").whereField("uid", isEqualTo: uid).getDocuments { querysnapShot, error1 in
+                if let err = error1 {
+                    complete(err)
+                    return
+                }
+                let totalCount = querysnapShot?.documents.count ?? 0
+                var completedCount = 0
+                if totalCount == 0 {
+                    complete(nil)
+                    return
+                }
+                var errors:[Error] = []
+                for doc in querysnapShot?.documents ?? [] {
+                    let id = doc.documentID
+                    Firestore.firestore().collection("reply").document(id).delete { error2 in
+                        if error2 == nil {
+                            completedCount += 1
+                            progress((title:Text("leave delete replys msg"),completed:completedCount,total:totalCount))
+                        } else {
+                            errors.append(error2!)
+                        }
+                        if totalCount == completedCount {
+                            complete(nil)
+                            return
+                        }
+                        if errors.count + completedCount == totalCount && errors.count > 0 {
+                            complete(errors.first!)
+                        }
+                    }
+                }
+            }
+        }
+        
+        func deleteLikes(complete:@escaping(_ error:Error?)->Void) {
+            Firestore.firestore().collection("like").whereField("uid", isEqualTo: uid).getDocuments { querysnapshot, error1 in
+                if let err = error1 {
+                    complete(err)
+                    return
+                }
+                let totalCount = querysnapshot?.documents.count ?? 0
+                var completeCount = 0
+                var errors:[Error] = []
+                
+                if totalCount == 0 {
+                    complete(nil)
+                    return
+                }
+                for doc in querysnapshot?.documents ?? [] {
+                    let id = doc.documentID
+                    Firestore.firestore().collection("like").document(id).delete { error2 in
+                        if let err = error2 {
+                            errors.append(err)
+                        }
+                        else {
+                            completeCount += 1
+                            progress((title:Text("leave delete like msg"), completed:completeCount, total:totalCount))
+                        }
+                        if totalCount == completeCount {
+                            complete(nil)
+                            return
+                        }
+                        if errors.count + completeCount == totalCount {
+                            complete(errors.first)
+                        }
+                    }
+                }
+            }
+        }
+
+     
+      
+        
+        
+//        // Prompt the user to re-provide their sign-in credentials
+//        user.reauthenticate(with: credential) { error,arg   in
+//          if let error = error {
+//            // An error happened.
+//          } else {
+//            // User re-authenticated.
+//          }
+//        }
+        
+        print(auth.currentUser?.providerID ?? "")
+        print(auth.currentUser?.providerData.first?.providerID ?? "")
+        func reauth(complete:@escaping(_ isSucess:Bool)->Void) {
+            switch auth.currentUser?.providerData.first?.providerID {
+            case "google.com":
+                print("구글 이다")
+                startSignInWithGoogleId { loginSucess in
+                    complete(loginSucess)
+                }
+            case "apple.com":
+                appleReAuth = true
+                startSignInWithAppleFlow { loginSucess in
+                    self.appleReAuth = false
+                    complete(loginSucess)
+                }
+                print("애플 이다")
+            default:
+                print("모르겠다")
+            }
+        }
+        reauth { isSucess in
+            if isSucess {
+                Auth.auth().currentUser?.delete(completion: { error in
+                    print(error?.localizedDescription ?? "sucess")
+                    if error == nil {
+                        StageManager.shared.initStage(canvasSize: StageManager.shared.canvasSize)
+                        StageManager.shared.stage?.documentId = nil
+                        StageManager.shared.stage?.previewImage = nil
+                        let realm = try! Realm()
+                        try! realm.write {
+                            realm.deleteAll()
+                        }
+                        NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
+                        NotificationCenter.default.post(name: .signoutDidSucessed, object: nil)
+                    }
+                })
+            }
+
+        }
+    }
+
     
     func upgradeAnonymousWithGoogleId(complete:@escaping(_ isSucess:Bool)->Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID,
@@ -238,7 +412,7 @@ extension AuthManager: ASAuthorizationControllerDelegate {
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
             
-            if auth.currentUser == nil {
+            if auth.currentUser == nil || appleReAuth {
                 // Sign in with Firebase.
                 auth.signIn(with: credential) { [self] (authResult, error) in
                     if let error = error {
@@ -272,4 +446,3 @@ extension AuthManager: ASAuthorizationControllerDelegate {
     }
     
 }
-

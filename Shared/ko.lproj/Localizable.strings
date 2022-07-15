@@ -196,3 +196,13 @@
 "timeline" = "타임라인";
 "loading like art gallery" = "최근에 좋아요 한 그림에 대한 정보를 읽어오는 중입니다.";
 "loading share gallery" = "최근에 공유한 그림에 대한 정보를 읽어오는 중입니다.";
+
+"leave action title" = "계정삭제";
+"leave alert title" = "계정삭제";
+"leave alert message" = "계정을 삭제합니다. 작업한 그림, 공개한 개시글, 작성한 댓글, 좋아요 목록 등 모든 데이터가 삭제되고,다시 복구할 수 없습니다. 진행하시겠습니까?";
+"leave alert confirm" = "삭제";
+"leave process comple msg" = "계정삭제 처리가 정상 종료되었습니다.";
+
+"leave delete like msg" = "좋아요 기록 삭제하는 중입니다.";
+"leave delete replys msg" = "작성한 댓글 삭제하는 중입니다.";
+"leave delete articles msg" = "게시글 삭제하는 중입니다.";
