@@ -178,7 +178,7 @@ struct ProfileView: View {
                     }
                 }
             }
-            if editabel && uid == AuthManager.shared.userId {
+            if editabel && uid == AuthManager.shared.userId && AuthManager.shared.auth.currentUser?.isAnonymous == false {
                 VStack {
                     leaveButton
                     if let progress = leaveProgress {
