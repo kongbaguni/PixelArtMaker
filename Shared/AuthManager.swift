@@ -335,20 +335,27 @@ class AuthManager : NSObject {
         }
         reauth { isSucess in
             if isSucess {
-                Auth.auth().currentUser?.delete(completion: { error in
-                    print(error?.localizedDescription ?? "sucess")
-                    if error == nil {
-                        StageManager.shared.initStage(canvasSize: StageManager.shared.canvasSize)
-                        StageManager.shared.stage?.documentId = nil
-                        StageManager.shared.stage?.previewImage = nil
-                        let realm = try! Realm()
-                        try! realm.write {
-                            realm.deleteAll()
+                deleteArticles { error in
+                    deleteReplys { error in
+                        deleteLikes { error in
+                            Auth.auth().currentUser?.delete(completion: { error in
+                                print(error?.localizedDescription ?? "sucess")
+                                if error == nil {
+                                    StageManager.shared.initStage(canvasSize: StageManager.shared.canvasSize)
+                                    StageManager.shared.stage?.documentId = nil
+                                    StageManager.shared.stage?.previewImage = nil
+                                    let realm = try! Realm()
+                                    try! realm.write {
+                                        realm.deleteAll()
+                                    }
+                                    NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
+                                    NotificationCenter.default.post(name: .signoutDidSucessed, object: nil)
+                                }
+                            })
+
                         }
-                        NotificationCenter.default.post(name: .layerDataRefresh, object: nil)
-                        NotificationCenter.default.post(name: .signoutDidSucessed, object: nil)
                     }
-                })
+                }
             }
 
         }
