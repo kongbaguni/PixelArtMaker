@@ -153,7 +153,7 @@ struct ProfileView: View {
             if isAnonymous && editabel {
                 HStack {
                     AuthorizationButton(provider: .apple, sizeType: .large, authType: .signup) {
-                        AuthManager.shared.upgradeAnonymousWithAppleId { isSucess in
+                        AuthManager.shared.upgradeAnonymousWithAppleId { isSucess, error in
                             if isSucess {
                                 FirestoreHelper.Profile.downloadProfile(isCreateDefaultProfile: true) { error in
                                     presentationMode.wrappedValue.dismiss()
@@ -165,7 +165,7 @@ struct ProfileView: View {
                         }
                     }
                     AuthorizationButton(provider: .google, sizeType: .large, authType: .signup) {
-                        AuthManager.shared.upgradeAnonymousWithGoogleId { isSucess in
+                        AuthManager.shared.upgradeAnonymousWithGoogleId { isSucess, error in
                             if isSucess {
                                 FirestoreHelper.Profile.downloadProfile(isCreateDefaultProfile: true) { error in
                                     presentationMode.wrappedValue.dismiss()

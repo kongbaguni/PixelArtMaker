@@ -65,9 +65,10 @@ struct SigninView: View {
                 if AuthManager.shared.isSignined == false {
                     //MARK: - Apple 로 로그인
                     AuthorizationButton(provider: .apple, sizeType: .large, authType: .signin) {
-                        AuthManager.shared.startSignInWithAppleFlow { loginSucess in
+                        AuthManager.shared.startSignInWithAppleFlow { loginSucess, errorA in
                             if loginSucess {
-                                FirestoreHelper.Profile.downloadProfile (isCreateDefaultProfile: true) { error in
+                                FirestoreHelper.Profile.downloadProfile (isCreateDefaultProfile: true) { errorB in
+                                    let error = errorA ?? errorB
                                     restoreInappPurchase()
                                     toastMessage = error?.localizedDescription ?? ""
                                     isShowToast = error != nil
@@ -80,9 +81,10 @@ struct SigninView: View {
                     }
                     //MARK: - Google 로 로그인
                     AuthorizationButton(provider: .google, sizeType: .large, authType: .signin) {
-                        AuthManager.shared.startSignInWithGoogleId { loginSucess in
+                        AuthManager.shared.startSignInWithGoogleId { loginSucess, errorA in
                             if loginSucess {
-                                FirestoreHelper.Profile.downloadProfile (isCreateDefaultProfile: true) { error in
+                                FirestoreHelper.Profile.downloadProfile (isCreateDefaultProfile: true) { errorB in
+                                    let error = errorA ?? errorB
                                     restoreInappPurchase()
                                     toastMessage = error?.localizedDescription ?? ""
                                     isShowToast = error != nil
@@ -95,9 +97,12 @@ struct SigninView: View {
                     }
                     //MARK: - 익명 로그인
                     Button {
-                        AuthManager.shared.startSignInAnonymously { loginSucess in
+                        AuthManager.shared.startSignInAnonymously { loginSucess , error in
                             if loginSucess {
                                 presentationMode.wrappedValue.dismiss()
+                            } else {
+                                toastMessage = error?.localizedDescription ?? ""
+                                isShowToast = true
                             }
                         }
                     } label: {
@@ -108,6 +113,7 @@ struct SigninView: View {
 
             }
         }
+        .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
     }
 }
 

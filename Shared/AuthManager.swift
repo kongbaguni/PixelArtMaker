@@ -84,12 +84,12 @@ class AuthManager : NSObject {
     }
     
     
-    fileprivate var didComplete:(_ loginSucess:Bool)->Void = { _ in }
+    fileprivate var didComplete:(_ loginSucess:Bool, _ error: Error?)->Void = { _ , _ in }
     // Unhashed nonce.
     fileprivate var currentNonce: String?
     
     //MARK: - 구글 아이디로 로그인하기
-    func startSignInWithGoogleId(complete:@escaping(_ loginSucess:Bool)->Void) {
+    func startSignInWithGoogleId(complete:@escaping(_ loginSucess:Bool, _ error:Error? )->Void) {
         didComplete = complete
         guard let clientID = FirebaseApp.app()?.options.clientID,
               let vc = rootViewController
@@ -104,7 +104,7 @@ class AuthManager : NSObject {
             
             if let error = error {
                 print(error.localizedDescription)
-                complete(false)
+                complete(false, error)
                 return
             }
             
@@ -123,12 +123,12 @@ class AuthManager : NSObject {
             Auth.auth().signIn(with: credential) { result, error in
                 if let err = error {
                     print(err.localizedDescription)
-                    complete(false)
+                    complete(false, err)
                     return
                 }
                 StageManager.shared.loadTemp(isOnlineDownload: true) { error in
                     NotificationCenter.default.post(name: .authDidSucessed, object: nil)
-                    complete(true)
+                    complete(true, nil)
                 }
                 
             }
@@ -136,7 +136,7 @@ class AuthManager : NSObject {
     }
     
     //MARK: - 애플 아이디로 로그인하기
-    func startSignInWithAppleFlow(complete:@escaping(_ loginSucess:Bool)->Void) {
+    func startSignInWithAppleFlow(complete:@escaping(_ loginSucess:Bool, _ error:Error?)->Void) {
         didComplete = complete
         let nonce = randomNonceString()
         currentNonce = nonce
@@ -152,14 +152,14 @@ class AuthManager : NSObject {
     }
     
     //MARK: - 익명 로그인
-    func startSignInAnonymously(complete:@escaping(_ loginSucess:Bool)->Void) {
+    func startSignInAnonymously(complete:@escaping(_ loginSucess:Bool, _ error:Error?)->Void) {
         Auth.auth().signInAnonymously { authResult, error in
             if let err = error {
                 print("error : \(err.localizedDescription)")
-                complete(false)
+                complete(false, err)
                 return
             }
-            complete(true)
+            complete(true,nil)
         }
     }
     //MARK: - 로그아웃
@@ -315,30 +315,31 @@ class AuthManager : NSObject {
         
         print(auth.currentUser?.providerID ?? "")
         print(auth.currentUser?.providerData.first?.providerID ?? "")
-        func reauth(complete:@escaping(_ isSucess:Bool)->Void) {
+        func reauth(complete:@escaping(_ isSucess:Bool, _ error:Error?)->Void) {
             switch auth.currentUser?.providerData.first?.providerID {
             case "google.com":
                 print("구글 이다")
-                startSignInWithGoogleId { loginSucess in
-                    complete(loginSucess)
+                startSignInWithGoogleId { loginSucess , error in
+                    complete(loginSucess, error)
                 }
             case "apple.com":
                 appleReAuth = true
-                startSignInWithAppleFlow { loginSucess in
+                startSignInWithAppleFlow { loginSucess, error  in
                     self.appleReAuth = false
-                    complete(loginSucess)
+                    complete(loginSucess, error)
                 }
                 print("애플 이다")
             default:
                 print("모르겠다")
             }
         }
-        reauth { isSucess in
+        reauth { isSucess , errorA in
             if isSucess {
-                deleteArticles { error in
-                    deleteReplys { error in
-                        deleteLikes { error in
-                            Auth.auth().currentUser?.delete(completion: { error in
+                deleteArticles { errorB in
+                    deleteReplys { errorC in
+                        deleteLikes { errorD in
+                            Auth.auth().currentUser?.delete(completion: { errorE in
+                                let error = errorA ?? errorB ?? errorC ?? errorD ?? errorE
                                 print(error?.localizedDescription ?? "sucess")
                                 if error == nil {
                                     StageManager.shared.initStage(canvasSize: StageManager.shared.canvasSize)
@@ -362,7 +363,7 @@ class AuthManager : NSObject {
     }
 
     
-    func upgradeAnonymousWithGoogleId(complete:@escaping(_ isSucess:Bool)->Void) {
+    func upgradeAnonymousWithGoogleId(complete:@escaping(_ isSucess:Bool, _ error:Error?)->Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID,
               let vc = rootViewController
         else { return }
@@ -382,12 +383,12 @@ class AuthManager : NSObject {
             let credential = GoogleAuthProvider.credential(withIDToken: idToken,
                                                            accessToken: authentication.accessToken)
             auth.currentUser?.link(with: credential, completion: { result, error in
-                complete(error == nil)
+                complete(error == nil, error)
             })
         }
     }
     
-    func upgradeAnonymousWithAppleId(complete:@escaping(_ isSucess:Bool)->Void) {
+    func upgradeAnonymousWithAppleId(complete:@escaping(_ isSucess:Bool, _ error:Error?)->Void) {
         startSignInWithAppleFlow(complete: complete)
     }
 }
@@ -427,10 +428,11 @@ extension AuthManager: ASAuthorizationControllerDelegate {
                         // you're sending the SHA256-hashed nonce as a hex string with
                         // your request to Apple.
                         print(error.localizedDescription)
+                        didComplete(false, error)
                         return
                     }
                     print("login sucess")
-                    didComplete(true)
+                    didComplete(true, nil)
                     print(authResult?.user.email ?? "없다")
                     StageManager.shared.loadTemp(isOnlineDownload: true) { error in
                         NotificationCenter.default.post(name: .authDidSucessed, object: nil)
@@ -440,7 +442,7 @@ extension AuthManager: ASAuthorizationControllerDelegate {
                 }
             } else {
                 auth.currentUser?.link(with: credential, completion: { [unowned self] result, error in
-                    didComplete(error == nil)
+                    didComplete(error == nil, error)
                 })
             }
             
