@@ -100,7 +100,6 @@ struct LikePeopleShortListView : View {
     let uids:[String]
     var body : some View {
         ScrollView(.horizontal) {
-            BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 20, left: 0, bottom: 20, right: 0))
             LazyHStack {
                 ForEach(uids,id:\.self) { uid in
                     NavigationLink {
