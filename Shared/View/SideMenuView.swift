@@ -150,6 +150,8 @@ struct SideMenuView: View {
             if isSignIn {
                 signoutBtnView
             }
+            BannerAdView(sizeType: .GADAdSizeSkyscraper, padding: .zero)
+
         }
         .background(.gray)
         .listStyle(SidebarListStyle())

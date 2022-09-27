@@ -102,6 +102,7 @@ struct TimeLineReplyView: View {
     
     var listView : some View {
         LazyVStack {
+            BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 20, left: 0, bottom: 20, right: 0))
             ForEach(replys, id:\.self) { reply in
                 makeReplyView(reply: reply)
             }
