@@ -98,9 +98,9 @@ class AuthManager : NSObject {
         // Create Google Sign In configuration object.
         let config = GIDConfiguration(clientID: clientID)
             
+        GIDSignIn.sharedInstance.configuration = config
         
-        // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: vc) { user, error in
+        GIDSignIn.sharedInstance.signIn(withPresenting: vc) { result, error in
             
             if let error = error {
                 print(error.localizedDescription)
@@ -108,15 +108,17 @@ class AuthManager : NSObject {
                 return
             }
             
+            
             guard
-                let authentication = user?.authentication,
-                let idToken = authentication.idToken
+                let accessToken = result?.user.accessToken,
+                let idToken = result?.user.idToken
             else {
                 return
             }
             
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                           accessToken: authentication.accessToken)
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken.tokenString,
+                                                           accessToken: accessToken.tokenString)
             
             
             print(credential)
@@ -372,16 +374,16 @@ class AuthManager : NSObject {
         let config = GIDConfiguration(clientID: clientID)
             
         // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: vc) { [unowned self] user, error in
+        GIDSignIn.sharedInstance.signIn(withPresenting: vc) { [unowned self] result, error  in
             guard
-              let authentication = user?.authentication,
-              let idToken = authentication.idToken
+                let accessToken = result?.user.accessToken.tokenString,
+                let idToken = result?.user.idToken?.tokenString
             else {
               return
             }
             
             let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                           accessToken: authentication.accessToken)
+                                                           accessToken: accessToken)
             auth.currentUser?.link(with: credential, completion: { result, error in
                 complete(error == nil, error)
             })
