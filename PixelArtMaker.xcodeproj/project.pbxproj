@@ -33,6 +33,9 @@
 		1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B25D27E3288E007A73CB /* SaveView.swift */; };
 		1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26027E32BF0007A73CB /* LoadView.swift */; };
 		1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */; };
+		8D03E0D52978D09400DC0E07 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 8D03E0D42978D09400DC0E07 /* GoogleMobileAds */; };
+		8D03E0D82978D16100DC0E07 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8D03E0D72978D16100DC0E07 /* GoogleSignIn */; };
+		8D03E0DA2978D16100DC0E07 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8D03E0D92978D16100DC0E07 /* GoogleSignInSwift */; };
 		8D30B1972818D47D00785F1A /* TimeLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30B1962818D47D00785F1A /* TimeLineView.swift */; };
 		8D3BD982280E74CB0022ED89 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD981280E74CB0022ED89 /* BannerAdView.swift */; };
 		8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD983280E841F0022ED89 /* ReplyListView.swift */; };
@@ -67,7 +70,6 @@
 		8DF55C5B27FE9C8100D68EB1 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 8DF55C5A27FE9C8100D68EB1 /* SwiftyJSON */; };
 		8DF55C5D27FED83D00D68EB1 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF55C5C27FED83D00D68EB1 /* WebView.swift */; };
 		8DF55C6227FEDB5F00D68EB1 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 8DF55C6127FEDB5E00D68EB1 /* HTML */; };
-		C3011EFF27EDA544001B12AC /* Pods_PixelArtMaker__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */; };
 		C3011F4627EF4068001B12AC /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3011F4527EF4067001B12AC /* ActivityIndicator.swift */; };
 		C3011F5127F039E1001B12AC /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = C3011F5027F039E1001B12AC /* Realm */; };
 		C3011F5327F039E1001B12AC /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C3011F5227F039E1001B12AC /* RealmSwift */; };
@@ -157,7 +159,6 @@
 		1BF1B26027E32BF0007A73CB /* LoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadView.swift; sourceTree = "<group>"; };
 		1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPresetView.swift; sourceTree = "<group>"; };
 		28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixelArtMaker__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).debug.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		8D30B1962818D47D00785F1A /* TimeLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineView.swift; sourceTree = "<group>"; };
 		8D3BD981280E74CB0022ED89 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		8D3BD983280E841F0022ED89 /* ReplyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyListView.swift; sourceTree = "<group>"; };
@@ -234,7 +235,6 @@
 		C3EDBF2927F892B700BBEC01 /* LabelTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTextView.swift; sourceTree = "<group>"; };
 		C3EDBF2B27F9412100BBEC01 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		C3FB0784281C07770022E163 /* FirestoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreHelper.swift; sourceTree = "<group>"; };
-		F9940D8FB396FA3693BE19D4 /* Pods-PixelArtMaker (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelArtMaker (iOS).release.xcconfig"; path = "Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS).release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +245,7 @@
 				C3EDBF2827F88FE500BBEC01 /* SDWebImageSwiftUI in Frameworks */,
 				8DF55C4A27FD49FF00D68EB1 /* FirebaseStorageSwift-Beta in Frameworks */,
 				C3D087F827DB3053003F886E /* FirebaseAnalytics in Frameworks */,
+				8D03E0DA2978D16100DC0E07 /* GoogleSignInSwift in Frameworks */,
 				1BF1B25027E2CC28007A73CB /* FirebaseCrashlytics in Frameworks */,
 				C3DBA08927EC99C200FE8392 /* FirebasePerformance in Frameworks */,
 				8DF55C5627FE7E9C00D68EB1 /* Alamofire in Frameworks */,
@@ -258,8 +259,9 @@
 				1BF1B25227E2CC28007A73CB /* FirebaseFirestore in Frameworks */,
 				C3DBA08727EC99C200FE8392 /* FirebaseCrashlytics in Frameworks */,
 				8DF55C4627FD49FF00D68EB1 /* FirebaseStorage in Frameworks */,
+				8D03E0D52978D09400DC0E07 /* GoogleMobileAds in Frameworks */,
+				8D03E0D82978D16100DC0E07 /* GoogleSignIn in Frameworks */,
 				8DF55C5B27FE9C8100D68EB1 /* SwiftyJSON in Frameworks */,
-				C3011EFF27EDA544001B12AC /* Pods_PixelArtMaker__iOS_.framework in Frameworks */,
 				1BF1B25827E2CC28007A73CB /* FirebasePerformance in Frameworks */,
 				C356363427F9AE7400B2609A /* SideMenu in Frameworks */,
 				8DF55C4827FD49FF00D68EB1 /* FirebaseStorageCombine-Community in Frameworks */,
@@ -295,7 +297,6 @@
 				1B28C3C427BE100F003F8312 /* Tests iOS */,
 				1B28C3D027BE100F003F8312 /* Tests macOS */,
 				1B28C3B527BE100F003F8312 /* Products */,
-				4202466BC41B8091D663DB14 /* Pods */,
 				12F89F2B1CCC1393C2222B05 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -429,15 +430,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		4202466BC41B8091D663DB14 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */,
-				F9940D8FB396FA3693BE19D4 /* Pods-PixelArtMaker (iOS).release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		C320338627C370A30019B546 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,11 +456,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1B28C3DD27BE100F003F8312 /* Build configuration list for PBXNativeTarget "PixelArtMaker (iOS)" */;
 			buildPhases = (
-				7D13E32A835A846634F36DED /* [CP] Check Pods Manifest.lock */,
 				1B28C3B027BE100F003F8312 /* Sources */,
 				1B28C3B127BE100F003F8312 /* Frameworks */,
 				1B28C3B227BE100F003F8312 /* Resources */,
-				6CEBA31BC422C87CBAAF21E3 /* [CP] Embed Pods Frameworks */,
+				8D03E0DB2978D24B00DC0E07 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -497,6 +488,9 @@
 				8DF55C5527FE7E9C00D68EB1 /* Alamofire */,
 				8DF55C5A27FE9C8100D68EB1 /* SwiftyJSON */,
 				8D3BD9A728112BCA0022ED89 /* FirebaseAppCheck */,
+				8D03E0D42978D09400DC0E07 /* GoogleMobileAds */,
+				8D03E0D72978D16100DC0E07 /* GoogleSignIn */,
+				8D03E0D92978D16100DC0E07 /* GoogleSignInSwift */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -562,6 +556,8 @@
 				8DF55C5427FE7E9B00D68EB1 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				8DF55C5927FE9C8100D68EB1 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				8D3BD9A628112BCA0022ED89 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8D03E0D32978D09300DC0E07 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				8D03E0D62978D16100DC0E07 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -597,24 +593,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6CEBA31BC422C87CBAAF21E3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PixelArtMaker (iOS)/Pods-PixelArtMaker (iOS)-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7D13E32A835A846634F36DED /* [CP] Check Pods Manifest.lock */ = {
+		8D03E0DB2978D24B00DC0E07 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -622,19 +601,16 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
-			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PixelArtMaker (iOS)-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -877,7 +853,6 @@
 		};
 		1B28C3DE27BE100F003F8312 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B322AB734A5D48633B57865 /* Pods-PixelArtMaker (iOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -903,7 +878,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker;
 				PRODUCT_NAME = PixelArtMaker;
 				SDKROOT = iphoneos;
@@ -917,7 +892,6 @@
 		};
 		1B28C3DF27BE100F003F8312 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F9940D8FB396FA3693BE19D4 /* Pods-PixelArtMaker (iOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -942,7 +916,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker;
 				PRODUCT_NAME = PixelArtMaker;
 				SDKROOT = iphoneos;
@@ -1035,6 +1009,22 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 8.0.0;
+			};
+		};
+		8D03E0D32978D09300DC0E07 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		8D03E0D62978D16100DC0E07 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
 			};
 		};
 		8D3BD9A628112BCA0022ED89 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
@@ -1162,6 +1152,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C3D087F627DB3053003F886E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebasePerformance;
+		};
+		8D03E0D42978D09400DC0E07 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8D03E0D32978D09300DC0E07 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		8D03E0D72978D16100DC0E07 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8D03E0D62978D16100DC0E07 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		8D03E0D92978D16100DC0E07 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8D03E0D62978D16100DC0E07 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 		8D3BD9A728112BCA0022ED89 /* FirebaseAppCheck */ = {
 			isa = XCSwiftPackageProductDependency;
