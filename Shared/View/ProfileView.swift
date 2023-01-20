@@ -193,7 +193,8 @@ struct ProfileView: View {
     private func makeList1(size:CGSize)-> some View {
         ScrollView {
             makeProfileView(isLandscape: false)
-            BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 20, left: 0, bottom: 20, right: 0))
+            BannerAdView(sizeType: .GADAdSizeBanner)
+                .padding(.top,20).padding(.bottom,20)
             Section(header:Text("profile view public arts")) {
                 ArticleListView(uid: uid,
                                 gridItems: Utill.makeGridItems(length: 4, screenWidth: size.width),

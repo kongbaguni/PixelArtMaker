@@ -24,9 +24,7 @@ struct BannerAdView: View {
         case GADAdSizeSkyscraper
     }
     let sizeType:SizeType
-    
-    let padding:UIEdgeInsets
-    
+        
     private var bannerSize:CGSize {
         switch sizeType {
         case .GADAdSizeBanner:
@@ -67,10 +65,10 @@ struct BannerAdView: View {
             if InAppPurchaseModel.isSubscribe == false {
                 GoogleAdBannerView(bannerView: bannerView)
                     .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
-                    .padding(.top,padding.top)
-                    .padding(.bottom,padding.bottom)
-                    .padding(.leading, padding.left)
-                    .padding(.trailing, padding.right)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 5).stroke(Color.blue, lineWidth: 4)
+                    }
+                    .cornerRadius(5)
             }
         }
     }

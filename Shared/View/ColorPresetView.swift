@@ -101,7 +101,8 @@ struct ColorPresetView: View {
     
     private var fullList : some View {
         ScrollView {
-            BannerAdView(sizeType: .GADAdSizeBanner, padding: .init(top: 20, left: 0, bottom: 20, right: 0))
+            BannerAdView(sizeType: .GADAdSizeBanner)
+                .padding(.top,20).padding(.bottom,20)
             LazyVStack {
                 ForEach(datas, id:\.self) { data in
                     if let key = data.title {

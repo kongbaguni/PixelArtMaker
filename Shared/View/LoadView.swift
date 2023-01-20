@@ -190,7 +190,8 @@ struct LoadView: View {
                 makePreviewLoadView()
             } else {
                 ScrollView {
-                    BannerAdView(sizeType: .GADAdSizeBanner, padding:.init(top: 20, left: 0, bottom: 20, right: 0))
+                    BannerAdView(sizeType: .GADAdSizeBanner)
+                        .padding(.top,20).padding(.bottom,20)
                     if stages.count > 0 {
                         pickerView
                     }
