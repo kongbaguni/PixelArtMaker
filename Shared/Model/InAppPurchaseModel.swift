@@ -98,7 +98,7 @@ extension InAppPurchaseModel {
     /** 구독중인가?*/
     static var isSubscribe:Bool {
 #if targetEnvironment(simulator)
-        return true
+        return false
 #else
         let list = try! Realm().objects(InAppPurchaseModel.self)
         for model in list {

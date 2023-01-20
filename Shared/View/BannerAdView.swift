@@ -63,12 +63,30 @@ struct BannerAdView: View {
     var body: some View {
         Group {
             if InAppPurchaseModel.isSubscribe == false {
-                GoogleAdBannerView(bannerView: bannerView)
-                    .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 5).stroke(Color.blue, lineWidth: 4)
+                ZStack {
+                    GoogleAdBannerView(bannerView: bannerView)
+                        .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 5).stroke(Color.white, lineWidth: 4)
+                        }
+                        .cornerRadius(5)
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            MultiColorAnimeTextView(texts: [Text("Ad")],
+                                                    fonts: [.system(size: 12)],
+                                                    forgroundColors: [.white],
+                                                    backgroudColors: [.red,.orange,.yellow,.green,.blue,.purple],
+                                                    millisecond: 500)
+                            .padding(.leading, -bannerSize.width / 2)
+                            Spacer()
+                        }
+                        .padding(.top, -bannerSize.height / 2)
+                        Spacer()
                     }
-                    .cornerRadius(5)
+                    
+                }
             }
         }
     }

@@ -42,6 +42,7 @@
 		8D49FC992809410400565A3C /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC982809410400565A3C /* PhotoPicker.swift */; };
 		8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49FC9A280959CD00565A3C /* TracingImageModel.swift */; };
 		8D5F8ECD2828DC6600873E4A /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5F8ECC2828DC6600873E4A /* ProgressView.swift */; };
+		8D664E08297A660800F23BE1 /* MultiColorAnimeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D664E07297A660800F23BE1 /* MultiColorAnimeTextView.swift */; };
 		8D916B15281BBF0C0032572F /* ArticleLikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D916B14281BBF0C0032572F /* ArticleLikeView.swift */; };
 		8DABAF16280CF95C001E7619 /* LikePeopleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */; };
 		8DABAF18280D2D33001E7619 /* ReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABAF17280D2D33001E7619 /* ReplyModel.swift */; };
@@ -169,6 +170,7 @@
 		8D49FC982809410400565A3C /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8D49FC9A280959CD00565A3C /* TracingImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingImageModel.swift; sourceTree = "<group>"; };
 		8D5F8ECC2828DC6600873E4A /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		8D664E07297A660800F23BE1 /* MultiColorAnimeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorAnimeTextView.swift; sourceTree = "<group>"; };
 		8D916B14281BBF0C0032572F /* ArticleLikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleLikeView.swift; sourceTree = "<group>"; };
 		8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikePeopleListView.swift; sourceTree = "<group>"; };
 		8DABAF17280D2D33001E7619 /* ReplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyModel.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 				C3D1184D281E9BA7002964F3 /* TimeLineTabView.swift */,
 				C3D1184F281E9DE7002964F3 /* TimeLineReplyView.swift */,
 				8D5F8ECC2828DC6600873E4A /* ProgressView.swift */,
+				8D664E07297A660800F23BE1 /* MultiColorAnimeTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				C3EDBF2527F8863A00BBEC01 /* ProfileView.swift in Sources */,
 				C3DBA08E27ECB25600FE8392 /* UIApplication+Extensions.swift in Sources */,
 				C3011F5927F05675001B12AC /* PublicShareListView.swift in Sources */,
+				8D664E08297A660800F23BE1 /* MultiColorAnimeTextView.swift in Sources */,
 				8DB0BA0128065A8200C2B0FF /* SettingView.swift in Sources */,
 				1BF1B26727E46C1C007A73CB /* ColorPresetView.swift in Sources */,
 				8DABAF18280D2D33001E7619 /* ReplyModel.swift in Sources */,
