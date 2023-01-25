@@ -6,59 +6,107 @@
 //
 
 import SwiftUI
+fileprivate func makeColors(from:Color,to:Color,size:Int)->[Color] {
+    var result:[Color] = []
+    func makeArr(from:CGFloat,to:CGFloat)->[CGFloat] {
+        var list:[CGFloat] = [from]
+        let x = ((to - from) / CGFloat(size))
+        for i in 1..<size-1 {
+            list.append(from + x * CGFloat(i))
+        }
+        list.append(to)
+        return list
+    }
+    let reds = makeArr(from: from.ciColor.red, to: to.ciColor.red)
+    let greens = makeArr(from: from.ciColor.green, to: to.ciColor.green)
+    let blues = makeArr(from: from.ciColor.blue, to: to.ciColor.blue)
+    let alphas = makeArr(from: from.ciColor.alpha, to: to.ciColor.alpha)
+    
+    for (i,red) in reds.enumerated() {
+        result.append(.init(.init(ciColor: .init(red: red, green: greens[i], blue: blues[i], alpha: alphas[i]))))
+    }
+    return result
+}
 
 struct MultiColorAnimeTextView: View {
     let texts:[Text]
     let fonts:[Font]
     let forgroundColors:[Color]
-    let backgroudColors:[Color]
-    let millisecond:Int
-    @State var idx:UInt8 = 0
+    let backgroundColors:[Color]
+    let borderColors:[Color]
+    let fps:Int
+    init(texts:[Text],fonts:[Font],forgroundColors:[Color],backgroundColors:[Color], borderColors:[Color]? = nil,fps:Int) {
+        self.fps = fps
+        self.texts = texts
+        self.fonts = fonts
+        var fcs:[Color] = [forgroundColors.first!]
+        if forgroundColors.count > 1 {
+            for i in 0..<(forgroundColors.count - 1) {
+                for color in  makeColors(from: forgroundColors[i], to: forgroundColors[i+1], size: fps) {
+                    fcs.append(color)
+                }
+            }
+        }
+        self.forgroundColors = fcs
+        var bcs:[Color] = [backgroundColors.first!]
+        if backgroundColors.count > 1 {
+            for i in 0..<(backgroundColors.count - 1) {
+                for color in  makeColors(from: backgroundColors[i], to: backgroundColors[i+1], size: fps) {
+                    bcs.append(color)
+                }
+            }
+        }
+        self.backgroundColors = bcs
+
+        var bdcs:[Color] = fcs
+        if let colors = borderColors {
+            if colors.count > 1 {
+                bdcs = [colors.first!]
+                for i in 0..<(colors.count-1) {
+                    for color in makeColors(from: colors[i], to: colors[i+1] , size: fps) {
+                        bdcs.append(color)
+                    }
+                }
+            }
+        }
+        self.borderColors = bdcs
+    }
+    
+    @State var idx = 0
     @State var isAnimating: Bool = false
-    var newIdx:Int {
-        Int(Double(idx) / 2)
-    }
-    private var textId:(Int,Int) {
-        (newIdx % texts.count, (newIdx + 1) % texts.count)
+
+    private var textId:Int {
+        idx % texts.count
     }
     
-    private var fgColorId:(Int,Int) {
-        (newIdx % forgroundColors.count,(newIdx + 1) % forgroundColors.count)
+    private var fgColorId:Int {
+        idx % forgroundColors.count
     }
     
-    private var bgColorId:(Int,Int) {
-        (newIdx % backgroudColors.count,(newIdx + 1) % backgroudColors.count)
+    private var bgColorId:Int {
+        idx % backgroundColors.count
     }
     
-    private var fontId:(Int,Int) {
-        (newIdx % fonts.count,(newIdx + 1) % fonts.count)
+    private var borderColorId:Int {
+        idx % borderColors.count
+    }
+    
+    private var fontId:Int {
+        idx % fonts.count
     }
     
     var body: some View {
         ZStack {
-            texts[textId.0]
-                .font(fonts[fontId.0])
+            texts[textId]
+                .font(fonts[fontId])
                 .padding(5)
-                .foregroundColor(forgroundColors[fgColorId.0])
-                .background(backgroudColors[bgColorId.0])
+                .foregroundColor(forgroundColors[fgColorId])
+                .background(backgroundColors[bgColorId])
                 .cornerRadius(5)
                 .overlay {
                     RoundedRectangle(cornerRadius: 5)
-                        .stroke(forgroundColors[fgColorId.0], lineWidth: 4)
+                        .stroke(borderColors[borderColorId], lineWidth: 4)
                 }
-            
-            texts[textId.1]
-                .font(fonts[fontId.1])
-                .padding(5)
-                .foregroundColor(forgroundColors[fgColorId.1])
-                .background(backgroudColors[bgColorId.1])
-                .cornerRadius(5)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(forgroundColors[fgColorId.1], lineWidth: 4)
-                }
-                .opacity((idx % 2 == 0) ? 0.0 : 1.0 )
-                .animation(.easeOut, value: isAnimating)
 
         }.onAppear {
             changeIdx()
@@ -69,10 +117,11 @@ struct MultiColorAnimeTextView: View {
     
     private func changeIdx() {
         idx += 1
-        if idx > (texts.count *  fonts.count * forgroundColors.count * backgroudColors.count * 2)  {
+        if idx > (texts.count *  fonts.count * forgroundColors.count * backgroundColors.count * 2)  {
             idx = 0
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000 / fps)) {
             changeIdx()
         }
     }
