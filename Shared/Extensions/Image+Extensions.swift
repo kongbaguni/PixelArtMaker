@@ -43,8 +43,12 @@ extension Image {
     static let profilePlaceHolder = Image("profilePlaceholder").resizable()
     static let errorImage = Image("error").resizable()
     public init?(totalColors:[[[Color]]], blendModes:[CGBlendMode], backgroundColor: Color, size:CGSize) {
-        let image = UIImage(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor, size: size)!
-        self.init(uiImage: image)
+        if let image = UIImage(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor, size: size) {
+            self.init(uiImage: image)
+        }
+        else {
+            self.init(uiImage: .init(color: .red, size: .init(width: 10, height: 10))!)
+        }
     }
     /** 새 켄버스의 미리보기 이미지 만들기 배경색 투명일 경우 체크무늬 이미지 */
     public init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize) {
