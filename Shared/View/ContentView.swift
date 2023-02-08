@@ -12,6 +12,7 @@ import SwiftyStoreKit
 import RealmSwift
 import FirebaseCore
 import FirebaseAppCheck
+import AppTrackingTransparency
 
 struct ContentView: View {
     init() {
@@ -51,6 +52,11 @@ struct ContentView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                ATTrackingManager.requestTrackingAuthorization { _ in
+                }
+            }
+            
             //Portrait 고정
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
             AppDelegate.orientationLock = .portrait
