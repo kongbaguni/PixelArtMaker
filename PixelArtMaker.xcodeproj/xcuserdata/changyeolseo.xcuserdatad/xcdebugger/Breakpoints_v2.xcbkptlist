@@ -32,8 +32,86 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "57"
             endingLineNumber = "57"
-            landmarkName = "saveTemp(comnplete:)"
+            landmarkName = "saveTemp(documentId:isOnlineUpdate:complete:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "86F108A8-FA6E-4EFC-9529-ACC7A82F4C15"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/View/PixelDrawView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "PixelDrawView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "86F108A8-FA6E-4EFC-9529-ACC7A82F4C15 - 44b0926ace4d4247"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.PixelDrawView.backgroundColor.didset : SwiftUI.Color"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/View/PixelDrawView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "372">
+               </Location>
+               <Location
+                  uuid = "86F108A8-FA6E-4EFC-9529-ACC7A82F4C15 - 44b0926ace4d4247"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.PixelDrawView.backgroundColor.didset : SwiftUI.Color"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/View/PixelDrawView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "584">
+               </Location>
+               <Location
+                  uuid = "86F108A8-FA6E-4EFC-9529-ACC7A82F4C15 - 44b0926ace4d4247"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.PixelDrawView.backgroundColor.didset : SwiftUI.Color"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/View/PixelDrawView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "404">
+               </Location>
+               <Location
+                  uuid = "86F108A8-FA6E-4EFC-9529-ACC7A82F4C15 - 44b0926ace4d4247"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.PixelDrawView.backgroundColor.didset : SwiftUI.Color"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/View/PixelDrawView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "616">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

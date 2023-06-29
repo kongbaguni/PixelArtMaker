@@ -542,8 +542,11 @@ struct PixelDrawView: View {
         
         timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { [self] timer in
             if _oldBgColor != backgroundColor {
-                if let imageData = StageManager.shared.stage?.makeImageDataValue(size: Consts.previewImageSize) {
-                    previewImage = Image(uiImage: UIImage(data: imageData)!)
+                if let imageData = StageManager.shared.stage?.makeImageDataValue(size: Consts.previewImageSize),
+                   let uiimage = UIImage(data: imageData) {
+                    uiimage.saveImageForAppGroup(size: uiimage.size)
+                    previewImage = Image(uiImage:uiimage )
+                    
                     print("update preview with timmer")
                 }
                 _oldBgColor = backgroundColor
