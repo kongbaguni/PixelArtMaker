@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+import WidgetKit
 
 extension UIImage {
     
@@ -166,5 +167,23 @@ extension UIImage {
         let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return normalizedImage
+    }
+    
+    
+    func saveImageForAppGroup(size:CGSize) {
+        if let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CommonConst.AppGroupId) {
+            let fileURL = appGroupURL.appendingPathComponent(CommonConst.lastMyPictureName)
+            if let img = self.sd_resizedImage(with: size, scaleMode: .aspectFill) {
+                print("\(img.size)")
+                if let data = img.pngData() {
+                    do {
+                        try data.write(to: fileURL)
+                        WidgetCenter.shared.reloadAllTimelines()
+                    } catch {
+                        print("이미지 저장 실패: \(error)")
+                    }
+                }
+            }
+        }
     }
 }

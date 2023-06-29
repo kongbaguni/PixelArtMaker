@@ -16,6 +16,19 @@
 		1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */; };
 		1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F127BF2F6A003F8312 /* StageManager.swift */; };
 		1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F327BF302B003F8312 /* StageModel.swift */; };
+		1B8FDB0F2A4D5C4C007BE5E5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8FDB0E2A4D5C4C007BE5E5 /* WidgetKit.framework */; };
+		1B8FDB112A4D5C4C007BE5E5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8FDB102A4D5C4C007BE5E5 /* SwiftUI.framework */; };
+		1B8FDB142A4D5C4C007BE5E5 /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB132A4D5C4C007BE5E5 /* widgetBundle.swift */; };
+		1B8FDB162A4D5C4C007BE5E5 /* widgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB152A4D5C4C007BE5E5 /* widgetLiveActivity.swift */; };
+		1B8FDB182A4D5C4C007BE5E5 /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB172A4D5C4C007BE5E5 /* widget.swift */; };
+		1B8FDB1D2A4D5C4E007BE5E5 /* widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB192A4D5C4C007BE5E5 /* widget.intentdefinition */; };
+		1B8FDB1E2A4D5C4E007BE5E5 /* widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB192A4D5C4C007BE5E5 /* widget.intentdefinition */; };
+		1B8FDB212A4D5C4E007BE5E5 /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1B8FDB0D2A4D5C4C007BE5E5 /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1B8FDB292A4D5CA3007BE5E5 /* CommonConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB282A4D5CA3007BE5E5 /* CommonConsts.swift */; };
+		1B8FDB2A2A4D5CA7007BE5E5 /* CommonConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB282A4D5CA3007BE5E5 /* CommonConsts.swift */; };
+		1B8FDB2C2A4D5DAF007BE5E5 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB2B2A4D5DAF007BE5E5 /* AppGroup.swift */; };
+		1B8FDB2D2A4D5DAF007BE5E5 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB2B2A4D5DAF007BE5E5 /* AppGroup.swift */; };
+		1B8FDB2E2A4D67CA007BE5E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B28C3AF27BE100F003F8312 /* Assets.xcassets */; };
 		1BE77B4727E94C0900A36F8E /* UserDefault+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */; };
 		1BE77B4A27E9838300A36F8E /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */; };
 		1BE77B4D27E9A51700A36F8E /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */; };
@@ -129,7 +142,28 @@
 			remoteGlobalIDString = 1B28C3B327BE100F003F8312;
 			remoteInfo = "PixelArtMaker (iOS)";
 		};
+		1B8FDB1F2A4D5C4E007BE5E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1B28C3A827BE100D003F8312 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1B8FDB0C2A4D5C4C007BE5E5;
+			remoteInfo = widgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1B8FDB252A4D5C4E007BE5E5 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1B8FDB212A4D5C4E007BE5E5 /* widgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1B28C3AD27BE100E003F8312 /* PixelArtMakerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtMakerApp.swift; sourceTree = "<group>"; };
@@ -145,6 +179,17 @@
 		1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelDrawView.swift; sourceTree = "<group>"; };
 		1B28C3F127BF2F6A003F8312 /* StageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageManager.swift; sourceTree = "<group>"; };
 		1B28C3F327BF302B003F8312 /* StageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageModel.swift; sourceTree = "<group>"; };
+		1B8FDB0D2A4D5C4C007BE5E5 /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B8FDB0E2A4D5C4C007BE5E5 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		1B8FDB102A4D5C4C007BE5E5 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		1B8FDB132A4D5C4C007BE5E5 /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
+		1B8FDB152A4D5C4C007BE5E5 /* widgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetLiveActivity.swift; sourceTree = "<group>"; };
+		1B8FDB172A4D5C4C007BE5E5 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		1B8FDB192A4D5C4C007BE5E5 /* widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = widget.intentdefinition; sourceTree = "<group>"; };
+		1B8FDB1C2A4D5C4E007BE5E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B8FDB262A4D5C5A007BE5E5 /* widgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widgetExtension.entitlements; sourceTree = "<group>"; };
+		1B8FDB282A4D5CA3007BE5E5 /* CommonConsts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConsts.swift; sourceTree = "<group>"; };
+		1B8FDB2B2A4D5DAF007BE5E5 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		1BE77B4627E94C0900A36F8E /* UserDefault+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extensions.swift"; sourceTree = "<group>"; };
 		1BE77B4927E9838300A36F8E /* Binding+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extensions.swift"; sourceTree = "<group>"; };
 		1BE77B4C27E9A51700A36F8E /* UIScreen+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extensions.swift"; sourceTree = "<group>"; };
@@ -272,6 +317,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1B8FDB0A2A4D5C4C007BE5E5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B8FDB112A4D5C4C007BE5E5 /* SwiftUI.framework in Frameworks */,
+				1B8FDB0F2A4D5C4C007BE5E5 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -280,6 +334,8 @@
 			children = (
 				C3011F4127EF21B1001B12AC /* GoogleMobileAds.xcframework */,
 				28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */,
+				1B8FDB0E2A4D5C4C007BE5E5 /* WidgetKit.framework */,
+				1B8FDB102A4D5C4C007BE5E5 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -287,11 +343,14 @@
 		1B28C3A727BE100D003F8312 = {
 			isa = PBXGroup;
 			children = (
+				1B8FDB272A4D5C91007BE5E5 /* Common */,
+				1B8FDB262A4D5C5A007BE5E5 /* widgetExtension.entitlements */,
 				C3DBA08A27EC9FBA00FE8392 /* PixelArtMaker--iOS--Info.plist */,
 				1BF1B25927E2CF09007A73CB /* PixelArtMaker (iOS).entitlements */,
 				1B28C3AC27BE100E003F8312 /* Shared */,
 				1B28C3C427BE100F003F8312 /* Tests iOS */,
 				1B28C3D027BE100F003F8312 /* Tests macOS */,
+				1B8FDB122A4D5C4C007BE5E5 /* widget */,
 				1B28C3B527BE100F003F8312 /* Products */,
 				12F89F2B1CCC1393C2222B05 /* Frameworks */,
 			);
@@ -342,6 +401,7 @@
 			children = (
 				1B28C3B427BE100F003F8312 /* PixelArtMaker.app */,
 				1B28C3C127BE100F003F8312 /* Tests iOS.xctest */,
+				1B8FDB0D2A4D5C4C007BE5E5 /* widgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -427,6 +487,27 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		1B8FDB122A4D5C4C007BE5E5 /* widget */ = {
+			isa = PBXGroup;
+			children = (
+				1B8FDB132A4D5C4C007BE5E5 /* widgetBundle.swift */,
+				1B8FDB152A4D5C4C007BE5E5 /* widgetLiveActivity.swift */,
+				1B8FDB172A4D5C4C007BE5E5 /* widget.swift */,
+				1B8FDB192A4D5C4C007BE5E5 /* widget.intentdefinition */,
+				1B8FDB1C2A4D5C4E007BE5E5 /* Info.plist */,
+			);
+			path = widget;
+			sourceTree = "<group>";
+		};
+		1B8FDB272A4D5C91007BE5E5 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				1B8FDB2B2A4D5DAF007BE5E5 /* AppGroup.swift */,
+				1B8FDB282A4D5CA3007BE5E5 /* CommonConsts.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		C320338627C370A30019B546 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -457,10 +538,12 @@
 				1B28C3B127BE100F003F8312 /* Frameworks */,
 				1B28C3B227BE100F003F8312 /* Resources */,
 				8D03E0DB2978D24B00DC0E07 /* ShellScript */,
+				1B8FDB252A4D5C4E007BE5E5 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1B8FDB202A4D5C4E007BE5E5 /* PBXTargetDependency */,
 			);
 			name = "PixelArtMaker (iOS)";
 			packageProductDependencies = (
@@ -508,6 +591,23 @@
 			productReference = 1B28C3C127BE100F003F8312 /* Tests iOS.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		1B8FDB0C2A4D5C4C007BE5E5 /* widgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B8FDB222A4D5C4E007BE5E5 /* Build configuration list for PBXNativeTarget "widgetExtension" */;
+			buildPhases = (
+				1B8FDB092A4D5C4C007BE5E5 /* Sources */,
+				1B8FDB0A2A4D5C4C007BE5E5 /* Frameworks */,
+				1B8FDB0B2A4D5C4C007BE5E5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = widgetExtension;
+			productName = widgetExtension;
+			productReference = 1B8FDB0D2A4D5C4C007BE5E5 /* widgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -515,7 +615,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1320;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					1B28C3B327BE100F003F8312 = {
@@ -524,6 +624,9 @@
 					1B28C3C027BE100F003F8312 = {
 						CreatedOnToolsVersion = 13.2.1;
 						TestTargetID = 1B28C3B327BE100F003F8312;
+					};
+					1B8FDB0C2A4D5C4C007BE5E5 = {
+						CreatedOnToolsVersion = 14.3.1;
 					};
 				};
 			};
@@ -555,6 +658,7 @@
 			targets = (
 				1B28C3B327BE100F003F8312 /* PixelArtMaker (iOS) */,
 				1B28C3C027BE100F003F8312 /* Tests iOS */,
+				1B8FDB0C2A4D5C4C007BE5E5 /* widgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -577,6 +681,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B8FDB0B2A4D5C4C007BE5E5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B8FDB2E2A4D67CA007BE5E5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,7 +732,9 @@
 				8D49FC9228080BCB00565A3C /* PathFinder.swift in Sources */,
 				1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */,
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
+				1B8FDB2C2A4D5DAF007BE5E5 /* AppGroup.swift in Sources */,
 				8D916B15281BBF0C0032572F /* ArticleLikeView.swift in Sources */,
+				1B8FDB1E2A4D5C4E007BE5E5 /* widget.intentdefinition in Sources */,
 				C356363627F9D9A800B2609A /* SortType.swift in Sources */,
 				C38C1BA22801845E00350176 /* NewCanvasView.swift in Sources */,
 				C3011F4627EF4068001B12AC /* ActivityIndicator.swift in Sources */,
@@ -636,6 +750,7 @@
 				8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */,
 				1BE77B5527E9C0DC00A36F8E /* UIImage+Extensions.swift in Sources */,
 				C3EDBF2A27F892B700BBEC01 /* LabelTextView.swift in Sources */,
+				1B8FDB292A4D5CA3007BE5E5 /* CommonConsts.swift in Sources */,
 				8DB0BA052806AFFB00C2B0FF /* LikeModel.swift in Sources */,
 				C3D11850281E9DE7002964F3 /* TimeLineReplyView.swift in Sources */,
 				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
@@ -704,6 +819,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1B8FDB092A4D5C4C007BE5E5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B8FDB1D2A4D5C4E007BE5E5 /* widget.intentdefinition in Sources */,
+				1B8FDB2D2A4D5DAF007BE5E5 /* AppGroup.swift in Sources */,
+				1B8FDB182A4D5C4C007BE5E5 /* widget.swift in Sources */,
+				1B8FDB162A4D5C4C007BE5E5 /* widgetLiveActivity.swift in Sources */,
+				1B8FDB2A2A4D5CA7007BE5E5 /* CommonConsts.swift in Sources */,
+				1B8FDB142A4D5C4C007BE5E5 /* widgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -711,6 +839,11 @@
 			isa = PBXTargetDependency;
 			target = 1B28C3B327BE100F003F8312 /* PixelArtMaker (iOS) */;
 			targetProxy = 1B28C3C227BE100F003F8312 /* PBXContainerItemProxy */;
+		};
+		1B8FDB202A4D5C4E007BE5E5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1B8FDB0C2A4D5C4C007BE5E5 /* widgetExtension */;
+			targetProxy = 1B8FDB1F2A4D5C4E007BE5E5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -847,6 +980,7 @@
 		1B28C3DE27BE100F003F8312 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "PixelArtMaker (iOS).entitlements";
@@ -887,6 +1021,7 @@
 		1B28C3DF27BE100F003F8312 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "PixelArtMaker (iOS).entitlements";
@@ -965,6 +1100,69 @@
 			};
 			name = Release;
 		};
+		1B8FDB232A4D5C4E007BE5E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = widgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QU9EPTU238;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1B8FDB242A4D5C4E007BE5E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = widgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QU9EPTU238;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.PixelArtMaker.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -991,6 +1189,15 @@
 			buildConfigurations = (
 				1B28C3E427BE100F003F8312 /* Debug */,
 				1B28C3E527BE100F003F8312 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1B8FDB222A4D5C4E007BE5E5 /* Build configuration list for PBXNativeTarget "widgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B8FDB232A4D5C4E007BE5E5 /* Debug */,
+				1B8FDB242A4D5C4E007BE5E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

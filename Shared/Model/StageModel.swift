@@ -412,7 +412,13 @@ class StageModel {
         }
 
         DispatchQueue.global().async {[self] in
-            let image = Image(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor,  size: size)
+//            let image = Image(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor,  size: size)
+            
+            guard let uiimage = UIImage(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor,  size: size) else {
+                return
+            }
+            uiimage.saveImageForAppGroup(size: uiimage.size)
+            let image = Image(uiImage: uiimage);            
             DispatchQueue.main.async {
                 complete(image)
             }

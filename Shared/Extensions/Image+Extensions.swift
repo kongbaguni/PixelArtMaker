@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import UIKit
 
+
 fileprivate func saveFile(image:UIImage, key:String) {
     guard let data = image.pngData() else {
         return
@@ -42,7 +43,7 @@ extension Image {
     static let imagePlaceHolder = Image("placeHolder").resizable()
     static let profilePlaceHolder = Image("profilePlaceholder").resizable()
     static let errorImage = Image("error").resizable()
-    public init?(totalColors:[[[Color]]], blendModes:[CGBlendMode], backgroundColor: Color, size:CGSize) {
+    public init?(totalColors:[[[Color]]], blendModes:[CGBlendMode], backgroundColor: Color, size:CGSize) {        
         if let image = UIImage(totalColors: totalColors, blendModes: blendModes, backgroundColor: backgroundColor, size: size) {
             self.init(uiImage: image)
         }
@@ -75,6 +76,5 @@ extension Image {
         saveFile(image: image, key: id)
         self.init(uiImage: image)
     }
-    
 }
 
