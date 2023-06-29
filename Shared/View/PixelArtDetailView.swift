@@ -235,15 +235,13 @@ struct PixelArtDetailView: View {
     func makeReplyListView() -> some View {
         LazyVStack {
             ForEach(replys, id:\.self) { reply in
-                if let r = reply {
-                    ReplyView(
-                        reply: r,
-                        focusedReply: focusedReply,
-                        pid: pid,
-                        alertType: $alertType,
-                        isShowAlert: $isShowAlert,
-                        willDeleteReply: $willDeleteReply)
-                }
+                ReplyView(
+                    reply: reply,
+                    focusedReply: focusedReply,
+                    pid: pid,
+                    alertType: $alertType,
+                    isShowAlert: $isShowAlert,
+                    willDeleteReply: $willDeleteReply)
             }
         }
     }
