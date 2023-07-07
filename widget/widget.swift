@@ -65,6 +65,7 @@ struct widget: Widget {
         }
         .configurationDisplayName("widget title")
         .description("widget desc")
+        .supportedFamilies([.systemSmall,.systemLarge])
     }
 }
 
