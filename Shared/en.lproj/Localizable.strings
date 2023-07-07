@@ -6,6 +6,9 @@
   
 */
 "app title" = "Pixel art maker";
+"widget title" = "widget of Pixel art maker";
+"widget desc" = "my pixel art preview at widget";
+
 
 "color picker bg title" = "Background Color";
 "color picker br title" = "Palette color";

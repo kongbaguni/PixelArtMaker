@@ -6,6 +6,9 @@
   
 */
 "app title" = "픽셀 아트 메이커";
+"widget title" = "픽셀 아트 메이커 위젯";
+"widget desc" = "작업중인 픽셀아트를 위젯에서 미리보기";
+
 "color picker bg title" = "배경색";
 "color picker br title" = "파렛트";
 "auto erase toggle title" = "자동 지우게 모드";
