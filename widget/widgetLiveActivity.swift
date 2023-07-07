@@ -8,7 +8,7 @@
 import ActivityKit
 import WidgetKit
 import SwiftUI
-
+@available (iOS 16.2, *)
 struct widgetAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
         // Dynamic stateful properties about your activity go here!
@@ -18,7 +18,7 @@ struct widgetAttributes: ActivityAttributes {
     // Fixed non-changing properties about your activity go here!
     var name: String
 }
-
+@available (iOS 16.2, *)
 struct widgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: widgetAttributes.self) { context in
@@ -55,7 +55,7 @@ struct widgetLiveActivity: Widget {
         }
     }
 }
-
+@available (iOS 16.2, *)
 struct widgetLiveActivity_Previews: PreviewProvider {
     static let attributes = widgetAttributes(name: "Me")
     static let contentState = widgetAttributes.ContentState(value: 3)

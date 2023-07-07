@@ -56,6 +56,7 @@ struct widgetEntryView : View {
     }
 }
 
+
 struct widget: Widget {
     let kind: String = "app title"
 
@@ -67,6 +68,7 @@ struct widget: Widget {
         .description("widget desc")
         .supportedFamilies([.systemSmall,.systemLarge])
     }
+    
 }
 
 struct widget_Previews: PreviewProvider {
