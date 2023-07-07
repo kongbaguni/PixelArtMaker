@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B0551672A57F544002904B5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C365E19227C36CC400154E56 /* Localizable.strings */; };
 		1B28C3C627BE100F003F8312 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3C527BE100F003F8312 /* Tests_iOS.swift */; };
 		1B28C3C827BE100F003F8312 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3C727BE100F003F8312 /* Tests_iOSLaunchTests.swift */; };
 		1B28C3D527BE100F003F8312 /* PixelArtMakerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3AD27BE100E003F8312 /* PixelArtMakerApp.swift */; };
@@ -689,6 +690,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B8FDB2E2A4D67CA007BE5E5 /* Assets.xcassets in Resources */,
+				1B0551672A57F544002904B5 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
