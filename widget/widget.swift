@@ -51,7 +51,7 @@ struct widgetEntryView : View {
                 .resizable()
                 .scaledToFill()
         } else {
-            Image("paint")
+            Image("paint")            
         }
     }
 }
