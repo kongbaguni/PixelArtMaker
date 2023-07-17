@@ -155,7 +155,7 @@ struct AdView : View {
             }.frame(width:adWidth + 10)
         }
         .frame(height: 100)
-        .background(Color.backgroundColor2)
+        .background(Color.gray)
 
     }
 }

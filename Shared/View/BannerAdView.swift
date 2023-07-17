@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleMobileAds
+import ActivityIndicatorView
 
 struct BannerAdView: View {
     public enum SizeType {
