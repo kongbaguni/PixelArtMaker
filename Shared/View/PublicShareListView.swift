@@ -56,6 +56,7 @@ struct PublicShareListView: View {
         ScrollView {
             BannerAdView(sizeType: .GADAdSizeBanner)
                 .padding(.top,20).padding(.bottom,20)
+            AdView().zIndex(-1)
             makePickerView()
             LazyVGrid(columns: gridItems, spacing:20) {
                 ForEach(idlist, id:\.self) { id in

@@ -255,6 +255,7 @@ struct SaveView: View {
                     makePreviewImageView(width: geomentry.size.width)
                     BannerAdView(sizeType: .GADAdSizeLargeBanner)
                         .padding(.top,20).padding(.bottom,20)
+                    AdView().zIndex(-1)
 
                     makeButtonList()
                         .padding(.bottom,10)
@@ -270,6 +271,7 @@ struct SaveView: View {
                         makePreviewImageView(width: geomentry.size.width - 250)
                         BannerAdView(sizeType: .GADAdSizeLargeBanner)
                             .padding(.top,20).padding(.bottom,20)
+                        AdView().zIndex(-1)
                         makeButtonList()
                             .padding(.bottom,10)
                     }

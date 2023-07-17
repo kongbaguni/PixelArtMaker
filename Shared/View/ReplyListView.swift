@@ -84,6 +84,7 @@ struct ReplyListView: View {
         LazyVStack {
             BannerAdView(sizeType: .GADAdSizeBanner)
                 .padding(.top,20).padding(.bottom,20)
+            AdView().zIndex(-1)
             if isLoading {
             }
             else if replys.count == 0 {

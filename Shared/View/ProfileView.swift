@@ -195,6 +195,7 @@ struct ProfileView: View {
             makeProfileView(isLandscape: false)
             BannerAdView(sizeType: .GADAdSizeBanner)
                 .padding(.top,20).padding(.bottom,20)
+            AdView().zIndex(-1)
             Section(header:Text("profile view public arts")) {
                 ArticleListView(uid: uid,
                                 gridItems: Utill.makeGridItems(length: 4, screenWidth: size.width),

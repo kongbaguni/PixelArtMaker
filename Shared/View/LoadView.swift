@@ -192,6 +192,7 @@ struct LoadView: View {
                 ScrollView {
                     BannerAdView(sizeType: .GADAdSizeBanner)
                         .padding(.top,20).padding(.bottom,20)
+                    AdView().zIndex(-1)
                     if stages.count > 0 {
                         pickerView
                     }

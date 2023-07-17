@@ -68,6 +68,7 @@ struct LayerEditView: View {
             List {
                 BannerAdView(sizeType: .GADAdSizeBanner)
                     .padding(.top,20).padding(.bottom,20)
+                AdView().zIndex(-1)
                 ForEach(layers, id:\.self) { layer in
                     if let id = layers.firstIndex(of: layer) {
                         HStack {

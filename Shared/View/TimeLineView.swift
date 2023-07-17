@@ -120,6 +120,8 @@ struct TimeLineView : View {
         Group {
             BannerAdView(sizeType: .GADAdSizeBanner)
                 .padding(.top,20).padding(.bottom,20)
+            AdView().zIndex(-1)
+            
             switch listType {
             case .grid:
                 makeGridListView(gridItems: Utill.makeGridItems(length: geomentrySize.width > geomentrySize.height ? 5 : 3,
