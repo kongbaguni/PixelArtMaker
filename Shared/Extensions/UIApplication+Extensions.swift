@@ -35,6 +35,14 @@ extension UIApplication {
         return keyWindow?.safeAreaInsets ?? .zero
     }
     
+    class var keyWindowScene:UIWindowScene? {
+        return UIApplication.shared.connectedScenes.first as? UIWindowScene
+    }
+    
+    class var keyWindow:UIWindow? {
+        keyWindowScene?.windows.first(where: {$0.isKeyWindow})
+    }
+    
     class var topViewController:UIViewController? {
         var vc = UIApplication.keyWindow?.rootViewController
         while vc?.presentingViewController != nil {
