@@ -151,8 +151,7 @@ struct SideMenuView: View {
                 signoutBtnView
             }
             BannerAdView(sizeType: .GADAdSizeSkyscraper)
-                .padding(.top,20).padding(.bottom,20)
-            AdView().zIndex(-1)
+                .padding(.top,20).padding(.bottom,20)            
 
         }
         .background(.gray)

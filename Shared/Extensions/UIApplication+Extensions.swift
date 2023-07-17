@@ -34,4 +34,12 @@ extension UIApplication {
     var safeAreaInsets:UIEdgeInsets {
         return keyWindow?.safeAreaInsets ?? .zero
     }
+    
+    class var topViewController:UIViewController? {
+        var vc = UIApplication.keyWindow?.rootViewController
+        while vc?.presentingViewController != nil {
+            vc = vc?.presentingViewController
+        }
+        return vc
+    }
 }
