@@ -58,12 +58,13 @@ struct BannerAdView: View {
         }
     }
     
-    
+    @State var isLoading = true
 
     var body: some View {
         Group {
             if InAppPurchaseModel.isSubscribe == false {
                 ZStack {
+                    ActivityIndicator(isAnimating: $isLoading, style: .default()).frame(width:40, height:40)
                     GoogleAdBannerView(bannerView: bannerView)
                         .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
                         .overlay {

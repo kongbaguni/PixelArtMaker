@@ -67,6 +67,7 @@
 		8DB0BA052806AFFB00C2B0FF /* LikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */; };
 		8DB0BA072807AF3400C2B0FF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB0BA062807AF3400C2B0FF /* Launch Screen.storyboard */; };
 		8DB0BA092807BA5100C2B0FF /* Utill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA082807BA5100C2B0FF /* Utill.swift */; };
+		8DC4B3482A65278F00E4A561 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 8DC4B3472A65278F00E4A561 /* ActivityIndicatorView */; };
 		8DD11DD1297A177B000F3456 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 8DD11DD0297A177B000F3456 /* RxCocoa */; };
 		8DD11DD3297A177B000F3456 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 8DD11DD2297A177B000F3456 /* RxRelay */; };
 		8DD11DD5297A177B000F3456 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8DD11DD4297A177B000F3456 /* RxSwift */; };
@@ -291,6 +292,7 @@
 				8DE212412979331D005469A9 /* FirebaseAnalytics in Frameworks */,
 				8DE212472979331D005469A9 /* FirebaseAuth in Frameworks */,
 				C3EDBF2827F88FE500BBEC01 /* SDWebImageSwiftUI in Frameworks */,
+				8DC4B3482A65278F00E4A561 /* ActivityIndicatorView in Frameworks */,
 				8DE2124B2979331D005469A9 /* FirebaseFirestore in Frameworks */,
 				8D03E0DA2978D16100DC0E07 /* GoogleSignInSwift in Frameworks */,
 				8DD11DD5297A177B000F3456 /* RxSwift in Frameworks */,
@@ -569,6 +571,7 @@
 				8DD11DD0297A177B000F3456 /* RxCocoa */,
 				8DD11DD2297A177B000F3456 /* RxRelay */,
 				8DD11DD4297A177B000F3456 /* RxSwift */,
+				8DC4B3472A65278F00E4A561 /* ActivityIndicatorView */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -652,6 +655,7 @@
 				8DE2122229791796005469A9 /* XCRemoteSwiftPackageReference "RxRealm" */,
 				8DE2123F2979331D005469A9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8DD11DCF297A177B000F3456 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				8DC4B3462A65278E00E4A561 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -1223,6 +1227,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		8DC4B3462A65278E00E4A561 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		8DD11DCF297A177B000F3456 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -1304,6 +1316,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8D03E0D62978D16100DC0E07 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		8DC4B3472A65278F00E4A561 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DC4B3462A65278E00E4A561 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 		8DD11DD0297A177B000F3456 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;

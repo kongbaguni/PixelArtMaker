@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "activityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ActivityIndicatorView.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "a581d245cd0b8a9d4e99aef1aaae9d41426e4f2c"
+      }
+    },
+    {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
