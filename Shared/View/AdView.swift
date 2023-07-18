@@ -165,7 +165,7 @@ struct AdView : View {
                                                     forgroundColors: [.k_normalText],
                                                     backgroundColors: [.red,.orange,.yellow,.green,.blue,.purple,.red],
                                                     fps: 60 )
-                            .padding(.leading, 2)
+                            .padding(.leading, 7)
                             .padding(.top, -3)
                             
                             Spacer()
