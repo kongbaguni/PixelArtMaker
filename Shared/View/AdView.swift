@@ -149,10 +149,15 @@ struct AdView : View {
                         .padding(10)
                         .shadow(color: .black, radius: 10, x: 5, y: 5)
                     }
-                    .frame(width:proxy.size.width,height: 100)
+                    
+                    .frame(width: proxy.size.width > 20 ? proxy.size.width - 20 : 100 ,height: 100)
+                    .mask(RoundedRectangle(cornerSize: .init(width: 5, height: 5)))
+                    .background(Color.k_background)
                     .overlay {
                         RoundedRectangle(cornerRadius: 5).stroke(Color.k_normalText, lineWidth: 4)
                     }
+                    .padding(.leading,10)
+                    .padding(.trailing,10)
                     VStack {
                         HStack {
                             MultiColorAnimeTextView(texts: [Text("Ad")],
@@ -171,7 +176,7 @@ struct AdView : View {
                 
             }
             .frame(height: 100)
-            .background(Color.k_background)
+            
         } else {
             EmptyView()
         }

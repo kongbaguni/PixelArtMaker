@@ -81,7 +81,7 @@ struct BannerAdView: View {
                                                     forgroundColors: [.k_normalText],
                                                     backgroundColors: [.red,.orange,.yellow,.green,.blue,.purple,.red],
                                                     fps: 60 )
-                            .padding(.leading, -bannerSize.width / 2 + 2)
+                            .padding(.leading, -bannerSize.width / 2)
                             Spacer()
                         }
                         .padding(.top, -bannerSize.height / 2)
