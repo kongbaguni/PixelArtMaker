@@ -69,7 +69,7 @@ struct BannerAdView: View {
                     GoogleAdBannerView(bannerView: bannerView)
                         .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
                         .overlay {
-                            RoundedRectangle(cornerRadius: 5).stroke(Color.white, lineWidth: 4)
+                            RoundedRectangle(cornerRadius: 5).stroke(Color.k_normalText, lineWidth: 4)
                         }
                         .cornerRadius(5)
                     VStack {
@@ -88,7 +88,7 @@ struct BannerAdView: View {
                         Spacer()
                     }
                     
-                }
+                }.shadow(radius: 10)
             }
         }
     }

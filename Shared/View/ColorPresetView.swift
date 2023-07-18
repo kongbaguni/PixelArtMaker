@@ -102,6 +102,7 @@ struct ColorPresetView: View {
     private var fullList : some View {
         ScrollView {
             AdView().padding(.top,20)
+                .padding(.bottom,10)
             BannerAdView(sizeType: .GADAdSizeBanner)
                 .padding(.bottom,20)
             LazyVStack {

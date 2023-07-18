@@ -130,6 +130,7 @@ struct NewCanvasView: View {
                         VStack {
                             AdView()
                                 .padding(.top,20)
+                                .padding(.bottom,10)
                             BannerAdView(sizeType: .GADAdSizeLargeBanner)
                                 .padding(.bottom,20)
                         }
@@ -150,6 +151,7 @@ struct NewCanvasView: View {
                         VStack {
                             AdView()
                                 .padding(.top,20)
+                                .padding(.bottom,10)
                             BannerAdView(sizeType: .GADAdSizeLargeBanner)
                                 .padding(.bottom,20)
                         }

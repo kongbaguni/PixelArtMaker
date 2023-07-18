@@ -255,7 +255,7 @@ struct PixelArtDetailView: View {
                             makeProfileView(landScape: false).frame(height:120)
                             makeImageView(imageSize: geomentry.size.width - 20)
                             makeInfomationView().frame(width: geomentry.size.width - 20)
-                            AdView().padding(.top,20)
+                            AdView().padding(.top,20).padding(.bottom,10)
                             BannerAdView(sizeType: .GADAdSizeBanner)
                                 .padding(.bottom,20)
                             makeButtonsView().padding(10)
@@ -269,7 +269,7 @@ struct PixelArtDetailView: View {
                             }
                             ScrollView {
                                 makeImageView(imageSize: isShowProfile ? 250 : 450)
-                                AdView().padding(.top,20)
+                                AdView().padding(.top,20).padding(.bottom,10)
                                 BannerAdView(sizeType: .GADAdSizeBanner)
                                     .padding(.bottom,20)
                             }

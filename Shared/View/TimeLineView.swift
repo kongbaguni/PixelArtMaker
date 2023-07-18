@@ -118,7 +118,7 @@ struct TimeLineView : View {
     
     private func makeListView(geomentrySize:CGSize) -> some View {
         Group {
-            AdView().padding(.top,20)
+            AdView().padding(.top,20).padding(.bottom,10)
             BannerAdView(sizeType: .GADAdSizeBanner)
                 .padding(.bottom,20)
             

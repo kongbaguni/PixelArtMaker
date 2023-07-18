@@ -54,7 +54,7 @@ struct PublicShareListView: View {
     
     private func makeListView(gridItems:[GridItem], width:CGFloat)->some View {
         ScrollView {
-            AdView().padding(.top,20)
+            AdView().padding(.top,20).padding(.bottom,10)
             BannerAdView(sizeType: .GADAdSizeBanner)
                 .padding(.bottom,20)
             makePickerView()

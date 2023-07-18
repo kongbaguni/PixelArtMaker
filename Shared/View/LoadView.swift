@@ -190,7 +190,7 @@ struct LoadView: View {
                 makePreviewLoadView()
             } else {
                 ScrollView {
-                    AdView().padding(.top,20)
+                    AdView().padding(.top,20).padding(.bottom,10)
                     BannerAdView(sizeType: .GADAdSizeBanner)
                         .padding(.bottom,20)
                     if stages.count > 0 {

@@ -195,6 +195,7 @@ struct ProfileView: View {
             makeProfileView(isLandscape: false)
             AdView()
                 .padding(.top,20)
+                .padding(.bottom,10)
             BannerAdView(sizeType: .GADAdSizeBanner)
                 .padding(.bottom,20)
             
