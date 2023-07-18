@@ -78,10 +78,10 @@ struct BannerAdView: View {
                             Spacer()
                             MultiColorAnimeTextView(texts: [Text("Ad")],
                                                     fonts: [.system(size: 12)],
-                                                    forgroundColors: [.white],
+                                                    forgroundColors: [.k_normalText],
                                                     backgroundColors: [.red,.orange,.yellow,.green,.blue,.purple,.red],
                                                     fps: 60 )
-                            .padding(.leading, -bannerSize.width / 2)
+                            .padding(.leading, -bannerSize.width / 2 + 2)
                             Spacer()
                         }
                         .padding(.top, -bannerSize.height / 2)

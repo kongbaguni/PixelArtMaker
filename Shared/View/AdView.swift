@@ -156,9 +156,12 @@ struct AdView : View {
                     HStack {
                         MultiColorAnimeTextView(texts: [Text("Ad")],
                                                 fonts: [.system(size: 12)],
-                                                forgroundColors: [.white],
+                                                forgroundColors: [.k_normalText],
                                                 backgroundColors: [.red,.orange,.yellow,.green,.blue,.purple,.red],
                                                 fps: 60 )
+                        .padding(.leading, 2)
+                        .padding(.top, -3)
+                        
                         Spacer()
                     }
                     Spacer()
