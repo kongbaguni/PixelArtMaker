@@ -47,7 +47,7 @@ struct FSImageView : View {
                                 Text("NSFW message")
                                     .font(.system(size: 30, weight: .heavy, design: .rounded))
                                     .foregroundColor(Color.k_signInBtnBackgroundApple)
-                                    .shadow(color: Color.k_signInBtnBorder, radius: 10, x: 0, y: 0)
+                                    .shadow(color: Color.k_signInBtnBorder, radius: 10)
                                 
                             }
                         }

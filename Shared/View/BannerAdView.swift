@@ -88,7 +88,7 @@ struct BannerAdView: View {
                         Spacer()
                     }
                     
-                }.shadow(radius: 10)
+                }.shadow(radius: 10,x:10,y:10)
             }
         }
     }

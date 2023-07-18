@@ -100,19 +100,19 @@ struct AdView : View {
                         HStack {
                             ScrollView {
                                 if let img = adImage {
-                                    img.resizable().scaledToFit().frame(height: adFrameHeight)
+                                    img.resizable().scaledToFit().frame(width:adFrameHeight, height: adFrameHeight)
                                 }
                                 ForEach(images, id: \.self) { image in
-                                    Image(uiImage: image).resizable().scaledToFit().frame(height: adFrameHeight)
+                                    Image(uiImage: image).resizable().scaledToFit().frame(width:adFrameHeight,height: adFrameHeight)
                                 }
                             }
+                            .frame(width:adFrameHeight,height: adFrameHeight)
                             .padding(.trailing,5)
-                            .frame(width:80,height: adFrameHeight)
-                            
+
                             ScrollView {
                                 if let txt = headline {
                                     HStack {
-                                        Text(txt).font(.headline).lineLimit(3)
+                                        Text(txt).font(.headline).lineLimit(100).padding(.top,5)
                                         Spacer()
                                     }
                                 }
@@ -144,9 +144,9 @@ struct AdView : View {
                                     Spacer()
                                 }
                             }
-                            .frame(width: adWidth - 100, height:adFrameHeight)
+                            .frame(height:adFrameHeight)
                         }
-                        .shadow(color: .black, radius: 10, x: 5, y: 5)
+                        .shadow(radius: 10, x: 10, y: 10)
                     }
                     
                     .frame(width: proxy.size.width > 20 ? proxy.size.width - 20 : 100 ,height: adFrameHeight)
@@ -155,6 +155,7 @@ struct AdView : View {
                     .overlay {
                         RoundedRectangle(cornerRadius: 5).stroke(Color.k_normalText, lineWidth: 4)
                     }
+                    .shadow(radius: 3, x:2, y:2)
                     .padding(.leading,10)
                     .padding(.trailing,10)
                     VStack {
@@ -164,6 +165,7 @@ struct AdView : View {
                                                     forgroundColors: [.k_normalText],
                                                     backgroundColors: [.red,.orange,.yellow,.green,.blue,.purple,.red],
                                                     fps: 60 )
+                            .shadow(radius: 10,x:10,y:10)
                             .padding(.leading, 7)
                             .padding(.top, -3)
                             
