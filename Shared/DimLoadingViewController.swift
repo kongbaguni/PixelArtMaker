@@ -18,6 +18,9 @@ class DimLoadingViewController : UIViewController {
         modalTransitionStyle = .crossDissolve
         modalPresentationStyle = .overCurrentContext
         indicator.style = .large
+        indicator.frame.origin = .zero
+        indicator.frame.size = view.frame.size
+        indicator.color = .white
         view.addSubview(indicator)
     }
     

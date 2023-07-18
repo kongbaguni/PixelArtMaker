@@ -7,6 +7,8 @@
 
 import SwiftUI
 import RealmSwift
+import ActivityIndicatorView
+
 struct InAppPurchesView: View {
     enum AlertType {
         case 구입복원_구매내역없음
@@ -117,7 +119,7 @@ struct InAppPurchesView: View {
         List {
             header
             if isLoading {
-                ActivityIndicator(isAnimating: $isLoading, style: .large)
+                ActivityIndicatorView(isVisible: $isLoading, type: .default())
                     .frame(height:200)
             }
             list
