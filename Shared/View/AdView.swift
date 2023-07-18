@@ -56,107 +56,113 @@ struct AdView : View {
         }
     }
     var body: some View {
-        ZStack {
-            AdSubView { [self] adinfo in
-                nativeAd = adinfo
-                if let uiimage = adinfo.icon?.image {
-                    adImage = Image(uiImage: uiimage)
-                }
-                advertiser = adinfo.advertiser
-                callToAction = adinfo.callToAction
-                headline = adinfo.headline
-                bodyStr = adinfo.body
-                starRating = adinfo.starRating
-                price = adinfo.price
-                images = adinfo.images?.map({ image in
-                    return image.image ?? UIImage()
-                }) ?? []
-                store = adinfo.store
-                isloading = false
-                isVideoAd = adinfo.mediaContent.hasVideoContent
-                mediaContent = adinfo.mediaContent
-            }.opacity(0)
-            if let image = nativeAd?.images?.first {
-                if let uiimage = image.image {
-                    Image(uiImage: uiimage)
-                        .resizable()
-                        .scaledToFill()
-                        .blur(radius: 5)
-                        .opacity(0.5)
-                }
-            }
-            
-            ActivityIndicatorView(isVisible: $isloading, type: .default())
-                .frame(width: 40, height: 40)
-            VStack {
-                HStack {
-                    ScrollView {
-                        if let img = adImage {
-                            img.resizable().scaledToFit().frame(height: 80)
-                        }
-                        ForEach(images, id: \.self) { image in
-                            Image(uiImage: image).resizable().scaledToFit().frame(height: 80)
-                        }
+        GeometryReader { proxy in
+            ZStack {
+                AdSubView { [self] adinfo in
+                    nativeAd = adinfo
+                    if let uiimage = adinfo.icon?.image {
+                        adImage = Image(uiImage: uiimage)
                     }
-                    .padding(.trailing,5)
-                    .frame(width:80,height: 80)
-                    
-                    ScrollView {                        
-                        if let txt = headline {
-                            HStack {
-                                Text(txt).font(.headline).lineLimit(3)
-                                Spacer()
+                    advertiser = adinfo.advertiser
+                    callToAction = adinfo.callToAction
+                    headline = adinfo.headline
+                    bodyStr = adinfo.body
+                    starRating = adinfo.starRating
+                    price = adinfo.price
+                    images = adinfo.images?.map({ image in
+                        return image.image ?? UIImage()
+                    }) ?? []
+                    store = adinfo.store
+                    isloading = false
+                    isVideoAd = adinfo.mediaContent.hasVideoContent
+                    mediaContent = adinfo.mediaContent
+                }
+                .opacity(0)
+                .frame(width: 10, height: 10)
+                
+                if let image = nativeAd?.images?.first {
+                    if let uiimage = image.image {
+                        Image(uiImage: uiimage)
+                            .resizable()
+                            .scaledToFill()
+                            .blur(radius: 5)
+                            .opacity(0.5)
+                            .mask(Rectangle().frame(width: proxy.size.width, height: 100))
+                    }
+                }
+                
+                ActivityIndicatorView(isVisible: $isloading, type: .default())
+                    .frame(width: 40, height: 40)
+                VStack {
+                    HStack {
+                        ScrollView {
+                            if let img = adImage {
+                                img.resizable().scaledToFit().frame(height: 80)
+                            }
+                            ForEach(images, id: \.self) { image in
+                                Image(uiImage: image).resizable().scaledToFit().frame(height: 80)
                             }
                         }
-                        if let txt = bodyStr {
-                            HStack {
-                                Text(txt).font(.caption).lineLimit(100)
-                                Spacer()
-                            }
-                        }
-                        if let txt = advertiser {
-                            HStack {
-                                Text(txt).font(.caption)
-                                Spacer()
-                            }
-                        }
-                        if let txt = store {
-                            HStack {
-                                Text(txt).font(.caption)
-                                Spacer()
-                            }
-                        }
-                        HStack {
-                            if let value = starRating {
-                                if(value.doubleValue > 0) {
-                                    StarView(rating: value, color: .orange)
-                                        .frame(width: 100)
+                        .padding(.trailing,5)
+                        .frame(width:80,height: 80)
+                        
+                        ScrollView {
+                            if let txt = headline {
+                                HStack {
+                                    Text(txt).font(.headline).lineLimit(3)
+                                    Spacer()
                                 }
                             }
-                            Spacer()
+                            if let txt = bodyStr {
+                                HStack {
+                                    Text(txt).font(.caption).lineLimit(100)
+                                    Spacer()
+                                }
+                            }
+                            if let txt = advertiser {
+                                HStack {
+                                    Text(txt).font(.caption)
+                                    Spacer()
+                                }
+                            }
+                            if let txt = store {
+                                HStack {
+                                    Text(txt).font(.caption)
+                                    Spacer()
+                                }
+                            }
+                            HStack {
+                                if let value = starRating {
+                                    if(value.doubleValue > 0) {
+                                        StarView(rating: value, color: .orange)
+                                            .frame(width: 100)
+                                    }
+                                }
+                                Spacer()
+                            }
                         }
+                        .frame(width: adWidth - 100, height:80)
                     }
-                    .frame(width: adWidth - 100, height:80)
                 }
+                .padding(10)
+                .shadow(color: .black, radius: 10, x: 5, y: 5)
+                
+                HStack {
+                    Text("AD")
+                        .font(.system(size: 10))
+                        .padding(5)
+                        .background(.orange)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .padding(.leading,5)
+                        .shadow(color:.black, radius: 10, x:5,y:5)
+                    Spacer()
+                }.frame(width:adWidth + 10)
             }
-            .padding(10)
-            .shadow(color: .black, radius: 10, x: 5, y: 5)
-            
-            HStack {
-                Text("AD")
-                    .font(.system(size: 10))
-                    .padding(5)
-                    .background(.orange)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .padding(.leading,5)
-                    .shadow(color:.black, radius: 10, x:5,y:5)
-                Spacer()
-            }.frame(width:adWidth + 10)
+            .frame(height: 100)
         }
         .frame(height: 100)
-        .background(Color.gray)
-
+        .background(Color.k_background)
     }
 }
 

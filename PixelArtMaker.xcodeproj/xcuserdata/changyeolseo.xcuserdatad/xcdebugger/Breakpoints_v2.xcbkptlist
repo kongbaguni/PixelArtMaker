@@ -48,8 +48,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "112"
             endingLineNumber = "112"
-            landmarkName = "PixelDrawView"
-            landmarkType = "14">
+            landmarkName = "backgroundColor"
+            landmarkType = "24">
             <Locations>
                <Location
                   uuid = "86F108A8-FA6E-4EFC-9529-ACC7A82F4C15 - 44b0926ace4d4247"
