@@ -66,9 +66,9 @@ struct LayerEditView: View {
                     .opacity(isRequestMakePreview ? 0.1 : 1.0)
             }
             List {
-                AdView().padding(.top,20).padding(.bottom,10)
+                AdView()
                 BannerAdView(sizeType: .GADAdSizeBanner)
-                    .padding(.bottom,20)
+                    
                 ForEach(layers, id:\.self) { layer in
                     if let id = layers.firstIndex(of: layer) {
                         HStack {

@@ -22,7 +22,7 @@ struct SideMenuView: View {
     @Binding var isShowTimelineReply:Bool
     @Binding var isShowSettingView:Bool
     @State var isSignIn = false
-    
+    @State var isUseAd = InAppPurchaseModel.isSubscribe == false
     func makeBtn(image:Image, text:Text, action:@escaping()->Void)-> some View {
         Button {
             action()
@@ -150,8 +150,10 @@ struct SideMenuView: View {
             if isSignIn {
                 signoutBtnView
             }
-            BannerAdView(sizeType: .GADAdSizeSkyscraper)
-                .padding(.top,20).padding(.bottom,20)            
+            if isUseAd {
+                BannerAdView(sizeType: .GADAdSizeSkyscraper)
+                    .padding(.top,20).padding(.bottom,20)
+            }
 
         }
         .background(.gray)
@@ -161,6 +163,7 @@ struct SideMenuView: View {
         .zIndex(2)
         .onAppear {
             isSignIn = AuthManager.shared.isSignined
+            isUseAd = InAppPurchaseModel.isSubscribe == false 
             NotificationCenter.default.addObserver(forName: .authDidSucessed, object: nil, queue: nil) { _ in
                 isSignIn = true
             }
