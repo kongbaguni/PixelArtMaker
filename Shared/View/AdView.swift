@@ -47,6 +47,7 @@ struct AdView : View {
     @State var isVideoAd = false
     @State var mediaContent:GADMediaContent? = nil
     @State var nativeAd:GADNativeAd? = nil
+    let adFrameHeight:CGFloat = 100
     var adWidth:CGFloat {
         switch UIDevice.current.orientation {
             case .landscapeRight, .landscapeLeft :
@@ -82,6 +83,9 @@ struct AdView : View {
                         .opacity(0)
                         .frame(width: 10, height: 10)
                         
+                        ActivityIndicatorView(isVisible: $isloading, type: .default())
+                            .frame(width: 40, height: 40)
+
                         if let image = nativeAd?.images?.first {
                             if let uiimage = image.image {
                                 Image(uiImage: uiimage)
@@ -89,68 +93,63 @@ struct AdView : View {
                                     .scaledToFill()
                                     .blur(radius: 5)
                                     .opacity(0.5)
-                                    .mask(Rectangle().frame(width: proxy.size.width, height: 100))
+                                    .mask(Rectangle().frame(width: proxy.size.width, height: adFrameHeight))
                             }
                         }
-                        
-                        ActivityIndicatorView(isVisible: $isloading, type: .default())
-                            .frame(width: 40, height: 40)
-                        VStack {
-                            HStack {
-                                ScrollView {
-                                    if let img = adImage {
-                                        img.resizable().scaledToFit().frame(height: 80)
-                                    }
-                                    ForEach(images, id: \.self) { image in
-                                        Image(uiImage: image).resizable().scaledToFit().frame(height: 80)
-                                    }
+                                                
+                        HStack {
+                            ScrollView {
+                                if let img = adImage {
+                                    img.resizable().scaledToFit().frame(height: adFrameHeight)
                                 }
-                                .padding(.trailing,5)
-                                .frame(width:80,height: 80)
-                                
-                                ScrollView {
-                                    if let txt = headline {
-                                        HStack {
-                                            Text(txt).font(.headline).lineLimit(3)
-                                            Spacer()
-                                        }
-                                    }
-                                    if let txt = bodyStr {
-                                        HStack {
-                                            Text(txt).font(.caption).lineLimit(100)
-                                            Spacer()
-                                        }
-                                    }
-                                    if let txt = advertiser {
-                                        HStack {
-                                            Text(txt).font(.caption)
-                                            Spacer()
-                                        }
-                                    }
-                                    if let txt = store {
-                                        HStack {
-                                            Text(txt).font(.caption)
-                                            Spacer()
-                                        }
-                                    }
+                                ForEach(images, id: \.self) { image in
+                                    Image(uiImage: image).resizable().scaledToFit().frame(height: adFrameHeight)
+                                }
+                            }
+                            .padding(.trailing,5)
+                            .frame(width:80,height: adFrameHeight)
+                            
+                            ScrollView {
+                                if let txt = headline {
                                     HStack {
-                                        if let value = starRating {
-                                            if(value.doubleValue > 0) {
-                                                StarView(rating: value, color: .orange)
-                                                    .frame(width: 100)
-                                            }
-                                        }
+                                        Text(txt).font(.headline).lineLimit(3)
                                         Spacer()
                                     }
                                 }
-                                .frame(width: adWidth - 100, height:80)
+                                if let txt = bodyStr {
+                                    HStack {
+                                        Text(txt).font(.caption).lineLimit(100)
+                                        Spacer()
+                                    }
+                                }
+                                if let txt = advertiser {
+                                    HStack {
+                                        Text(txt).font(.caption)
+                                        Spacer()
+                                    }
+                                }
+                                if let txt = store {
+                                    HStack {
+                                        Text(txt).font(.caption)
+                                        Spacer()
+                                    }
+                                }
+                                HStack {
+                                    if let value = starRating {
+                                        if(value.doubleValue > 0) {
+                                            StarView(rating: value, color: .orange)
+                                                .frame(width: 100)
+                                        }
+                                    }
+                                    Spacer()
+                                }
                             }
+                            .frame(width: adWidth - 100, height:adFrameHeight)
                         }
-                        .padding(10)
                         .shadow(color: .black, radius: 10, x: 5, y: 5)
                     }
                     
-                    .frame(width: proxy.size.width > 20 ? proxy.size.width - 20 : 100 ,height: 100)
+                    .frame(width: proxy.size.width > 20 ? proxy.size.width - 20 : 100 ,height: adFrameHeight)
                     .mask(RoundedRectangle(cornerSize: .init(width: 5, height: 5)))
                     .background(Color.k_background)
                     .overlay {
@@ -175,7 +174,7 @@ struct AdView : View {
                 }
                 
             }
-            .frame(height: 100)
+            .frame(height: adFrameHeight)
             
         } else {
             EmptyView()
