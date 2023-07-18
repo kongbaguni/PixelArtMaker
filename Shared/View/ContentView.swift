@@ -13,6 +13,8 @@ import RealmSwift
 import FirebaseCore
 import FirebaseAppCheck
 import AppTrackingTransparency
+import UserMessagingPlatform
+
 
 struct ContentView: View {
     init() {
@@ -36,6 +38,23 @@ struct ContentView: View {
         }
 
         InAppPurchaseManager().printStatus()
+        
+        // Create a UMPRequestParameters object.
+        let parameters = UMPRequestParameters()
+        // Set tag for under age of consent. Here false means users are not under age.
+        parameters.tagForUnderAgeOfConsent = false
+        
+        UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(
+            with: parameters,
+            completionHandler: { error in
+                if error != nil {
+                    // Handle the error.
+                } else {
+                    // The consent information state was updated.
+                    // You are now ready to check if a form is
+                    // available.
+                }
+            })
     }
     
     var body: some View {

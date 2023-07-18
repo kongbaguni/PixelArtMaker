@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  PixelArtMaker
+
+  Created by Changyeol Seo on 2023/07/18.
+  
+*/
+"CFBundleName" = "픽셀아트메이커";
+"CFBundleDisplayName" = "픽셀아트메이커";
+"NSUserTrackingUsageDescription" = "사용자 맞춤 서비스 제공을 위해 권한이 필요합니다.";
+"NSPhotoLibraryAddUsageDescription" = "트레이싱 작업을 위해 사진 라이브러리 접근 권한이 필요합니다.";
+"NSPhotoLibraryUsageDescription" = "트레이싱 작업을 위해 사진 라이브러리 접근 권한이 필요합니다.";

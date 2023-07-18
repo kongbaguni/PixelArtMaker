@@ -120,7 +120,8 @@ struct InAppPurchesView: View {
             header
             if isLoading {
                 ActivityIndicatorView(isVisible: $isLoading, type: .default())
-                    .frame(height:200)
+                    .frame(width:50,height:50)
+                    .padding(50)
             }
             list
             footer

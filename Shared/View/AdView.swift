@@ -61,28 +61,6 @@ struct AdView : View {
             GeometryReader { proxy in
                 ZStack {
                     ZStack {
-                        AdSubView { [self] adinfo in
-                            nativeAd = adinfo
-                            if let uiimage = adinfo.icon?.image {
-                                adImage = Image(uiImage: uiimage)
-                            }
-                            advertiser = adinfo.advertiser
-                            callToAction = adinfo.callToAction
-                            headline = adinfo.headline
-                            bodyStr = adinfo.body
-                            starRating = adinfo.starRating
-                            price = adinfo.price
-                            images = adinfo.images?.map({ image in
-                                return image.image ?? UIImage()
-                            }) ?? []
-                            store = adinfo.store
-                            isloading = false
-                            isVideoAd = adinfo.mediaContent.hasVideoContent
-                            mediaContent = adinfo.mediaContent
-                        }
-                        .opacity(0)
-                        .frame(width: 10, height: 10)
-                        
                         ActivityIndicatorView(isVisible: $isloading, type: .default())
                             .frame(width: 40, height: 40)
 
@@ -173,6 +151,29 @@ struct AdView : View {
                         }
                         Spacer()
                     }
+                    
+                    AdSubView { [self] adinfo in
+                        nativeAd = adinfo
+                        if let uiimage = adinfo.icon?.image {
+                            adImage = Image(uiImage: uiimage)
+                        }
+                        advertiser = adinfo.advertiser
+                        callToAction = adinfo.callToAction
+                        headline = adinfo.headline
+                        bodyStr = adinfo.body
+                        starRating = adinfo.starRating
+                        price = adinfo.price
+                        images = adinfo.images?.map({ image in
+                            return image.image ?? UIImage()
+                        }) ?? []
+                        store = adinfo.store
+                        isloading = false
+                        isVideoAd = adinfo.mediaContent.hasVideoContent
+                        mediaContent = adinfo.mediaContent
+                    }
+                    .frame(width: 100, height: 20)
+                    .background(.yellow)
+                    .opacity(0)
                 }
                 
             }
@@ -184,12 +185,22 @@ struct AdView : View {
     }
 }
 
-class AdLoaderView : GADMediaView {
+class AdLoaderView : UIView {
     let loader:GADAdLoader
     let receiveAd:(_ adinfo:GADNativeAd)->()
     var pauseRequest = false
+    let btn1 = UIButton()
+    let btn2 = UIButton()
     init(receiveAd:@escaping(_ adinfo:GADNativeAd)->()) {
-        
+        btn1.setTitle("c", for: .normal)
+        btn2.setTitle("v", for: .normal)
+
+        for btn in [btn1, btn2] {
+            btn.setBackgroundImage(UIImage(color: .red, size: .init(width: 10, height: 10)), for: .normal)
+            btn.setBackgroundImage(UIImage(color: .blue, size: .init(width: 10, height: 10)), for: .highlighted)
+        }
+        btn1.frame = .init(origin: .zero, size: .init(width: 50, height: 20))
+        btn2.frame = .init(origin: .init(x: 50, y: 0), size: .init(width: 50, height: 20))
         self.receiveAd = receiveAd
         let option = GADMultipleAdsAdLoaderOptions()
         option.numberOfAds = 1
@@ -198,7 +209,9 @@ class AdLoaderView : GADMediaView {
                                   adTypes: [.native],
                                   options: [option])
         super.init(frame: .zero)
-        
+        addSubview(btn1)
+        addSubview(btn2)
+
         self.loader.delegate = self
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { [weak self] noti in
             self?.pauseRequest = true
@@ -212,9 +225,6 @@ class AdLoaderView : GADMediaView {
             self?.layoutSubviews()
         }
         
-        NotificationCenter.default.addObserver(forName: .googleAdPlayVideo, object: nil, queue: nil) { [weak self] noti in
-            self?.mediaContent?.videoController.play()
-        }
         self.autoresizingMask = [.flexibleWidth]
         loadAd()        
     }
@@ -255,8 +265,9 @@ extension AdLoaderView : GADNativeAdLoaderDelegate {
         nativeAd.registerClickConfirmingView(self)
         nativeAd.recordCustomClickGesture()
         print("nativeAdDelegate : setDelegate \(nativeAd.isCustomClickGestureEnabled)")
-        
-        mediaContent = nativeAd.mediaContent
+        nativeAd.registerClickConfirmingView(self)
+        nativeAd.register(self, clickableAssetViews: [.adChoicesViewAsset:btn1, .advertiserAsset:btn2], nonclickableAssetViews: [:])
+        nativeAd.unconfirmedClickDelegate = self
         receiveAd(nativeAd)
         if nativeAd.mediaContent.hasVideoContent {
             nativeAd.mediaContent.videoController.play()
@@ -271,6 +282,16 @@ extension AdLoaderView : GADNativeAdLoaderDelegate {
     
 }
 
+extension AdLoaderView : GADNativeAdUnconfirmedClickDelegate {
+    func nativeAd(_ nativeAd: GADNativeAd, didReceiveUnconfirmedClickOnAssetID assetID: GADNativeAssetIdentifier) {
+        print("\(#function) \(#line)")
+    }
+    
+    func nativeAdDidCancelUnconfirmedClick(_ nativeAd: GADNativeAd) {
+        print("\(#function) \(#line)")
+
+    }
+}
 
 extension AdLoaderView : GADNativeAdDelegate {
     func nativeAdIsMuted(_ nativeAd: GADNativeAd) {
