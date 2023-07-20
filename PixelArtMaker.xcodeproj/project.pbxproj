@@ -17,6 +17,7 @@
 		1B28C3EE27BE123E003F8312 /* PixelDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */; };
 		1B28C3F227BF2F6A003F8312 /* StageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F127BF2F6A003F8312 /* StageManager.swift */; };
 		1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28C3F327BF302B003F8312 /* StageModel.swift */; };
+		1B5476302A68BAD9003D5DD7 /* GoogleAdPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B54762F2A68BAD9003D5DD7 /* GoogleAdPrompt.swift */; };
 		1B8FDB0F2A4D5C4C007BE5E5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8FDB0E2A4D5C4C007BE5E5 /* WidgetKit.framework */; };
 		1B8FDB112A4D5C4C007BE5E5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8FDB102A4D5C4C007BE5E5 /* SwiftUI.framework */; };
 		1B8FDB142A4D5C4C007BE5E5 /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB132A4D5C4C007BE5E5 /* widgetBundle.swift */; };
@@ -185,6 +186,7 @@
 		1B28C3ED27BE123E003F8312 /* PixelDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelDrawView.swift; sourceTree = "<group>"; };
 		1B28C3F127BF2F6A003F8312 /* StageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageManager.swift; sourceTree = "<group>"; };
 		1B28C3F327BF302B003F8312 /* StageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageModel.swift; sourceTree = "<group>"; };
+		1B54762F2A68BAD9003D5DD7 /* GoogleAdPrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdPrompt.swift; sourceTree = "<group>"; };
 		1B8FDB0D2A4D5C4C007BE5E5 /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8FDB0E2A4D5C4C007BE5E5 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		1B8FDB102A4D5C4C007BE5E5 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -374,6 +376,7 @@
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
 				C3FB0784281C07770022E163 /* FirestoreHelper.swift */,
+				1B54762F2A68BAD9003D5DD7 /* GoogleAdPrompt.swift */,
 				8D3BD9A428112B8E0022ED89 /* AppCheck.swift */,
 				8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */,
 				8DB0BA082807BA5100C2B0FF /* Utill.swift */,
@@ -826,6 +829,7 @@
 				1BF1B26127E32BF0007A73CB /* LoadView.swift in Sources */,
 				8DF55C5327FE6D7800D68EB1 /* SigninButton.swift in Sources */,
 				C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */,
+				1B5476302A68BAD9003D5DD7 /* GoogleAdPrompt.swift in Sources */,
 				C38C1BAE2803027100350176 /* LayerToolView.swift in Sources */,
 				C38C1BA62802CECA00350176 /* CanvasView.swift in Sources */,
 			);

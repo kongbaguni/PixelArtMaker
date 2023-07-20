@@ -7,6 +7,6 @@
 */
 "CFBundleName" = "픽셀아트메이커";
 "CFBundleDisplayName" = "픽셀아트메이커";
-"NSUserTrackingUsageDescription" = "사용자 맞춤 서비스 제공을 위해 권한이 필요합니다.";
+"NSUserTrackingUsageDescription" = "이 식별자는 개인화된 광고를 제공하는 데 사용됩니다.";
 "NSPhotoLibraryAddUsageDescription" = "트레이싱 작업을 위해 사진 라이브러리 접근 권한이 필요합니다.";
 "NSPhotoLibraryUsageDescription" = "트레이싱 작업을 위해 사진 라이브러리 접근 권한이 필요합니다.";

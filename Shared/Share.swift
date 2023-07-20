@@ -18,7 +18,7 @@ func share(
         .addToReadingList
     ]
 ) -> Bool {
-    guard let source = rootViewController else {
+    guard let source = UIApplication.shared.lastViewController else {
         return false
     }
     let vc = UIActivityViewController(

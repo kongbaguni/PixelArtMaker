@@ -7,6 +7,6 @@
 */
 "CFBundleName" = "PixelArtMaker";
 "CFBundleDisplayName" = "PixelArtMaker";
-"NSUserTrackingUsageDescription" = "Permission is required to provide customized services.";
+"NSUserTrackingUsageDescription" = "This identifier will be used to deliver personalized ads to you.";
 "NSPhotoLibraryAddUsageDescription" = "Photo library access is required for tracing.";
 "NSPhotoLibraryUsageDescription" = "Photo library access is required for tracing.";

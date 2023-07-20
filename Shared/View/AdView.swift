@@ -205,7 +205,7 @@ class AdLoaderView : UIView {
         let option = GADMultipleAdsAdLoaderOptions()
         option.numberOfAds = 1
         self.loader = GADAdLoader(adUnitID: adId,
-                                  rootViewController: UIApplication.topViewController,
+                                  rootViewController: UIApplication.shared.lastViewController,
                                   adTypes: [.native],
                                   options: [option])
         super.init(frame: .zero)
