@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Reachability
 
 struct SideMenuView: View {
     let googleAd = GoogleAd()
@@ -22,6 +23,8 @@ struct SideMenuView: View {
     @Binding var isShowTimelineReply:Bool
     @Binding var isShowSettingView:Bool
     @State var isSignIn = false
+    @State var isInternetConnected = false
+    let reachablity = try? Reachability()
     @State var isUseAd = InAppPurchaseModel.isSubscribe == false
     func makeBtn(image:Image, text:Text, action:@escaping()->Void)-> some View {
         Button {
@@ -35,6 +38,8 @@ struct SideMenuView: View {
         makeBtn(image: Image(systemName: "iphone.and.arrow.forward"), text: .menu_signin_title) {
             isShowSigninView = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
     
     var clearBtnView : some View {
@@ -52,41 +57,54 @@ struct SideMenuView: View {
             alertType = .clear
             isShowAlert = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
                     
     var profileBtnView : some View {
         makeBtn(image: Image(systemName: "person"), text: Text("profile")) {
             isShowProfileView = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
     
     var subscribeBtnView : some View {
         makeBtn(image: Image(systemName: "plus"), text: Text("subscribe")) {
             isShowInAppPurches = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
     var saveBtnView : some View {
         makeBtn(image: Image(systemName: "icloud.and.arrow.up"), text: .menu_save_title) {
             isShowSaveView = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
     var loadBtnView : some View {
         makeBtn(image: Image(systemName: "icloud.and.arrow.down"), text: .menu_load_title) {
             isShowLoadView = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
     
     var shareBtnView : some View {
         makeBtn(image: Image(systemName: "text.below.photo"), text: .menu_public_load_title) {
             isShowShareListView = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
     
     var timelineReplyBtnView : some View {
         makeBtn(image: Image(systemName: "text.bubble"), text: Text("timeline")) {
             isShowTimelineReply = true
         }
-
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
     
     var deleteBtnView : some View {
@@ -94,6 +112,8 @@ struct SideMenuView: View {
             alertType = .delete
             isShowAlert = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
     }
     
     var signoutBtnView : some View {
@@ -101,6 +121,9 @@ struct SideMenuView: View {
             alertType = .signout
             isShowAlert = true
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
+
     }
         
     var settingView : some View {
@@ -119,6 +142,9 @@ struct SideMenuView: View {
                 }
             }
         }
+        .disabled(isInternetConnected == false)
+        .opacity(isInternetConnected ? 1.0 : 0.5)
+
     }
     
     var body: some View {
@@ -173,6 +199,16 @@ struct SideMenuView: View {
                     isShowMenu = false
                 }
             }
+            reachablity?.whenReachable = { _ in
+                isInternetConnected = true
+            }
+            reachablity?.whenUnreachable = { _ in
+                isInternetConnected = false
+            }
+            try? reachablity?.startNotifier()
+        }
+        .onDisappear {
+            reachablity?.stopNotifier()
         }
        
 
