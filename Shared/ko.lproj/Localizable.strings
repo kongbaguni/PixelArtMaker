@@ -209,3 +209,5 @@
 "leave delete like msg" = "좋아요 기록 삭제하는 중입니다.";
 "leave delete replys msg" = "작성한 댓글 삭제하는 중입니다.";
 "leave delete articles msg" = "게시글 삭제하는 중입니다.";
+"Internet Connected" = "인터넷 연결됨";
+"Intwernet Disconnected" = "인터넷 연결안됨";

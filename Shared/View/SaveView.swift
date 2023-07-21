@@ -15,7 +15,7 @@ struct SaveView: View {
     let dim = DimLoadingViewController()
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+    @State var internetConnected = false
     @State var id:String? = nil
     @State var sharedId:String? = nil
     @State var updateDateTimeFromDb:Date? = nil
@@ -139,7 +139,7 @@ struct SaveView: View {
                 .padding(.leading,20)
                 .padding(.trailing,20)
             }
-
+            InternetConnectionStateView(isConnected: $internetConnected)
             HStack {
                 //MARK: 기존 파일에 저장
                 if StageManager.shared.stage?.documentId != nil && StageManager.shared.stage?.isMyPicture == true {
@@ -168,7 +168,8 @@ struct SaveView: View {
                         
                     } label: {
                         OrangeTextView(image: Image(systemName: "icloud.and.arrow.up"), text: .save_to_existing_file)
-                    }
+                    }.disabled(internetConnected == false)
+                        .opacity(internetConnected ? 1.0 : 0.2)
                 }
                 //MARK: 새 파일로 저장
                 if StageManager.shared.stage?.documentId == nil || InAppPurchaseModel.isSubscribe {
@@ -189,7 +190,8 @@ struct SaveView: View {
                         
                     } label: {
                         OrangeTextView(image: Image(systemName: "icloud.and.arrow.up"), text: .save_as_new_file)
-                    }
+                    }.disabled(internetConnected == false)
+                        .opacity(internetConnected ? 1.0 : 0.2)
                 }
                 
             }
@@ -198,7 +200,8 @@ struct SaveView: View {
                 isShowActionSheet = true
             } label : {
                 OrangeTextView(image: Image(systemName: "square.and.arrow.up"), boldText: nil, text: Text("share"))
-            }
+            }.disabled(internetConnected == false)
+                .opacity(internetConnected ? 1.0 : 0.2)
 //            ForEach(shareImageDatas, id:\.self) { img in
 //                let id = shareImageDatas.firstIndex(of: img)
 //                Button {
@@ -237,7 +240,8 @@ struct SaveView: View {
                         
                     } label: {
                         OrangeTextView(image: Image(systemName: "shareplay"), text: Text("share public"))
-                    }
+                    }.disabled(internetConnected == false)
+                        .opacity(internetConnected ? 1.0 : 0.2)
                 }
             }
 

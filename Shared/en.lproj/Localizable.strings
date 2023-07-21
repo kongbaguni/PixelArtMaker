@@ -192,3 +192,5 @@
 "leave delete like msg" = "You are deleting your like history.";
 "leave delete replies msg" = "You are deleting your comments.";
 "leave delete articles msg" = "Your posts are being deleted.";
+"Internet Connected" = "Internet Connected";
+"Intwernet Disconnected" = "Intwernet Disconnected";

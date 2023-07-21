@@ -114,5 +114,276 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FFCB6E9E-7ADC-4FA7-96AD-C0EB23AFEBBA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/FirebaseStorageHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "uploadData(data:contentType:uploadPath:id:complete:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8EE7B1A4-D9FE-4BBE-B789-A45C69F32443"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/InternetConnectionStateView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "checkInternetConnection()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8EE7B1A4-D9FE-4BBE-B789-A45C69F32443 - a750c91c3b751c57"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.InternetConnectionStateView_Previews.init() -&gt; PixelArtMaker.InternetConnectionStateView_Previews"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "8EE7B1A4-D9FE-4BBE-B789-A45C69F32443 - e6f6bd37455eb08a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.InternetConnectionStateView.checkInternetConnection() -&gt; ()"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "532">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F11BDD4-68EF-435C-BAAE-D6088CCCFAF2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/InternetConnectionStateView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "checkInternetConnection()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5F11BDD4-68EF-435C-BAAE-D6088CCCFAF2 - e6f6bd37455eb027"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.InternetConnectionStateView.checkInternetConnection() -&gt; ()"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "528">
+               </Location>
+               <Location
+                  uuid = "5F11BDD4-68EF-435C-BAAE-D6088CCCFAF2 - e6f6bd37455eb027"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.InternetConnectionStateView.checkInternetConnection() -&gt; ()"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "956">
+               </Location>
+               <Location
+                  uuid = "5F11BDD4-68EF-435C-BAAE-D6088CCCFAF2 - ef4b21d1e2e235d7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Reachability.Reachability) -&gt; () in PixelArtMaker.InternetConnectionStateView.checkInternetConnection() -&gt; ()"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3DE4FB50-A502-45A5-9983-D15632951312"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/InternetConnectionStateView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "checkInternetConnection()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3DE4FB50-A502-45A5-9983-D15632951312 - ef4b21d1e2e23472"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Reachability.Reachability) -&gt; () in PixelArtMaker.InternetConnectionStateView.checkInternetConnection() -&gt; ()"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "60">
+               </Location>
+               <Location
+                  uuid = "3DE4FB50-A502-45A5-9983-D15632951312 - 614cbc1fb6996a73"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Reachability.Reachability) -&gt; () in PixelArtMaker.InternetConnectionStateView.checkInternetConnection() -&gt; ()"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2FFBED7B-C4A0-44A7-AEF9-FFE6AF535517"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/InternetConnectionStateView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "2FFBED7B-C4A0-44A7-AEF9-FFE6AF535517 - 3fb285d8203430c7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in PixelArtMaker.InternetConnectionStateView.body.getter : some"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "56">
+               </Location>
+               <Location
+                  uuid = "2FFBED7B-C4A0-44A7-AEF9-FFE6AF535517 - 3fb285d8203430c7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in PixelArtMaker.InternetConnectionStateView.body.getter : some"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DA88F3CA-D63E-441F-9748-D9981ABC8AEA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/InternetConnectionStateView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "checkInternetConnection()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DA88F3CA-D63E-441F-9748-D9981ABC8AEA - 614cbc1fb6996a10"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Reachability.Reachability) -&gt; () in PixelArtMaker.InternetConnectionStateView.checkInternetConnection() -&gt; ()"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "56">
+               </Location>
+               <Location
+                  uuid = "DA88F3CA-D63E-441F-9748-D9981ABC8AEA - e6f6bd37455eb1c0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PixelArtMaker.InternetConnectionStateView.checkInternetConnection() -&gt; ()"
+                  moduleName = "PixelArtMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/changyeolseo/Documents/iOS/PixelArtMaker/Shared/InternetConnectionStateView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "160">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
