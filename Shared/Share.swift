@@ -25,9 +25,12 @@ func share(
         activityItems: items,
         applicationActivities: nil
     )
-    
+    vc.modalTransitionStyle = .coverVertical
     vc.excludedActivityTypes = excludedActivityTypes
     vc.popoverPresentationController?.sourceView = source.view
+    let r = source.view.bounds
+    vc.popoverPresentationController?.sourceRect = .init(x: 0, y: r.height - 100, width: r.width, height: 50)
+    vc.popoverPresentationController?.permittedArrowDirections = .any
     source.present(vc, animated: true)
     return true
 }

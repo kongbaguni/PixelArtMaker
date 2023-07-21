@@ -149,6 +149,11 @@ struct PixelArtDetailView: View {
                                 }
                             }
                         }
+                        if let err = error {
+                            isShowToast = true
+                            toastMessage = err.localizedDescription
+                            
+                        }
                     }
                     
                 } label: {
