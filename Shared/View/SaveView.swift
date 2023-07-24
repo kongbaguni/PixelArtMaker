@@ -202,6 +202,10 @@ struct SaveView: View {
                 OrangeTextView(image: Image(systemName: "square.and.arrow.up"), boldText: nil, text: Text("share"))
             }.disabled(internetConnected == false)
                 .opacity(internetConnected ? 1.0 : 0.2)
+                .actionSheet(isPresented: $isShowActionSheet) {
+                    .init(title: Text("share"), message: Text("share image desc"), buttons: actionSheetButtonsForShareItems)
+                }
+
 //            ForEach(shareImageDatas, id:\.self) { img in
 //                let id = shareImageDatas.firstIndex(of: img)
 //                Button {
@@ -240,14 +244,16 @@ struct SaveView: View {
                         
                     } label: {
                         OrangeTextView(image: Image(systemName: "shareplay"), text: Text("share public"))
-                    }.disabled(internetConnected == false)
-                        .opacity(internetConnected ? 1.0 : 0.2)
+                    }
+                    .disabled(internetConnected == false)
+                    .opacity(internetConnected ? 1.0 : 0.2)
                 }
             }
 
         }
+
     }
-    var body: some View {
+    var main : some View {
         GeometryReader { geomentry in
             if geomentry.size.height > geomentry.size.width {
                 ScrollView {
@@ -263,6 +269,7 @@ struct SaveView: View {
 
                     makeButtonList()
                         .padding(.bottom,10)
+
                 }
             }
             else {
@@ -278,12 +285,16 @@ struct SaveView: View {
                             .padding(.bottom,20)
                         makeButtonList()
                             .padding(.bottom,10)
+
                     }
                 }
             }
         }
-        .actionSheet(isPresented: $isShowActionSheet) {
-            ActionSheet(title: Text("share"), message: Text("share image desc"), buttons: actionSheetButtonsForShareItems)            
+    }
+    
+    var body: some View {
+        VStack {
+            main
         }
         .navigationTitle(Text("save"))
         .onAppear {
