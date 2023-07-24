@@ -9,6 +9,8 @@ import SwiftUI
 import RealmSwift
 import SDWebImageSwiftUI
 import Alamofire
+import ActivityView
+
 
 struct PixelArtDetailView: View {
     enum AlertType {
@@ -46,6 +48,7 @@ struct PixelArtDetailView: View {
     @State var isDeleted = false
     @Namespace var bottomID
     @FocusState var isFocusedReplyInput
+    @State var activityItem:ActivityItem? = nil
     
     init(id:String, showProfile:Bool, forceUpdate:Bool = false, focusedReply:ReplyModel? = nil ) {
         pid = id
@@ -145,7 +148,7 @@ struct PixelArtDetailView: View {
                         if let url = url {
                             googleAd.showAd { isSucess in
                                 if isSucess {
-                                    share(items: [url])
+                                    activityItem = .init(itemsArray: [url])
                                 }
                             }
                         }
@@ -158,7 +161,7 @@ struct PixelArtDetailView: View {
                     
                 } label: {
                     OrangeTextView(image: Image(systemName: "square.and.arrow.up"), text: Text("share"))
-                }
+                }.activitySheet($activityItem)
             }
         }
     }

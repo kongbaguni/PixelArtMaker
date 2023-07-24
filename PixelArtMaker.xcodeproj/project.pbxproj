@@ -20,6 +20,7 @@
 		1B5476302A68BAD9003D5DD7 /* GoogleAdPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B54762F2A68BAD9003D5DD7 /* GoogleAdPrompt.swift */; };
 		1B5476712A6A0CF8003D5DD7 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5476702A6A0CF8003D5DD7 /* Reachability */; };
 		1B5476732A6A0D45003D5DD7 /* InternetConnectionStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5476722A6A0D44003D5DD7 /* InternetConnectionStateView.swift */; };
+		1B5DEB632A6E34DB0026B180 /* ActivityView in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5DEB622A6E34DB0026B180 /* ActivityView */; };
 		1B8FDB0F2A4D5C4C007BE5E5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8FDB0E2A4D5C4C007BE5E5 /* WidgetKit.framework */; };
 		1B8FDB112A4D5C4C007BE5E5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8FDB102A4D5C4C007BE5E5 /* SwiftUI.framework */; };
 		1B8FDB142A4D5C4C007BE5E5 /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDB132A4D5C4C007BE5E5 /* widgetBundle.swift */; };
@@ -106,7 +107,6 @@
 		C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320338B27C389AA0019B546 /* Color+Extensions.swift */; };
 		C320339A27C4B3D60019B546 /* LayerEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C320339827C4AFEA0019B546 /* LayerEditView.swift */; };
 		C356362D27F9712500B2609A /* PixelArtDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356362C27F9712500B2609A /* PixelArtDetailView.swift */; };
-		C356362F27F976E600B2609A /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356362E27F976E600B2609A /* Share.swift */; };
 		C356363427F9AE7400B2609A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = C356363327F9AE7400B2609A /* SideMenu */; };
 		C356363627F9D9A800B2609A /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363527F9D9A800B2609A /* SortType.swift */; };
 		C356363827FA7C2200B2609A /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C356363727FA7C2100B2609A /* Consts.swift */; };
@@ -260,7 +260,6 @@
 		C320339627C47B800019B546 /* Character+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Extensions.swift"; sourceTree = "<group>"; };
 		C320339827C4AFEA0019B546 /* LayerEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerEditView.swift; sourceTree = "<group>"; };
 		C356362C27F9712500B2609A /* PixelArtDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtDetailView.swift; sourceTree = "<group>"; };
-		C356362E27F976E600B2609A /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		C356363527F9D9A800B2609A /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
 		C356363727FA7C2100B2609A /* Consts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
 		C356363927FAC29200B2609A /* InAppPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseManager.swift; sourceTree = "<group>"; };
@@ -305,6 +304,7 @@
 				8DE212412979331D005469A9 /* FirebaseAnalytics in Frameworks */,
 				8DE212472979331D005469A9 /* FirebaseAuth in Frameworks */,
 				1B5476712A6A0CF8003D5DD7 /* Reachability in Frameworks */,
+				1B5DEB632A6E34DB0026B180 /* ActivityView in Frameworks */,
 				C3EDBF2827F88FE500BBEC01 /* SDWebImageSwiftUI in Frameworks */,
 				8DC4B3482A65278F00E4A561 /* ActivityIndicatorView in Frameworks */,
 				8DE2124B2979331D005469A9 /* FirebaseFirestore in Frameworks */,
@@ -395,7 +395,6 @@
 				1B28C3F127BF2F6A003F8312 /* StageManager.swift */,
 				1BF1B24727E2C7AB007A73CB /* AuthManager.swift */,
 				C3EDBF2B27F9412100BBEC01 /* Toast.swift */,
-				C356362E27F976E600B2609A /* Share.swift */,
 				C356363527F9D9A800B2609A /* SortType.swift */,
 				8DF55C5227FE6D7800D68EB1 /* SigninButton.swift */,
 				8DF55C5C27FED83D00D68EB1 /* WebView.swift */,
@@ -592,6 +591,7 @@
 				8DD11DD4297A177B000F3456 /* RxSwift */,
 				8DC4B3472A65278F00E4A561 /* ActivityIndicatorView */,
 				1B5476702A6A0CF8003D5DD7 /* Reachability */,
+				1B5DEB622A6E34DB0026B180 /* ActivityView */,
 			);
 			productName = "PixelArtMaker (iOS)";
 			productReference = 1B28C3B427BE100F003F8312 /* PixelArtMaker.app */;
@@ -677,6 +677,7 @@
 				8DD11DCF297A177B000F3456 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				8DC4B3462A65278E00E4A561 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 				1B54766F2A6A0CF8003D5DD7 /* XCRemoteSwiftPackageReference "Reachability" */,
+				1B5DEB612A6E34DA0026B180 /* XCRemoteSwiftPackageReference "ActivityView" */,
 			);
 			productRefGroup = 1B28C3B527BE100F003F8312 /* Products */;
 			projectDirPath = "";
@@ -787,7 +788,6 @@
 				C3D11850281E9DE7002964F3 /* TimeLineReplyView.swift in Sources */,
 				C320338C27C389AA0019B546 /* Color+Extensions.swift in Sources */,
 				C356364127FAC4AE00B2609A /* Float+Extensions.swift in Sources */,
-				C356362F27F976E600B2609A /* Share.swift in Sources */,
 				C356363F27FAC41C00B2609A /* InAppPurchaseModel.swift in Sources */,
 				8D3BD9AE281632A80022ED89 /* ReplyView.swift in Sources */,
 				8D3BD9AA2812382E0022ED89 /* FSImageView.swift in Sources */,
@@ -1255,6 +1255,14 @@
 				kind = branch;
 			};
 		};
+		1B5DEB612A6E34DA0026B180 /* XCRemoteSwiftPackageReference "ActivityView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUI-Plus/ActivityView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		8D03E0D32978D09300DC0E07 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
@@ -1350,6 +1358,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1B54766F2A6A0CF8003D5DD7 /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;
+		};
+		1B5DEB622A6E34DB0026B180 /* ActivityView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B5DEB612A6E34DA0026B180 /* XCRemoteSwiftPackageReference "ActivityView" */;
+			productName = ActivityView;
 		};
 		8D03E0D42978D09400DC0E07 /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;

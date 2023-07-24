@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Reachability
+import ActivityView
 
 struct SideMenuView: View {
     let googleAd = GoogleAd()
@@ -24,6 +25,7 @@ struct SideMenuView: View {
     @Binding var isShowSettingView:Bool
     @State var isSignIn = false
     @State var isInternetConnected = false
+    @State var activityItem:ActivityItem? = nil
     let reachablity = try? Reachability()
     @State var isUseAd = InAppPurchaseModel.isSubscribe == false
     func makeBtn(image:Image, text:Text, action:@escaping()->Void)-> some View {
@@ -137,11 +139,13 @@ struct SideMenuView: View {
             googleAd.showAd { isSucess in
                 if isSucess {
                     if let image = StageManager.shared.stage?.makeImageDataValue(size: StageManager.shared.canvasSize) {
-                        share(items: [image])
+//                        share(items: [image])
+                        activityItem = .init(itemsArray: [image])
                     }
                 }
             }
         }
+        .activitySheet($activityItem)
         .disabled(isInternetConnected == false)
         .opacity(isInternetConnected ? 1.0 : 0.5)
 

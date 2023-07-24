@@ -8,6 +8,7 @@
 import SwiftUI
 import RealmSwift
 import GoogleMobileAds
+import ActivityView
 
 
 struct SaveView: View {
@@ -34,6 +35,7 @@ struct SaveView: View {
     @State var isShowAlert = false
 
     @State var isNSFW = false
+    @State var activityItem : ActivityItem? = nil
     
     func updateId() {
         self.id = StageManager.shared.stage?.documentId
@@ -78,9 +80,9 @@ struct SaveView: View {
             googleAd.showAd { isSucess in
                 if isSucess {
                     if InAppPurchaseModel.isSubscribe {
-                        share(items: shareImageDatas)
+                        activityItem = .init(itemsArray: shareImageDatas)
                     } else {
-                        share(items: [shareImageDatas[0],shareImageDatas[1],shareImageDatas[2]])
+                        activityItem = .init(itemsArray: [shareImageDatas[0],shareImageDatas[1],shareImageDatas[2]])
                     }
                 }
             }
@@ -92,7 +94,7 @@ struct SaveView: View {
             let btn:ActionSheet.Button = .default(Consts.sizeTitles[id!]) {
                 googleAd.showAd { isSucess in
                     if isSucess {
-                        share(items: [img])
+                        activityItem = .init(itemsArray:[img])
                     }
                 }
             }
@@ -200,25 +202,13 @@ struct SaveView: View {
                 isShowActionSheet = true
             } label : {
                 OrangeTextView(image: Image(systemName: "square.and.arrow.up"), boldText: nil, text: Text("share"))
-            }.disabled(internetConnected == false)
-                .opacity(internetConnected ? 1.0 : 0.2)
-                .actionSheet(isPresented: $isShowActionSheet) {
-                    .init(title: Text("share"), message: Text("share image desc"), buttons: actionSheetButtonsForShareItems)
-                }
-
-//            ForEach(shareImageDatas, id:\.self) { img in
-//                let id = shareImageDatas.firstIndex(of: img)
-//                Button {
-//                    googleAd.showAd { isSucess in
-//                        if isSucess {
-//                            share(items: [img])
-//                        }
-//                    }
-//                } label: {
-//                    OrangeTextView(image: Image(systemName: "square.and.arrow.up"), boldText: Text("share"), text: Consts.sizeTitles[id!])
-//                }
-//
-//            }
+            }
+            .disabled(internetConnected == false)
+            .opacity(internetConnected ? 1.0 : 0.2)
+            .actionSheet(isPresented: $isShowActionSheet) {
+                .init(title: Text("share"), message: Text("share image desc"), buttons: actionSheetButtonsForShareItems)
+            }
+            .activitySheet($activityItem)
             
 
             if StageManager.shared.stage?.documentId != nil && sharedId == nil {
