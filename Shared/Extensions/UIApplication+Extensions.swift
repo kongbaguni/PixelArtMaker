@@ -30,12 +30,11 @@ extension UIApplication {
     }
     
     var lastViewController:UIViewController? {
-        var vc = rootViewController
-        if let ovc = vc {
-            while ovc.presentedViewController != nil {
-                vc = ovc.presentedViewController
-            }
+        var vc:UIViewController? = rootViewController
+        while vc?.presentedViewController != nil {
+            vc = vc?.presentedViewController
         }
         return vc
     }
+    
 }
