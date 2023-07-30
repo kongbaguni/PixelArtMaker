@@ -39,11 +39,17 @@ class GoogleAd : NSObject {
     
     var callback:(_ isSucess:Bool)->Void = { _ in}
     
+    var requsetAd = false
+    
     func showAd(complete:@escaping(_ isSucess:Bool)->Void) {
         if InAppPurchaseModel.isSubscribe {
             complete(true)
             return
         }
+        if requsetAd {
+            return
+        }
+        requsetAd = true
         if Date().timeIntervalSince1970 - (UserDefaults.standard.lastGoogleAdWatchTime?.timeIntervalSince1970 ?? 0) < 60 * 30 {
             complete(true)
             return
@@ -56,7 +62,8 @@ class GoogleAd : NSObject {
                 }
                 return
             }
-            if let vc = UIApplication.shared.keyWindow?.rootViewController {
+            self?.requsetAd = false 
+            if let vc = UIApplication.shared.lastViewController {
                 self?.interstitial?.present(fromRootViewController: vc, userDidEarnRewardHandler: {
                     
                 })
