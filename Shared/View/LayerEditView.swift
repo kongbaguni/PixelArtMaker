@@ -66,8 +66,7 @@ struct LayerEditView: View {
                     .opacity(isRequestMakePreview ? 0.1 : 1.0)
             }
             List {
-                AdView()
-                BannerAdView(sizeType: .GADAdSizeBanner)
+                NativeAdView()
                     
                 ForEach(layers, id:\.self) { layer in
                     if let id = layers.firstIndex(of: layer) {

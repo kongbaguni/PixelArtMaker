@@ -49,6 +49,11 @@
 		8D03E0D52978D09400DC0E07 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 8D03E0D42978D09400DC0E07 /* GoogleMobileAds */; };
 		8D03E0D82978D16100DC0E07 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8D03E0D72978D16100DC0E07 /* GoogleSignIn */; };
 		8D03E0DA2978D16100DC0E07 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8D03E0D92978D16100DC0E07 /* GoogleSignInSwift */; };
+		8D255C3B2A7B44510087C905 /* NativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D255C362A7B444F0087C905 /* NativeAdView.swift */; };
+		8D255C3C2A7B44510087C905 /* GADNativeAd+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D255C372A7B44500087C905 /* GADNativeAd+Extensions.swift */; };
+		8D255C3D2A7B44510087C905 /* AdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D255C382A7B44500087C905 /* AdLoader.swift */; };
+		8D255C3E2A7B44510087C905 /* UnifiedNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D255C392A7B44510087C905 /* UnifiedNativeAdView.xib */; };
+		8D255C3F2A7B44510087C905 /* UnifiedNativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D255C3A2A7B44510087C905 /* UnifiedNativeAdView.swift */; };
 		8D30B1972818D47D00785F1A /* TimeLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30B1962818D47D00785F1A /* TimeLineView.swift */; };
 		8D3BD982280E74CB0022ED89 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD981280E74CB0022ED89 /* BannerAdView.swift */; };
 		8D3BD984280E841F0022ED89 /* ReplyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BD983280E841F0022ED89 /* ReplyListView.swift */; };
@@ -74,7 +79,6 @@
 		8DB0BA072807AF3400C2B0FF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB0BA062807AF3400C2B0FF /* Launch Screen.storyboard */; };
 		8DB0BA092807BA5100C2B0FF /* Utill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB0BA082807BA5100C2B0FF /* Utill.swift */; };
 		8DC4B3482A65278F00E4A561 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 8DC4B3472A65278F00E4A561 /* ActivityIndicatorView */; };
-		8DC4B34D2A652FF200E4A561 /* AdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4B34C2A652FEF00E4A561 /* AdView.swift */; };
 		8DC4B34F2A65357700E4A561 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4B34E2A65357600E4A561 /* StarView.swift */; };
 		8DD11DD1297A177B000F3456 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 8DD11DD0297A177B000F3456 /* RxCocoa */; };
 		8DD11DD3297A177B000F3456 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 8DD11DD2297A177B000F3456 /* RxRelay */; };
@@ -215,6 +219,11 @@
 		1BF1B26027E32BF0007A73CB /* LoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadView.swift; sourceTree = "<group>"; };
 		1BF1B26627E46C1C007A73CB /* ColorPresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPresetView.swift; sourceTree = "<group>"; };
 		28A1C62ECE6592C00D3FE9E7 /* Pods_PixelArtMaker__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixelArtMaker__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D255C362A7B444F0087C905 /* NativeAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeAdView.swift; sourceTree = "<group>"; };
+		8D255C372A7B44500087C905 /* GADNativeAd+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADNativeAd+Extensions.swift"; sourceTree = "<group>"; };
+		8D255C382A7B44500087C905 /* AdLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdLoader.swift; sourceTree = "<group>"; };
+		8D255C392A7B44510087C905 /* UnifiedNativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnifiedNativeAdView.xib; sourceTree = "<group>"; };
+		8D255C3A2A7B44510087C905 /* UnifiedNativeAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnifiedNativeAdView.swift; sourceTree = "<group>"; };
 		8D30B1962818D47D00785F1A /* TimeLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineView.swift; sourceTree = "<group>"; };
 		8D3BD981280E74CB0022ED89 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		8D3BD983280E841F0022ED89 /* ReplyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyListView.swift; sourceTree = "<group>"; };
@@ -239,7 +248,6 @@
 		8DB0BA042806AFFB00C2B0FF /* LikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeModel.swift; sourceTree = "<group>"; };
 		8DB0BA062807AF3400C2B0FF /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8DB0BA082807BA5100C2B0FF /* Utill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utill.swift; sourceTree = "<group>"; };
-		8DC4B34C2A652FEF00E4A561 /* AdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdView.swift; sourceTree = "<group>"; };
 		8DC4B34E2A65357600E4A561 /* StarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		8DF55C4227FD498300D68EB1 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		8DF55C5027FD74B800D68EB1 /* ArtListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtListView.swift; sourceTree = "<group>"; };
@@ -380,7 +388,6 @@
 				8DF55C6127FEDB5E00D68EB1 /* HTML */,
 				C3EDBF2027F8020A00BBEC01 /* AppDelegate.swift */,
 				C3FB0784281C07770022E163 /* FirestoreHelper.swift */,
-				1B54762F2A68BAD9003D5DD7 /* GoogleAdPrompt.swift */,
 				8D3BD9A428112B8E0022ED89 /* AppCheck.swift */,
 				8DB0B9FE28056CC200C2B0FF /* DimLoadingViewController.swift */,
 				8DB0BA082807BA5100C2B0FF /* Utill.swift */,
@@ -388,7 +395,7 @@
 				8DB0BA0028065A8200C2B0FF /* SettingView.swift */,
 				C356363927FAC29200B2609A /* InAppPurchaseManager.swift */,
 				C356363727FA7C2100B2609A /* Consts.swift */,
-				C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */,
+				8D255C342A7B43080087C905 /* GoogleAd */,
 				8D3BD9A0280F8F1B0022ED89 /* HIstoryManager.swift */,
 				8DABAF19280D2E92001E7619 /* ReplyManager.swift */,
 				C303FB17281037C700E920D8 /* LikeManager.swift */,
@@ -495,8 +502,6 @@
 				8DB0BA022806A12100C2B0FF /* LikeArtListView.swift */,
 				8D49FC982809410400565A3C /* PhotoPicker.swift */,
 				8DABAF15280CF95C001E7619 /* LikePeopleListView.swift */,
-				8DC4B34C2A652FEF00E4A561 /* AdView.swift */,
-				8D3BD981280E74CB0022ED89 /* BannerAdView.swift */,
 				8D3BD983280E841F0022ED89 /* ReplyListView.swift */,
 				8D3BD9A92812382E0022ED89 /* FSImageView.swift */,
 				8D30B1962818D47D00785F1A /* TimeLineView.swift */,
@@ -527,6 +532,29 @@
 				1B8FDB282A4D5CA3007BE5E5 /* CommonConsts.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		8D255C342A7B43080087C905 /* GoogleAd */ = {
+			isa = PBXGroup;
+			children = (
+				8D255C352A7B441F0087C905 /* nativeAd */,
+				1B54762F2A68BAD9003D5DD7 /* GoogleAdPrompt.swift */,
+				8D3BD981280E74CB0022ED89 /* BannerAdView.swift */,
+				C3DBA08B27ECA32B00FE8392 /* GoogleAd.swift */,
+			);
+			path = GoogleAd;
+			sourceTree = "<group>";
+		};
+		8D255C352A7B441F0087C905 /* nativeAd */ = {
+			isa = PBXGroup;
+			children = (
+				8D255C382A7B44500087C905 /* AdLoader.swift */,
+				8D255C372A7B44500087C905 /* GADNativeAd+Extensions.swift */,
+				8D255C362A7B444F0087C905 /* NativeAdView.swift */,
+				8D255C3A2A7B44510087C905 /* UnifiedNativeAdView.swift */,
+				8D255C392A7B44510087C905 /* UnifiedNativeAdView.xib */,
+			);
+			path = nativeAd;
 			sourceTree = "<group>";
 		};
 		C320338627C370A30019B546 /* Extensions */ = {
@@ -698,6 +726,7 @@
 				8DB0BA072807AF3400C2B0FF /* Launch Screen.storyboard in Resources */,
 				1BA7DDAD2A664FB8008D9181 /* InfoPlist.strings in Resources */,
 				C320338A27C3895E0019B546 /* Colors.xcassets in Resources */,
+				8D255C3E2A7B44510087C905 /* UnifiedNativeAdView.xib in Resources */,
 				C3D087FA27DB31DA003F886E /* GoogleService-Info.plist in Resources */,
 				1B28C3D927BE100F003F8312 /* Assets.xcassets in Resources */,
 				C365E18F27C36CC400154E56 /* Localizable.strings in Resources */,
@@ -764,6 +793,7 @@
 				C3D087FD27DB3509003F886E /* SigninView.swift in Sources */,
 				1B8FDB2C2A4D5DAF007BE5E5 /* AppGroup.swift in Sources */,
 				8D916B15281BBF0C0032572F /* ArticleLikeView.swift in Sources */,
+				8D255C3D2A7B44510087C905 /* AdLoader.swift in Sources */,
 				1B8FDB1E2A4D5C4E007BE5E5 /* widget.intentdefinition in Sources */,
 				C356363627F9D9A800B2609A /* SortType.swift in Sources */,
 				C38C1BA22801845E00350176 /* NewCanvasView.swift in Sources */,
@@ -772,7 +802,6 @@
 				1BE77B5227E9BC7800A36F8E /* Image+Extensions.swift in Sources */,
 				C356362D27F9712500B2609A /* PixelArtDetailView.swift in Sources */,
 				8D49FC9B280959CE00565A3C /* TracingImageModel.swift in Sources */,
-				8DC4B34D2A652FF200E4A561 /* AdView.swift in Sources */,
 				8DABAF16280CF95C001E7619 /* LikePeopleListView.swift in Sources */,
 				C3011F5527F0495C001B12AC /* TagView.swift in Sources */,
 				1B28C3F427BF302B003F8312 /* StageModel.swift in Sources */,
@@ -795,6 +824,7 @@
 				C3FB0785281C07770022E163 /* FirestoreHelper.swift in Sources */,
 				C3DBA08327EC5F8900FE8392 /* MyStageModel.swift in Sources */,
 				C38C1BAA2802EC5800350176 /* DrawingToolView.swift in Sources */,
+				8D255C3B2A7B44510087C905 /* NativeAdView.swift in Sources */,
 				C356363827FA7C2200B2609A /* Consts.swift in Sources */,
 				8DABAF1A280D2E92001E7619 /* ReplyManager.swift in Sources */,
 				C38C1BA42801A44700350176 /* PaletteView.swift in Sources */,
@@ -821,8 +851,10 @@
 				1B28C3D727BE100F003F8312 /* ContentView.swift in Sources */,
 				C3EDBF1F27F6B06C00BBEC01 /* View+Extensions.swift in Sources */,
 				C3011F5B27F05750001B12AC /* OrangeTextView.swift in Sources */,
+				8D255C3C2A7B44510087C905 /* GADNativeAd+Extensions.swift in Sources */,
 				1BF1B25E27E3288E007A73CB /* SaveView.swift in Sources */,
 				C3EDBF2527F8863A00BBEC01 /* ProfileView.swift in Sources */,
+				8D255C3F2A7B44510087C905 /* UnifiedNativeAdView.swift in Sources */,
 				C3DBA08E27ECB25600FE8392 /* UIApplication+Extensions.swift in Sources */,
 				C3011F5927F05675001B12AC /* PublicShareListView.swift in Sources */,
 				8D664E08297A660800F23BE1 /* MultiColorAnimeTextView.swift in Sources */,

@@ -54,9 +54,7 @@ struct PublicShareListView: View {
     
     private func makeListView(gridItems:[GridItem], width:CGFloat)->some View {
         ScrollView {
-            AdView().padding(.top,20).padding(.bottom,10)
-            BannerAdView(sizeType: .GADAdSizeBanner)
-                .padding(.bottom,20)
+            NativeAdView().padding(.top,20).padding(.bottom,10)
             makePickerView()
             LazyVGrid(columns: gridItems, spacing:20) {
                 ForEach(idlist, id:\.self) { id in
