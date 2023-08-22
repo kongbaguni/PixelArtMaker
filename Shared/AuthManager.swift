@@ -372,6 +372,7 @@ class AuthManager : NSObject {
         
         // Create Google Sign In configuration object.
         let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
             
         // Start the sign in flow!
         GIDSignIn.sharedInstance.signIn(withPresenting: vc) { [unowned self] result, error  in
