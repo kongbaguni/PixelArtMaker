@@ -193,11 +193,9 @@ struct ProfileView: View {
     private func makeList1(size:CGSize)-> some View {
         ScrollView {
             makeProfileView(isLandscape: false)
-            AdView()
+            NativeAdView()
                 .padding(.top,20)
                 .padding(.bottom,10)
-            BannerAdView(sizeType: .GADAdSizeBanner)
-                .padding(.bottom,20)
             
             Section(header:Text("profile view public arts")) {
                 ArticleListView(uid: uid,

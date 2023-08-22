@@ -82,12 +82,8 @@ struct ReplyListView: View {
     }
     var body: some View {
         LazyVStack {
-            AdView().padding(.top,20).padding(.bottom,10)
-            BannerAdView(sizeType: .GADAdSizeBanner)
-                .padding(.bottom,20)
-            if isLoading {
-            }
-            else if replys.count == 0 {
+            NativeAdView().padding(.top,20).padding(.bottom,10)
+            if replys.count == 0  && !isLoading {
                 Text("empty reply list message")
                     .font(.subheadline)
                     .foregroundColor(Color.k_weakText)

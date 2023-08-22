@@ -77,18 +77,18 @@ struct BannerAdView: View {
                         HStack {
                             Spacer()
                             MultiColorAnimeTextView(texts: [Text("Ad")],
-                                                    fonts: [.system(size: 12)],
+                                                    fonts: [.system(size: 8)],
                                                     forgroundColors: [.k_normalText],
                                                     backgroundColors: [.red,.orange,.yellow,.green,.blue,.purple,.red],
                                                     fps: 60 )
-                            .padding(.leading, -bannerSize.width / 2)
+                            .padding(.leading, -bannerSize.width / 2 - 15)
                             Spacer()
                         }
-                        .padding(.top, -bannerSize.height / 2)
+                        .padding(.top, -bannerSize.height / 2 - 15)
                         Spacer()
                     }
                     
-                }.shadow(radius: 10,x:10,y:10)
+                }
             }
         }
     }

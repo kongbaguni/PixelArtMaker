@@ -128,11 +128,9 @@ struct NewCanvasView: View {
                     makeInfomationView()
                     if InAppPurchaseModel.isSubscribe == false {
                         VStack {
-                            AdView()
+                            NativeAdView()
                                 .padding(.top,20)
                                 .padding(.bottom,10)
-                            BannerAdView(sizeType: .GADAdSizeLargeBanner)
-                                .padding(.bottom,20)
                         }
                     } else {
                         Spacer()
@@ -149,11 +147,9 @@ struct NewCanvasView: View {
                     ScrollView {
                         makeInfomationView()
                         VStack {
-                            AdView()
+                            NativeAdView()
                                 .padding(.top,20)
                                 .padding(.bottom,10)
-                            BannerAdView(sizeType: .GADAdSizeLargeBanner)
-                                .padding(.bottom,20)
                         }
                         makeButton()
                             .padding(.bottom,10)
