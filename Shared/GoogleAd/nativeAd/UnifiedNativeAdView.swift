@@ -40,6 +40,8 @@ class UnifiedNativeAdView : GADNativeAdView {
         (priceView as! UILabel).text = nativeAd?.price
         mediaView?.mediaContent = nativeAd?.mediaContent
         nativeAd?.delegate = self
+        mediaView?.layer.borderWidth = 2
+        mediaView?.layer.borderColor = UIColor.systemTeal.cgColor
     }
     
     
