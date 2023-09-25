@@ -83,6 +83,10 @@
                         <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="fNp-yu-K4i" customClass="GADMediaView">
                             <rect key="frame" x="0.0" y="83.5" width="365" height="184.5"/>
                             <color key="backgroundColor" systemColor="systemTealColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="IGc-X5-Af2"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="Z02-U0-6hh"/>
+                            </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="sa1-3k-Qgc">
                             <rect key="frame" x="0.0" y="273" width="365" height="17"/>
@@ -108,6 +112,9 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="17" id="tle-1P-QXQ"/>
+                            </constraints>
                         </stackView>
                     </subviews>
                 </stackView>
