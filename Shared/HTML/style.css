@@ -53,38 +53,6 @@ h3 {
     border-bottom:1px dashed #369;
 }
 
-body.dark {
-    background:#000;
-    color:#fff;
-}
-body.dark a {
-    color:#369;
-}
-body.dark em {
-    color:#f84;
-}
-
-body.dark q:before, body.dark q:after  {
-    color:#ffff00;
-}
-
-body.dark q {
-    color:#999;
-}
-
-body.dark article {
-    border:1px dashed #963;
-}
-
-body.dark article header {
-    background:#963;
-    color:#000;
-}
-
-body.dark h3 {
-    color:#963;
-    border-bottom:1px dashed #963;
-}
 
 body article.firstLetter > p:first-letter {
     text-transform:uppercase;
@@ -97,18 +65,11 @@ body article.firstLetter > p:first-letter {
     border-radius:10px;
 }
 
-body.dark article.firstLetter > p:first-letter {
-    color:#000;
-    background:#963;
-}
 
-body article.firstLetter > footer {
+article.firstLetter > footer {
     border-top:1px dashed #369;
 }
 
-body.dark article.firstLetter > footer {
-    border-top:1px dashed #963;
-}
 
 article.firstLetter header h1 {
     text-align:center
@@ -123,11 +84,6 @@ article.firstLetter header {
     border-bottom:1px dashed #369;
 }
 
-body.dark article.firstLetter header {
-    color:#fff;
-    background:#00000000;
-    border-bottom:1px dashed #963;
-}
 
 a.toTop {
     display:inline-block;
@@ -139,17 +95,12 @@ a.toTop {
     margin-left:10px;
 }
 
-body.dark a.toTop {
-    background-image:url("toTop_dark.png");
-}
+
 
 article header a.toTop {
     background-image:url("toTop_white.png");
 }
 
-body.dark article header a.toTop {
-    background-image:url("toTop_black.png");
-}
 
 article.EULA > p {
     padding:20px;
@@ -167,4 +118,64 @@ article.EULA > p.list:first-letter {
     background-color:#369;
     border-radius:10px;
     text-transform:uppercase;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background:#000;
+        color:#fff;
+    }
+    a {
+        color:#369;
+    }
+    em {
+        color:#f84;
+    }
+
+    q:before, q:after  {
+        color:#ffff00;
+    }
+
+    q {
+        color:#999;
+    }
+
+    article {
+        border:1px dashed #963;
+    }
+
+    article header {
+        background:#963;
+        color:#000;
+    }
+
+    h3 {
+        color:#963;
+        border-bottom:1px dashed #963;
+    }
+    
+    article.firstLetter > p:first-letter {
+        color:#000;
+        background:#963;
+    }
+    
+    article.firstLetter > footer {
+        border-top:1px dashed #963;
+    }
+
+
+    article.firstLetter header {
+        color:#fff;
+        background:#00000000;
+        border-bottom:1px dashed #963;
+    }
+    
+    a.toTop {
+        background-image:url("toTop_dark.png");
+    }
+    
+    article header a.toTop {
+        background-image:url("toTop_black.png");
+    }
 }
