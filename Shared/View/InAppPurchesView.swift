@@ -24,35 +24,25 @@ struct InAppPurchesView: View {
     @State var isShowAlert = false
     @State var alertType:AlertType = .구입복원_구매내역없음
     @State var isSubscribe = false
+    func makeWebviewLink(fileName:String, title:Text) -> some View {
+        Group {
+            if let url = Bundle.main.url(forResource: "HTML/\(fileName)", withExtension: "html") {
+                NavigationLink {
+                    WebView(url: url, title: title)
+                } label: {
+                    title
+                }
+            }
+        }
+    }
     
     var links : some View {
         Group {
-            if let url = Bundle.main.url(forResource: "HTML/term", withExtension: "html") {
-                NavigationLink {
-                    WebView(url: url)
-                        .navigationBarTitle(Text("term"))
-                } label: {
-                    Text("term")
-                }
-            }
+            makeWebviewLink(fileName: "term", title: .init("term"))
             
-            if let url = Bundle.main.url(forResource: "HTML/privacyPolicy", withExtension: "html") {
-                NavigationLink {
-                    WebView(url: url)
-                        .navigationBarTitle(Text("privacyPolicy"))
-                } label: {
-                    Text("privacyPolicy")
-                }
-            }
-            
-            if let url = Bundle.main.url(forResource: "HTML/EULA", withExtension: "html") {
-                NavigationLink {
-                    WebView(url: url)
-                        .navigationBarTitle(Text("EULA"))
-                } label: {
-                    Text("EULA")
-                }
-            }
+            makeWebviewLink(fileName: "privacyPolicy", title: .init("privacyPolicy"))
+
+            makeWebviewLink(fileName: "EULA", title: .init("EULA"))
         }
     }
     

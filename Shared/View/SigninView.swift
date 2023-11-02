@@ -35,8 +35,8 @@ struct SigninView: View {
                 HStack {
                     if let url = Bundle.main.url(forResource: "HTML/term", withExtension: "html") {
                         NavigationLink {
-                            WebView(url: url)
-                                .navigationBarTitle(Text("term"))
+                            WebView(url: url, title:.init("term"))
+                                
                         } label: {
                             Text("term")
                         }.padding(5)
@@ -44,8 +44,7 @@ struct SigninView: View {
                     
                     if let url = Bundle.main.url(forResource: "HTML/privacyPolicy", withExtension: "html") {
                         NavigationLink {
-                            WebView(url: url)
-                                .navigationBarTitle(Text("privacyPolicy"))
+                            WebView(url: url, title:.init("privacyPolicy"))
                         } label: {
                             Text("privacyPolicy")
                         }.padding(5)
@@ -53,8 +52,8 @@ struct SigninView: View {
                     
                     if let url =  Bundle.main.url(forResource: "HTML/EULA", withExtension: "html") {
                         NavigationLink {
-                            WebView(url: url)
-                                .navigationBarTitle(Text("EULA"))
+                            WebView(url: url, title:.init("EULA"))
+                                
                         } label: {
                             Text("EULA")
                         }.padding(5)

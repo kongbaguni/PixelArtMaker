@@ -78,7 +78,7 @@ struct SettingView: View {
     
     func makeWebViewLink(url:URL, title:Text) -> some View {
         NavigationLink {
-            WebView(url: url)
+            WebView(url: url, title: title)
                 .navigationBarTitle(title)
         } label: {
             title
