@@ -72,8 +72,8 @@ struct widget: Widget {
                     .background()
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("widget display name")
+        .description("widget description")
     }
 }
 

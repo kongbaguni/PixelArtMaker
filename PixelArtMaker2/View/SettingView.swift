@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  SettingView.swift
 //  PixelArtMaker2
 //
 //  Created by Changyeol Seo on 4/23/24.
@@ -7,14 +7,15 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct SettingView: View {
     var body: some View {
-        NavigationStack {
-            HomeView()
+        List {
+            
+            AppInfomationView()
         }
     }
 }
 
 #Preview {
-    ContentView()
+    SettingView()
 }

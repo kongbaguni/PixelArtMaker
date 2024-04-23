@@ -1,0 +1,88 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    " : " : {
+
+    },
+    "App Infomation" : {
+
+    },
+    "app title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pixel art maker"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "픽셀 아트 메이커"
+          }
+        }
+      }
+    },
+    "EULA" : {
+
+    },
+    "menu" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴"
+          }
+        }
+      }
+    },
+    "openSourceLicense" : {
+
+    },
+    "privacyPolicy" : {
+
+    },
+    "term" : {
+
+    },
+    "version" : {
+
+    },
+    "we bview" : {
+
+    },
+    "widget description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pixel art maker widget"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "픽셀 아트 메이커 위젯"
+          }
+        }
+      }
+    },
+    "widget display name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "widget"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위젯"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

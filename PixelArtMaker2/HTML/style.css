@@ -1,0 +1,181 @@
+body {
+    background:#fff;
+    color:#000
+}
+a {
+    color:#963;
+}
+em {
+    color:#48f;
+}
+
+q:before, q:after  {
+    color:#396;
+}
+
+q {
+    color:#369;
+    font-weight:bold;
+}
+
+article {
+    border:1px dashed #369;
+    margin:10px;
+    padding:0px;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+article > p > a > img {
+    width:200px;
+}
+
+article p, article h3, article ul, article ol {
+    margin:5px;
+}
+
+article ul, article ol {
+    margin:5px;
+    padding-left:20px;
+}
+
+article header {
+    background:#369;
+    color:#fff;
+    margin:0px;
+    padding:5px;
+    text-align:center;
+}
+
+
+h3 {
+    color:#369;
+    border-bottom:1px dashed #369;
+}
+
+
+body article.firstLetter > p:first-letter {
+    text-transform:uppercase;
+    padding:10px;
+    margin-right:2px;
+    float:left;
+    color:#fff;
+    background:#369;
+    font-size:200%;
+    border-radius:10px;
+}
+
+
+article.firstLetter > footer {
+    border-top:1px dashed #369;
+}
+
+
+article.firstLetter header h1 {
+    text-align:center
+}
+
+article.firstLetter header {
+    background:#00000000;
+    color:#000;
+    margin:0px;
+    padding:5px;
+    text-align:left;
+    border-bottom:1px dashed #369;
+}
+
+
+a.toTop {
+    display:inline-block;
+    width:15px;
+    height:15px;
+    background-image:url("toTop_light.png");
+    text-indent:-10000em;
+    overflow:hidden;
+    margin-left:10px;
+}
+
+
+
+article header a.toTop {
+    background-image:url("toTop_white.png");
+}
+
+
+article.EULA > p {
+    padding:20px;
+}
+
+article.EULA > p.list:first-letter {
+    font-size:50px;
+    float:left;
+    padding:5px;
+    padding-left:15px;
+    padding-right:15px;
+    margin-right:5px;
+    margin-bottom:5px;
+    color:#fff;
+    background-color:#369;
+    border-radius:10px;
+    text-transform:uppercase;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background:#000;
+        color:#fff;
+    }
+    a {
+        color:#369;
+    }
+    em {
+        color:#f84;
+    }
+
+    q:before, q:after  {
+        color:#ffff00;
+    }
+
+    q {
+        color:#999;
+    }
+
+    article {
+        border:1px dashed #963;
+    }
+
+    article header {
+        background:#963;
+        color:#000;
+    }
+
+    h3 {
+        color:#963;
+        border-bottom:1px dashed #963;
+    }
+    
+    article.firstLetter > p:first-letter {
+        color:#000;
+        background:#963;
+    }
+    
+    article.firstLetter > footer {
+        border-top:1px dashed #963;
+    }
+
+
+    article.firstLetter header {
+        color:#fff;
+        background:#00000000;
+        border-bottom:1px dashed #963;
+    }
+    
+    a.toTop {
+        background-image:url("toTop_dark.png");
+    }
+    
+    article header a.toTop {
+        background-image:url("toTop_black.png");
+    }
+}
