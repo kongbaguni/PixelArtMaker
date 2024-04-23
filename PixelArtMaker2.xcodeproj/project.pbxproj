@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B368E022BD79C1500E10464 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E002BD79C1500E10464 /* AppGroup.swift */; };
+		1B368E032BD79C1500E10464 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E002BD79C1500E10464 /* AppGroup.swift */; };
+		1B368E042BD79C1500E10464 /* CommonConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E012BD79C1500E10464 /* CommonConsts.swift */; };
+		1B368E052BD79C1500E10464 /* CommonConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E012BD79C1500E10464 /* CommonConsts.swift */; };
 		1BF9FE102BD789CF00135E83 /* PixelArtMaker2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF9FE0F2BD789CF00135E83 /* PixelArtMaker2App.swift */; };
 		1BF9FE122BD789CF00135E83 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF9FE112BD789CF00135E83 /* ContentView.swift */; };
 		1BF9FE142BD789D000135E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9FE132BD789D000135E83 /* Assets.xcassets */; };
@@ -44,6 +48,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B368E002BD79C1500E10464 /* AppGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
+		1B368E012BD79C1500E10464 /* CommonConsts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonConsts.swift; sourceTree = "<group>"; };
 		1BF9FE0C2BD789CF00135E83 /* PixelArtMaker2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelArtMaker2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BF9FE0F2BD789CF00135E83 /* PixelArtMaker2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtMaker2App.swift; sourceTree = "<group>"; };
 		1BF9FE112BD789CF00135E83 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -78,9 +84,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B368DFF2BD799F600E10464 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				1B368E002BD79C1500E10464 /* AppGroup.swift */,
+				1B368E012BD79C1500E10464 /* CommonConsts.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		1BF9FE032BD789CF00135E83 = {
 			isa = PBXGroup;
 			children = (
+				1B368DFF2BD799F600E10464 /* Common */,
 				1BF9FE0E2BD789CF00135E83 /* PixelArtMaker2 */,
 				1BF9FE5C2BD7936700135E83 /* widget */,
 				1BF9FE572BD7936700135E83 /* Frameworks */,
@@ -237,7 +253,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B368E042BD79C1500E10464 /* CommonConsts.swift in Sources */,
 				1BF9FE122BD789CF00135E83 /* ContentView.swift in Sources */,
+				1B368E022BD79C1500E10464 /* AppGroup.swift in Sources */,
 				1BF9FE102BD789CF00135E83 /* PixelArtMaker2App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,7 +264,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B368E052BD79C1500E10464 /* CommonConsts.swift in Sources */,
 				1BF9FE5E2BD7936700135E83 /* widgetBundle.swift in Sources */,
+				1B368E032BD79C1500E10464 /* AppGroup.swift in Sources */,
 				1BF9FE602BD7936700135E83 /* widget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

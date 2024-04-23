@@ -25,7 +25,7 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, image: nil)
+            let entry = SimpleEntry(date: entryDate, image: AppGroup.savedImage)
             entries.append(entry)
         }
 
