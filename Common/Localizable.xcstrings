@@ -2,10 +2,27 @@
   "sourceLanguage" : "en",
   "strings" : {
     " : " : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ":"
+          }
+        }
+      }
+    },
+    "all clear button title" : {
 
     },
     "App Infomation" : {
-
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 정보"
+          }
+        }
+      }
     },
     "app title" : {
       "localizations" : {
@@ -23,26 +40,128 @@
         }
       }
     },
+    "auto erase toggle title" : {
+
+    },
+    "clear alert confirm" : {
+
+    },
+    "clear alert message" : {
+
+    },
+    "clear alert title" : {
+
+    },
+    "color picker bg title" : {
+
+    },
+    "color picker br title" : {
+
+    },
     "EULA" : {
 
     },
-    "menu" : {
+    "layer edit title" : {
+
+    },
+    "make new layer" : {
+
+    },
+    "menu color select title" : {
+
+    },
+    "menu delete alert confirm" : {
+
+    },
+    "menu delete alert message" : {
+
+    },
+    "menu delete alert title" : {
+
+    },
+    "menu delete title" : {
+
+    },
+    "menu load title" : {
+
+    },
+    "menu public load title" : {
+
+    },
+    "menu save title" : {
+
+    },
+    "menu signin title" : {
+
+    },
+    "menu signout title" : {
+
+    },
+    "openSourceLicense" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "open source license"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "메뉴"
+            "value" : "오픈소스 라이선스"
           }
         }
       }
     },
-    "openSourceLicense" : {
+    "privacyPolicy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "privacy policy"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개인 정보 정책"
+          }
+        }
+      }
+    },
+    "save as new file" : {
 
     },
-    "privacyPolicy" : {
+    "save to existing file" : {
 
+    },
+    "Setting" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정"
+          }
+        }
+      }
     },
     "term" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "terms"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "약관"
+          }
+        }
+      }
+    },
+    "title_select_Layer_only" : {
 
     },
     "version" : {

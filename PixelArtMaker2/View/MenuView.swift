@@ -13,7 +13,7 @@ struct MenuView: View {
             NavigationLink {                
                 SettingView()
             } label: {
-                Text("Setting")
+                ImageLabel(image: .init(systemName: "gearshape.fill"), label: .init("Setting"))
             }
 
         }
