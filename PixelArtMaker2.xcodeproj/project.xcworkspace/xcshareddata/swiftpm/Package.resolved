@@ -1,5 +1,5 @@
 {
-  "originHash" : "5c7ccc432960349d15c2e2753b7893bdb2616915d0f9080aaecdf00078853a4e",
+  "originHash" : "1f5aee0d934426193ab7b1fb08f0cfb887080cded5ea54b2bb957cfe6efd56c1",
   "pins" : [
     {
       "identity" : "realm-core",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "22423b017b99ab8ac44e29e6372f571f782af6e4",
         "version" : "3.0.2"
+      }
+    },
+    {
+      "identity" : "sidemenu",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Vidhyadharan-Mohanram/SideMenu",
+      "state" : {
+        "revision" : "d6d7834c6cab5ee85bca1e95933804af06ad9215",
+        "version" : "0.1.0"
       }
     }
   ],

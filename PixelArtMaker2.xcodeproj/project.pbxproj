@@ -324,6 +324,7 @@
 			packageReferences = (
 				1B368E332BD7A51E00E10464 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				1B368E3D2BD7A6E200E10464 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				1B5AB64E2BD9F62700786342 /* XCRemoteSwiftPackageReference "SideMenu" */,
 			);
 			productRefGroup = 1BF9FE0D2BD789CF00135E83 /* Products */;
 			projectDirPath = "";
@@ -691,6 +692,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 3.0.2;
+			};
+		};
+		1B5AB64E2BD9F62700786342 /* XCRemoteSwiftPackageReference "SideMenu" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Vidhyadharan-Mohanram/SideMenu";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
