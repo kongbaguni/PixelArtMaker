@@ -1,0 +1,91 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PixelArtMaker"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "픽셀아트메이커"
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PixelArtMaker"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "픽셀아트메이커"
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo library access is required for tracing."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "트레이싱 작업을 위해 사진 라이브러리 접근 권한이 필요합니다."
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo library access is required for tracing."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "트레이싱 작업을 위해 사진 라이브러리 접근 권한이 필요합니다."
+          }
+        }
+      }
+    },
+    "NSUserTrackingUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This identifier will be used to deliver personalized ads to you."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 식별자는 개인화된 광고를 제공하는 데 사용됩니다."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -94,6 +94,7 @@
 		1BF7213F2BDA47C700F685A0 /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF7213E2BDA47C700F685A0 /* Consts.swift */; };
 		1BF721412BDA47F600F685A0 /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF721402BDA47F600F685A0 /* PathFinder.swift */; };
 		1BF721432BDA481900F685A0 /* MultiColorAnimeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF721422BDA481900F685A0 /* MultiColorAnimeTextView.swift */; };
+		1BF721452BDA4DA300F685A0 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1BF721442BDA4DA300F685A0 /* InfoPlist.xcstrings */; };
 		1BF9FE102BD789CF00135E83 /* PixelArtMaker2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF9FE0F2BD789CF00135E83 /* PixelArtMaker2App.swift */; };
 		1BF9FE122BD789CF00135E83 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF9FE112BD789CF00135E83 /* ContentView.swift */; };
 		1BF9FE142BD789D000135E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9FE132BD789D000135E83 /* Assets.xcassets */; };
@@ -193,6 +194,7 @@
 		1BF7213E2BDA47C700F685A0 /* Consts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
 		1BF721402BDA47F600F685A0 /* PathFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		1BF721422BDA481900F685A0 /* MultiColorAnimeTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiColorAnimeTextView.swift; sourceTree = "<group>"; };
+		1BF721442BDA4DA300F685A0 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		1BF9FE0C2BD789CF00135E83 /* PixelArtMaker2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelArtMaker2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BF9FE0F2BD789CF00135E83 /* PixelArtMaker2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtMaker2App.swift; sourceTree = "<group>"; };
 		1BF9FE112BD789CF00135E83 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 		1BF9FE032BD789CF00135E83 = {
 			isa = PBXGroup;
 			children = (
+				1BF721442BDA4DA300F685A0 /* InfoPlist.xcstrings */,
 				1B368DFF2BD799F600E10464 /* Common */,
 				1BF9FE0E2BD789CF00135E83 /* PixelArtMaker2 */,
 				1BF9FE5C2BD7936700135E83 /* widget */,
@@ -564,6 +567,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BF9FE172BD789D000135E83 /* Preview Assets.xcassets in Resources */,
+				1BF721452BDA4DA300F685A0 /* InfoPlist.xcstrings in Resources */,
 				1BF721062BDA412B00F685A0 /* UnifiedNativeAdView.xib in Resources */,
 				1B368E072BD79CAB00E10464 /* HTML in Resources */,
 				1BB298542BDA39900072C1F8 /* GoogleService-Info.plist in Resources */,
@@ -805,6 +809,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PixelArtMaker2/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -836,6 +843,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PixelArtMaker2/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
