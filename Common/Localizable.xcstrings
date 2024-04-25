@@ -11,6 +11,19 @@
         }
       }
     },
+    "%lld * %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld * %2$lld"
+          }
+        }
+      }
+    },
+    "Ad" : {
+
+    },
     "all clear button title" : {
 
     },
@@ -61,7 +74,22 @@
     "EULA" : {
 
     },
+    "latest order" : {
+
+    },
     "layer edit title" : {
+
+    },
+    "leave delete articles msg" : {
+
+    },
+    "leave delete like msg" : {
+
+    },
+    "leave delete replys msg" : {
+
+    },
+    "like" : {
 
     },
     "make new layer" : {
@@ -95,6 +123,9 @@
 
     },
     "menu signout title" : {
+
+    },
+    "old net" : {
 
     },
     "openSourceLicense" : {
@@ -144,6 +175,18 @@
           }
         }
       }
+    },
+    "Sign in with Apple" : {
+
+    },
+    "Sign in with Google" : {
+
+    },
+    "Sign up with Apple" : {
+
+    },
+    "Sign up with Google" : {
+
     },
     "term" : {
       "localizations" : {

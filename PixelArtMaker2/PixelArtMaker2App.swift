@@ -17,9 +17,9 @@ struct PixelArtMaker2App: SwiftUI.App {
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start { status in
             print(status)
-//            GoogleAdPrompt.promptWithDelay {
-//                
-//            }
+            GoogleAdPrompt.promptWithDelay {
+                
+            }
         }
     }
     
