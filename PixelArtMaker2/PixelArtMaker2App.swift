@@ -6,12 +6,25 @@
 //
 
 import SwiftUI
+import RealmSwift
+import FirebaseCore
+import GoogleMobileAds
 
 @main
-struct PixelArtMaker2App: App {
+struct PixelArtMaker2App: SwiftUI.App {
+    init() {
+        let _ = Realm.shared
+        FirebaseApp.configure()
+        GADMobileAds.sharedInstance().start { status in
+            print(status)
+//            GoogleAdPrompt.promptWithDelay {
+//                
+//            }
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-    }
-}
+    }}

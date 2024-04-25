@@ -52,6 +52,8 @@
 		1B8B5D8A2BDA3E2800F536A4 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D892BDA3E2800F536A4 /* FirebaseFirestoreSwift */; };
 		1B8B5D8C2BDA3E2800F536A4 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D8B2BDA3E2800F536A4 /* FirebasePerformance */; };
 		1B8B5D8E2BDA3E2800F536A4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D8D2BDA3E2800F536A4 /* FirebaseStorage */; };
+		1B8B5D912BDA3EB600F536A4 /* Realm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8B5D8F2BDA3EB600F536A4 /* Realm+Extensions.swift */; };
+		1B8B5D922BDA3EB600F536A4 /* Realm.Object+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8B5D902BDA3EB600F536A4 /* Realm.Object+Extensions.swift */; };
 		1BB298542BDA39900072C1F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BB298532BDA39900072C1F8 /* GoogleService-Info.plist */; };
 		1BB298572BDA39CF0072C1F8 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 1BB298562BDA39CF0072C1F8 /* ActivityIndicatorView */; };
 		1BB2985A2BDA39F40072C1F8 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1BB298592BDA39F40072C1F8 /* CachedAsyncImage */; };
@@ -115,6 +117,9 @@
 		1B368E382BD7A5E000E10464 /* UserDefault+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extensions.swift"; sourceTree = "<group>"; };
 		1B368E3B2BD7A68E00E10464 /* ListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListType.swift; sourceTree = "<group>"; };
 		1B368E3F2BD7ACCA00E10464 /* ImageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
+		1B8B5D8F2BDA3EB600F536A4 /* Realm+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extensions.swift"; sourceTree = "<group>"; };
+		1B8B5D902BDA3EB600F536A4 /* Realm.Object+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm.Object+Extensions.swift"; sourceTree = "<group>"; };
+		1B8B5D932BDA3F7E00F536A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1BB298532BDA39900072C1F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1BF9FE0C2BD789CF00135E83 /* PixelArtMaker2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelArtMaker2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BF9FE0F2BD789CF00135E83 /* PixelArtMaker2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtMaker2App.swift; sourceTree = "<group>"; };
@@ -197,6 +202,8 @@
 		1B368E262BD7A4B900E10464 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1B8B5D902BDA3EB600F536A4 /* Realm.Object+Extensions.swift */,
+				1B8B5D8F2BDA3EB600F536A4 /* Realm+Extensions.swift */,
 				1B368E382BD7A5E000E10464 /* UserDefault+Extensions.swift */,
 				1B368E1A2BD7A4B900E10464 /* Binding+Extensions.swift */,
 				1B368E1B2BD7A4B900E10464 /* CGSize+Extensions.swift */,
@@ -251,6 +258,7 @@
 		1BF9FE0E2BD789CF00135E83 /* PixelArtMaker2 */ = {
 			isa = PBXGroup;
 			children = (
+				1B8B5D932BDA3F7E00F536A4 /* Info.plist */,
 				1BB298532BDA39900072C1F8 /* GoogleService-Info.plist */,
 				1B368E3E2BD7ACB300E10464 /* Components */,
 				1B368E3A2BD7A66D00E10464 /* enums */,
@@ -449,7 +457,9 @@
 				1B368E3C2BD7A68E00E10464 /* ListType.swift in Sources */,
 				1B368E282BD7A4B900E10464 /* CGSize+Extensions.swift in Sources */,
 				1B368E402BD7ACCA00E10464 /* ImageLabel.swift in Sources */,
+				1B8B5D922BDA3EB600F536A4 /* Realm.Object+Extensions.swift in Sources */,
 				1B368E172BD7A36600E10464 /* MenuView.swift in Sources */,
+				1B8B5D912BDA3EB600F536A4 /* Realm+Extensions.swift in Sources */,
 				1B368E2C2BD7A4B900E10464 /* Image+Extensions.swift in Sources */,
 				1B368E272BD7A4B900E10464 /* Binding+Extensions.swift in Sources */,
 				1B368E2A2BD7A4B900E10464 /* Color+Extensions.swift in Sources */,
@@ -618,6 +628,7 @@
 				DEVELOPMENT_TEAM = QU9EPTU238;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PixelArtMaker2/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -648,6 +659,7 @@
 				DEVELOPMENT_TEAM = QU9EPTU238;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PixelArtMaker2/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
