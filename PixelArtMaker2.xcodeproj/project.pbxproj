@@ -37,6 +37,10 @@
 		1B368E402BD7ACCA00E10464 /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E3F2BD7ACCA00E10464 /* ImageLabel.swift */; };
 		1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6502BD9F65900786342 /* Alamofire */; };
 		1B5AB6542BDA128D00786342 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6532BDA128D00786342 /* SwiftyJSON */; };
+		1B5AB6572BDA13CF00786342 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6562BDA13CF00786342 /* GoogleMobileAds */; };
+		1BB298542BDA39900072C1F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BB298532BDA39900072C1F8 /* GoogleService-Info.plist */; };
+		1BB298572BDA39CF0072C1F8 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 1BB298562BDA39CF0072C1F8 /* ActivityIndicatorView */; };
+		1BB2985A2BDA39F40072C1F8 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1BB298592BDA39F40072C1F8 /* CachedAsyncImage */; };
 		1BF9FE102BD789CF00135E83 /* PixelArtMaker2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF9FE0F2BD789CF00135E83 /* PixelArtMaker2App.swift */; };
 		1BF9FE122BD789CF00135E83 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF9FE112BD789CF00135E83 /* ContentView.swift */; };
 		1BF9FE142BD789D000135E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BF9FE132BD789D000135E83 /* Assets.xcassets */; };
@@ -96,6 +100,7 @@
 		1B368E382BD7A5E000E10464 /* UserDefault+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extensions.swift"; sourceTree = "<group>"; };
 		1B368E3B2BD7A68E00E10464 /* ListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListType.swift; sourceTree = "<group>"; };
 		1B368E3F2BD7ACCA00E10464 /* ImageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
+		1BB298532BDA39900072C1F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1BF9FE0C2BD789CF00135E83 /* PixelArtMaker2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelArtMaker2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BF9FE0F2BD789CF00135E83 /* PixelArtMaker2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtMaker2App.swift; sourceTree = "<group>"; };
 		1BF9FE112BD789CF00135E83 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -117,7 +122,10 @@
 			files = (
 				1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */,
 				1B368E372BD7A51E00E10464 /* RealmSwift in Frameworks */,
+				1B5AB6572BDA13CF00786342 /* GoogleMobileAds in Frameworks */,
 				1B5AB6542BDA128D00786342 /* SwiftyJSON in Frameworks */,
+				1BB2985A2BDA39F40072C1F8 /* CachedAsyncImage in Frameworks */,
+				1BB298572BDA39CF0072C1F8 /* ActivityIndicatorView in Frameworks */,
 				1B368E352BD7A51E00E10464 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,6 +221,7 @@
 		1BF9FE0E2BD789CF00135E83 /* PixelArtMaker2 */ = {
 			isa = PBXGroup;
 			children = (
+				1BB298532BDA39900072C1F8 /* GoogleService-Info.plist */,
 				1B368E3E2BD7ACB300E10464 /* Components */,
 				1B368E3A2BD7A66D00E10464 /* enums */,
 				1B368E262BD7A4B900E10464 /* Extensions */,
@@ -277,6 +286,9 @@
 				1B368E362BD7A51E00E10464 /* RealmSwift */,
 				1B5AB6502BD9F65900786342 /* Alamofire */,
 				1B5AB6532BDA128D00786342 /* SwiftyJSON */,
+				1B5AB6562BDA13CF00786342 /* GoogleMobileAds */,
+				1BB298562BDA39CF0072C1F8 /* ActivityIndicatorView */,
+				1BB298592BDA39F40072C1F8 /* CachedAsyncImage */,
 			);
 			productName = PixelArtMaker2;
 			productReference = 1BF9FE0C2BD789CF00135E83 /* PixelArtMaker2.app */;
@@ -333,6 +345,9 @@
 				1B5AB64E2BD9F62700786342 /* XCRemoteSwiftPackageReference "SideMenu" */,
 				1B5AB64F2BD9F65900786342 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				1B5AB6522BDA128D00786342 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				1B5AB6552BDA13CF00786342 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				1BB298552BDA39CF0072C1F8 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
+				1BB298582BDA39F40072C1F8 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 			);
 			productRefGroup = 1BF9FE0D2BD789CF00135E83 /* Products */;
 			projectDirPath = "";
@@ -351,6 +366,7 @@
 			files = (
 				1BF9FE172BD789D000135E83 /* Preview Assets.xcassets in Resources */,
 				1B368E072BD79CAB00E10464 /* HTML in Resources */,
+				1BB298542BDA39900072C1F8 /* GoogleService-Info.plist in Resources */,
 				1B368E0E2BD79EBE00E10464 /* Localizable.xcstrings in Resources */,
 				1BF9FE142BD789D000135E83 /* Assets.xcassets in Resources */,
 			);
@@ -726,6 +742,30 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		1B5AB6552BDA13CF00786342 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.3.0;
+			};
+		};
+		1BB298552BDA39CF0072C1F8 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+		1BB298582BDA39F40072C1F8 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -748,6 +788,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1B5AB6522BDA128D00786342 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		1B5AB6562BDA13CF00786342 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B5AB6552BDA13CF00786342 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		1BB298562BDA39CF0072C1F8 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1BB298552BDA39CF0072C1F8 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
+		};
+		1BB298592BDA39F40072C1F8 /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1BB298582BDA39F40072C1F8 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
