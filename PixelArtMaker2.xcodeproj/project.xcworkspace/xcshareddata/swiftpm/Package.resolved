@@ -1,6 +1,15 @@
 {
-  "originHash" : "1f5aee0d934426193ab7b1fb08f0cfb887080cded5ea54b2bb957cfe6efd56c1",
+  "originHash" : "8c95eb2032d3aa4128ded64d5a0d1a82f2836ce2e43c1e91dda2e081c0c69fe6",
   "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
+      }
+    },
     {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",
@@ -44,6 +53,15 @@
       "state" : {
         "revision" : "d6d7834c6cab5ee85bca1e95933804af06ad9215",
         "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
+      "state" : {
+        "revision" : "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+        "version" : "5.0.2"
       }
     }
   ],
