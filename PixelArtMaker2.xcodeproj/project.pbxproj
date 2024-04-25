@@ -38,6 +38,9 @@
 		1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6502BD9F65900786342 /* Alamofire */; };
 		1B5AB6542BDA128D00786342 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6532BDA128D00786342 /* SwiftyJSON */; };
 		1B5AB6572BDA13CF00786342 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6562BDA13CF00786342 /* GoogleMobileAds */; };
+		1B8B5D702BDA3CE900F536A4 /* SwiftyStoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */; };
+		1B8B5D732BDA3D1300F536A4 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D722BDA3D1300F536A4 /* GoogleSignIn */; };
+		1B8B5D752BDA3D1300F536A4 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D742BDA3D1300F536A4 /* GoogleSignInSwift */; };
 		1BB298542BDA39900072C1F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BB298532BDA39900072C1F8 /* GoogleService-Info.plist */; };
 		1BB298572BDA39CF0072C1F8 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 1BB298562BDA39CF0072C1F8 /* ActivityIndicatorView */; };
 		1BB2985A2BDA39F40072C1F8 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1BB298592BDA39F40072C1F8 /* CachedAsyncImage */; };
@@ -124,11 +127,14 @@
 				1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */,
 				1B368E372BD7A51E00E10464 /* RealmSwift in Frameworks */,
 				1B5AB6572BDA13CF00786342 /* GoogleMobileAds in Frameworks */,
+				1B8B5D702BDA3CE900F536A4 /* SwiftyStoreKit in Frameworks */,
 				1B5AB6542BDA128D00786342 /* SwiftyJSON in Frameworks */,
+				1B8B5D732BDA3D1300F536A4 /* GoogleSignIn in Frameworks */,
 				1BB2985A2BDA39F40072C1F8 /* CachedAsyncImage in Frameworks */,
 				1BB298572BDA39CF0072C1F8 /* ActivityIndicatorView in Frameworks */,
 				1B368E352BD7A51E00E10464 /* Realm in Frameworks */,
 				1BB2985D2BDA3A630072C1F8 /* Marquee in Frameworks */,
+				1B8B5D752BDA3D1300F536A4 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +298,9 @@
 				1BB298562BDA39CF0072C1F8 /* ActivityIndicatorView */,
 				1BB298592BDA39F40072C1F8 /* CachedAsyncImage */,
 				1BB2985C2BDA3A630072C1F8 /* Marquee */,
+				1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */,
+				1B8B5D722BDA3D1300F536A4 /* GoogleSignIn */,
+				1B8B5D742BDA3D1300F536A4 /* GoogleSignInSwift */,
 			);
 			productName = PixelArtMaker2;
 			productReference = 1BF9FE0C2BD789CF00135E83 /* PixelArtMaker2.app */;
@@ -352,6 +361,8 @@
 				1BB298552BDA39CF0072C1F8 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 				1BB298582BDA39F40072C1F8 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				1BB2985B2BDA3A630072C1F8 /* XCRemoteSwiftPackageReference "Marquee" */,
+				1B8B5D6E2BDA3CE900F536A4 /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */,
+				1B8B5D712BDA3D1300F536A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-ios" */,
 			);
 			productRefGroup = 1BF9FE0D2BD789CF00135E83 /* Products */;
 			projectDirPath = "";
@@ -754,6 +765,22 @@
 				minimumVersion = 11.3.0;
 			};
 		};
+		1B8B5D6E2BDA3CE900F536A4 /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bizz84/SwiftyStoreKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.16.4;
+			};
+		};
+		1B8B5D712BDA3D1300F536A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 		1BB298552BDA39CF0072C1F8 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
@@ -805,6 +832,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1B5AB6552BDA13CF00786342 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B8B5D6E2BDA3CE900F536A4 /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */;
+			productName = SwiftyStoreKit;
+		};
+		1B8B5D722BDA3D1300F536A4 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B8B5D712BDA3D1300F536A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-ios" */;
+			productName = GoogleSignIn;
+		};
+		1B8B5D742BDA3D1300F536A4 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B8B5D712BDA3D1300F536A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-ios" */;
+			productName = GoogleSignInSwift;
 		};
 		1BB298562BDA39CF0072C1F8 /* ActivityIndicatorView */ = {
 			isa = XCSwiftPackageProductDependency;
