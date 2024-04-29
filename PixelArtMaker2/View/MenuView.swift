@@ -11,7 +11,7 @@ struct MenuView: View {
     var body: some View {
         List {
             NavigationLink {                
-                SettingView()
+//                SettingView()
             } label: {
                 ImageLabel(image: .init(systemName: "gearshape.fill"), label: .init("Setting"))
             }

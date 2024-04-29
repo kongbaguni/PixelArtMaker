@@ -52,5 +52,5 @@ struct WebView : View {
 }
 #Preview {
     WebView(url: URL(string: "https://google.com")!,
-            title:.init("we bview"))
+            title:.init("webview"))
 }
