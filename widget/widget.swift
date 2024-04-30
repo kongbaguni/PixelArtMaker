@@ -43,18 +43,37 @@ struct widgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            Image(uiImage: entry.image ?? .init(systemName: "photo")!)
-                .resizable()
-                .scaledToFit()
-                .padding(10)
-                .background {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.teal)
+        ZStack {
+            HStack {
+                Spacer()
+                Image(uiImage: entry.image ?? .init(named: "placeHolder") ?? .init(systemName: "photo")!)
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .background {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(.white)
+                    }
+                    .shadow(radius: 10)
+            }
+            HStack {
+                VStack {
+                    Text(entry.date.formatted(date: .numeric, time: .omitted))
+                        .font(.caption2)
+                        .padding(5)
+                        .background {
+                            RoundedRectangle(cornerRadius: 5)
+                                .fill(.teal)
+                        }
+                        .shadow(radius: 10)
+                        .padding(.top, 5)
+                    Spacer()
                 }
-                .shadow(radius: 10)
-            
+                Spacer()
+            }
+                
         }
+        
     }
 }
 
@@ -65,15 +84,16 @@ struct widget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
                 widgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
+                    .containerBackground(.widgetBackground, for: .widget)
             } else {
                 widgetEntryView(entry: entry)
                     .padding()
-                    .background()
+                    .background(.widgetBackground)
             }
         }
         .configurationDisplayName("widget display name")
         .description("widget description")
+        
     }
 }
 

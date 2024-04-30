@@ -2187,13 +2187,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "pixel art maker widget"
+            "value" : "Show the picture you are working on."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "픽셀 아트 메이커 위젯"
+            "value" : "작업중인 그림을 보여줍니다."
           }
         }
       }
@@ -2203,13 +2203,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "widget"
+            "value" : "widget of Pixel art maker"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "위젯"
+            "value" : "픽셀 아트 메이커 위젯"
           }
         }
       }

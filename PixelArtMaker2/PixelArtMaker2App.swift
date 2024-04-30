@@ -13,6 +13,8 @@ import FirebaseAppCheck
 import AppTrackingTransparency
 import UserMessagingPlatform
 import FirebaseCore
+import FirebaseAnalytics
+
 
 
 @main

@@ -12,6 +12,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             PixelDrawView()
+                .navigationTitle("app title")
+                .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {            
             //Portrait 고정
