@@ -59,7 +59,10 @@ extension Image {
             self.init(uiImage: image)
             return
         }
-        let image = UIImage(pixelSize: pixelSize, backgroundColor: backgroundColor, size: size)!
+        guard let image = UIImage(pixelSize: pixelSize, backgroundColor: backgroundColor, size: size) else {
+            print("wrong image : \(pixelSize) \(size)")
+            return nil
+        }
         saveFile(image: image, key: id)
         self.init(uiImage: image)
     }
@@ -72,7 +75,11 @@ extension Image {
             return
         }
         
-        let image = UIImage(offset: offset, frame: frame, size: size, backgroundColor: backgroundColor, AreaLineColor: AreaLineColor)!
+        guard let image = UIImage(offset: offset, frame: frame, size: size, backgroundColor: backgroundColor, AreaLineColor: AreaLineColor) else {
+            print("wrong image : \(offset) \(frame) \(size)")
+
+            return nil
+        }
         saveFile(image: image, key: id)
         self.init(uiImage: image)
     }

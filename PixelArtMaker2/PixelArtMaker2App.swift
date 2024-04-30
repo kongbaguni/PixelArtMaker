@@ -7,12 +7,12 @@
 
 import SwiftUI
 import RealmSwift
-import FirebaseCore
 import GoogleMobileAds
 import SwiftyStoreKit
 import FirebaseAppCheck
 import AppTrackingTransparency
 import UserMessagingPlatform
+import FirebaseCore
 
 
 @main

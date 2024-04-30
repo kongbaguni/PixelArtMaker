@@ -14,6 +14,11 @@ extension UIImage {
     
     /**  컬러값으로 이미지 만들기 */
     public convenience init?(color:Color, size:CGSize) {
+        guard size.width > 0 && size.height > 0 else {
+            print("wrong size : \(size)")
+            return nil
+        }
+
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         color.uiColor.setFill()
         UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
@@ -27,6 +32,11 @@ extension UIImage {
     
     /** 이미지 줌 영역 표시 위한 이미지 만들기*/
     public convenience init?(offset:(x:Int,y:Int),frame:(width:Int,height:Int), size:CGSize, backgroundColor:UIColor, AreaLineColor:UIColor) {
+        guard size.width > 0 && size.height > 0 else {
+            print("wrong size : \(size)")
+            return nil
+        }
+
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
 
         backgroundColor.setFill()
@@ -49,6 +59,10 @@ extension UIImage {
     
     /**  새 켄버스의  미리보기 이미지 만들기 */
     public convenience init?(pixelSize:(width:Int,height:Int), backgroundColor:Color, size:CGSize, transparencyColor:(a:UIColor,b:UIColor)? = nil) {
+        guard size.width > 0 && size.height > 0 else {
+            print("wrong size : \(size)")
+            return nil
+        }
         let tColor = transparencyColor ?? UserDefaults.standard.transparencyColor
         
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
@@ -97,6 +111,11 @@ extension UIImage {
     
     public convenience init?(totalColors:[[[Color]]],blendModes:[CGBlendMode],backgroundColor:Color, size:CGSize) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        guard size.width > 0 && size.height > 0 else {
+            print("wrong size : \(size)")
+            return nil
+        }
+
         if backgroundColor.ciColor.alpha > 0 {
             backgroundColor.uiColor.setFill()
             UIRectFillUsingBlendMode(.init(x: 0, y: 0, width: size.width, height: size.height), .normal)
