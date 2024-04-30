@@ -29,6 +29,17 @@ struct PixelArtMaker2App: SwiftUI.App {
                 
             }
         }
+        
+        AppCheckHelper.requestDeviceCheckToken()
+        AppCheckHelper.requestDebugToken()
+        AppCheckHelper.requestAppAttestToken()
+
+        InAppPurchaseManager().printStatus()
+        
+        // Create a UMPRequestParameters object.
+        let parameters = UMPRequestParameters()
+        parameters.tagForUnderAgeOfConsent = false
+
     }
     
     var body: some Scene {
