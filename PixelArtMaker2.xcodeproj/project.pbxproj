@@ -53,13 +53,11 @@
 		1B368E052BD79C1500E10464 /* CommonConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E012BD79C1500E10464 /* CommonConsts.swift */; };
 		1B368E072BD79CAB00E10464 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 1B368E062BD79CAB00E10464 /* HTML */; };
 		1B368E082BD79CAB00E10464 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 1B368E062BD79CAB00E10464 /* HTML */; };
-		1B368E0B2BD79E4900E10464 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E0A2BD79E4900E10464 /* HomeView.swift */; };
 		1B368E0E2BD79EBE00E10464 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1B368E0D2BD79EBE00E10464 /* Localizable.xcstrings */; };
 		1B368E0F2BD79EBE00E10464 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1B368E0D2BD79EBE00E10464 /* Localizable.xcstrings */; };
 		1B368E112BD7A1D000E10464 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E102BD7A1D000E10464 /* WebView.swift */; };
 		1B368E132BD7A22D00E10464 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E122BD7A22D00E10464 /* SettingView.swift */; };
 		1B368E152BD7A25000E10464 /* AppInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E142BD7A25000E10464 /* AppInfomationView.swift */; };
-		1B368E172BD7A36600E10464 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E162BD7A36600E10464 /* MenuView.swift */; };
 		1B368E272BD7A4B900E10464 /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E1A2BD7A4B900E10464 /* Binding+Extensions.swift */; };
 		1B368E282BD7A4B900E10464 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E1B2BD7A4B900E10464 /* CGSize+Extensions.swift */; };
 		1B368E292BD7A4B900E10464 /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E1C2BD7A4B900E10464 /* Character+Extensions.swift */; };
@@ -210,15 +208,14 @@
 		1B158E222BDF3C04005AC00E /* Utill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utill.swift; sourceTree = "<group>"; };
 		1B158E242BDF3C51005AC00E /* DimLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimLoadingViewController.swift; sourceTree = "<group>"; };
 		1B158E262BDF5966005AC00E /* InternetConnectionStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetConnectionStateView.swift; sourceTree = "<group>"; };
+		1B158E282BDF98D7005AC00E /* PixelArtMaker2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PixelArtMaker2.entitlements; sourceTree = "<group>"; };
 		1B368E002BD79C1500E10464 /* AppGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		1B368E012BD79C1500E10464 /* CommonConsts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonConsts.swift; sourceTree = "<group>"; };
 		1B368E062BD79CAB00E10464 /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HTML; sourceTree = "<group>"; };
-		1B368E0A2BD79E4900E10464 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		1B368E0D2BD79EBE00E10464 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		1B368E102BD7A1D000E10464 /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		1B368E122BD7A22D00E10464 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		1B368E142BD7A25000E10464 /* AppInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfomationView.swift; sourceTree = "<group>"; };
-		1B368E162BD7A36600E10464 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		1B368E1A2BD7A4B900E10464 /* Binding+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Binding+Extensions.swift"; sourceTree = "<group>"; };
 		1B368E1B2BD7A4B900E10464 /* CGSize+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		1B368E1C2BD7A4B900E10464 /* Character+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Character+Extensions.swift"; sourceTree = "<group>"; };
@@ -382,10 +379,8 @@
 				1BF9FE112BD789CF00135E83 /* ContentView.swift */,
 				1BF721422BDA481900F685A0 /* MultiColorAnimeTextView.swift */,
 				1B368E102BD7A1D000E10464 /* WebView.swift */,
-				1B368E0A2BD79E4900E10464 /* HomeView.swift */,
 				1B368E122BD7A22D00E10464 /* SettingView.swift */,
 				1B368E142BD7A25000E10464 /* AppInfomationView.swift */,
-				1B368E162BD7A36600E10464 /* MenuView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -501,6 +496,7 @@
 		1BF9FE0E2BD789CF00135E83 /* PixelArtMaker2 */ = {
 			isa = PBXGroup;
 			children = (
+				1B158E282BDF98D7005AC00E /* PixelArtMaker2.entitlements */,
 				1BF721392BDA477500F685A0 /* Firebase */,
 				1BF721352BDA45CC00F685A0 /* Stack.swift */,
 				1B158E242BDF3C51005AC00E /* DimLoadingViewController.swift */,
@@ -764,7 +760,6 @@
 				1B8B5D922BDA3EB600F536A4 /* Realm.Object+Extensions.swift in Sources */,
 				1BF721082BDA412B00F685A0 /* GoogleAd.swift in Sources */,
 				1BF721212BDA44FE00F685A0 /* TempModel.swift in Sources */,
-				1B368E172BD7A36600E10464 /* MenuView.swift in Sources */,
 				1B8B5D912BDA3EB600F536A4 /* Realm+Extensions.swift in Sources */,
 				1BF7212F2BDA452F00F685A0 /* AuthManager.swift in Sources */,
 				1BF721332BDA452F00F685A0 /* StageManager.swift in Sources */,
@@ -806,7 +801,6 @@
 				1B158E0F2BDF38CB005AC00E /* ReplyView.swift in Sources */,
 				1B368E2F2BD7A4B900E10464 /* UIImage+Extensions.swift in Sources */,
 				1BF7213B2BDA478A00F685A0 /* FirebaseStorageHelper.swift in Sources */,
-				1B368E0B2BD79E4900E10464 /* HomeView.swift in Sources */,
 				1B158DFF2BDF38CB005AC00E /* LikeArtListView.swift in Sources */,
 				1B368E392BD7A5E000E10464 /* UserDefault+Extensions.swift in Sources */,
 				1BF7213F2BDA47C700F685A0 /* Consts.swift in Sources */,
@@ -962,6 +956,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PixelArtMaker2/PixelArtMaker2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PixelArtMaker2/Preview Content\"";
@@ -996,6 +991,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PixelArtMaker2/PixelArtMaker2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PixelArtMaker2/Preview Content\"";

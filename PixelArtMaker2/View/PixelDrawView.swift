@@ -269,45 +269,6 @@ struct PixelDrawView: View {
     
     var body: some View {
         GeometryReader { geomentry in
-            //MARK: - 네비게이션
-            Group {
-//
-//                NavigationLink(destination: NewCanvasView(), isActive: $isShowNewCanvasView) {
-//                    
-//                }
-//                NavigationLink(destination: InAppPurchesView(), isActive: $isShowInAppPurches) {
-//                    
-//                }
-//                NavigationLink(destination: SigninView(), isActive: $isShowSigninView) {
-//                    
-//                }
-//                NavigationLink(destination: SaveView(), isActive: $isShowSaveView) {
-//                    
-//                }
-//                NavigationLink(destination: LoadView(), isActive: $isShowLoadView) {
-//                    
-//                }
-//                NavigationLink(destination: ColorPresetView(), isActive: $isShowColorPresetView) {
-//                    
-//                }
-//                NavigationLink(destination: TimeLineView(), isActive: $isShowShareListView) {
-//                    
-//                }
-//                NavigationLink(destination: TimeLineReplyView(), isActive: $isShowTimelineReply) {
-//                    
-//                }
-//                NavigationLink(destination: SettingView(tracingImageData: $tracingImage), isActive: $isShowSettingView) {
-//                    
-//                }
-                if let id = AuthManager.shared.userId {
-                    NavigationLink(
-                        destination : ProfileView(uid: id, haveArtList: true, editable: true)
-                            .navigationBarTitle(Text("profile")),
-                        isActive : $isShowProfileView) {
-                        
-                    }
-                }
-            }
             
             if geomentry.size.height > geomentry.size.width {
                 ZStack(alignment: .leading) {
@@ -398,7 +359,44 @@ struct PixelDrawView: View {
             
             
         }
-        
+
+        .navigationDestination(isPresented: $isShowProfileView, destination: {
+            if let id = AuthManager.shared.userId {
+                ProfileView(uid: id, haveArtList: true, editable: true)
+                    .navigationBarTitle(Text("profile"))
+            }
+            else {
+                Text("not login")
+            }
+            
+        })
+        .navigationDestination(isPresented: $isShowNewCanvasView, destination: {
+            NewCanvasView()
+        })
+        .navigationDestination(isPresented: $isShowInAppPurches, destination: {
+            InAppPurchesView()
+        })
+        .navigationDestination(isPresented: $isShowSigninView, destination: {
+            SigninView()
+        })
+        .navigationDestination(isPresented: $isShowSaveView, destination: {
+            SaveView()
+        })
+        .navigationDestination(isPresented: $isShowLoadView, destination: {
+            LoadView()
+        })
+        .navigationDestination(isPresented: $isShowColorPresetView, destination: {
+            ColorPresetView()
+        })
+        .navigationDestination(isPresented: $isShowShareListView, destination: {
+            TimeLineView()
+        })
+        .navigationDestination(isPresented: $isShowTimelineReply, destination: {
+            TimeLineReplyView()
+        })
+        .navigationDestination(isPresented: $isShowSettingView, destination: {
+            SettingView(tracingImageData: $tracingImage)
+        })
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button {

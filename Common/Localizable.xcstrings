@@ -904,13 +904,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The number of pictures saved in the gallery has exceeded the limit.\\nUp to 50 pictures can be saved."
+            "value" : "The number of pictures saved in the gallery has exceeded the limit. Up to 50 pictures can be saved."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "겔러리에 저장된 그림의 수가 한도를 초과했습니다.\\n50개까지 저장 가능합니다."
+            "value" : "겔러리에 저장된 그림의 수가 한도를 초과했습니다. 50개까지 저장 가능합니다."
           }
         }
       }
@@ -1020,13 +1020,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This picture will be deleted.\\nPictures published in the shared gallery are also deleted, and deleted pictures cannot be recovered."
+            "value" : "This picture will be deleted. Pictures published in the shared gallery are also deleted, and deleted pictures cannot be recovered."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 그림을 삭제합니다.\\n공유 겔러리에 공개된 그림도 함깨 삭제되고 삭제된 그림은 복구할 수 없습니다."
+            "value" : "이 그림을 삭제합니다. 공유 겔러리에 공개된 그림도 함깨 삭제되고 삭제된 그림은 복구할 수 없습니다."
           }
         }
       }
@@ -1217,6 +1217,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "새 캔버스"
+          }
+        }
+      }
+    },
+    "not login" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 하지않음"
           }
         }
       }
@@ -1940,13 +1950,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "1. Ads do not appear.\\n2.The number of layers that can be created is increased to 5.\\n3.You can share your drawings with a higher resolution.\\n4.You can save an unlimited number of pictures."
+            "value" : "1. Ads do not appear. 2.The number of layers that can be created is increased to 5. 3.You can share your drawings with a higher resolution. 4.You can save an unlimited number of pictures."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "1.광고가 나타나지 않습니다.\\n2.생성할 수 있는 레이어가 5개로 증가합니다.\\n3.자신이 그린 그림을 더 높은 해상도로 공유할 수 있습니다.\\n4.그림을 무제한으로 저장 할 수 있습니다."
+            "value" : "1.광고가 나타나지 않습니다. 2.생성할 수 있는 레이어가 5개로 증가합니다. 3.자신이 그린 그림을 더 높은 해상도로 공유할 수 있습니다. 4.그림을 무제한으로 저장 할 수 있습니다."
           }
         }
       }
@@ -2145,7 +2155,7 @@
         }
       }
     },
-    "we bview" : {
+    "webview" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {

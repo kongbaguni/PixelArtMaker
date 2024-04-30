@@ -106,12 +106,6 @@ struct PublicShareListView: View {
     var body: some View {
         GeometryReader { geomentry in
             VStack {
-                //MARK: - Navigation
-                NavigationLink(isActive: $isShowPictureDetail) {
-                    PixelArtDetailView(id:pictureId, showProfile: true)
-                } label: {
-                    
-                }
                 
                 if idlist.count == 0 {
                     Text(isLoading ? "loading share gallery" : "empty public shard list message")
@@ -131,6 +125,9 @@ struct PublicShareListView: View {
                 }
             }
         }
+        .navigationDestination(isPresented: $isShowPictureDetail, destination: {
+            PixelArtDetailView(id:pictureId, showProfile: true)
+        })
         .onAppear {
             load()
         }

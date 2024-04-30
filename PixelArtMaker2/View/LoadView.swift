@@ -72,12 +72,6 @@ struct LoadView: View {
     }
     private func makeListView(gridItems:[GridItem], width:CGFloat) -> some View {
         Group {
-            NavigationLink(isActive: $isShowInAppPurch) {
-                InAppPurchesView()
-            } label: {
-                
-            }
-
             LazyVGrid(columns: gridItems, spacing:20) {
                 ForEach(stages, id: \.self) {stage in
                     Button {
@@ -203,6 +197,9 @@ struct LoadView: View {
             }
                         
         }
+        .navigationDestination(isPresented: $isShowInAppPurch, destination: {
+            InAppPurchesView()
+        })
         .navigationBarTitle(Text("my gellery"))
         .onAppear {
             load()
