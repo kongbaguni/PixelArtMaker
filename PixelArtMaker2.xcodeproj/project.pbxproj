@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -73,6 +73,7 @@
 		1B368E392BD7A5E000E10464 /* UserDefault+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E382BD7A5E000E10464 /* UserDefault+Extensions.swift */; };
 		1B368E3C2BD7A68E00E10464 /* ListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E3B2BD7A68E00E10464 /* ListType.swift */; };
 		1B368E402BD7ACCA00E10464 /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E3F2BD7ACCA00E10464 /* ImageLabel.swift */; };
+		1B459DAD2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B459DAC2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib */; };
 		1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6502BD9F65900786342 /* Alamofire */; };
 		1B5AB6542BDA128D00786342 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6532BDA128D00786342 /* SwiftyJSON */; };
 		1B5AB6572BDA13CF00786342 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6562BDA13CF00786342 /* GoogleMobileAds */; };
@@ -104,7 +105,6 @@
 		1BF721032BDA412B00F685A0 /* GADNativeAd+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF720F92BDA412B00F685A0 /* GADNativeAd+Extensions.swift */; };
 		1BF721042BDA412B00F685A0 /* NativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF720FA2BDA412B00F685A0 /* NativeAdView.swift */; };
 		1BF721052BDA412B00F685A0 /* UnifiedNativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF720FB2BDA412B00F685A0 /* UnifiedNativeAdView.swift */; };
-		1BF721062BDA412B00F685A0 /* UnifiedNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF720FC2BDA412B00F685A0 /* UnifiedNativeAdView.xib */; };
 		1BF721072BDA412B00F685A0 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF720FE2BDA412B00F685A0 /* BannerAdView.swift */; };
 		1BF721082BDA412B00F685A0 /* GoogleAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF720FF2BDA412B00F685A0 /* GoogleAd.swift */; };
 		1BF721092BDA412B00F685A0 /* GoogleAdPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF721002BDA412B00F685A0 /* GoogleAdPrompt.swift */; };
@@ -231,6 +231,8 @@
 		1B368E382BD7A5E000E10464 /* UserDefault+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extensions.swift"; sourceTree = "<group>"; };
 		1B368E3B2BD7A68E00E10464 /* ListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListType.swift; sourceTree = "<group>"; };
 		1B368E3F2BD7ACCA00E10464 /* ImageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
+		1B459DAB2BE4A2B0008E7A3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/UnifiedNativeAdView.xib; sourceTree = "<group>"; };
+		1B459DAE2BE4A2B0008E7A3A /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/UnifiedNativeAdView.xcstrings; sourceTree = "<group>"; };
 		1B8B5D8F2BDA3EB600F536A4 /* Realm+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extensions.swift"; sourceTree = "<group>"; };
 		1B8B5D902BDA3EB600F536A4 /* Realm.Object+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm.Object+Extensions.swift"; sourceTree = "<group>"; };
 		1B8B5D932BDA3F7E00F536A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -243,7 +245,6 @@
 		1BF720F92BDA412B00F685A0 /* GADNativeAd+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADNativeAd+Extensions.swift"; sourceTree = "<group>"; };
 		1BF720FA2BDA412B00F685A0 /* NativeAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeAdView.swift; sourceTree = "<group>"; };
 		1BF720FB2BDA412B00F685A0 /* UnifiedNativeAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnifiedNativeAdView.swift; sourceTree = "<group>"; };
-		1BF720FC2BDA412B00F685A0 /* UnifiedNativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnifiedNativeAdView.xib; sourceTree = "<group>"; };
 		1BF720FE2BDA412B00F685A0 /* BannerAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		1BF720FF2BDA412B00F685A0 /* GoogleAd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAd.swift; sourceTree = "<group>"; };
 		1BF721002BDA412B00F685A0 /* GoogleAdPrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdPrompt.swift; sourceTree = "<group>"; };
@@ -433,7 +434,7 @@
 				1BF720F92BDA412B00F685A0 /* GADNativeAd+Extensions.swift */,
 				1BF720FA2BDA412B00F685A0 /* NativeAdView.swift */,
 				1BF720FB2BDA412B00F685A0 /* UnifiedNativeAdView.swift */,
-				1BF720FC2BDA412B00F685A0 /* UnifiedNativeAdView.xib */,
+				1B459DAC2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib */,
 			);
 			path = nativeAd;
 			sourceTree = "<group>";
@@ -693,7 +694,7 @@
 				1BF9FE172BD789D000135E83 /* Preview Assets.xcassets in Resources */,
 				1BF721452BDA4DA300F685A0 /* InfoPlist.xcstrings in Resources */,
 				1BA83C902BE0E99E0021A12B /* Launch Screen.storyboard in Resources */,
-				1BF721062BDA412B00F685A0 /* UnifiedNativeAdView.xib in Resources */,
+				1B459DAD2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib in Resources */,
 				1B368E072BD79CAB00E10464 /* HTML in Resources */,
 				1BB298542BDA39900072C1F8 /* GoogleService-Info.plist in Resources */,
 				1B368E0E2BD79EBE00E10464 /* Localizable.xcstrings in Resources */,
@@ -837,6 +838,18 @@
 			targetProxy = 1BF9FE642BD7936900135E83 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1B459DAC2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B459DAB2BE4A2B0008E7A3A /* Base */,
+				1B459DAE2BE4A2B0008E7A3A /* mul */,
+			);
+			name = UnifiedNativeAdView.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1BF9FE182BD789D000135E83 /* Debug */ = {

@@ -1,0 +1,132 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "beR-eV-DX1.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Headline\"; ObjectID = \"beR-eV-DX1\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Headline"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "헤드라인"
+          }
+        }
+      }
+    },
+    "E5w-YA-UY8.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Install\"; ObjectID = \"E5w-YA-UY8\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Install"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치"
+          }
+        }
+      }
+    },
+    "GTT-Yh-eSq.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Advertiser\"; ObjectID = \"GTT-Yh-eSq\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Advertiser"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "광고주"
+          }
+        }
+      }
+    },
+    "hwF-UL-Q8H.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Store\"; ObjectID = \"hwF-UL-Q8H\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Store"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스토어"
+          }
+        }
+      }
+    },
+    "lp1-oz-XOs.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Ad\"; ObjectID = \"lp1-oz-XOs\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ad"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "광고"
+          }
+        }
+      }
+    },
+    "PEQ-D9-2Vv.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Body that is really really long and can take up to two lines or sometimes even more.\"; ObjectID = \"PEQ-D9-2Vv\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Body that is really really long and can take up to two lines or sometimes even more."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "Ysb-of-cat.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Price\"; ObjectID = \"Ysb-of-cat\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Price"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가격"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
