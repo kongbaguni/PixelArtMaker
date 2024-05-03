@@ -9,4 +9,5 @@ import Foundation
 struct CommonConst {
     static let AppGroupId = "group.net.kongbaguni.PixelArtMaker"
     static let lastMyPictureName = "myPicture.jpg"
+    static let imageData = "imageData.json"
 }

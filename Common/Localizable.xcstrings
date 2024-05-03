@@ -645,6 +645,28 @@
         }
       }
     },
+    "image size" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지 사이즈"
+          }
+        }
+      }
+    },
+    "image size %@" : {
+      "comment" : "image data print widget",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지 크기 %@"
+          }
+        }
+      }
+    },
     "Internet Connected" : {
       "localizations" : {
         "ko" : {

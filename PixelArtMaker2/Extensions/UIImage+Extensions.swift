@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import SwiftUI
 import WidgetKit
+import RealmSwift
 
 extension UIImage {
     
@@ -190,6 +191,9 @@ extension UIImage {
     
     
     func saveImageForAppGroup(size:CGSize) {
+        AppGroup.imageData = .init(
+            size: StageManager.shared.stage?.canvasSize ?? .zero,
+            backgroundColor: .init(value: StageManager.shared.stage?.backgroundColor.ciColor ?? Color.teal.ciColor))
         
         if let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CommonConst.AppGroupId) {
             let fileURL = appGroupURL.appendingPathComponent(CommonConst.lastMyPictureName)                        
