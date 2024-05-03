@@ -98,6 +98,9 @@ struct BannerAdView: View {
                 }
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .googleAdBannerDidReciveAdError)) { noti in
+            error =  noti.object as? Error
+        }
     }
 }
 

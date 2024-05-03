@@ -93,14 +93,13 @@ extension GoogleAd : GADFullScreenContentDelegate {
         }
     }
 }
+ 
+extension Notification.Name {
+    static let googleAdBannerDidReciveAdError = Notification.Name("googleAdBannerDidReciveAdError_observer")
+}
 
 struct GoogleAdBannerView: UIViewRepresentable {
     class BannerDelegate : NSObject, GADBannerViewDelegate {
-        let onError:(Error?)->Void
-        init(onError: @escaping (Error?) -> Void) {
-            self.onError = onError
-        }
-        
         func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
             print("BannerDelegate \(#function) \(#line)")
         }
@@ -113,20 +112,19 @@ struct GoogleAdBannerView: UIViewRepresentable {
         func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: any Error) {
             print("BannerDelegate \(#function) \(#line)")
             print(error.localizedDescription)
-            onError(error)
+            NotificationCenter.default.post(name: .googleAdBannerDidReciveAdError, object: error)
         }
     }
 
     
     let bannerView:GADBannerView
     let onError:(Error?)->Void
-    @State var delegate:BannerDelegate? = nil
+    let delegate = BannerDelegate()
     
     func makeUIView(context: Context) -> GADBannerView {
         
         bannerView.adUnitID = bannerGaId
         bannerView.rootViewController = UIApplication.shared.keyWindow?.rootViewController
-        self.delegate = BannerDelegate(onError: onError)
         bannerView.delegate = self.delegate
         return bannerView
     }
