@@ -95,10 +95,39 @@ extension GoogleAd : GADFullScreenContentDelegate {
 }
 
 struct GoogleAdBannerView: UIViewRepresentable {
+    class BannerDelegate : NSObject, GADBannerViewDelegate {
+        let onError:(Error?)->Void
+        init(onError: @escaping (Error?) -> Void) {
+            self.onError = onError
+        }
+        
+        func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+            print("BannerDelegate \(#function) \(#line)")
+        }
+        func bannerViewDidRecordClick(_ bannerView: GADBannerView) {
+            print("BannerDelegate \(#function) \(#line)")
+        }
+        func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+            print("BannerDelegate \(#function) \(#line)")
+        }
+        func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: any Error) {
+            print("BannerDelegate \(#function) \(#line)")
+            print(error.localizedDescription)
+            onError(error)
+        }
+    }
+
+    
     let bannerView:GADBannerView
+    let onError:(Error?)->Void
+    @State var delegate:BannerDelegate? = nil
+    
     func makeUIView(context: Context) -> GADBannerView {
+        
         bannerView.adUnitID = bannerGaId
-        bannerView.rootViewController = UIApplication.shared.keyWindow?.rootViewController        
+        bannerView.rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        self.delegate = BannerDelegate(onError: onError)
+        bannerView.delegate = self.delegate
         return bannerView
     }
   
@@ -106,3 +135,5 @@ struct GoogleAdBannerView: UIViewRepresentable {
       uiView.load(GADRequest())
   }
 }
+
+

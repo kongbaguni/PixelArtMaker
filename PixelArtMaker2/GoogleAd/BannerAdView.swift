@@ -60,32 +60,39 @@ struct BannerAdView: View {
     }
     
     @State var isLoading = true
+    @State var error:Error? = nil
 
     var body: some View {
         Group {
             if InAppPurchaseModel.isSubscribe == false {
                 ZStack {
-                    ActivityIndicatorView(isVisible: $isLoading, type: .default()).frame(width: 40, height: 40)
-                    GoogleAdBannerView(bannerView: bannerView)
+                    if error == nil {
+                        ActivityIndicatorView(isVisible: $isLoading, type: .default()).frame(width: 40, height: 40)
+                        
+                        GoogleAdBannerView(bannerView: bannerView, onError: { error in
+                            self.error = error
+                        })
                         .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
                         .overlay {
                             RoundedRectangle(cornerRadius: 5).stroke(Color.k_normalText, lineWidth: 4)
                         }
                         .cornerRadius(5)
-                    VStack {
-                        Spacer()
-                        HStack {
+                        
+                        VStack {
                             Spacer()
-                            MultiColorAnimeTextView(texts: [Text("Ad")],
-                                                    fonts: [.system(size: 8)],
-                                                    forgroundColors: [.k_normalText],
-                                                    backgroundColors: [.red,.orange,.yellow,.green,.blue,.purple,.red],
-                                                    fps: 60 )
-                            .padding(.leading, -bannerSize.width / 2 - 15)
+                            HStack {
+                                Spacer()
+                                MultiColorAnimeTextView(texts: [Text("Ad")],
+                                                        fonts: [.system(size: 8)],
+                                                        forgroundColors: [.k_normalText],
+                                                        backgroundColors: [.red,.orange,.yellow,.green,.blue,.purple,.red],
+                                                        fps: 60 )
+                                .padding(.leading, -bannerSize.width / 2 - 3)
+                                Spacer()
+                            }
+                            .padding(.top, -bannerSize.height / 2 - 3)
                             Spacer()
                         }
-                        .padding(.top, -bannerSize.height / 2 - 15)
-                        Spacer()
                     }
                     
                 }
