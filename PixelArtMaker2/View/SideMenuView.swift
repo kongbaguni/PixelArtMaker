@@ -28,6 +28,17 @@ struct SideMenuView: View {
     @State var activityItem:ActivityItem? = nil
     let reachablity = try? Reachability()
     @State var isUseAd = InAppPurchaseModel.isSubscribe == false
+    
+    @State var error:Error? = nil {
+        didSet {
+            if error != nil {
+                isAlert = true
+            }
+        }
+    }
+    @State var isAlert:Bool = false
+
+    
     func makeBtn(image:Image, text:Text, action:@escaping()->Void)-> some View {
         Button {
             action()
@@ -136,8 +147,9 @@ struct SideMenuView: View {
     
     var shareBtnViewAtSignOut : some View {
         makeBtn(image: Image(systemName: "square.and.arrow.up"), text: Text("share")) {
-            googleAd.showAd { isSucess in
-                if isSucess {
+            googleAd.showAd { error in
+                self.error = error
+                if error == nil  {
                     if let image = StageManager.shared.stage?.makeImageDataValue(size: StageManager.shared.canvasSize) {
 //                        share(items: [image])
                         activityItem = .init(itemsArray: [image])
@@ -214,6 +226,9 @@ struct SideMenuView: View {
         .onDisappear {
             reachablity?.stopNotifier()
         }
+        .alert(isPresented: $isAlert, content: {
+            .init(title: .init("alert"), message: .init(error?.localizedDescription ?? ""))
+        })
        
 
     }

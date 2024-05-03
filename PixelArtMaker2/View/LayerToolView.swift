@@ -28,6 +28,15 @@ struct LayerToolView: View {
     
     @State var rangeImage:Image? = nil
     
+    @State var error:Error? = nil {
+        didSet {
+            if error != nil {
+                isAlert = true
+            }
+        }
+    }
+    @State var isAlert:Bool = false
+
     //MARK: - 미리보기
     fileprivate func makePreview()-> some View {
         ZStack {
@@ -74,7 +83,7 @@ struct LayerToolView: View {
                             return
                         }
                         isLoading = true
-                        googleAd.showAd { isSucess in
+                        googleAd.showAd { error in
                             StageManager.shared.stage?.addLayer()
                             StageManager.shared.saveTemp { error in
                                 isLoading = false
@@ -150,6 +159,10 @@ struct LayerToolView: View {
                 }
             }
         }
+        .alert(isPresented: $isAlert, content: {
+            .init(title: .init("alert"), message: .init(error?.localizedDescription ?? ""))
+        })
+
     }
     
     func loadRangeImage() {

@@ -15,6 +15,7 @@ import ActivityView
 struct PixelArtDetailView: View {
     enum AlertType {
         case 댓글삭제
+        case error
     }
     let pid:String
     
@@ -50,6 +51,15 @@ struct PixelArtDetailView: View {
     @FocusState var isFocusedReplyInput
     @State var activityItem:ActivityItem? = nil
     
+    @State var error:Error? = nil {
+        didSet {
+            if error != nil {
+                isShowAlert = true
+                alertType = .error
+            }
+        }
+    }
+
     init(id:String, showProfile:Bool, forceUpdate:Bool = false, focusedReply:ReplyModel? = nil ) {
         pid = id
         isShowProfile = showProfile
@@ -145,17 +155,14 @@ struct PixelArtDetailView: View {
                 
                 Button {
                     FirebaseStorageHelper.shared.getDownloadURL(id: m.documentId) { url, error in
+                        self.error = error
                         if let url = url {
-                            googleAd.showAd { isSucess in
-                                if isSucess {
+                            googleAd.showAd { error in
+                                self.error = error
+                                if error == nil {
                                     activityItem = .init(itemsArray: [url])
                                 }
                             }
-                        }
-                        if let err = error {
-                            isShowToast = true
-                            toastMessage = err.localizedDescription
-                            
                         }
                     }
                     
@@ -291,6 +298,9 @@ struct PixelArtDetailView: View {
             }
         .alert(isPresented: $isShowAlert, content: {
             switch alertType {
+            case .error:
+                return .init(title: .init("alert"),
+                             message: .init(error?.localizedDescription ?? ""))
             case .댓글삭제:
                 return Alert(title: Text("reply delete title"),
                              message: Text("reply delete message"),

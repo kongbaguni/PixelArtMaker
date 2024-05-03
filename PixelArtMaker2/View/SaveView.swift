@@ -37,6 +37,15 @@ struct SaveView: View {
     @State var isNSFW = false
     @State var activityItem : ActivityItem? = nil
     
+    @State var error:Error? = nil {
+        didSet {
+            if error != nil {
+                isAlert = true
+            }
+        }
+    }
+    @State var isAlert:Bool = false
+
     func updateId() {
         self.id = StageManager.shared.stage?.documentId
         var id:String? {
@@ -77,8 +86,10 @@ struct SaveView: View {
         var buttons:[ActionSheet.Button] = []
         
         let btn:ActionSheet.Button = .default(Text("all share select title")) {
-            googleAd.showAd { isSucess in
-                if isSucess {
+            googleAd.showAd { error in
+                self.error = error
+                dim.hide()
+                if error == nil {
                     if InAppPurchaseModel.isSubscribe {
                         activityItem = .init(itemsArray: shareImageDatas)
                     } else {
@@ -92,8 +103,10 @@ struct SaveView: View {
         for img in shareImageDatas {
             let id = shareImageDatas.firstIndex(of: img)
             let btn:ActionSheet.Button = .default(Consts.sizeTitles[id!]) {
-                googleAd.showAd { isSucess in
-                    if isSucess {
+                googleAd.showAd { error in
+                    self.error = error
+                    dim.hide()
+                    if error == nil {
                         activityItem = .init(itemsArray:[img])
                     }
                 }
@@ -147,8 +160,11 @@ struct SaveView: View {
                 if StageManager.shared.stage?.documentId != nil && StageManager.shared.stage?.isMyPicture == true {
                     Button {
                         dim.show()
-                        googleAd.showAd { isSucess in
+                        googleAd.showAd { error  in
+                            self.error = error
                             StageManager.shared.save(asNewForce: false, isNSFW: isNSFW,complete: {errorA in
+                                dim.hide()
+
                                 if sharedId != nil {
                                     StageManager.shared.sharePublic (isNSFW: isNSFW) { errorB in
                                         dim.hide()
@@ -163,7 +179,6 @@ struct SaveView: View {
                                     return
                                 }
                                 updateId()
-                                dim.hide()
 //                                presentationMode.wrappedValue.dismiss()
                             })
                         }
@@ -177,7 +192,8 @@ struct SaveView: View {
                 if StageManager.shared.stage?.documentId == nil || InAppPurchaseModel.isSubscribe {
                     Button {
                         dim.show()
-                        googleAd.showAd { isSucess in
+                        googleAd.showAd { error in
+                            self.error = error
                             StageManager.shared.save(asNewForce: true, isNSFW: isNSFW, complete: { error in
                                 dim.hide()
                                 updateId()
@@ -215,7 +231,8 @@ struct SaveView: View {
                 HStack {
                     Button {
                         dim.show()
-                        googleAd.showAd { isSucess in
+                        googleAd.showAd { error in
+                            self.error = error
                             StageManager.shared.save(asNewForce: false, isNSFW:isNSFW) { errorA in
                                 StageManager.shared.sharePublic  (isNSFW: isNSFW) { errorB in
                                     dim.hide()

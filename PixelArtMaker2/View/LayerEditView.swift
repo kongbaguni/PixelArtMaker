@@ -24,6 +24,15 @@ struct LayerEditView: View {
     @State var willDeleteLayerIdx:Int? = nil
     @State var isLoading = false
     
+    @State var error:Error? = nil {
+        didSet {
+            if error != nil {
+                isAlert = true
+            }
+        }
+    }
+    @State var isAlert:Bool = false
+    
     let googleAd:GoogleAd
     let blendModeStrs:[String] = [
         "normal",
@@ -151,7 +160,7 @@ struct LayerEditView: View {
                             return
                         }
                         isLoading = true
-                        googleAd.showAd { isSucess in
+                        googleAd.showAd { error in
                             StageManager.shared.stage?.addLayer()
                             reload()
                             StageManager.shared.saveTemp { error in
@@ -185,6 +194,9 @@ struct LayerEditView: View {
             }
         }
         .toast(message: toastMessage, isShowing: $isShowToast, duration: 4)
+        .alert(isPresented: $isAlert, content: {
+            .init(title: .init("alert"), message: .init(error?.localizedDescription ?? ""))
+        })
         
         
     }
