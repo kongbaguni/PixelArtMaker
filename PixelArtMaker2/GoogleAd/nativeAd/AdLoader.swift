@@ -15,6 +15,10 @@ fileprivate let adId = "ca-app-pub-7714069006629518/1614251100"
 
 class AdLoader : NSObject {
     static let shared = AdLoader()
+        
+    var onError:(Error?)->Void = { _ in
+                
+    }
     
     private let adLoader:GADAdLoader
         
@@ -70,7 +74,8 @@ extension AdLoader : GADNativeAdLoaderDelegate {
     
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         print("\(#function) \(#line) \(error.localizedDescription)")
+        self.onError(error)
     }
-    
+
 }
 

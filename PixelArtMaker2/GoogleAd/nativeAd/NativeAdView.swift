@@ -23,17 +23,22 @@ extension Notification.Name {
 struct NativeAdView : View {
     @State var loading = true
     @State var nativeAd:GADNativeAd? = nil
-    
+    @State var error:Error? = nil
     var body: some View {
         ZStack {
-            if let view = nativeAd?.view {
-                view
-            }
-            VStack(alignment: .center) {
-                ActivityIndicatorView(isVisible: $loading, type: .default()).frame(width: 50, height: 50)
-            }.frame(height:350)
+            if error == nil {
+                if let view = nativeAd?.view {
+                    view
+                }
+                VStack(alignment: .center) {
+                    ActivityIndicatorView(isVisible: $loading, type: .default()).frame(width: 50, height: 50)
+                }.frame(height:350)
+            } 
         }.onAppear {
             loading = true
+            AdLoader.shared.onError = { error in
+                self.error = error
+            }
             AdLoader.shared.getNativeAd(getAd: {[self] ad in
                 nativeAd = ad
                 loading = false
