@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import GoogleMobileAds
 
-extension GADNativeAd {
+extension NativeAd {
     var view : some View {
         NadViewAdView(ad: self)
             .frame(height:350)
@@ -20,7 +20,7 @@ extension GADNativeAd {
 fileprivate struct NadViewAdView : UIViewRepresentable {
     typealias UIViewType = UIView
     
-    let ad:GADNativeAd
+    let ad:NativeAd
     
     func makeUIView(context: Context) -> UIView {
         let view = UnifiedNativeAdView(ad: ad, frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 350))

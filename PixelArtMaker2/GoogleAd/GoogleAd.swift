@@ -20,15 +20,15 @@ fileprivate let bannerGaId = "ca-app-pub-7714069006629518/3753098473" // real ga
 
 class GoogleAd : NSObject {
     
-    var interstitial:GADInterstitialAd? = nil
+    var interstitial:InterstitialAd? = nil
     
     private func loadAd(complete:@escaping(_ error:Error?)->Void) {
-        let request = GADRequest()
+        let request = Request()
         
         ATTrackingManager.requestTrackingAuthorization { status in
             print("google ad tracking status : \(status)")
         
-            GADInterstitialAd.load(withAdUnitID: interstitialVideoGaId, request: request) {[weak self] ad, error in
+            InterstitialAd.load(with: interstitialVideoGaId, request: request) {[weak self] ad, error in
                 ad?.fullScreenContentDelegate = self
                 self?.interstitial = ad
                 
@@ -60,7 +60,7 @@ class GoogleAd : NSObject {
                 return
             }
             if let vc = UIApplication.shared.lastViewController {
-                self?.interstitial?.present(fromRootViewController: vc)
+                self?.interstitial?.present(from: vc)
             }
         }
     }
@@ -68,24 +68,24 @@ class GoogleAd : NSObject {
     
 }
 
-extension GoogleAd : GADFullScreenContentDelegate {
+extension GoogleAd : FullScreenContentDelegate {
     //광고 실패
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+    func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("google ad \(#function)")
         print(error.localizedDescription)
         DispatchQueue.main.async {
             self.callback(error)
         }
     }
-    func adDidRecordClick(_ ad: GADFullScreenPresentingAd) {
+    func adDidRecordClick(_ ad: FullScreenPresentingAd) {
         print("google ad \(#function)")
     }
     //광고시작
-    func adDidRecordImpression(_ ad: GADFullScreenPresentingAd) {
+    func adDidRecordImpression(_ ad: FullScreenPresentingAd) {
         print("google ad \(#function)")
     }
     //광고 종료
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
         print("google ad \(#function)")
         UserDefaults.standard.lastGoogleAdWatchTime = Date()
         DispatchQueue.main.async {
@@ -99,17 +99,17 @@ extension Notification.Name {
 }
 
 struct GoogleAdBannerView: UIViewRepresentable {
-    class BannerDelegate : NSObject, GADBannerViewDelegate {
-        func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+    class BannerDelegate : NSObject, BannerViewDelegate {
+        func bannerViewDidReceiveAd(_ bannerView: BannerView) {
             print("BannerDelegate \(#function) \(#line)")
         }
-        func bannerViewDidRecordClick(_ bannerView: GADBannerView) {
+        func bannerViewDidRecordClick(_ bannerView: BannerView) {
             print("BannerDelegate \(#function) \(#line)")
         }
-        func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        func bannerViewDidDismissScreen(_ bannerView: BannerView) {
             print("BannerDelegate \(#function) \(#line)")
         }
-        func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: any Error) {
+        func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: any Error) {
             print("BannerDelegate \(#function) \(#line)")
             print(error.localizedDescription)
             NotificationCenter.default.post(name: .googleAdBannerDidReciveAdError, object: error)
@@ -117,11 +117,11 @@ struct GoogleAdBannerView: UIViewRepresentable {
     }
 
     
-    let bannerView:GADBannerView
+    let bannerView:BannerView
     let onError:(Error?)->Void
     let delegate = BannerDelegate()
     
-    func makeUIView(context: Context) -> GADBannerView {
+    func makeUIView(context: Context) -> BannerView {
         
         bannerView.adUnitID = bannerGaId
         bannerView.rootViewController = UIApplication.shared.keyWindow?.rootViewController
@@ -129,8 +129,8 @@ struct GoogleAdBannerView: UIViewRepresentable {
         return bannerView
     }
   
-  func updateUIView(_ uiView: GADBannerView, context: Context) {
-      uiView.load(GADRequest())
+    func updateUIView(_ uiView: BannerView, context: Context) {
+        uiView.load(Request())
   }
 }
 

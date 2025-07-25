@@ -25,7 +25,7 @@ struct PixelArtMaker2App: SwiftUI.App {
 
         let _ = Realm.shared
         FirebaseApp.configure()
-        GADMobileAds.sharedInstance().start { status in
+        GoogleMobileAds.MobileAds.shared.start { status in
             print(status)
             GoogleAdPrompt.promptWithDelay {
                 
@@ -39,8 +39,8 @@ struct PixelArtMaker2App: SwiftUI.App {
         InAppPurchaseManager().printStatus()
         
         // Create a UMPRequestParameters object.
-        let parameters = UMPRequestParameters()
-        parameters.tagForUnderAgeOfConsent = false
+        let parameters = RequestParameters()
+        parameters.isTaggedForUnderAgeOfConsent = false
 
     }
     

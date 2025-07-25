@@ -2048,6 +2048,7 @@
       }
     },
     "test" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ko" : {
           "stringUnit" : {
@@ -2178,6 +2179,7 @@
       }
     },
     "webview" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ko" : {
           "stringUnit" : {

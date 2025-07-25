@@ -18,17 +18,17 @@ fileprivate func requestTrackingAuthorization(complete:@escaping()->Void) {
 fileprivate func userMessagePlatformPrompt(complete:@escaping()->Void) {
     func loadForm() {
       // Loads a consent form. Must be called on the main thread.
-        UMPConsentForm.load { form, loadError in
+        ConsentForm.load { form, loadError in
             if loadError != nil {
               // Handle the error
             } else {
                 // Present the form. You can also hold on to the reference to present
                 // later.
-                if UMPConsentInformation.sharedInstance.consentStatus == UMPConsentStatus.required {
+                if ConsentInformation.shared.consentStatus == ConsentStatus.required {
                     form?.present(
                         from: UIApplication.shared.lastViewController!,
                         completionHandler: { dismissError in
-                            if UMPConsentInformation.sharedInstance.consentStatus == UMPConsentStatus.obtained {
+                            if ConsentInformation.shared.consentStatus == ConsentStatus.obtained {
                                 // App can start requesting ads.
                             }
                             // Handle dismissal by reloading form.
@@ -44,28 +44,28 @@ fileprivate func userMessagePlatformPrompt(complete:@escaping()->Void) {
     }
     
     #if DEBUG
-    UMPConsentInformation.sharedInstance.reset()
+    ConsentInformation.shared.reset()
     #endif
 
     // Create a UMPRequestParameters object.
-    let parameters = UMPRequestParameters()
+    let parameters = RequestParameters()
     // Set tag for under age of consent. Here false means users are not under age.
-    parameters.tagForUnderAgeOfConsent = false
+    parameters.isTaggedForUnderAgeOfConsent = false
     #if DEBUG
-    let debugSettings = UMPDebugSettings()
+    let debugSettings = DebugSettings()
 //        debugSettings.testDeviceIdentifiers = ["78ce88aff302a5f4dfa5226a766c0b5a"]
-    debugSettings.geography = UMPDebugGeography.EEA
+    debugSettings.geography = DebugGeography.EEA
     parameters.debugSettings = debugSettings
     #endif
-    UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(
+    ConsentInformation.shared.requestConsentInfoUpdate(
         with: parameters,
         completionHandler: { error in
             if error != nil {
                 // Handle the error.
                 print(error!.localizedDescription)
             } else {
-                let formStatus = UMPConsentInformation.sharedInstance.formStatus
-                if formStatus == UMPFormStatus.available {
+                let formStatus = ConsentInformation.shared.formStatus
+                if formStatus == FormStatus.available {
                   loadForm()
                 }
             }

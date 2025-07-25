@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 import GoogleMobileAds
 
-class UnifiedNativeAdView : GADNativeAdView {
-    init(ad:GADNativeAd, frame:CGRect) {
+class UnifiedNativeAdView : GoogleMobileAds.NativeAdView {
+    init(ad:NativeAd, frame:CGRect) {
         super.init(frame: frame)
         loadXib()
         nativeAd = ad
@@ -47,37 +47,37 @@ class UnifiedNativeAdView : GADNativeAdView {
     
 }
 
-extension UnifiedNativeAdView : GADNativeAdDelegate {
-    public func nativeAdIsMuted(_ nativeAd: GADNativeAd) {
+extension UnifiedNativeAdView : NativeAdDelegate {
+    public func nativeAdIsMuted(_ nativeAd: NativeAd) {
         print("NAdDelegate \(#function) \(#line)")
     }
-    public func nativeAdDidRecordClick(_ nativeAd: GADNativeAd) {
+    public func nativeAdDidRecordClick(_ nativeAd: NativeAd) {
         print("NAdDelegate \(#function) \(#line)")
     }
-    public func nativeAdDidDismissScreen(_ nativeAd: GADNativeAd) {
+    public func nativeAdDidDismissScreen(_ nativeAd: NativeAd) {
         print("NAdDelegate \(#function) \(#line)")
     }
-    public func nativeAdWillDismissScreen(_ nativeAd: GADNativeAd) {
+    public func nativeAdWillDismissScreen(_ nativeAd: NativeAd) {
         print("NAdDelegate \(#function) \(#line)")
     }
-    public func nativeAdWillPresentScreen(_ nativeAd: GADNativeAd) {
+    public func nativeAdWillPresentScreen(_ nativeAd: NativeAd) {
         print("NAdDelegate \(#function) \(#line)")
     }
-    public func nativeAdDidRecordImpression(_ nativeAd: GADNativeAd) {
+    public func nativeAdDidRecordImpression(_ nativeAd: NativeAd) {
         print("NAdDelegate \(#function) \(#line)")
     }
-    public func nativeAdDidRecordSwipeGestureClick(_ nativeAd: GADNativeAd) {
+    public func nativeAdDidRecordSwipeGestureClick(_ nativeAd: NativeAd) {
         print("NAdDelegate \(#function) \(#line)")
     }
 }
 
-extension UnifiedNativeAdView : GADNativeAdUnconfirmedClickDelegate {
-    public func nativeAd(_ nativeAd: GADNativeAd, didReceiveUnconfirmedClickOnAssetID assetID: GADNativeAssetIdentifier) {
+extension UnifiedNativeAdView : NativeAdUnconfirmedClickDelegate {
+    public func nativeAd(_ nativeAd: NativeAd, didReceiveUnconfirmedClickOnAssetID assetID: GADNativeAssetIdentifier) {
         print("NAdDelegate \(#function) \(#line)")
 
     }
     
-    public func nativeAdDidCancelUnconfirmedClick(_ nativeAd: GADNativeAd) {
+    public func nativeAdDidCancelUnconfirmedClick(_ nativeAd: NativeAd) {
         print("NAdDelegate \(#function) \(#line)")
 
     }

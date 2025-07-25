@@ -42,20 +42,20 @@ struct BannerAdView: View {
             return .init(width: 120, height: 600)
         }
     }
-    private var bannerView:GADBannerView {
+    private var bannerView:BannerView {
         switch sizeType {
         case .GADAdSizeBanner:
-            return GADBannerView(adSize : GADAdSizeBanner)
+            return BannerView(adSize : AdSizeBanner)
         case .GADAdSizeLargeBanner:
-            return GADBannerView(adSize : GADAdSizeLargeBanner)
+            return BannerView(adSize : AdSizeLargeBanner)
         case .GADAdSizeMediumRectangle:
-            return GADBannerView(adSize : GADAdSizeMediumRectangle)
+            return BannerView(adSize : AdSizeMediumRectangle)
         case .GADAdSizeFullBanner:
-            return GADBannerView(adSize : GADAdSizeFullBanner)
+            return BannerView(adSize : AdSizeFullBanner)
         case .GADAdSizeLeaderboard:
-            return GADBannerView(adSize : GADAdSizeLeaderboard)
+            return BannerView(adSize : AdSizeLeaderboard)
         case .GADAdSizeSkyscraper:
-            return GADBannerView(adSize : GADAdSizeSkyscraper)
+            return BannerView(adSize : AdSizeSkyscraper)
         }
     }
     

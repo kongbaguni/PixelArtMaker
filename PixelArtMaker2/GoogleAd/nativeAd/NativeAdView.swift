@@ -22,7 +22,7 @@ extension Notification.Name {
 
 struct NativeAdView : View {
     @State var loading = true
-    @State var nativeAd:GADNativeAd? = nil
+    @State var nativeAd:NativeAd? = nil
     @State var error:Error? = nil
     var body: some View {
         ZStack {
