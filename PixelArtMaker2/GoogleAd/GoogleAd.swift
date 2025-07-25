@@ -14,7 +14,7 @@ import AppTrackingTransparency
 fileprivate let interstitialVideoGaId = "ca-app-pub-3940256099942544/4411468910" // test ga id
 fileprivate let bannerGaId = "ca-app-pub-3940256099942544/2934735716" // test ga id
 #else
-fileprivate let interstitialVideoGaId = "ca-app-pub-7714069006629518~8448347376" // real ga id
+fileprivate let interstitialVideoGaId = "ca-app-pub-7714069006629518/8776893623" // real ga id
 fileprivate let bannerGaId = "ca-app-pub-7714069006629518/3753098473" // real ga id
 #endif
 
