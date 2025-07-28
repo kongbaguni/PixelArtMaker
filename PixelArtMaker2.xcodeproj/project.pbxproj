@@ -1018,7 +1018,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = PixelArtMaker;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo library access is required for tracing.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Tracing Photo";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo library access is required for tracing.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads to you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1057,7 +1057,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = PixelArtMaker;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo library access is required for tracing.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Tracing Photo";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo library access is required for tracing.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads to you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
