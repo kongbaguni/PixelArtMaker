@@ -2047,17 +2047,6 @@
         }
       }
     },
-    "test" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "테스트"
-          }
-        }
-      }
-    },
     "timeline" : {
       "localizations" : {
         "ko" : {
@@ -2174,17 +2163,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "버전"
-          }
-        }
-      }
-    },
-    "webview" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "웹뷰"
           }
         }
       }

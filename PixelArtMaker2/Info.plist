@@ -15,8 +15,6 @@
 	</array>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-7714069006629518~8448347376</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
