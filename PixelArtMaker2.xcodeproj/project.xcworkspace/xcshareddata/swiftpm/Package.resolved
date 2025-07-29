@@ -1,5 +1,5 @@
 {
-  "originHash" : "67d1cd39909442c9cc749fe3982c80cec1a667d1540e1f5504c313db44a3f4e1",
+  "originHash" : "c61f1c4f1db39b3c9e0f11a2e54f335f57d793829562e3570ecb62fb5e2ffb13",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -178,7 +178,7 @@
       "location" : "https://github.com/ashleymills/Reachability.swift",
       "state" : {
         "branch" : "master",
-        "revision" : "57da4b1270cab7c2228919eabc0e4e1bf93e48ea"
+        "revision" : "21d1dc412cfecbe6e34f1f4c4eb88d3f912654a6"
       }
     },
     {

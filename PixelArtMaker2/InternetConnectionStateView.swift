@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import Reachability
+import Network
 
 struct InternetConnectionStateView: View {
     
-    @State var reachability:Reachability? = nil
+    let monitor = NWPathMonitor()
     @Binding var isConnected:Bool
     var body: some View {
         VStack {
@@ -23,25 +23,17 @@ struct InternetConnectionStateView: View {
             .foregroundColor(.k_background)
         }.onAppear {
             checkInternetConnection()
-        }.onDisappear {
-            self.reachability?.stopNotifier()
+        }
+        .onDisappear {
+            monitor.cancel()
         }
     }
     
     func checkInternetConnection() {
-        do {
-            let reachability = try Reachability()
-            reachability.whenReachable = { reachability in
-                self.isConnected = true
-            }
-            reachability.whenUnreachable = { _ in
-                self.isConnected = false
-            }
-            try reachability.startNotifier()
-            self.reachability = reachability
-        } catch {
-            print(error.localizedDescription)
+        monitor.pathUpdateHandler = { path in
+            self.isConnected = path.status == .satisfied            
         }
+        monitor.start(queue: DispatchQueue(label: "NetworkMonitor"))
     }
 }
 

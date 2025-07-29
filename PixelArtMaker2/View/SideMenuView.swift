@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import Reachability
 import ActivityView
+import Network
 
 struct SideMenuView: View {
     let googleAd = GoogleAd()
@@ -26,7 +26,7 @@ struct SideMenuView: View {
     @State var isSignIn = false
     @State var isInternetConnected = false
     @State var activityItem:ActivityItem? = nil
-    let reachablity = try? Reachability()
+    let monitor = NWPathMonitor()
     @State var isUseAd = InAppPurchaseModel.isSubscribe == false
     
     @State var error:Error? = nil {
@@ -215,16 +215,13 @@ struct SideMenuView: View {
                     isShowMenu = false
                 }
             }
-            reachablity?.whenReachable = { _ in
-                isInternetConnected = true
+            monitor.pathUpdateHandler = { path in
+                isInternetConnected = path.status == .satisfied
             }
-            reachablity?.whenUnreachable = { _ in
-                isInternetConnected = false
-            }
-            try? reachablity?.startNotifier()
+            monitor.start(queue: DispatchQueue(label: "NetworkMonitor"))
         }
         .onDisappear {
-            reachablity?.stopNotifier()
+            monitor.cancel()
         }
         .alert(isPresented: $isAlert, content: {
             .init(title: .init("alert"), message: .init(error?.localizedDescription ?? ""))

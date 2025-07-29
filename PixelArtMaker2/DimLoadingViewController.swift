@@ -7,12 +7,13 @@
 
 import Foundation
 import UIKit
-import Reachability
+import Network
 
 class DimLoadingViewController : UIViewController {
 
+    let monitor = NWPathMonitor()
+    
     let indicator = UIActivityIndicatorView(frame: UIScreen.main.bounds)
-    let reachability = try? Reachability()
     var isInternetConnected:Bool? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,30 +25,21 @@ class DimLoadingViewController : UIViewController {
         indicator.frame.size = view.frame.size
         indicator.color = .white
         view.addSubview(indicator)
-        do {
-            if let reachability = reachability {
-                reachability.whenReachable = { [weak self] _ in
-                    self?.isInternetConnected = true
-                }
-                reachability.whenUnreachable = { [weak self] _ in
-                    self?.isInternetConnected = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
-                        if self?.isInternetConnected == false {
-                            self?.dismiss(animated: true)
-                        }
-                    }
+        monitor.pathUpdateHandler = { [weak self] path in
+            self?.isInternetConnected = path.status == .satisfied
+            if self?.isInternetConnected == false {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
+                    self?.dismiss(animated: true)
                 }
             }
-            try reachability?.startNotifier()
-        } catch {
-            
         }
-        
+        monitor.start(queue: DispatchQueue(label: "NetworkMonitor"))
+
+    }
+    deinit {
+        monitor.cancel()
     }
     
-    deinit {
-        reachability?.stopNotifier()
-    }
     
     func show() {
         modalTransitionStyle = .crossDissolve

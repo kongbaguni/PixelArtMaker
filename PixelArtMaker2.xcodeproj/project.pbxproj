@@ -79,7 +79,6 @@
 		1B8B5D702BDA3CE900F536A4 /* SwiftyStoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */; };
 		1B8B5D732BDA3D1300F536A4 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D722BDA3D1300F536A4 /* GoogleSignIn */; };
 		1B8B5D752BDA3D1300F536A4 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D742BDA3D1300F536A4 /* GoogleSignInSwift */; };
-		1B8B5D782BDA3D7B00F536A4 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D772BDA3D7B00F536A4 /* Reachability */; };
 		1B8B5D7B2BDA3DC600F536A4 /* ActivityView in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D7A2BDA3DC600F536A4 /* ActivityView */; };
 		1B8B5D7E2BDA3E2800F536A4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D7D2BDA3E2800F536A4 /* FirebaseAnalytics */; };
 		1B8B5D802BDA3E2800F536A4 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D7F2BDA3E2800F536A4 /* FirebaseAnalyticsSwift */; };
@@ -301,7 +300,6 @@
 				1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */,
 				1BAA23792E3318F3008B0D71 /* GoogleMobileAds in Frameworks */,
 				1B8B5D882BDA3E2800F536A4 /* FirebaseFirestore in Frameworks */,
-				1B8B5D782BDA3D7B00F536A4 /* Reachability in Frameworks */,
 				1B368E372BD7A51E00E10464 /* RealmSwift in Frameworks */,
 				1B8B5D702BDA3CE900F536A4 /* SwiftyStoreKit in Frameworks */,
 				1B158E1F2BDF3B9B005AC00E /* SDWebImageSwiftUI in Frameworks */,
@@ -597,7 +595,6 @@
 				1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */,
 				1B8B5D722BDA3D1300F536A4 /* GoogleSignIn */,
 				1B8B5D742BDA3D1300F536A4 /* GoogleSignInSwift */,
-				1B8B5D772BDA3D7B00F536A4 /* Reachability */,
 				1B8B5D7A2BDA3DC600F536A4 /* ActivityView */,
 				1B8B5D7D2BDA3E2800F536A4 /* FirebaseAnalytics */,
 				1B8B5D7F2BDA3E2800F536A4 /* FirebaseAnalyticsSwift */,
@@ -674,7 +671,6 @@
 				1BB2985B2BDA3A630072C1F8 /* XCRemoteSwiftPackageReference "Marquee" */,
 				1B8B5D6E2BDA3CE900F536A4 /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */,
 				1B8B5D712BDA3D1300F536A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-ios" */,
-				1B8B5D762BDA3D7B00F536A4 /* XCRemoteSwiftPackageReference "Reachability" */,
 				1B8B5D792BDA3DC600F536A4 /* XCRemoteSwiftPackageReference "ActivityView" */,
 				1B8B5D7C2BDA3E2800F536A4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				1B158E1D2BDF3B9B005AC00E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
@@ -1182,8 +1178,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		1B5AB64E2BD9F62700786342 /* XCRemoteSwiftPackageReference "SideMenu" */ = {
@@ -1224,14 +1220,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 7.1.0;
-			};
-		};
-		1B8B5D762BDA3D7B00F536A4 /* XCRemoteSwiftPackageReference "Reachability" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
-			requirement = {
-				branch = master;
-				kind = branch;
 			};
 		};
 		1B8B5D792BDA3DC600F536A4 /* XCRemoteSwiftPackageReference "ActivityView" */ = {
@@ -1337,11 +1325,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1B8B5D712BDA3D1300F536A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-ios" */;
 			productName = GoogleSignInSwift;
-		};
-		1B8B5D772BDA3D7B00F536A4 /* Reachability */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1B8B5D762BDA3D7B00F536A4 /* XCRemoteSwiftPackageReference "Reachability" */;
-			productName = Reachability;
 		};
 		1B8B5D7A2BDA3DC600F536A4 /* ActivityView */ = {
 			isa = XCSwiftPackageProductDependency;
