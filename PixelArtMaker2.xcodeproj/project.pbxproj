@@ -68,14 +68,14 @@
 		1B368E2E2BD7A4B900E10464 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E212BD7A4B900E10464 /* UIApplication+Extensions.swift */; };
 		1B368E2F2BD7A4B900E10464 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E222BD7A4B900E10464 /* UIImage+Extensions.swift */; };
 		1B368E302BD7A4B900E10464 /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E232BD7A4B900E10464 /* UIScreen+Extensions.swift */; };
-		1B368E352BD7A51E00E10464 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 1B368E342BD7A51E00E10464 /* Realm */; };
-		1B368E372BD7A51E00E10464 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B368E362BD7A51E00E10464 /* RealmSwift */; };
 		1B368E392BD7A5E000E10464 /* UserDefault+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E382BD7A5E000E10464 /* UserDefault+Extensions.swift */; };
 		1B368E3C2BD7A68E00E10464 /* ListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E3B2BD7A68E00E10464 /* ListType.swift */; };
 		1B368E402BD7ACCA00E10464 /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B368E3F2BD7ACCA00E10464 /* ImageLabel.swift */; };
 		1B459DAD2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B459DAC2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib */; };
 		1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6502BD9F65900786342 /* Alamofire */; };
 		1B5AB6542BDA128D00786342 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6532BDA128D00786342 /* SwiftyJSON */; };
+		1B5BF7312E388D7800DBD90C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5BF7302E388D7800DBD90C /* Realm */; };
+		1B5BF7332E388D7800DBD90C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5BF7322E388D7800DBD90C /* RealmSwift */; };
 		1B8B5D702BDA3CE900F536A4 /* SwiftyStoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */; };
 		1B8B5D732BDA3D1300F536A4 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D722BDA3D1300F536A4 /* GoogleSignIn */; };
 		1B8B5D752BDA3D1300F536A4 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D742BDA3D1300F536A4 /* GoogleSignInSwift */; };
@@ -294,13 +294,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B5BF7312E388D7800DBD90C /* Realm in Frameworks */,
 				1B8B5D822BDA3E2800F536A4 /* FirebaseAppCheck in Frameworks */,
 				1B8B5D7E2BDA3E2800F536A4 /* FirebaseAnalytics in Frameworks */,
 				1B8B5D842BDA3E2800F536A4 /* FirebaseAuth in Frameworks */,
 				1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */,
 				1BAA23792E3318F3008B0D71 /* GoogleMobileAds in Frameworks */,
+				1B5BF7332E388D7800DBD90C /* RealmSwift in Frameworks */,
 				1B8B5D882BDA3E2800F536A4 /* FirebaseFirestore in Frameworks */,
-				1B368E372BD7A51E00E10464 /* RealmSwift in Frameworks */,
 				1B8B5D702BDA3CE900F536A4 /* SwiftyStoreKit in Frameworks */,
 				1B158E1F2BDF3B9B005AC00E /* SDWebImageSwiftUI in Frameworks */,
 				1BAA237C2E331915008B0D71 /* GoogleUserMessagingPlatform in Frameworks */,
@@ -310,7 +311,6 @@
 				1B8B5D802BDA3E2800F536A4 /* FirebaseAnalyticsSwift in Frameworks */,
 				1BB298572BDA39CF0072C1F8 /* ActivityIndicatorView in Frameworks */,
 				1B8B5D8C2BDA3E2800F536A4 /* FirebasePerformance in Frameworks */,
-				1B368E352BD7A51E00E10464 /* Realm in Frameworks */,
 				1B8B5D8A2BDA3E2800F536A4 /* FirebaseFirestoreSwift in Frameworks */,
 				1BB2985D2BDA3A630072C1F8 /* Marquee in Frameworks */,
 				1B8B5D862BDA3E2800F536A4 /* FirebaseCrashlytics in Frameworks */,
@@ -585,8 +585,6 @@
 			);
 			name = PixelArtMaker2;
 			packageProductDependencies = (
-				1B368E342BD7A51E00E10464 /* Realm */,
-				1B368E362BD7A51E00E10464 /* RealmSwift */,
 				1B5AB6502BD9F65900786342 /* Alamofire */,
 				1B5AB6532BDA128D00786342 /* SwiftyJSON */,
 				1BB298562BDA39CF0072C1F8 /* ActivityIndicatorView */,
@@ -608,6 +606,8 @@
 				1B158E1E2BDF3B9B005AC00E /* SDWebImageSwiftUI */,
 				1BAA23782E3318F3008B0D71 /* GoogleMobileAds */,
 				1BAA237B2E331915008B0D71 /* GoogleUserMessagingPlatform */,
+				1B5BF7302E388D7800DBD90C /* Realm */,
+				1B5BF7322E388D7800DBD90C /* RealmSwift */,
 			);
 			productName = PixelArtMaker2;
 			productReference = 1BF9FE0C2BD789CF00135E83 /* PixelArtMaker2.app */;
@@ -662,7 +662,6 @@
 			);
 			mainGroup = 1BF9FE032BD789CF00135E83;
 			packageReferences = (
-				1B368E332BD7A51E00E10464 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				1B5AB64E2BD9F62700786342 /* XCRemoteSwiftPackageReference "SideMenu" */,
 				1B5AB64F2BD9F65900786342 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				1B5AB6522BDA128D00786342 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
@@ -676,6 +675,7 @@
 				1B158E1D2BDF3B9B005AC00E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				1BAA23772E3318F3008B0D71 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				1BAA237A2E331915008B0D71 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */,
+				1B5BF72F2E388D7800DBD90C /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 1BF9FE0D2BD789CF00135E83 /* Products */;
 			projectDirPath = "";
@@ -1174,14 +1174,6 @@
 				minimumVersion = 3.0.2;
 			};
 		};
-		1B368E332BD7A51E00E10464 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		1B5AB64E2BD9F62700786342 /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Vidhyadharan-Mohanram/SideMenu";
@@ -1204,6 +1196,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.2;
+			};
+		};
+		1B5BF72F2E388D7800DBD90C /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 		1B8B5D6E2BDA3CE900F536A4 /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */ = {
@@ -1291,16 +1291,6 @@
 			package = 1B158E1D2BDF3B9B005AC00E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
 		};
-		1B368E342BD7A51E00E10464 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1B368E332BD7A51E00E10464 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		1B368E362BD7A51E00E10464 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1B368E332BD7A51E00E10464 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
 		1B5AB6502BD9F65900786342 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1B5AB64F2BD9F65900786342 /* XCRemoteSwiftPackageReference "Alamofire" */;
@@ -1310,6 +1300,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1B5AB6522BDA128D00786342 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		1B5BF7302E388D7800DBD90C /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B5BF72F2E388D7800DBD90C /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		1B5BF7322E388D7800DBD90C /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B5BF72F2E388D7800DBD90C /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */ = {
 			isa = XCSwiftPackageProductDependency;
