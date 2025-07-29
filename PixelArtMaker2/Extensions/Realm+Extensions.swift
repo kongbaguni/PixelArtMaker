@@ -11,9 +11,10 @@ import RealmSwift
 extension Realm {
     static var shared:Realm {
         do {
-            let config = Realm.Configuration(schemaVersion:10) { migration, oldSchemaVersion in
+            let config = Realm.Configuration(schemaVersion:11) { migration, oldSchemaVersion in
                 
             }
+            Realm.Configuration.defaultConfiguration = config
             return try Realm(configuration: config)
         } catch {
             print(error.localizedDescription)

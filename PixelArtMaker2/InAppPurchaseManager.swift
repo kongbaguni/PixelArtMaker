@@ -143,7 +143,9 @@ struct InAppPurchaseManager {
     }
     
     func printStatus() {
-        let realm = try! Realm()
+        guard let realm = try? Realm() else {            
+            return
+        }
         print("구독 갱신 결과 ============================")
         for model in realm.objects(InAppPurchaseModel.self) {
             print("""
