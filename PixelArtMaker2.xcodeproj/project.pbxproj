@@ -74,8 +74,8 @@
 		1B459DAD2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B459DAC2BE4A2B0008E7A3A /* UnifiedNativeAdView.xib */; };
 		1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6502BD9F65900786342 /* Alamofire */; };
 		1B5AB6542BDA128D00786342 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5AB6532BDA128D00786342 /* SwiftyJSON */; };
-		1B5BF7312E388D7800DBD90C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5BF7302E388D7800DBD90C /* Realm */; };
-		1B5BF7332E388D7800DBD90C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5BF7322E388D7800DBD90C /* RealmSwift */; };
+		1B741B9B2E38965C00ABD57E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B741B9A2E38965C00ABD57E /* RealmSwift */; };
+		1B741B9C2E38968900ABD57E /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1B741B9A2E38965C00ABD57E /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B8B5D702BDA3CE900F536A4 /* SwiftyStoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */; };
 		1B8B5D732BDA3D1300F536A4 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D722BDA3D1300F536A4 /* GoogleSignIn */; };
 		1B8B5D752BDA3D1300F536A4 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B8B5D742BDA3D1300F536A4 /* GoogleSignInSwift */; };
@@ -158,6 +158,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1B5BF7362E388EFD00DBD90C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B741B9D2E38968900ABD57E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1B741B9C2E38968900ABD57E /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1BF9FE672BD7936900135E83 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -294,16 +315,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B5BF7312E388D7800DBD90C /* Realm in Frameworks */,
 				1B8B5D822BDA3E2800F536A4 /* FirebaseAppCheck in Frameworks */,
 				1B8B5D7E2BDA3E2800F536A4 /* FirebaseAnalytics in Frameworks */,
 				1B8B5D842BDA3E2800F536A4 /* FirebaseAuth in Frameworks */,
 				1B5AB6512BD9F65900786342 /* Alamofire in Frameworks */,
 				1BAA23792E3318F3008B0D71 /* GoogleMobileAds in Frameworks */,
-				1B5BF7332E388D7800DBD90C /* RealmSwift in Frameworks */,
 				1B8B5D882BDA3E2800F536A4 /* FirebaseFirestore in Frameworks */,
 				1B8B5D702BDA3CE900F536A4 /* SwiftyStoreKit in Frameworks */,
 				1B158E1F2BDF3B9B005AC00E /* SDWebImageSwiftUI in Frameworks */,
+				1B741B9B2E38965C00ABD57E /* RealmSwift in Frameworks */,
 				1BAA237C2E331915008B0D71 /* GoogleUserMessagingPlatform in Frameworks */,
 				1B5AB6542BDA128D00786342 /* SwiftyJSON in Frameworks */,
 				1B8B5D732BDA3D1300F536A4 /* GoogleSignIn in Frameworks */,
@@ -577,6 +597,7 @@
 				1BF9FE0A2BD789CF00135E83 /* Resources */,
 				1BF9FE672BD7936900135E83 /* Embed Foundation Extensions */,
 				1BF163B22BF5FC3E00E5CCA3 /* ShellScript */,
+				1B741B9D2E38968900ABD57E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -606,8 +627,7 @@
 				1B158E1E2BDF3B9B005AC00E /* SDWebImageSwiftUI */,
 				1BAA23782E3318F3008B0D71 /* GoogleMobileAds */,
 				1BAA237B2E331915008B0D71 /* GoogleUserMessagingPlatform */,
-				1B5BF7302E388D7800DBD90C /* Realm */,
-				1B5BF7322E388D7800DBD90C /* RealmSwift */,
+				1B741B9A2E38965C00ABD57E /* RealmSwift */,
 			);
 			productName = PixelArtMaker2;
 			productReference = 1BF9FE0C2BD789CF00135E83 /* PixelArtMaker2.app */;
@@ -620,6 +640,7 @@
 				1BF9FE522BD7936700135E83 /* Sources */,
 				1BF9FE532BD7936700135E83 /* Frameworks */,
 				1BF9FE542BD7936700135E83 /* Resources */,
+				1B5BF7362E388EFD00DBD90C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -675,7 +696,7 @@
 				1B158E1D2BDF3B9B005AC00E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				1BAA23772E3318F3008B0D71 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				1BAA237A2E331915008B0D71 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */,
-				1B5BF72F2E388D7800DBD90C /* XCRemoteSwiftPackageReference "realm-swift" */,
+				1B741B992E38965C00ABD57E /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 1BF9FE0D2BD789CF00135E83 /* Products */;
 			projectDirPath = "";
@@ -1198,12 +1219,12 @@
 				minimumVersion = 5.0.2;
 			};
 		};
-		1B5BF72F2E388D7800DBD90C /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+		1B741B992E38965C00ABD57E /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = exactVersion;
+				version = 20.0.3;
 			};
 		};
 		1B8B5D6E2BDA3CE900F536A4 /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */ = {
@@ -1301,14 +1322,9 @@
 			package = 1B5AB6522BDA128D00786342 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
 		};
-		1B5BF7302E388D7800DBD90C /* Realm */ = {
+		1B741B9A2E38965C00ABD57E /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1B5BF72F2E388D7800DBD90C /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		1B5BF7322E388D7800DBD90C /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1B5BF72F2E388D7800DBD90C /* XCRemoteSwiftPackageReference "realm-swift" */;
+			package = 1B741B992E38965C00ABD57E /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
 		1B8B5D6F2BDA3CE900F536A4 /* SwiftyStoreKit */ = {
